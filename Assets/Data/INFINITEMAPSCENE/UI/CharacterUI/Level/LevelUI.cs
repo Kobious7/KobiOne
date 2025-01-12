@@ -1,0 +1,67 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace InfiniteMap
+{
+    public class LevelUI : GMono
+    {
+        [SerializeField] private TextMeshProUGUI levelText;
+
+        public TextMeshProUGUI LevelText => levelText;
+
+        [SerializeField] private TextMeshProUGUI levelPercentText;
+
+        public TextMeshProUGUI LevelPercentText => levelPercentText;
+
+        [SerializeField] private UnityEngine.UI.Image levelPercent;
+
+        public Image LevelPercent => levelPercent;
+
+        private float speed = 2;
+
+        protected override void LoadComponents()
+        {
+            base.LoadComponents();
+            LoadLevelText();
+            LoadLevelPercentText();
+            LoadLevelPercent();
+        }
+
+        private void Update()
+        {
+            UpdateLevel(Game.Instance.Player);
+        }
+
+        private void LoadLevelText()
+        {
+            if(levelText != null) return;
+
+            levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        }
+
+        private void LoadLevelPercentText()
+        {
+            if(levelPercentText != null) return;
+
+            levelPercentText = transform.Find("LevelPercentText").GetComponent<TextMeshProUGUI>();
+        }
+
+        private void LoadLevelPercent()
+        {
+            if(levelPercent != null) return;
+
+            levelPercent = transform.Find("LevelPercent").GetComponent<Image>();
+        }
+
+        public void UpdateLevel(Player player)
+        {
+            int level = player.Stats.Level;
+            int current = player.Stats.CurrentExp;
+            int max = player.Stats.RequiredExp;
+            levelText.text = level + "";
+            levelPercentText.text = $"{(((float)current / max) * 100):F2} %";
+            levelPercent.fillAmount = Mathf.Lerp(levelPercent.fillAmount, (float)current/max, speed * Time.deltaTime);
+        }
+    }
+}
