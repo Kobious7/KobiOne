@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Cloud
+    uniqueID: 1016778055
+    locked: 0
+  - name: Mountain
+    uniqueID: 1557909111
+    locked: 0

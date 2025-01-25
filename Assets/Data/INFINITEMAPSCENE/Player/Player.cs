@@ -20,6 +20,10 @@ namespace InfiniteMap
 
         public Rigidbody Rb => rb;
 
+        [SerializeField] private Rigidbody2D rb2D;
+
+        public Rigidbody2D Rb2D => rb2D;
+
         [SerializeField] private PlayerAnim anim;
 
         public PlayerAnim Anim => anim;
@@ -40,9 +44,9 @@ namespace InfiniteMap
 
         public PlayerStats Stats => stats;
 
-        [SerializeField] private CapsuleCollider capsuleCollider;
+        [SerializeField] private CapsuleCollider2D capsuleCollider2D;
 
-        public CapsuleCollider CapsuleCollider => capsuleCollider;
+        public CapsuleCollider2D CapsuleCollider2D => capsuleCollider2D;
 
         protected override void LoadComponents()
         {
@@ -50,6 +54,7 @@ namespace InfiniteMap
             LoadModel();
             LoadRigModel();
             LoadRigibody();
+            LoadRigibody2D();
             LoadAnimator();
             LoadAnimation();
             LoadPoints();
@@ -86,7 +91,14 @@ namespace InfiniteMap
         {
             if (rb != null) return;
 
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponentInChildren<Rigidbody>();
+        }
+
+        private void LoadRigibody2D()
+        {
+            if(rb2D != null) return;
+
+            rb2D = GetComponent<Rigidbody2D>();
         }
 
         private void LoadAnimator()
@@ -127,9 +139,9 @@ namespace InfiniteMap
 
         private void LoadCapsuleCollider()
         {
-            if(capsuleCollider != null) return;
+            if(capsuleCollider2D != null) return;
 
-            capsuleCollider = GetComponent<CapsuleCollider>();
+            capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         }
     }
 }

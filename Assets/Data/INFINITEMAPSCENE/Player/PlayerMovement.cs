@@ -16,20 +16,21 @@ namespace InfiniteMap
 
         public void Move()
         {
-            Player.Rb.velocity = new Vector3(InputManager.Instance.Horizontal * speed, Player.Rb.velocity.y, 0);
-            Vector3 distanceMoved = Player.Rb.velocity * Time.deltaTime;
+            Player.Rb2D.velocity = new Vector2(InputManager.Instance.Horizontal * speed, Player.Rb2D.velocity.y);
+            Vector2 distanceMoved2D = Player.Rb2D.velocity * Time.deltaTime;
+            Vector3 distanceMoved = new Vector3(distanceMoved2D.x, distanceMoved2D.y, 0);
 
             Player.Anim.RunAnim();
 
             if (InputManager.Instance.Horizontal > 0)
             {
-                Game.Instance.Map.Distance += distanceMoved.magnitude;
+                Game.Instance.Map.Distance += distanceMoved2D.magnitude;
                 Player.Model.localScale = new Vector3(1, 1, 1);
             }
 
             if (InputManager.Instance.Horizontal < 0)
             {
-                Game.Instance.Map.Distance -= distanceMoved.magnitude;
+                Game.Instance.Map.Distance -= distanceMoved2D.magnitude;
                 if (Game.Instance.Map.Distance < 0) Game.Instance.Map.Distance = 0;
                 Player.Model.localScale = new Vector3(-1, 1, 1);
             }
@@ -39,7 +40,7 @@ namespace InfiniteMap
         {
             if (!InputManager.Instance.Jump) return;
 
-            Player.Rb.velocity = new Vector3(Player.Rb.velocity.x, jumpForce, 0);
+            Player.Rb2D.velocity = new Vector2(Player.Rb2D.velocity.x, jumpForce);
         }
     }
 }
