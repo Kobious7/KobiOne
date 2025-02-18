@@ -8,7 +8,7 @@ public class SelfSkillSO : SkillSO
 
     public SkillTarget MainTarget => mainTarget;
 
-    [HideBySelf] public SkillTarget AnotherTargets;
+    public SkillTarget AnotherTargets;
     public List<Buff> Buffs;
     public List<Debuff> Debuffs;
     public List<Effect> Effects;

@@ -8,8 +8,7 @@ public class TileSkillSO : SkillSO
 
     public SkillTarget MainTarget => mainTarget;
 
-    [HideByTile] public SkillTarget AnotherTargets;
-
+    public SkillTarget AnotherTargets;
     public int Damage;
     public List<Buff> Buffs;
     public List<Debuff> Debuffs;

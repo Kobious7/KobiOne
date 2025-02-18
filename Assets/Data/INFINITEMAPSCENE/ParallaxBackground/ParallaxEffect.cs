@@ -2,26 +2,33 @@ using UnityEngine;
 
 namespace InfiniteMap
 {
-    public class ParalaxEffect : GMono
+    public class ParallaxEffect : GMono
     {
-        [SerializeField] private float parallaxSpeed, length;
+        [SerializeField] private float parallaxMultiplier;
         [SerializeField] private Transform cam;
-        [SerializeField] private float startX;
+        [SerializeField] private float length;
+        [SerializeField] private Vector3 startPos;
+
+        protected override void LoadComponents()
+        {
+            base.LoadComponents();
+            length = GetComponent<SpriteRenderer>().bounds.size.x;
+        }
 
         protected override void Start()
         {
-            startX = transform.position.x;
-            length = GetComponent<SpriteRenderer>().bounds.size.x;
-
-            Debug.Log("" + length);
+            cam = Camera.main.transform;
+            startPos = transform.position;
         }
 
         private void FixedUpdate()
         {
-            float distance = cam.position.x * parallaxSpeed;
-            Debug.Log($"{distance} {startX}");
+            float distance = cam.position.x * (1 - parallaxMultiplier);
+            float parallax = cam.position.x * parallaxMultiplier;
+            transform.position = new Vector3(startPos.x + parallax, transform.position.y, transform.position.z);
 
-            transform.position = new Vector3(startX + distance, transform.position.y, transform.position.z);
+            if(distance > startPos.x + length) startPos.x += length;
+            else if(distance < startPos.x - length) startPos.x -= length;
         }
     }
 

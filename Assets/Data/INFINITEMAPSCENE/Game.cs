@@ -13,6 +13,10 @@ namespace InfiniteMap
 
         public InfiniteMapSO MapData => mapData;
 
+        [SerializeField] private CharacterSO characterData;
+
+        public CharacterSO CharacterData => characterData;
+
         [SerializeField] private FlyObjectSpawner flyObjectSpawner;
 
         public FlyObjectSpawner FlyObjectSpawner => flyObjectSpawner;
@@ -48,7 +52,8 @@ namespace InfiniteMap
         protected override void LoadComponents()
         {
             base.LoadComponents();
-            LoadData();
+            LoadMapData();
+            LoadCharacterData();
             LoadFlyObjectSpawner();
             LoadPlayer();
             LoadMap();
@@ -56,11 +61,18 @@ namespace InfiniteMap
             LoadInventory();
         }
 
-        protected void LoadData()
+        protected void LoadMapData()
         {
             if (mapData != null) return;
 
             mapData = Resources.Load<InfiniteMapSO>("InfinityMapData");
+        }
+
+        private void LoadCharacterData()
+        {
+            if (characterData != null) return;
+
+            characterData = Resources.Load<CharacterSO>("Character/Character");
         }
 
         private void LoadFlyObjectSpawner()

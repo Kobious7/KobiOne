@@ -4,7 +4,7 @@ using System;
 public struct Buff
 {
     public string Name;
-    public Stat Stat;
+    public StatType Stat;
     public int Amount;
     public int Percent;
     public DurationType durationType;

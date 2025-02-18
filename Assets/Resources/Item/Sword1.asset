@@ -15,6 +15,6 @@ MonoBehaviour:
   ItemCode: 0
   ItemName: Sword 1
   Sprite: {fileID: 21300000, guid: e680d6eb6f339d145bebad96437956e6, type: 3}
-  ItemType: 1
-  DropRate: 50
+  ItemType: 0
+  DropRate: 100
   MaxStack: 1

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fafe032e61e45e4f88b9f6d8d7bb902, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  IsNew: 0
+  Level: 1
+  CurrentExp: 0
+  RemainPoints: 0
+  Power:
+    Index: 0
+    Name: Power
+    TrueValue: 5
+    Value: 0
+    IsPercentValue: 0
+    FlatBonus: 0
+    PercentBonus: 0
+  Magic:
+    Index: 1
+    Name: Magic
+    TrueValue: 5
+    Value: 0
+    IsPercentValue: 0
+    FlatBonus: 0
+    PercentBonus: 0
+  Strength:
+    Index: 2
+    Name: Strength
+    TrueValue: 5
+    Value: 0
+    IsPercentValue: 0
+    FlatBonus: 0
+    PercentBonus: 0
+  Defense:
+    Index: 3
+    Name: Defense
+    TrueValue: 5
+    Value: 0
+    IsPercentValue: 0
+    FlatBonus: 0
+    PercentBonus: 0
+  Dexterity:
+    Index: 4
+    Name: Dexterity
+    TrueValue: 0
+    Value: 0
+    IsPercentValue: 0
+    FlatBonus: 0
+    PercentBonus: 0

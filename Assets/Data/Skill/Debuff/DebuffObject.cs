@@ -12,9 +12,9 @@ namespace Battle
             set => stats = value;
         }
 
-        [SerializeField] private Stat stat;
+        [SerializeField] private StatType stat;
 
-        public Stat Stat
+        public StatType Stat
         {
             get => stat;
             set => stat = value;

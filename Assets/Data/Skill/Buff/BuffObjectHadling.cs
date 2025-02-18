@@ -54,14 +54,14 @@ namespace Battle
 
             switch(BuffObject.Stat)
             {
-                case Stat.HP:
+                case StatType.HP:
                     break;
-                case Stat.VHP:
+                case StatType.VHP:
                     break;
-                case Stat.SLASHDAMAGE:
+                case StatType.SLASHDAMAGE:
                     stats.SlashDamage = BuffAmount(stats.SlashDamage);
                     break;
-                case Stat.SWORDDAMAGE:
+                case StatType.SWORDDAMAGE:
                     break;
             }
         }
@@ -74,14 +74,14 @@ namespace Battle
 
             switch(BuffObject.Stat)
             {
-                case Stat.HP:
+                case StatType.HP:
                     break;
-                case Stat.VHP:
+                case StatType.VHP:
                     break;
-                case Stat.SLASHDAMAGE:
+                case StatType.SLASHDAMAGE:
                     stats.SlashDamage -= (fixedAmount + percentAmount);
                     break;
-                case Stat.SWORDDAMAGE:
+                case StatType.SWORDDAMAGE:
                     break;
             }
 

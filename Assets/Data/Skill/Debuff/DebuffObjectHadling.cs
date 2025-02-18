@@ -54,15 +54,15 @@ namespace Battle
 
             switch(DebuffObject.Stat)
             {
-                case Stat.HP:
+                case StatType.HP:
                     stats.CurrentHP = DebuffAmount(stats.CurrentHP);
                     break;
-                case Stat.VHP:
+                case StatType.VHP:
                     break;
-                case Stat.SLASHDAMAGE:
+                case StatType.SLASHDAMAGE:
                     stats.SlashDamage = DebuffAmount(stats.SlashDamage);
                     break;
-                case Stat.SWORDDAMAGE:
+                case StatType.SWORDDAMAGE:
                     stats.SwordrainDamage = DebuffAmount(stats.SwordrainDamage);
                     break;
             }
@@ -76,15 +76,15 @@ namespace Battle
 
             switch(DebuffObject.Stat)
             {
-                case Stat.HP:
+                case StatType.HP:
                     stats.CurrentHP += (fixedAmount + percentAmount);
                     break;
-                case Stat.VHP:
+                case StatType.VHP:
                     break;
-                case Stat.SLASHDAMAGE:
+                case StatType.SLASHDAMAGE:
                     stats.SlashDamage += (fixedAmount + percentAmount);
                     break;
-                case Stat.SWORDDAMAGE:
+                case StatType.SWORDDAMAGE:
                     stats.SwordrainDamage += (fixedAmount + percentAmount);
                     break;
             }

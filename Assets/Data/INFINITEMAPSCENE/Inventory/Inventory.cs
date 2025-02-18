@@ -118,8 +118,9 @@ namespace InfiniteMap
             if(Game.Instance.MapData.Result == Result.WIN) GetDropBackItems();
         }
 
-        public void AddItem(InventoryItem stackItem)
+        public void AddStackableItem(InventoryItem stackItem)
         {
+
             if(listItems.Count == 0)
             {
                 listItems.Add(stackItem);
@@ -143,6 +144,11 @@ namespace InfiniteMap
             } 
         }
 
+        public void AddUnstackableItem(InventoryItem unstackableItem)
+        {
+            listItems.Add(unstackableItem);
+        }
+
         public void AddEquip(InventoryEquip equip)
         {
             if(equip.EquipSO.EquipType == EquipType.WEAP) weaponList.Add(equip);
@@ -162,7 +168,8 @@ namespace InfiniteMap
 
                 if(rate <= item.DropRate / 100)
                 {
-                    AddItem(new InventoryItem(item, 1));
+                    if(item.ItemType == ItemType.STACK) AddStackableItem(new InventoryItem(item, 1));
+                    else if(item.ItemType == ItemType.NOSTACK) AddUnstackableItem(new InventoryItem(item, 1));
                 }
             }
         }

@@ -7,15 +7,15 @@ public class Skills : GMono
 
     public static Skills Instance => instance;
 
-    [SerializeField, SkillButton(SkillButton.Q)] private SkillSO qSkill;
+    [SerializeField] private SkillSO qSkill;
 
     public SkillSO QSkill => qSkill;
 
-    [SerializeField, SkillButton(SkillButton.E)] private SkillSO eSkill;
+    [SerializeField] private SkillSO eSkill;
 
     public SkillSO ESkill => eSkill;
 
-    [SerializeField, SkillButton(SkillButton.SPACE)] private SkillSO spaceSkill;
+    [SerializeField] private SkillSO spaceSkill;
 
     public SkillSO SpaceSkill => spaceSkill;
 

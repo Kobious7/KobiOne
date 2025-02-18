@@ -5,11 +5,10 @@ using UnityEngine;
 public class OpSkillSO : SkillSO
 {
     private SkillTarget mainTarget = SkillTarget.OPPONENT;
-
+    
     public SkillTarget MainTarget => mainTarget;
 
-    [HideByOp] public SkillTarget AnotherTargets;
-
+    public SkillTarget AnotherTargets;
     public int Damage;
     public List<Buff> Buffs;
     public List<Debuff> Debuffs;
