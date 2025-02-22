@@ -70,52 +70,65 @@ namespace InfiniteMap
             set => backItemList = value;
         }
 
+        [SerializeField] private EquipObtainer equipObtainer;
+
+        public EquipObtainer EquipObtainer => equipObtainer;
+
+        [SerializeField] private EquipWearing equipWearing;
+
+        public EquipWearing EquipWearing => equipWearing;
+
+        [SerializeField] private EquipSO test;
+        [SerializeField] private EquipSO test1;
+
+        protected override void LoadComponents()
+        {
+            base.LoadComponents();
+            LoadEquipObtainer();
+            LoadEquipWearing();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            AddEquip(equipObtainer.CreateEquip(test));
+            AddEquip(equipObtainer.CreateEquip(test1));
+            equipObtainer.UpgradeEquip(weaponList[0], 100);
+            equipObtainer.UpgradeEquip(helmetList[0], 100);
+            equipWearing.Wear(weaponList[0]);
+            equipWearing.Wear(helmetList[0]);
+        }
+
+        private void LoadEquipObtainer()
+        {
+            if(equipObtainer != null) return;
+
+            equipObtainer = GetComponentInChildren<EquipObtainer>();
+        }
+
+        private void LoadEquipWearing()
+        {
+            if(equipWearing != null) return;
+
+            equipWearing = GetComponentInChildren<EquipWearing>();
+        }
+
         public void LoadInventory()
         {
             listItems = Game.Instance.MapData.ListItems;
             if(Game.Instance.MapData.Result == Result.WIN) GetDropItems();
         }
 
-        public void LoadWeapons()
+        public void LoadEquip()
         {
             weaponList = Game.Instance.MapData.WeaponList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropWeapons();
-        }
-
-        public void LoadHelmets()
-        {
             helmetList = Game.Instance.MapData.HelmetList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropHelmets();
-        }
-
-        public void LoadBodyArmor()
-        {
             bodyArmorList = Game.Instance.MapData.BodyArmorList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropBodyArmors();
-        }
-
-        public void LoadLegArmor()
-        {
             legArmorList = Game.Instance.MapData.LegArmorList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropLegArmors();
-        }
-
-        public void LoadBoots()
-        {
             bootsList = Game.Instance.MapData.BootsList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropBoots();
-        }
-
-        public void LoadAuras()
-        {
             auraList = Game.Instance.MapData.AuraList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropAuras();
-        }
-
-        public void LoadBackItems()
-        {
             backItemList = Game.Instance.MapData.BackItemList;
-            if(Game.Instance.MapData.Result == Result.WIN) GetDropBackItems();
+            if(Game.Instance.MapData.Result == Result.WIN) DropEquip();
         }
 
         public void AddStackableItem(InventoryItem stackItem)
@@ -151,13 +164,21 @@ namespace InfiniteMap
 
         public void AddEquip(InventoryEquip equip)
         {
-            if(equip.EquipSO.EquipType == EquipType.WEAP) weaponList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.HELMET) helmetList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.BODYARMOR) bodyArmorList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.LEGARMOR) legArmorList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.BOOTS) bootsList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.AURA) auraList.Add(equip);
-            if(equip.EquipSO.EquipType == EquipType.BACKITEM) backItemList.Add(equip);
+            List<InventoryEquip> equipList = GetEquipListByEquipType(equip.EquipSO.EquipType);
+            equipList.Add(equip);
+        }
+
+        public List<InventoryEquip> GetEquipListByEquipType(EquipType equipType)
+        {
+            if(equipType == EquipType.WEAP) return weaponList;
+            if(equipType == EquipType.HELMET) return helmetList;
+            if(equipType == EquipType.BODYARMOR) return bodyArmorList;
+            if(equipType == EquipType.LEGARMOR) return legArmorList;
+            if(equipType == EquipType.BOOTS) return bootsList;
+            if(equipType == EquipType.AURA) return auraList;
+            if(equipType == EquipType.BACKITEM) return backItemList;
+
+            return null;
         }
 
         public void GetDropItems()
@@ -174,94 +195,15 @@ namespace InfiniteMap
             }
         }
 
-        public void GetDropWeapons()
+        public void DropEquip()
         {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
+            foreach(EquipSO equipSO in Game.Instance.MapData.EquipDropList)
             {
-                if(equip.EquipType == EquipType.WEAP)
-                {
-                    float rate = Random.Range(0f, 1f);
+                InventoryEquip newEquip = equipObtainer.CreateEquip(equipSO);
 
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
+                if(newEquip == null) continue;
 
-        public void GetDropHelmets()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.HELMET)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
-
-        public void GetDropBodyArmors()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.BODYARMOR)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
-
-        public void GetDropLegArmors()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.LEGARMOR)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
-        
-        public void GetDropBoots()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.BOOTS)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
-
-        public void GetDropAuras()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.AURA)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
-            }
-        }
-
-        public void GetDropBackItems()
-        {
-            foreach(EquipSO equip in Game.Instance.MapData.EquipDropList)
-            {
-                if(equip.EquipType == EquipType.BACKITEM)
-                {
-                    float rate = Random.Range(0f, 1f);
-
-                    if(rate <= equip.DropRate / 100) AddEquip(new InventoryEquip(equip));
-                }
+                AddEquip(newEquip);
             }
         }
     }

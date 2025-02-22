@@ -47,7 +47,7 @@ namespace InfiniteMap
 
             SpawnStatLine();
             GetStatUIList();
-            Game.Instance.Player.Stats.OnStatUpgrade += UpdateStat;
+            Game.Instance.Player.Stats.OnStatChange += UpdateStat;
         }
 
         private void SpawnStatLine()

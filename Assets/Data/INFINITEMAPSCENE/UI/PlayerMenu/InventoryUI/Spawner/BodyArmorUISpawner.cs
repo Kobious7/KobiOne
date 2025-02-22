@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,12 @@ namespace InfiniteMap
         protected override void Start()
         {
             base.Start();
-            Game.Instance.Inventory.LoadBodyArmor();
+            StartCoroutine(WaitNextFrame());
+        }
+
+        private IEnumerator WaitNextFrame()
+        {
+            yield return null;
 
             bodyArmorList = Game.Instance.Inventory.BodyArmorList;
             SpawnBodyArmorUI();

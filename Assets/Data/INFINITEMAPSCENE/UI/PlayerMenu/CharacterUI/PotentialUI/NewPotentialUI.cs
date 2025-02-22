@@ -44,7 +44,7 @@ namespace InfiniteMap
         {
             yield return null;
             ShowPotentialPoint();
-            Game.Instance.Player.Stats.OnPotentialUpgrade += UpdatePotential;
+            Game.Instance.Player.Stats.OnPotentialChange += UpdatePotential;
         }
 
         private void ShowPotentialPoint()

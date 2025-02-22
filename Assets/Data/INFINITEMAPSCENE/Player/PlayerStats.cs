@@ -153,8 +153,8 @@ namespace InfiniteMap
 
         //=======Main Stats======
 
-        public event Action<int> OnPotentialUpgrade;
-        public event Action<int> OnStatUpgrade;
+        public event Action<int> OnPotentialChange;
+        public event Action<int> OnStatChange;
         public event Action<int> OnLevelUp;
 
         protected override void Start()
@@ -281,6 +281,12 @@ namespace InfiniteMap
                 case 9: 
                     CalculateSpeedStat();
                     break;
+                case 10:
+                    CalculateCritRateStat();
+                    break;
+                case 11:
+                    CalculateCritDamageStat();
+                    break;
             }
         }
 
@@ -310,7 +316,7 @@ namespace InfiniteMap
             //Game.Instance.CharacterData.Level = level;
             //Game.Instance.CharacterData.CurrentExp = currentExp;
 
-            OnStatUpgrade?.Invoke(0);
+            OnStatChange?.Invoke(0);
         }
 
         public void IncreasePotentialPoint(int index, int points)
@@ -329,11 +335,7 @@ namespace InfiniteMap
             remainPoints -= points;
             //Game.Instance.CharacterData.Power.TrueValue = power.TrueValue;
 
-            CalculatePower();
-            CalculateAttackStat();
-            OnPotentialUpgrade?.Invoke(0);
-            OnStatUpgrade?.Invoke(1);
-            OnStatUpgrade?.Invoke(4);
+            CalculatePowerBranch();
         }
 
         private void IncreaseMagicPoint(int points)
@@ -343,11 +345,7 @@ namespace InfiniteMap
             remainPoints -= points;
             //Game.Instance.CharacterData.Magic.TrueValue = magic.TrueValue;
 
-            CalculateMagic();
-            CalculateMagicAttackStat();
-            OnPotentialUpgrade?.Invoke(1);
-            OnStatUpgrade?.Invoke(2);
-            OnStatUpgrade?.Invoke(5);
+            CalculateMagicBranch();
         }
 
         private void IncreaseStrengthPoint(int points)
@@ -357,10 +355,7 @@ namespace InfiniteMap
             remainPoints -= points;
             //Game.Instance.CharacterData.Strength.TrueValue = strength.TrueValue;
 
-            CalculateStrength();
-            CalculateHPStat();
-            OnPotentialUpgrade?.Invoke(2);
-            OnStatUpgrade?.Invoke(3);
+            CalculateStrengthBranch();
         }
 
         private void IncreaseDefensePoint(int points)
@@ -370,10 +365,7 @@ namespace InfiniteMap
             remainPoints -= points;
             //Game.Instance.CharacterData.Defense.TrueValue = defense.TrueValue;
 
-            CalculateDefense();
-            CalculateDefenseStat();
-            OnPotentialUpgrade?.Invoke(3);
-            OnStatUpgrade?.Invoke(6);
+            CalculateDefenseBranch();
         }
 
         private void IncreaseDexterityPoint(int points)
@@ -383,54 +375,110 @@ namespace InfiniteMap
             remainPoints -= points;
             //Game.Instance.CharacterData.Dexterity.TrueValue = dexterity.TrueValue;
 
+            CalculateDexterityBranch();
+        }
+
+        private void ReCalculate()
+        {
+            CalculatePowerBranch();
+            CalculateMagicBranch();
+            CalculateStrengthBranch();
+            CalculateDefenseBranch();
+            CalculateDexterityBranch();
+        }
+
+        private void CalculatePowerBranch()
+        {
+            CalculatePower();
+            CalculateAttackStat();
+            OnPotentialChange?.Invoke(0);
+            OnStatChange?.Invoke(1);
+            OnStatChange?.Invoke(4);
+        }
+
+        private void CalculateMagicBranch()
+        {
+            CalculateMagic();
+            CalculateMagicAttackStat();
+            OnPotentialChange?.Invoke(1);
+            OnStatChange?.Invoke(2);
+            OnStatChange?.Invoke(5);
+        }
+
+        private void CalculateStrengthBranch()
+        {
+            CalculateStrength();
+            CalculateHPStat();
+            OnPotentialChange?.Invoke(2);
+            OnStatChange?.Invoke(3);
+        }
+
+        private void CalculateDefenseBranch()
+        {
+            CalculateDefense();
+            CalculateDefenseStat();
+            OnPotentialChange?.Invoke(3);
+            OnStatChange?.Invoke(6);
+        }
+
+        private void CalculateDexterityBranch()
+        {
             CalculateDexterity();
             CalculateAccuracyStat();
-            OnPotentialUpgrade?.Invoke(4);
-            OnStatUpgrade?.Invoke(7);
-            OnStatUpgrade?.Invoke(8);
+            OnPotentialChange?.Invoke(4);
+            OnStatChange?.Invoke(7);
+            OnStatChange?.Invoke(8);
+        }
+
+        private void CalculateOtherSources()
+        {
+            OnStatChange?.Invoke(10);
+            OnStatChange?.Invoke(11);
         }
 
         private void CalculatePower()
         {
             Stat power = potential[0];
-            float flat = power.TrueValue + power.FlatBonus;
-            power.Value = (int) (flat + flat * power.PercentBonus);   
+            int flat = power.TrueValue + power.FlatBonus;
+            Debug.Log(flat);
+            Debug.Log(flat * power.PercentBonus);
+            power.Value = (int) (flat + flat * power.PercentBonus / 100); 
         }
 
         private void CalculateMagic()
         {
             Stat magic = potential[1];
-            float flat = magic.TrueValue + magic.FlatBonus;
-            magic.Value = (int) (flat + flat * magic.PercentBonus);
+            int flat = magic.TrueValue + magic.FlatBonus;
+            magic.Value = (int) (flat + flat * magic.PercentBonus / 100);
         }
 
         private void CalculateStrength()
         {
             Stat strength = potential[2];
-            float flat = strength.TrueValue + strength.FlatBonus;
-            strength.Value = (int) (flat + flat * strength.PercentBonus);
+            int flat = strength.TrueValue + strength.FlatBonus;
+            strength.Value = (int) (flat + flat * strength.PercentBonus / 100);
         }
 
         private void CalculateDefense()
         {
             Stat defense = potential[3];
-            float flat = defense.TrueValue + defense.FlatBonus;
-            defense.Value = (int) (flat + flat * defense.PercentBonus);
+            int flat = defense.TrueValue + defense.FlatBonus;
+            defense.Value = (int) (flat + flat * defense.PercentBonus / 100);
         }
 
         private void CalculateDexterity()
         {
             Stat dexterity = potential[4];
-            float flat = dexterity.TrueValue + dexterity.FlatBonus;
-            dexterity.Value = (int) (flat + flat * dexterity.PercentBonus);
+            int flat = dexterity.TrueValue + dexterity.FlatBonus;
+            dexterity.Value = (int) (flat + flat * dexterity.PercentBonus / 100);
         }
 
         private void CalculateAttackStat()
         {
             Stat power = potential[0];
             Stat attack = stats[1];
-            float flat = power.Value / 5 + attack.FlatBonus;
-            attack.Value = (int) (flat + flat * attack.PercentBonus);
+            int flat = power.Value / 5 + attack.FlatBonus;
+            attack.Value = (int) (flat + flat * attack.PercentBonus / 100);
 
             CalculateSlashDamageStat();
         }
@@ -446,8 +494,8 @@ namespace InfiniteMap
         {
             Stat magic = potential[1];
             Stat magicAttack = stats[2];
-            float flat = magic.Value / 5 + magicAttack.FlatBonus;
-            magicAttack.Value = (int) (flat + flat * magicAttack.PercentBonus);
+            int flat = magic.Value / 5 + magicAttack.FlatBonus;
+            magicAttack.Value = (int) (flat + flat * magicAttack.PercentBonus/ 100);
 
             CalculateSwordrainDamageStat();
         }
@@ -463,24 +511,24 @@ namespace InfiniteMap
         {
             Stat strength = potential[2];
             Stat hp = stats[3];
-            float flat = strength.Value * 10 + hp.FlatBonus;
-            hp.Value = (int) (flat + flat * hp.PercentBonus);
+            int flat = strength.Value * 10 + hp.FlatBonus;
+            hp.Value = (int) (flat + flat * hp.PercentBonus/ 100);
         }
 
         private void CalculateDefenseStat()
         {
             Stat defense = potential[3];
             Stat def = stats[6];
-            float flat = defense.Value / 5 + defense.FlatBonus;
-            def.Value = (int) (flat + flat * def.PercentBonus);
+            int flat = defense.Value / 5 + defense.FlatBonus;
+            def.Value = (int) (flat + flat * def.PercentBonus / 100);
         }
 
         private void CalculateAccuracyStat()
         {
             Stat dexterity = potential[4];
             Stat accuracy = stats[7];
-            float flat = dexterity.Value / 20 + accuracy.FlatBonus;
-            accuracy.Value = (int) (flat + flat * accuracy.PercentBonus);
+            int flat = dexterity.Value / 20 + accuracy.FlatBonus;
+            accuracy.Value = (int) (flat + flat * accuracy.PercentBonus / 100);
 
             CalculateDamageRangeStat();
         }
@@ -496,8 +544,61 @@ namespace InfiniteMap
         private void CalculateSpeedStat()
         {
             Stat speed = stats[9];
-            float flat = 4 + speed.FlatBonus;
-            speed.Value = (int) (flat + flat * speed.PercentBonus);
+            int flat = 4 + speed.FlatBonus;
+            speed.Value = (int) flat;
+        }
+
+        private void CalculateCritRateStat()
+        {
+            Stat critRate = stats[10];
+            critRate.IsPercentValue = true;
+        }
+
+        private void CalculateCritDamageStat()
+        {
+            Stat critDamage = stats[11];
+            critDamage.IsPercentValue = true;
+        }
+
+        public void UpdateBonus(List<EquipBonus> equipBonus)
+        {
+            foreach(var bonus in equipBonus)
+            {
+                int index = GetIndexFromStat(bonus);
+
+                if(bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength
+                    || bonus.Stat == EquipStatType.DefenseP || bonus.Stat == EquipStatType.Dexterity)
+                {
+                    potential[index].FlatBonus = bonus.FlatValue;
+                    potential[index].PercentBonus = bonus.PercentValue;
+                }
+                else
+                {
+                    stats[index].FlatBonus = bonus.FlatValue;
+                    stats[index].PercentBonus = bonus.PercentValue;
+                }
+            }
+
+            ReCalculate();
+        }
+
+        private int GetIndexFromStat(EquipBonus equipBonus)
+        {
+            if(equipBonus.Stat == EquipStatType.Power) return 0;
+            if(equipBonus.Stat == EquipStatType.Magic) return 1;
+            if(equipBonus.Stat == EquipStatType.Strength) return 2;
+            if(equipBonus.Stat == EquipStatType.DefenseP) return 3;
+            if(equipBonus.Stat == EquipStatType.Dexterity) return 4;
+            if(equipBonus.Stat == EquipStatType.Attack) return 1;
+            if(equipBonus.Stat == EquipStatType.MagicAttack) return 2;
+            if(equipBonus.Stat == EquipStatType.HP) return 3;
+            if(equipBonus.Stat == EquipStatType.Defense) return 6;
+            if(equipBonus.Stat == EquipStatType.Accuracy) return 7;
+            if(equipBonus.Stat == EquipStatType.DamageRange) return 8;
+            if(equipBonus.Stat == EquipStatType.Speed) return 9;
+            if(equipBonus.Stat == EquipStatType.CritRate) return 10;
+            if(equipBonus.Stat == EquipStatType.CritDamage) return 11;
+            return 1000000;
         }
     }
 }

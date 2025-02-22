@@ -8,7 +8,7 @@ public class Stat
     public int TrueValue;
     public int Value;
     public bool IsPercentValue;
-    public float FlatBonus;
+    public int FlatBonus;
     public float PercentBonus;
 
     public Stat(int index, string name)

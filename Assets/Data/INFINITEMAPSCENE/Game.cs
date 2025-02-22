@@ -41,6 +41,10 @@ namespace InfiniteMap
 
         public Inventory Inventory => inventory;
 
+        [SerializeField] private Equipment equipment;
+
+        public Equipment Equipment => equipment;
+
         protected override void Awake()
         {
             base.Awake();
@@ -59,6 +63,7 @@ namespace InfiniteMap
             LoadMap();
             LoadMonsterSpawners();
             LoadInventory();
+            LoadEquipment();
         }
 
         protected void LoadMapData()
@@ -109,6 +114,13 @@ namespace InfiniteMap
             if(inventory != null) return;
 
             inventory = FindObjectOfType<Inventory>();
+        }
+
+        private void LoadEquipment()
+        {
+            if(equipment != null) return;
+            
+            equipment = FindObjectOfType<Equipment>();
         }
 
         public void LoadAllObj(Transform monster)
