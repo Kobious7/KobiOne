@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newHelmet.transform.localScale = Vector3.one;
                 HelmetUI helmetUI = newHelmet.GetComponent<HelmetUI>();
                 helmetUI.Index = i;
-                helmetUI.EquipSO = helmetList[i].EquipSO;
+                helmetUI.Equip = helmetList[i];
 
                 helmetUI.ShowHelmet(helmetList[i]);
                 newHelmet.gameObject.SetActive(true);

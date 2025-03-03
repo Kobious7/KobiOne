@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newBoots.transform.localScale = Vector3.one;
                 BootsUI bootsUI = newBoots.GetComponent<BootsUI>();
                 bootsUI.Index = i;
-                bootsUI.EquipSO = bootsList[i].EquipSO;
+                bootsUI.Equip = bootsList[i];
 
                 bootsUI.ShowBoots(bootsList[i]);
                 newBoots.gameObject.SetActive(true);

@@ -48,6 +48,10 @@ namespace InfiniteMap
 
         public CapsuleCollider2D CapsuleCollider2D => capsuleCollider2D;
 
+        [SerializeField] private PlayerSpriteSwap spriteSwap;
+
+        public PlayerSpriteSwap SpriteSwap => spriteSwap;
+
         protected override void LoadComponents()
         {
             base.LoadComponents();
@@ -61,6 +65,7 @@ namespace InfiniteMap
             LoadShooting();
             LoadStats();
             LoadCapsuleCollider();
+            LoadSpriteSwap();
         }
 
         protected override void Start()
@@ -142,6 +147,13 @@ namespace InfiniteMap
             if(capsuleCollider2D != null) return;
 
             capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        }
+
+        private void LoadSpriteSwap()
+        {
+            if(spriteSwap != null) return;
+
+            spriteSwap = rigModel.GetComponent<PlayerSpriteSwap>();
         }
     }
 }

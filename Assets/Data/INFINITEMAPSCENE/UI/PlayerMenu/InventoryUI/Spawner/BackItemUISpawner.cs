@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newBackItem.transform.localScale = Vector3.one;
                 BackItemUI backItemUI = newBackItem.GetComponent<BackItemUI>();
                 backItemUI.Index = i;
-                backItemUI.EquipSO = backItemList[i].EquipSO;
+                backItemUI.Equip = backItemList[i];
 
                 backItemUI.ShowBackItem(backItemList[i]);
                 newBackItem.gameObject.SetActive(true);

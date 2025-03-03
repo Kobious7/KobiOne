@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using InfiniteMap;
 using TMPro;
 using UnityEngine;
@@ -9,22 +10,13 @@ public class EquipDetailsUI : GMono
 
     public static EquipDetailsUI Instance => instance;
 
-
     [SerializeField] private Image model;
-
-    public Image Model
-    {
-        get => model;
-        set => model = value;
-    }
-
-    [SerializeField] private TextMeshProUGUI nameText;
-
-    public TextMeshProUGUI NameText => nameText;
-
-    [SerializeField] private DescriptionUITMP description;
-
-    public DescriptionUITMP Description => description;
+    [SerializeField] private TextMeshProUGUI equipName;
+    [SerializeField] private Image qualityColor;
+    [SerializeField] private TextMeshProUGUI level;
+    [SerializeField] private EquipmentStatUI mainStat;
+    [SerializeField] private EquipmentSubStatsSpawner subStats;
+    [SerializeField] private Button equipBtn;
 
     protected override void Awake()
     {
@@ -38,9 +30,20 @@ public class EquipDetailsUI : GMono
     protected override void LoadComponents()
     {
         base.LoadComponents();
+        LoadQualityColor();
         LoadModel();
-        LoadNameText();
-        LoadDescription();
+        LoadEquipName();
+        LoadLevel();
+        LoadMainStat();
+        LoadSubStats();
+        LoadEquipBtn();
+    }
+
+    private void LoadQualityColor()
+    {
+        if(qualityColor != null) return;
+
+        qualityColor = transform.Find("Details").Find("Quality").GetComponent<Image>();
     }
 
     private void LoadModel()
@@ -49,25 +52,55 @@ public class EquipDetailsUI : GMono
 
         model = transform.Find("Details").Find("Model").GetComponent<Image>();
     }
-
-    private void LoadDescription()
+    private void LoadEquipName()
     {
-        if(description != null) return;
+        if(equipName != null) return;
 
-        description = transform.Find("Details").GetComponentInChildren<DescriptionUITMP>();
+        equipName = transform.Find("Details").Find("Name").GetComponent<TextMeshProUGUI>();
     }
 
-    private void LoadNameText()
+    private void LoadLevel()
     {
-        if(nameText != null) return;
+        if(level != null) return;
 
-        nameText = transform.Find("Details").Find("Name").GetComponent<TextMeshProUGUI>();
+        level = transform.Find("Details").Find("Level").Find("Value").GetComponent<TextMeshProUGUI>();
     }
 
-    public void ShowEquip(InventoryEquip equip)
+    private void LoadMainStat()
     {
+        if (mainStat != null) return;
+
+        mainStat = transform.Find("Details").Find("MainStat").GetComponent<EquipmentStatUI>();
+    }
+
+    private void LoadSubStats()
+    {
+        if(subStats != null) return;
+
+        subStats = transform.Find("Details").Find("SubStats").GetComponent<EquipmentSubStatsSpawner>();
+    }
+
+    private void LoadEquipBtn()
+    {
+        if(equipBtn != null) return;
+
+        equipBtn = transform.Find("Details").Find("EquipBtn").GetComponent<Button>();
+    }
+
+    public void ShowDetails(InventoryEquip equip)
+    {
+        qualityColor.color = GetQualityColorByRarity(equip.Rarity);
         model.sprite = equip.EquipSO.Sprite;
-        nameText.text = equip.EquipSO.ItemName;
-        description.Description.text = equip.EquipSO.ItemName;
+        equipName.text = equip.EquipSO.ItemName;
+        level.text = $"{equip.Level}";
+
+        mainStat.Show(equip.MainStat);
+        subStats.SpawnSubStats(equip.SubStats);
+        equipBtn.onClick.AddListener(() => EquipButtonClick(equip));
+    }
+
+    private void EquipButtonClick(InventoryEquip equip)
+    {
+        
     }
 }

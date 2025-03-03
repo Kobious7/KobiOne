@@ -26,6 +26,10 @@ namespace InfiniteMap
 
         public PlayerMenuUI PlayerMenuUI => playerMenuUI;
 
+        [SerializeField] private CurrentEquipmentUI currentEquipmentUI;
+
+        public CurrentEquipmentUI CurrentEquipmentUI => currentEquipmentUI;
+
         protected override void Awake()
         {
             base.Awake();
@@ -41,6 +45,7 @@ namespace InfiniteMap
             LoadBtnsUI();
             LoadCharacterUI();
             LoadPlayerMenuUI();
+            LoadCurrentEquipmentUI();
         }
 
         private void LoadInventoryUI()
@@ -68,6 +73,13 @@ namespace InfiniteMap
             if(playerMenuUI != null) return;
 
             playerMenuUI = FindObjectOfType<PlayerMenuUI>();
+        }
+
+        private void LoadCurrentEquipmentUI()
+        {
+            if(currentEquipmentUI != null) return;
+
+            currentEquipmentUI = FindObjectOfType<CurrentEquipmentUI>();
         }
     }
 }

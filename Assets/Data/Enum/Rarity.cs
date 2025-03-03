@@ -6,7 +6,7 @@ public enum Rarity
     Rare = 10,
     Epic = 5,
     Lengendary = 1,
-    Mythic = 0,
-    Divine = 0,
-    Infinity = 0
+    Mythic = -1,
+    Divine = -1,
+    Infinity = -1
 }

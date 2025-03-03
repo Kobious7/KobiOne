@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newWeapon.transform.localScale = Vector3.one;
                 WeaponUI weaponUI = newWeapon.GetComponent<WeaponUI>();
                 weaponUI.Index = i;
-                weaponUI.EquipSO = weaponList[i].EquipSO;
+                weaponUI.Equip = weaponList[i];
 
                 weaponUI.ShowWeapon(weaponList[i]);
                 newWeapon.gameObject.SetActive(true);

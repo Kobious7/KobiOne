@@ -178,7 +178,7 @@ namespace InfiniteMap
                 {
                     int exp = UnityEngine.Random.Range(Game.Instance.MapData.MonsterInfo.Level + 4, Game.Instance.MapData.MonsterInfo.Level + 9);
 
-                    Debug.Log("" + exp);
+                    //Debug.Log("" + exp);
 
                     currentExp += exp;
 
@@ -385,6 +385,7 @@ namespace InfiniteMap
             CalculateStrengthBranch();
             CalculateDefenseBranch();
             CalculateDexterityBranch();
+            CalculateOtherSources();
         }
 
         private void CalculatePowerBranch()
@@ -440,8 +441,6 @@ namespace InfiniteMap
         {
             Stat power = potential[0];
             int flat = power.TrueValue + power.FlatBonus;
-            Debug.Log(flat);
-            Debug.Log(flat * power.PercentBonus);
             power.Value = (int) (flat + flat * power.PercentBonus / 100); 
         }
 
@@ -512,14 +511,14 @@ namespace InfiniteMap
             Stat strength = potential[2];
             Stat hp = stats[3];
             int flat = strength.Value * 10 + hp.FlatBonus;
-            hp.Value = (int) (flat + flat * hp.PercentBonus/ 100);
+            hp.Value = (int) ((flat + flat * hp.PercentBonus/ 100) * 10) ;
         }
 
         private void CalculateDefenseStat()
         {
             Stat defense = potential[3];
             Stat def = stats[6];
-            int flat = defense.Value / 5 + defense.FlatBonus;
+            int flat = defense.Value / 5 + def.FlatBonus;
             def.Value = (int) (flat + flat * def.PercentBonus / 100);
         }
 

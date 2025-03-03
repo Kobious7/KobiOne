@@ -39,4 +39,19 @@ public class GMono : MonoBehaviour
     {
         SceneManager.LoadScene(name);
     }
+
+    private string commonQualityColor = "#B0B0B0";
+    private string uncommonQualityColor = "#28CF0B";
+    private string rareQualityColor = "#2574FF";
+    private string epicQualityColor = "#9B00FF";
+    private string legendaryQualityColor = "#FFF100";
+
+    public Color GetQualityColorByRarity(Rarity rarity)
+    {
+        if(rarity == Rarity.Common) return ColorUtility.TryParseHtmlString(commonQualityColor, out Color color) ? color : Color.white;
+        else if(rarity == Rarity.Uncommon) return ColorUtility.TryParseHtmlString(uncommonQualityColor, out Color color) ? color : Color.white;
+        else if(rarity == Rarity.Rare) return ColorUtility.TryParseHtmlString(rareQualityColor, out Color color) ? color : Color.white;
+        else if(rarity == Rarity.Epic) return ColorUtility.TryParseHtmlString(epicQualityColor, out Color color) ? color : Color.white;
+        else return ColorUtility.TryParseHtmlString(legendaryQualityColor, out Color color) ? color : Color.white;
+    }
 }

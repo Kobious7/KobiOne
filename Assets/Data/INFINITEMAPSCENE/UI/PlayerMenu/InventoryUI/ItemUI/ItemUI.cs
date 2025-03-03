@@ -47,7 +47,7 @@ public class ItemUI : GMono
     }
 
     [SerializeField] private Transform onSelectObject;
-    [SerializeField] private float lastTimeClick, doubleClickTheshold = 0.2f;
+    [SerializeField] private float lastTimeClick, doubleClickTheshold = 0.4f;
 
     protected override void LoadComponents()
     {

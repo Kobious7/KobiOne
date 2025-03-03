@@ -17,12 +17,17 @@ namespace InfiniteMap
 
         public EquipmentCalculation Calculator => calculator;
 
+        [SerializeField] private EquipDisarming unequip;
+
+        public EquipDisarming Unequip => unequip;
+
         protected override void LoadComponents()
         {
             base.LoadComponents();
             CreateStatsBonus();
             LoadEquipmentCalculation();
             calculator.CalculateBonus();
+            LoadUnequip();
         }
 
         private void CreateStatsBonus()
@@ -41,14 +46,8 @@ namespace InfiniteMap
             backItem.SubStats = new List<EquipStat>();
             aura = new InventoryEquip();
             aura.SubStats = new List<EquipStat>();
-            statsBonus = new List<EquipBonus>
-            {
-                new EquipBonus(EquipStatType.Power), new EquipBonus(EquipStatType.Magic), new EquipBonus(EquipStatType.Strength),
-                new EquipBonus(EquipStatType.DefenseP), new EquipBonus(EquipStatType.Dexterity), new EquipBonus(EquipStatType.Attack),
-                new EquipBonus(EquipStatType.MagicAttack), new EquipBonus(EquipStatType.HP), new EquipBonus(EquipStatType.Defense),
-                new EquipBonus(EquipStatType.Accuracy), new EquipBonus(EquipStatType.DamageRange), new EquipBonus(EquipStatType.Speed),
-                new EquipBonus(EquipStatType.CritRate), new EquipBonus(EquipStatType.CritDamage)
-            };
+            
+            NewStatBonus();
         }
 
         private void LoadEquipmentCalculation()
@@ -56,6 +55,13 @@ namespace InfiniteMap
             if(calculator != null) return;
 
             calculator = GetComponentInChildren<EquipmentCalculation>();
+        }
+
+        private void LoadUnequip()
+        {
+            if(unequip != null) return;
+
+            unequip = GetComponentInChildren<EquipDisarming>();
         }
 
         public EquipBonus GetEquipBonusByStat(EquipStatType statType)
@@ -66,6 +72,18 @@ namespace InfiniteMap
             }
 
             return null;
+        }
+
+        public void NewStatBonus()
+        {
+            statsBonus = new List<EquipBonus>
+            {
+                new EquipBonus(EquipStatType.Power), new EquipBonus(EquipStatType.Magic), new EquipBonus(EquipStatType.Strength),
+                new EquipBonus(EquipStatType.DefenseP), new EquipBonus(EquipStatType.Dexterity), new EquipBonus(EquipStatType.Attack),
+                new EquipBonus(EquipStatType.MagicAttack), new EquipBonus(EquipStatType.HP), new EquipBonus(EquipStatType.Defense),
+                new EquipBonus(EquipStatType.Accuracy), new EquipBonus(EquipStatType.DamageRange), new EquipBonus(EquipStatType.Speed),
+                new EquipBonus(EquipStatType.CritRate), new EquipBonus(EquipStatType.CritDamage)
+            };
         }
 
         public InventoryEquip Weapon

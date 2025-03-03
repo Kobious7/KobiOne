@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newAura.transform.localScale = Vector3.one;
                 AuraUI auraUI = newAura.GetComponent<AuraUI>();
                 auraUI.Index = i;
-                auraUI.EquipSO = auraList[i].EquipSO;
+                auraUI.Equip = auraList[i];
 
                 auraUI.ShowAura(auraList[i]);
                 newAura.gameObject.SetActive(true);

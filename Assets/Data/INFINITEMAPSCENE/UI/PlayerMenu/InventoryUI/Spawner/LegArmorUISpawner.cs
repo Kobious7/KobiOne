@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newLegArmor.transform.localScale = Vector3.one;
                 LegArmorUI legArmorUI = newLegArmor.GetComponent<LegArmorUI>();
                 legArmorUI.Index = i;
-                legArmorUI.EquipSO = legArmorList[i].EquipSO;
+                legArmorUI.Equip = legArmorList[i];
 
                 legArmorUI.ShowLegArmor(legArmorList[i]);
                 newLegArmor.gameObject.SetActive(true);

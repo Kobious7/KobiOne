@@ -53,6 +53,9 @@ namespace InfiniteMap
 
             if(equipType == EquipType.WEAP) CreateWeaponMainStat(mainStat, rarity);
             if(equipType == EquipType.HELMET) CreateHelmetMainStat(mainStat, rarity);
+            if(equipType == EquipType.BODYARMOR) CreateBodyArmorMainStat(mainStat, rarity);
+            if(equipType == EquipType.LEGARMOR) CreateLegArmorMainStat(mainStat, rarity);
+            if(equipType == EquipType.BOOTS) CreateBootsMainStat(mainStat, rarity);
 
             return mainStat;
         }
@@ -254,6 +257,7 @@ namespace InfiniteMap
             mainStat.Stat = EquipStatType.HP;
             mainStat.TypeBonus = TypeBonus.FlatBonus;
             mainStat.FlatValue = flatValue;
+            mainStat.FlatBaseValue = flatValue;
             mainStat.FlatBonus = defaultBonus.MainStat.FlatBonus;
         }
 
@@ -261,10 +265,33 @@ namespace InfiniteMap
         {
             EquipStatBonus defaultBonus = GetRarityBonus(rarity);
             int flatValue = Random.Range((int)defaultBonus.MainStat.FlatMinValue, (int)defaultBonus.MainStat.FlatMaxValue + 1);
-            mainStat.Stat = EquipStatType.HP;
+            mainStat.Stat = EquipStatType.Defense;
             mainStat.TypeBonus = TypeBonus.FlatBonus;
             mainStat.FlatValue = flatValue;
+            mainStat.FlatBaseValue = flatValue;
             mainStat.FlatBonus = defaultBonus.MainStat.FlatBonus;
+        }
+
+        private void CreateLegArmorMainStat(EquipStat mainStat, Rarity rarity)
+        {
+            EquipStatBonus defaultBonus = GetRarityBonus(rarity);
+            float percentValue = Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
+            mainStat.Stat = EquipStatType.Defense;
+            mainStat.TypeBonus = TypeBonus.PercentBonus;
+            mainStat.PercentValue = percentValue;
+            mainStat.PercentBaseValue = percentValue;
+            mainStat.PercentBonus = defaultBonus.MainStat.PercentBonus;
+        }
+
+        private void CreateBootsMainStat(EquipStat mainStat, Rarity rarity)
+        {
+            EquipStatBonus defaultBonus = GetRarityBonus(rarity);
+            float percentValue = Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
+            mainStat.Stat = EquipStatType.HP;
+            mainStat.TypeBonus = TypeBonus.PercentBonus;
+            mainStat.PercentValue = percentValue;
+            mainStat.PercentBaseValue = percentValue;
+            mainStat.PercentBonus = defaultBonus.MainStat.PercentBonus;
         }
 
         private EquipStatBonus GetRarityBonus(Rarity rarity)
@@ -279,7 +306,7 @@ namespace InfiniteMap
 
         private Rarity GetRarity()
         {
-            int rate = 1;//Random.Range(1, 100);
+            float rate = 1; //Random.Range(0f, 100f);
 
             if(rate <= (int)Rarity.Lengendary) return Rarity.Lengendary;
             if(rate <= (int)Rarity.Epic) return Rarity.Epic;

@@ -14,38 +14,26 @@ namespace InfiniteMap
             set => index = value;
         }
 
-        [SerializeField] private EquipSO equipSO;
+        [SerializeField] private InventoryEquip equip;
 
-        public EquipSO EquipSO
+        public InventoryEquip Equip
         {
-            get => equipSO;
-            set => equipSO = value;
+            get => equip;
+            set => equip = value;
         }
 
         [SerializeField] private Image model;
-
-        public Image Model
-        {
-            get => model;
-            set => model = value;
-        }
-
         [SerializeField] private Button btn;
-
-        public Button Btn
-        {
-            get => btn;
-            set => btn = value;
-        }
-
+        [SerializeField] private Image qualityColor;
         [SerializeField] private Transform onSelectObject;
-        [SerializeField] private float lastTimeClick, doubleClickTheshold = 0.2f;
+        [SerializeField] private float lastTimeClick, doubleClickTheshold = 0.4f;
 
         protected override void LoadComponents()
         {
             base.LoadComponents();
             LoadModel();
             LoadButton();
+            LoadQualityColor();
             LoadOnSelectObject();
         }
 
@@ -74,6 +62,13 @@ namespace InfiniteMap
             btn = GetComponentInChildren<Button>();
         }
 
+        private void LoadQualityColor()
+        {
+            if(qualityColor != null) return;
+
+            qualityColor = transform.Find("Outline").GetComponent<Image>();
+        }
+
         private void LoadOnSelectObject()
         {
             if(onSelectObject != null) return;
@@ -84,6 +79,7 @@ namespace InfiniteMap
         public void ShowLegArmor(InventoryEquip item)
         {
             model.sprite = item.EquipSO.Sprite;
+            qualityColor.color = GetQualityColorByRarity(item.Rarity);
         }
 
         private void Click()
@@ -93,7 +89,7 @@ namespace InfiniteMap
                 if(Time.time - lastTimeClick < doubleClickTheshold)
                 {
                     EquipDetailsUI.Instance.gameObject.SetActive(true);
-                    EquipDetailsUI.Instance.ShowEquip(Game.Instance.Inventory.LegArmorList[index]);
+                    EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.LegArmorList[index]);
                 }
 
                 lastTimeClick = Time.time;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace InfiniteMap
 {
     public class Inventory : GMono
     {
+        public event Action<InventoryEquip> OnEquipAdding;
         [SerializeField] private List<InventoryItem> listItems;
 
         public List<InventoryItem> ListItems
@@ -80,6 +82,11 @@ namespace InfiniteMap
 
         [SerializeField] private EquipSO test;
         [SerializeField] private EquipSO test1;
+        [SerializeField] private EquipSO test2;
+        [SerializeField] private EquipSO test3;
+        [SerializeField] private EquipSO test4;
+        [SerializeField] private EquipSO test5;
+        [SerializeField] private EquipSO test6;
 
         protected override void LoadComponents()
         {
@@ -91,12 +98,21 @@ namespace InfiniteMap
         protected override void Start()
         {
             base.Start();
+            LoadEquip();
             AddEquip(equipObtainer.CreateEquip(test));
             AddEquip(equipObtainer.CreateEquip(test1));
+            AddEquip(equipObtainer.CreateEquip(test2));
+            AddEquip(equipObtainer.CreateEquip(test3));
+            AddEquip(equipObtainer.CreateEquip(test4));
+            AddEquip(equipObtainer.CreateEquip(test5));
+            AddEquip(equipObtainer.CreateEquip(test6));
             equipObtainer.UpgradeEquip(weaponList[0], 100);
             equipObtainer.UpgradeEquip(helmetList[0], 100);
-            equipWearing.Wear(weaponList[0]);
-            equipWearing.Wear(helmetList[0]);
+            equipObtainer.UpgradeEquip(bodyArmorList[0], 100);
+            equipObtainer.UpgradeEquip(legArmorList[0], 100);
+            equipObtainer.UpgradeEquip(bootsList[0], 100);
+            equipObtainer.UpgradeEquip(backItemList[0], 100);
+            equipObtainer.UpgradeEquip(auraList[0], 100);
         }
 
         private void LoadEquipObtainer()
@@ -121,13 +137,26 @@ namespace InfiniteMap
 
         public void LoadEquip()
         {
-            weaponList = Game.Instance.MapData.WeaponList;
-            helmetList = Game.Instance.MapData.HelmetList;
-            bodyArmorList = Game.Instance.MapData.BodyArmorList;
-            legArmorList = Game.Instance.MapData.LegArmorList;
-            bootsList = Game.Instance.MapData.BootsList;
-            auraList = Game.Instance.MapData.AuraList;
-            backItemList = Game.Instance.MapData.BackItemList;
+            if(Game.Instance.MapData.MapCanLoad)
+            {
+                weaponList = Game.Instance.MapData.WeaponList;
+                helmetList = Game.Instance.MapData.HelmetList;
+                bodyArmorList = Game.Instance.MapData.BodyArmorList;
+                legArmorList = Game.Instance.MapData.LegArmorList;
+                bootsList = Game.Instance.MapData.BootsList;
+                auraList = Game.Instance.MapData.AuraList;
+                backItemList = Game.Instance.MapData.BackItemList;
+            }
+            else
+            {
+                weaponList = new(); //Game.Instance.MapData.WeaponList;
+                helmetList = new(); //Game.Instance.MapData.HelmetList;
+                bodyArmorList = new(); //Game.Instance.MapData.BodyArmorList;
+                legArmorList = new(); //Game.Instance.MapData.LegArmorList;
+                bootsList = new(); //Game.Instance.MapData.BootsList;
+                auraList = new(); //Game.Instance.MapData.AuraList;
+                backItemList = new(); //Game.Instance.MapData.BackItemList;
+            }
             if(Game.Instance.MapData.Result == Result.WIN) DropEquip();
         }
 
@@ -166,6 +195,7 @@ namespace InfiniteMap
         {
             List<InventoryEquip> equipList = GetEquipListByEquipType(equip.EquipSO.EquipType);
             equipList.Add(equip);
+            OnEquipAdding?.Invoke(equip);
         }
 
         public List<InventoryEquip> GetEquipListByEquipType(EquipType equipType)
@@ -185,7 +215,7 @@ namespace InfiniteMap
         {
             foreach(ItemSO item in Game.Instance.MapData.ItemDropList)
             {
-                float rate = Random.Range(0f, 1f);
+                float rate = UnityEngine.Random.Range(0f, 1f);
 
                 if(rate <= item.DropRate / 100)
                 {

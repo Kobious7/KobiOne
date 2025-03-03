@@ -57,7 +57,7 @@ namespace InfiniteMap
                 newBodyArmor.transform.localScale = Vector3.one;
                 BodyArmorUI bodyArmor = newBodyArmor.GetComponent<BodyArmorUI>();
                 bodyArmor.Index = i;
-                bodyArmor.EquipSO = bodyArmorList[i].EquipSO;
+                bodyArmor.Equip = bodyArmorList[i];
 
                 bodyArmor.ShowWeapon(bodyArmorList[i]);
                 newBodyArmor.gameObject.SetActive(true);
