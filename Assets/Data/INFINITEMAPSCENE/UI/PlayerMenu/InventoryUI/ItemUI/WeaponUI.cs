@@ -90,6 +90,7 @@ namespace InfiniteMap
                 {
                     EquipDetailsUI.Instance.gameObject.SetActive(true);
                     EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.WeaponList[index]);
+                    
                 }
 
                 lastTimeClick = Time.time;

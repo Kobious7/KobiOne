@@ -74,7 +74,7 @@ namespace InfiniteMap
             }
 
             equipment.Calculator.CalculateTotalBonus();
-            Game.Instance.Player.Stats.UpdateBonus(equipment.StatsBonus);
+            Game.Instance.Player.Stats.UpdateEquipBonus(equipment.StatsBonus);
         }
     }
 }

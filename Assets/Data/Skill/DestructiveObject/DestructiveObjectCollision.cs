@@ -21,8 +21,8 @@ public class DestructiveObjectCollision : DestructiveObjectAb
         {
             DestructiveObjectSpawner.Instance.Despawn(transform.parent);
 
-            if(Skills.Instance.QSkill is TileSkillSO tileSkill) Game.Instance.Bot.Stats.HPDes(tileSkill.Damage);
-            if(Skills.Instance.QSkill is OpSkillSO opSkillSO) Game.Instance.Bot.Stats.HPDes(opSkillSO.Damage);
+            // if(Skills.Instance.QSkill is TileSkillSO tileSkill) Game.Instance.Bot.Stats.HPDes(tileSkill.Damage);
+            // if(Skills.Instance.QSkill is OpSkillSO opSkillSO) Game.Instance.Bot.Stats.HPDes(opSkillSO.Damage);
         }
     }
 }

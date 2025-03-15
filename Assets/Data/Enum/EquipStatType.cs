@@ -8,10 +8,15 @@ public enum EquipStatType
     Attack,
     MagicAttack,
     HP,
+    SlashDamage,
+    SwordrainDamage,
     Defense,
     Accuracy,
     DamageRange,
     Speed,
     CritRate,
-    CritDamage
+    CritDamage,
+
+    //In battle
+    CurrentHP
 }

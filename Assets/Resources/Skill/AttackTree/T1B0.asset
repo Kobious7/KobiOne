@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fad91949a7c8b4ab0e857a39e97e76, type: 3}
+  m_Name: T1B0
+  m_EditorClassIdentifier: 
+  SkillTier: 0
+  SkillBranch: 0
+  PreviousSkill: {fileID: 0}
+  PreviousSkillLevelRequirement: 0
+  CharacterLevelRequirement: 0
+  MaxLevel: 20
+  SkillPointCost: 1
+  Description: Summon {Area} greatswords (max {ObjectSpawnCount}) destroy the board
+    if opponent was hit by the sword deal Slash damage equals {SlashDamage}% Slash
+    damage stat.
+  LockDescription: Summon greatswords destroy the board if opponent was hit by the
+    sword deal Slash damage base On Slash damage stat.
+  SkillIcon: {fileID: 21300000, guid: e346385b0059db04289a7ddbd5e8ecf7, type: 3}
+  SkillName: Greatsword Attack
+  Button: 0
+  ManaCost: 20
+  TurnCount: 1
+  SelfTarget: 0
+  OpponentTarget: 1
+  Damage:
+    SourceDamage: 8
+    Scaling: 100
+    BonusPerLevel: 5
+  Buffs: []
+  Debuffs: []
+  ObjectSpawnCount: 2
+  AreaString: 2x2
+  Area:
+  - X: 0
+    Y: 0
+  - X: 1
+    Y: 0
+  - X: 0
+    Y: -1
+  - X: 1
+    Y: -1
+  ObjectSpawnPos: []
+  ObjectSprite: {fileID: 21300000, guid: bb2f74799a9a37546b779cbaeba7a7c5, type: 3}
+  ObjectSpeed: 2

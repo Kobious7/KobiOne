@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc66d998c1a66724193e7afb0410451b, type: 3}
   m_Name: OpSkillSO
   m_EditorClassIdentifier: 
+  Level: 0
+  SkillTier: 0
+  SkillBranch: 0
+  PreviousSkill: {fileID: 11400000, guid: a441909c6646a0a4581268eb00a5ec39, type: 2}
+  PreviousSkillLevelRequirement: 0
+  CharacterLevelRequirement: 0
+  MaxLevel: 0
+  SkillPointCost: 0
   Button: 0
   ManaCost: 90
   SkillIcon: {fileID: 21300000, guid: d89aba2b7cd78d342893119aa1e9d287, type: 3}
@@ -35,8 +43,6 @@ MonoBehaviour:
     durationType: 0
     Duration: 5
     DurationStack: 0
-  Effects: 
-  DeEffects: 
   ObjectSpawnCount: 1
   ObjectSpawnPos: []
   ObjectSprite: {fileID: 21300000, guid: 6a4c7aac667de8c45a15b50bc849d5da, type: 3}

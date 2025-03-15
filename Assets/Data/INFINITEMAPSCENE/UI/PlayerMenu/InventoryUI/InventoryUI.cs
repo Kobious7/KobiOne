@@ -1,7 +1,9 @@
-using InfiniteMap;
 using UnityEngine;
 
-public class InventoryUI : PrimitiveUI
+namespace InfiniteMap
 {
-    
+    public class InventoryUI : GMono
+    {
+        
+    }
 }

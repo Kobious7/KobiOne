@@ -1,6 +1,5 @@
 public enum SkillType
 {
-    SELF,
-    TILE,
-    OPPONENT
+    Active,
+    Passive
 }

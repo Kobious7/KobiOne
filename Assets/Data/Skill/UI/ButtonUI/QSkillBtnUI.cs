@@ -32,21 +32,21 @@ namespace Battle
                 newObj.gameObject.SetActive(true);
             }
 
-            if(tileSkill.AnotherTargets == SkillTarget.OPPONENT || tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-            {
-                Transform toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
-                toOpObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.Opponent;
+            // if(tileSkill.AnotherTargets == SkillTarget.OPPONENT || tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
+            // {
+            //     Transform toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
+            //     toOpObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.Opponent;
 
-                toOpObj.gameObject.SetActive(true);
+            //     toOpObj.gameObject.SetActive(true);
 
-                if(tileSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(tileSkill.Debuffs);
+            //     if(tileSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(tileSkill.Debuffs);
 
-                if(tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-                {
-                    DebuffHandling(tileSkill.Debuffs);
-                    BuffHandling(tileSkill.Buffs);
-                }
-            }
+            //     if(tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
+            //     {
+            //         DebuffHandling(tileSkill.Debuffs);
+            //         BuffHandling(tileSkill.Buffs);
+            //     }
+            // }
 
             while (destructiveObjectSpawner.SpawnedCount > 0)
             {
@@ -64,9 +64,9 @@ namespace Battle
 
             Game.Instance.Player.Stats.ManaDes(selfSkill.ManaCost);
 
-            BuffHandling(selfSkill.Buffs);
+            //BuffHandling(selfSkill.Buffs);
 
-            if(selfSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(selfSkill.Debuffs);
+            //if(selfSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(selfSkill.Debuffs);
         }
 
         private void OpSkillActive()
@@ -80,14 +80,14 @@ namespace Battle
 
             toOpObj.gameObject.SetActive(true);
 
-            DebuffHandling(opSkill.Debuffs);
+            //DebuffHandling(opSkill.Debuffs);
 
-            if(opSkill.AnotherTargets == SkillTarget.SELF) BuffHandling(opSkill.Buffs);
+            // if(opSkill.AnotherTargets == SkillTarget.SELF) BuffHandling(opSkill.Buffs);
         }
 
         protected override int GetManaCost()
         {
-            return Skills.Instance.QSkill.ManaCost;
+            return 20;//Skills.Instance.QSkill.ManaCost;
         }
 
         private void DebuffHandling(List<Debuff> debuffs)

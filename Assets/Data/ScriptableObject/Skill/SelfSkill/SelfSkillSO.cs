@@ -2,15 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SelfSkillSO", menuName = "ScriptableObjects/SelfSkill")]
-public class SelfSkillSO : SkillSO
+public class SelfSkillSO : ActiveSkillSO
 {
     private SkillTarget mainTarget = SkillTarget.SELF;
 
     public SkillTarget MainTarget => mainTarget;
 
-    public SkillTarget AnotherTargets;
-    public List<Buff> Buffs;
+    public bool OpponentTarget;
+    public List<ActiveBuff> Buffs;
     public List<Debuff> Debuffs;
-    public List<Effect> Effects;
-    public List<DeEffect> DeEffects;
 }

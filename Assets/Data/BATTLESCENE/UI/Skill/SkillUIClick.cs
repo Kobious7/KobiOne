@@ -24,7 +24,7 @@ namespace Battle
         {
             if (InputManager.Instance.QPressed && skillButton == SkillButton.Q
                 || InputManager.Instance.EPressed && skillButton == SkillButton.E
-                || InputManager.Instance.SpacePressed && skillButton == SkillButton.SPACE)
+                || InputManager.Instance.SpacePressed && skillButton == SkillButton.Space)
             {
                 if (Skill.SkillUILock.IsLock) return;
 

@@ -17,6 +17,7 @@ public class EquipDetailsUI : GMono
     [SerializeField] private EquipmentStatUI mainStat;
     [SerializeField] private EquipmentSubStatsSpawner subStats;
     [SerializeField] private Button equipBtn;
+    [SerializeField] private Vector3 initPos;
 
     protected override void Awake()
     {

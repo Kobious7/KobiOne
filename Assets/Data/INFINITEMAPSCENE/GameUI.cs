@@ -14,14 +14,6 @@ namespace InfiniteMap
 
         public InventoryUI InventoryUI => inventoryUI;
 
-        [SerializeField] private BtnsUI btnsUI;
-
-        public BtnsUI BtnsUI => btnsUI;
-        
-        [SerializeField] private CharacterUI characterUI;
-
-        public CharacterUI CharacterUI => characterUI;
-
         [SerializeField] private PlayerMenuUI playerMenuUI;
 
         public PlayerMenuUI PlayerMenuUI => playerMenuUI;
@@ -42,8 +34,6 @@ namespace InfiniteMap
         {
             base.LoadComponents();
             LoadInventoryUI();
-            LoadBtnsUI();
-            LoadCharacterUI();
             LoadPlayerMenuUI();
             LoadCurrentEquipmentUI();
         }
@@ -52,20 +42,6 @@ namespace InfiniteMap
         {
             if(inventoryUI != null) return;
             inventoryUI = FindObjectOfType<InventoryUI>();
-        }
-
-        private void LoadBtnsUI()
-        {
-            if(btnsUI != null) return;
-
-            btnsUI = FindObjectOfType<BtnsUI>();
-        }
-
-        private void LoadCharacterUI()
-        {
-            if(characterUI != null) return;
-
-            characterUI = FindObjectOfType<CharacterUI>();
         }
 
         private void LoadPlayerMenuUI()

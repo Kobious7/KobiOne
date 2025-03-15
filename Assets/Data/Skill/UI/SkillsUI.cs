@@ -54,13 +54,13 @@ namespace Battle
                 newObj.gameObject.SetActive(true);
             }
 
-            if(tileSkill.AnotherTargets == SkillTarget.NONE)
-            {
-                Transform newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
-                newObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.Opponent;
+            // if(tileSkill.AnotherTargets == SkillTarget.NONE)
+            // {
+            //     Transform newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
+            //     newObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.Opponent;
 
-                newObj.gameObject.SetActive(true);
-            }
+            //     newObj.gameObject.SetActive(true);
+            // }
 
             while (destructiveObjectSpawner.SpawnedCount > 0)
             {

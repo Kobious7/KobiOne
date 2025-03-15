@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 
@@ -153,6 +154,10 @@ namespace InfiniteMap
 
         //=======Main Stats======
 
+        [SerializeField] private List<Stat> equipPotentialBonus;
+        [SerializeField] private List<Stat> equipStatBonus;
+        [SerializeField] private List<Stat> passiveSkillPotentialBonus;
+        [SerializeField] private List<Stat> passiveSkillStatBonus;
         public event Action<int> OnPotentialChange;
         public event Action<int> OnStatChange;
         public event Action<int> OnLevelUp;
@@ -233,6 +238,54 @@ namespace InfiniteMap
         private void CreateStats()
         {
             stats = new List<Stat>{
+                new Stat(0, "Level"),
+                new Stat(1, "Attack"),
+                new Stat(2, "Magic Attack"),
+                new Stat(3, "HP"),
+                new Stat(4, "Slash Damage"),
+                new Stat(5, "Swordrain Damage"),
+                new Stat(6, "Defense"),
+                new Stat(7, "Accuracy"),
+                new Stat(8, "Damage Range"),
+                new Stat(9, "Speed"),
+                new Stat(10, "Crit Rate"),
+                new Stat(11, "Crit Damage")
+            };
+
+            equipPotentialBonus = new List<Stat>
+            {
+                new Stat(0, "Power"),
+                new Stat(1, "Magic"),
+                new Stat(2, "Strength"),
+                new Stat(3, "Defense"),
+                new Stat(4, "Dexterity")
+            };
+
+            equipStatBonus = new List<Stat>{
+                new Stat(0, "Level"),
+                new Stat(1, "Attack"),
+                new Stat(2, "Magic Attack"),
+                new Stat(3, "HP"),
+                new Stat(4, "Slash Damage"),
+                new Stat(5, "Swordrain Damage"),
+                new Stat(6, "Defense"),
+                new Stat(7, "Accuracy"),
+                new Stat(8, "Damage Range"),
+                new Stat(9, "Speed"),
+                new Stat(10, "Crit Rate"),
+                new Stat(11, "Crit Damage")
+            };
+
+            passiveSkillPotentialBonus = new List<Stat>
+            {
+                new Stat(0, "Power"),
+                new Stat(1, "Magic"),
+                new Stat(2, "Strength"),
+                new Stat(3, "Defense"),
+                new Stat(4, "Dexterity")
+            };
+
+            passiveSkillStatBonus = new List<Stat>{
                 new Stat(0, "Level"),
                 new Stat(1, "Attack"),
                 new Stat(2, "Magic Attack"),
@@ -476,7 +529,8 @@ namespace InfiniteMap
         {
             Stat power = potential[0];
             Stat attack = stats[1];
-            int flat = power.Value / 5 + attack.FlatBonus;
+            float multiplier = power.Value * 0.0001f + 0.2f;
+            float flat = power.Value * multiplier + attack.FlatBonus;
             attack.Value = (int) (flat + flat * attack.PercentBonus / 100);
 
             CalculateSlashDamageStat();
@@ -493,7 +547,8 @@ namespace InfiniteMap
         {
             Stat magic = potential[1];
             Stat magicAttack = stats[2];
-            int flat = magic.Value / 5 + magicAttack.FlatBonus;
+            float multiplier = magic.Value * 0.0001f + 0.2f;
+            float flat = magic.Value * multiplier + magicAttack.FlatBonus;
             magicAttack.Value = (int) (flat + flat * magicAttack.PercentBonus/ 100);
 
             CalculateSwordrainDamageStat();
@@ -559,7 +614,29 @@ namespace InfiniteMap
             critDamage.IsPercentValue = true;
         }
 
-        public void UpdateBonus(List<EquipBonus> equipBonus)
+        public void UpdatePassiveSkillBonus(List<PassiveSkillBonus> passiveSkillBonus)
+        {
+            foreach(var bonus in passiveSkillBonus)
+            {
+                int index = GetIndexFromStat(bonus);
+
+                if(bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength
+                    || bonus.Stat == EquipStatType.DefenseP || bonus.Stat == EquipStatType.Dexterity)
+                {
+                    passiveSkillPotentialBonus[index].FlatBonus = bonus.FlatValue;
+                    passiveSkillPotentialBonus[index].PercentBonus = bonus.PercentValue;
+                }
+                else
+                {
+                    passiveSkillStatBonus[index].FlatBonus = bonus.FlatValue;
+                    passiveSkillStatBonus[index].PercentBonus = bonus.PercentValue;
+                }
+            }
+
+            UpdateBonus();
+        }
+
+        public void UpdateEquipBonus(List<EquipBonus> equipBonus)
         {
             foreach(var bonus in equipBonus)
             {
@@ -568,14 +645,49 @@ namespace InfiniteMap
                 if(bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength
                     || bonus.Stat == EquipStatType.DefenseP || bonus.Stat == EquipStatType.Dexterity)
                 {
-                    potential[index].FlatBonus = bonus.FlatValue;
-                    potential[index].PercentBonus = bonus.PercentValue;
+                    equipPotentialBonus[index].FlatBonus = bonus.FlatValue;
+                    equipPotentialBonus[index].PercentBonus = bonus.PercentValue;
                 }
                 else
                 {
-                    stats[index].FlatBonus = bonus.FlatValue;
-                    stats[index].PercentBonus = bonus.PercentValue;
+                    equipStatBonus[index].FlatBonus = bonus.FlatValue;
+                    equipStatBonus[index].PercentBonus = bonus.PercentValue;
                 }
+            }
+
+            UpdateBonus();
+        }
+
+        public void UpdateBonus()
+        {
+            foreach(var potential in potential)
+            {
+                potential.FlatBonus = 0;
+                potential.PercentBonus = 0;
+            }
+
+            foreach(var stat in stats)
+            {
+                stat.FlatBonus = 0;
+                stat.PercentBonus = 0;
+            }
+
+            int i = 0;
+
+            foreach(var potential in potential)
+            {
+                potential.FlatBonus += equipPotentialBonus[i].FlatBonus + passiveSkillPotentialBonus[i].FlatBonus;
+                potential.PercentBonus += equipPotentialBonus[i].PercentBonus + passiveSkillPotentialBonus[i].PercentBonus;
+                i++;
+            }
+
+            i = 0;
+
+            foreach(var stat in stats)
+            {
+                stat.FlatBonus += equipStatBonus[i].FlatBonus + passiveSkillStatBonus[i].FlatBonus;
+                stat.PercentBonus += equipStatBonus[i].PercentBonus + passiveSkillStatBonus[i].PercentBonus;
+                i++;
             }
 
             ReCalculate();
@@ -597,6 +709,25 @@ namespace InfiniteMap
             if(equipBonus.Stat == EquipStatType.Speed) return 9;
             if(equipBonus.Stat == EquipStatType.CritRate) return 10;
             if(equipBonus.Stat == EquipStatType.CritDamage) return 11;
+            return 1000000;
+        }
+
+        private int GetIndexFromStat(PassiveSkillBonus passiveSkillBonus)
+        {
+            if(passiveSkillBonus.Stat == EquipStatType.Power) return 0;
+            if(passiveSkillBonus.Stat == EquipStatType.Magic) return 1;
+            if(passiveSkillBonus.Stat == EquipStatType.Strength) return 2;
+            if(passiveSkillBonus.Stat == EquipStatType.DefenseP) return 3;
+            if(passiveSkillBonus.Stat == EquipStatType.Dexterity) return 4;
+            if(passiveSkillBonus.Stat == EquipStatType.Attack) return 1;
+            if(passiveSkillBonus.Stat == EquipStatType.MagicAttack) return 2;
+            if(passiveSkillBonus.Stat == EquipStatType.HP) return 3;
+            if(passiveSkillBonus.Stat == EquipStatType.Defense) return 6;
+            if(passiveSkillBonus.Stat == EquipStatType.Accuracy) return 7;
+            if(passiveSkillBonus.Stat == EquipStatType.DamageRange) return 8;
+            if(passiveSkillBonus.Stat == EquipStatType.Speed) return 9;
+            if(passiveSkillBonus.Stat == EquipStatType.CritRate) return 10;
+            if(passiveSkillBonus.Stat == EquipStatType.CritDamage) return 11;
             return 1000000;
         }
     }

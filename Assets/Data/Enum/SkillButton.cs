@@ -4,5 +4,5 @@ public enum SkillButton
 {
     Q,
     E,
-    SPACE
+    Space
 }
