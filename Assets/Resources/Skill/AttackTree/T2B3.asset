@@ -23,8 +23,8 @@ MonoBehaviour:
     dealing {SlashDamage}% Slash damage. Afterwards, restore HP equals {MaxHPBuffPercent}%
     max HP.
   LockDescription: Infuse the sword with power, then dash forward to slash the target,
-    dealing slash damage based on the slash damage stat. Afterwards, restore based
-    on max HP.
+    dealing slash damage based on the Attack stat. Afterwards, restore based on max
+    HP.
   SkillIcon: {fileID: 21300000, guid: 4dabcdb490497df46bff17546ac32354, type: 3}
   SkillName: Healing slash
   Button: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
   TurnCount: 1
   Self: 1
   Damage:
-    SourceDamage: 8
+    SourceDamage: 5
     Scaling: 200
     BonusPerLevel: 10
   Buffs:

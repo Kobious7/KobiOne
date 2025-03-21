@@ -54,6 +54,26 @@ namespace Battle
             return generatedTilesList[0];
         }
 
+        public Tiles GetFirstColumTile(int y)
+        {
+            foreach(Tiles tile in generatedTilesList)
+            {
+                if(tile.TilePrefab.X == 0 && tile.TilePrefab.Y == y) return tile;
+            }
+
+            return null;
+        }
+
+        public Tiles GetTileByXY(int x, int y)
+        {
+            foreach(Tiles tile in generatedTilesList)
+            {
+                if(tile.TilePrefab.X == x && tile.TilePrefab.Y == y) return tile;
+            }
+
+            return null;
+        }
+
         public void DespawnAllTiles()
         {
             List<Tiles> objs = holder.GetComponentsInChildren<Tiles>().ToList();

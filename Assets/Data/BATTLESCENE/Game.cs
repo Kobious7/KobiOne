@@ -51,10 +51,6 @@ namespace Battle
 
         public SkillSpawner SkillSpawner => skillSpawner;
 
-        [SerializeField] private List<Skill> playerSkill;
-
-        public List<Skill> PlayerSkill => playerSkill;
-
         [SerializeField] private FXSpawner fxSpawner;
 
         public FXSpawner FXSpawner => fxSpawner;
@@ -84,7 +80,6 @@ namespace Battle
             LoadPlayerSpawnPointConatiner();
             LoadBotSpawnPointConatiner();
             LoadSkillSpawner();
-            LoadPlayerSkill();
             LoadFXSpawner();
             LoadTileBorder();
         }
@@ -157,13 +152,6 @@ namespace Battle
             if (skillSpawner != null) return;
 
             skillSpawner = FindObjectOfType<SkillSpawner>();
-        }
-
-        private void LoadPlayerSkill()
-        {
-            if (playerSkill.Count > 0) return;
-
-            playerSkill = FindObjectOfType<PlayerSkillContainer>().GetComponentsInChildren<Skill>().ToList();
         }
 
         private void LoadFXSpawner()

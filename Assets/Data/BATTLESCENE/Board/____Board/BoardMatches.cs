@@ -28,7 +28,7 @@ namespace Battle
 
         public void SkillsMarkMatches(Transform[,] tiles)
         {
-            foreach (var item in Skills.Instance.Q.QTile.TargetsFinder.AffectArea)
+            foreach (var item in SkillB.Instance.Q.QTile.TargetsFinder.AffectArea)
             {
                 Tiles tile = GetTile(tiles[item.X, item.Y]);
 

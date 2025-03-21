@@ -24,5 +24,6 @@ public class QuitGame : MonoBehaviour
         Game.Instance.MapData.BootsList = new();
         Game.Instance.MapData.AuraList = new();
         Game.Instance.MapData.BackItemList = new();
+        //SavingManager.Instance.SavePlayerData();
     }
 }

@@ -11,6 +11,8 @@ namespace InfiniteMap
 
         private void Update()
         {
+            if(Player.IsUIOpening) return;
+            
             CountTime();
 
             if (InputManager.Instance.Fire1 > 0 && canAttack)

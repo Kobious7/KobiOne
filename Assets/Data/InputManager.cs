@@ -154,5 +154,6 @@ public class InputManager : GMono
     private void GetC()
     {
         cPressed = Input.GetKeyUp(KeyCode.C);
+        if (cPressed) Debug.Log("C");
     }
 }

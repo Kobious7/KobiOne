@@ -27,7 +27,7 @@ namespace Battle
 
         private void FixedUpdate()
         {
-            ButtonLocking();
+            UpdateButtonUnlocking();
         }
 
         private void LoadButton()
@@ -47,9 +47,9 @@ namespace Battle
             //Override
         }
 
-        private void ButtonLocking()
+        private void UpdateButtonUnlocking()
         {
-            if(Game.Instance.Player.Stats.Mana < GetManaCost())
+            if(!GetManaCost())
             {
                 button.interactable = false;
                 ColorBlock colorBlock = button.colors;
@@ -65,9 +65,9 @@ namespace Battle
             }
         }
 
-        protected virtual int GetManaCost()
+        protected virtual bool GetManaCost()
         {
-            return 0;
+            return false;
         }
     }
 }

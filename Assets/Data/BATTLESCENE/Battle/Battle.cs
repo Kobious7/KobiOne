@@ -272,7 +272,7 @@ namespace Battle
             {
                 if(pTurn)
                 {
-                    int pSlashDamage = player.Stats.SlashDamage * tileCounter[TileEnum.SLASH];
+                    int pSlashDamage = player.Stats.DamageCalculate(tileCounter[TileEnum.SLASH] * player.Stats.SlashDamage, bot.Stats);
                     int botVHP = bot.Stats.VHP;
                     int lostHP;
 
@@ -298,7 +298,7 @@ namespace Battle
 
                 if(opTurn)
                 {
-                    int opSlashDamage = bot.Stats.SlashDamage * tileCounter[TileEnum.SLASH];
+                    int opSlashDamage = bot.Stats.DamageCalculate(tileCounter[TileEnum.SLASH] * bot.Stats.SlashDamage, player.Stats);
                     int pVHP = player.Stats.VHP;
                     int lostHP;
 
@@ -327,7 +327,7 @@ namespace Battle
             {
                 if(pTurn)
                 {
-                    int pSlashDamage = tileCounter[TileEnum.SWORD] * player.Stats.SlashDamage;
+                    int pSlashDamage = player.Stats.DamageCalculate(tileCounter[TileEnum.SLASH] * player.Stats.SlashDamage, bot.Stats);
                     int botVHP = bot.Stats.VHP;
                     int lostHP;
 
@@ -356,7 +356,7 @@ namespace Battle
 
                 if(opTurn)
                 {
-                    int opSlashDamage = tileCounter[TileEnum.SWORD] * bot.Stats.SlashDamage;
+                    int opSlashDamage = bot.Stats.DamageCalculate(tileCounter[TileEnum.SLASH] * bot.Stats.SlashDamage, player.Stats);
                     int pVHP = player.Stats.VHP;
                     int lostHP;
 
@@ -388,7 +388,7 @@ namespace Battle
 
         public void DealSwordrainDamage(Entity dealer, Entity receiver)
         {
-            int swordrainDamage = dealer.Stats.SwordrainDamage;
+            int swordrainDamage = dealer.Stats.DamageCalculate(dealer.Stats.SwordrainDamage, receiver.Stats);
             int receiverVHP = receiver.Stats.VHP;
             int lostHP;
 

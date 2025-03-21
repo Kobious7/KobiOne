@@ -4,6 +4,22 @@ namespace Battle
 {
     public class EntityStats : EntityAb
     {
+        [SerializeField] protected int attack;
+
+        public int Attack
+        {
+            get { return attack; }
+            set { attack = value; }
+        }
+
+        [SerializeField] protected int magicAttack;
+
+        public int MagicAttack
+        {
+            get { return magicAttack; }
+            set { magicAttack = value; }
+        }
+
         [SerializeField] protected int currentHP = 0;
 
         public int CurrentHP
@@ -20,20 +36,20 @@ namespace Battle
             set { maxHP = value; }
         }
 
-        [SerializeField] protected int vHP = 0;
+        [SerializeField] protected int defense;
 
-        public int VHP
+        public int Defense
         {
-            get { return vHP; }
-            set { vHP = value; }
+            get { return defense; }
+            set { defense = value; }
         }
 
-        [SerializeField] protected int mana = 0;
+        [SerializeField] protected int accuracy;
 
-        public int Mana
+        public int Accuracy
         {
-            get { return mana; }
-            set { mana = value; }
+            get { return accuracy; }
+            set { accuracy = value; }
         }
 
         [SerializeField] protected int slashDamage = 2;
@@ -50,6 +66,46 @@ namespace Battle
         {
             get { return swordrainDamage; }
             set { swordrainDamage = value; }
+        }
+
+        [SerializeField] protected float damageRange;
+
+        public float DamageRange
+        {
+            get { return damageRange; }
+            set { damageRange = value; }
+        }
+
+        [SerializeField] protected float critRate;
+
+        public float CritRate
+        {
+            get { return critRate; }
+            set { critRate = value; }
+        }
+
+        [SerializeField] protected float critDamage;
+
+        public float CritDamage
+        {
+            get { return critDamage; }
+            set { critDamage = value; }
+        }
+
+        [SerializeField] protected int vHP = 0;
+
+        public int VHP
+        {
+            get { return vHP; }
+            set { vHP = value; }
+        }
+
+        [SerializeField] protected int mana = 0;
+
+        public int Mana
+        {
+            get { return mana; }
+            set { mana = value; }
         }
 
         [SerializeField] protected int shieldCount = 0;
@@ -119,6 +175,66 @@ namespace Battle
                 shieldStack++;
                 shieldCount -= 2;
             }
+        }
+
+        public int DamageCalculate(int rawDamage, EntityStats opStats)
+        {
+            int damage = rawDamage;
+            int minDamage, maxDamage;
+
+            if(damageRange <= 0)
+            {
+                minDamage = (int)(damage * (100 + damageRange) / 100);
+                maxDamage = damage + 1;
+            }
+            else
+            {
+                minDamage = damage;
+                maxDamage = (int)(damage * (100 + damageRange) / 100) + 1;
+            }
+
+            if(CheckCrit())
+            {
+                Debug.Log("Crit!!!!!");
+                minDamage += (int) (minDamage * critDamage / 100);
+                maxDamage += (int) (maxDamage * critDamage / 100);
+            }
+
+            int defense = opStats.defense - accuracy >= 0 ? opStats.defense - accuracy : (int)((opStats.defense - accuracy) / 2);
+            int minFinalDamage = minDamage - defense;
+            int maxFinalDamage = maxDamage - defense;
+            int finalDamage = Random.Range(minFinalDamage, maxFinalDamage);
+
+            finalDamage = finalDamage < 1 ? 1 : finalDamage;
+
+            Debug.Log("" + finalDamage);
+
+            return finalDamage;
+        }
+
+        public bool CheckCrit()
+        {
+            return Random.value < critRate / 100;
+        }
+
+        public void DealDamage(int rawDamage, EntityStats receiver)
+        {
+            int damage = DamageCalculate(rawDamage, receiver);
+            int receiverVHP = receiver.VHP;
+            int lostHP;
+
+            if(damage > receiverVHP)
+            {
+                lostHP = damage - receiverVHP;
+            }
+            else
+            {
+                lostHP = 0;
+            }
+
+            receiver.VHPDes(damage);
+
+            receiver.HPDes(lostHP);
         }
     }
 }

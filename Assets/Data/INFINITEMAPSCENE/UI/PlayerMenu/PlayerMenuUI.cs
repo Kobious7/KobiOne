@@ -7,19 +7,25 @@ namespace InfiniteMap
 {
     public class PlayerMenuUI : GMono
     {
-        [SerializeField] private bool isOpen;
+        private static PlayerMenuUI instance;
 
-        public bool IsOpen
-        {
-            get => isOpen;
-            set => isOpen = value;
-        }
+        public static PlayerMenuUI Instance => instance;
 
         [SerializeField] private List<PlayerMenuOptionUI> playerMenu;
         [SerializeField] private Button next;
         [SerializeField] private Button prev;
         [SerializeField] private Button closeBtn;
         [SerializeField] private int currentIndex;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            if(instance != null) Debug.LogError("Only 1 PlayerMenuUI is allowed to exist!");
+
+            instance = this;
+
+            transform.gameObject.SetActive(false);
+        }
 
         protected override void LoadComponents()
         {
@@ -93,11 +99,32 @@ namespace InfiniteMap
             currentIndex = trueIndex;
         }
 
+        public void SetCurrentOption(int index)
+        {
+            playerMenu[currentIndex].gameObject.SetActive(false);
+
+            int trueIndex = index;
+
+            playerMenu[trueIndex].gameObject.SetActive(true);
+
+            currentIndex = trueIndex;
+        }
+
+        private void ResetOption()
+        {
+            playerMenu[currentIndex].gameObject.SetActive(false);
+
+            playerMenu[0].gameObject.SetActive(true);
+
+            currentIndex = 0;
+        }
+
         private void CloseBtnClick()
         {
             transform.gameObject.SetActive(false);
-
-            isOpen = false;
+            ResetOption();
+            
+            Game.Instance.Player.IsUIOpening = false;
         }
     }
 }

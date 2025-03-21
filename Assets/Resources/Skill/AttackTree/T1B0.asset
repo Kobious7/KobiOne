@@ -19,11 +19,11 @@ MonoBehaviour:
   CharacterLevelRequirement: 0
   MaxLevel: 20
   SkillPointCost: 1
-  Description: Summon {Area} greatswords (max {ObjectSpawnCount}) destroy the board
-    if opponent was hit by the sword deal Slash damage equals {SlashDamage}% Slash
-    damage stat.
+  Description: Summon {Area} greatswords (max {ObjectMaxSpawnCount}) destroy the
+    board if opponent was hit by the sword deal Slash damage equals {SlashDamage}%
+    Attack stat.
   LockDescription: Summon greatswords destroy the board if opponent was hit by the
-    sword deal Slash damage base On Slash damage stat.
+    sword deal Slash damage based on Attack stat.
   SkillIcon: {fileID: 21300000, guid: e346385b0059db04289a7ddbd5e8ecf7, type: 3}
   SkillName: Greatsword Attack
   Button: 0
@@ -32,12 +32,15 @@ MonoBehaviour:
   SelfTarget: 0
   OpponentTarget: 1
   Damage:
-    SourceDamage: 8
+    SourceDamage: 5
     Scaling: 100
     BonusPerLevel: 5
   Buffs: []
   Debuffs: []
-  ObjectSpawnCount: 2
+  ObjectMinSpawnCount: 1
+  ObjectMaxSpawnCount: 6
+  MinObjectToOp: 0
+  MaxObjectToOp: 3
   AreaString: 2x2
   Area:
   - X: 0

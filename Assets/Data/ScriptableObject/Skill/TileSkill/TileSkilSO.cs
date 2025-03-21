@@ -13,7 +13,10 @@ public class TileSkillSO : ActiveSkillSO
     public DamageStat Damage;
     public List<ActiveBuff> Buffs;
     public List<ActiveDebuff> Debuffs;
-    public int ObjectSpawnCount;
+    public int ObjectMinSpawnCount;
+    public int ObjectMaxSpawnCount;
+    public int MinObjectToOp;
+    public int MaxObjectToOp;
     public string AreaString;
     public List<O> Area;
     public List<Vector3> ObjectSpawnPos;

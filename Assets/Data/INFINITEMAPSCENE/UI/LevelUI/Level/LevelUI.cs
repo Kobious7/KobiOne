@@ -56,7 +56,7 @@ namespace InfiniteMap
 
         public void UpdateLevel(Player player)
         {
-            int level = player.Stats.Level;
+            int level = Game.Instance.CharacterData.Level;
             int current = player.Stats.CurrentExp;
             int max = player.Stats.RequiredExp;
             levelText.text = level + "";

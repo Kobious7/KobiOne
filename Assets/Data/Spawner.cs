@@ -37,7 +37,7 @@ public class Spawner : GMono
         holder = transform.Find("Holder");
     }
 
-    private void LoadPrefabs()
+    protected void LoadPrefabs()
     {
         if(prefabs.Count > 0) return;
 

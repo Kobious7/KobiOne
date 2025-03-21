@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 namespace InfiniteMap
@@ -366,7 +364,7 @@ namespace InfiniteMap
         private void IncreaseLevel()
         {
             stats[0].Value = level;
-            //Game.Instance.CharacterData.Level = level;
+            Game.Instance.CharacterData.Level = level;
             //Game.Instance.CharacterData.CurrentExp = currentExp;
 
             OnStatChange?.Invoke(0);
@@ -540,7 +538,7 @@ namespace InfiniteMap
         {
             Stat attack = stats[1];
             Stat slashDamage = stats[4];
-            slashDamage.Value = (int) (attack.Value * 1.1);
+            slashDamage.Value = (int) (attack.Value * 0.3f) < 1 ? 1 : (int) (attack.Value * 0.3f);
         }
 
         private void CalculateMagicAttackStat()
@@ -558,7 +556,7 @@ namespace InfiniteMap
         {
             Stat magicAttack = stats[2];
             Stat swordrainDamage = stats[5];
-            swordrainDamage.Value = (int) (magicAttack.Value * 1.1);
+            swordrainDamage.Value = (int) (magicAttack.Value * 0.3f) < 1 ? 1 : (int) (magicAttack.Value * 0.3f);
         }
 
         private void CalculateHPStat()

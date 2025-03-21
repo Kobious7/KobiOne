@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fafe032e61e45e4f88b9f6d8d7bb902, type: 3}
   m_Name: Character
   m_EditorClassIdentifier: 
+  IsLoaded: 0
   IsNew: 0
   Level: 1
   CurrentExp: 0
@@ -56,3 +57,27 @@ MonoBehaviour:
     IsPercentValue: 0
     FlatBonus: 0
     PercentBonus: 0
+  SkillPoints: 0
+  QSkill:
+    Level: 1
+    skillSO: {fileID: 11400000, guid: f0c5c0cc1be48cb45a93d14dc078ede3, type: 2}
+    TreeIndex: 0
+    NodeName: T1B0
+  ESkill:
+    Level: 0
+    skillSO: {fileID: 0}
+    TreeIndex: 0
+    NodeName: 
+  SpaceSkill:
+    Level: 0
+    skillSO: {fileID: 0}
+    TreeIndex: 0
+    NodeName: 
+  SkillTreeLevels:
+  - T1B0Level: 1
+    T2B1Level: 0
+    T2B2Level: 0
+    T2B3Level: 0
+    T3B1Level: 0
+    T3B2Level: 0
+    T3B3Level: 0

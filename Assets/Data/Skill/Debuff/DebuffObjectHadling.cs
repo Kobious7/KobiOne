@@ -4,7 +4,6 @@ namespace Battle
 {
     public class DeDebuffObjectHandling : DebuffObjectAb
     {
-        [SerializeField] private int fixedAmount;
         [SerializeField] private int percentAmount;
 
         protected override void Start()
@@ -43,9 +42,8 @@ namespace Battle
 
         private int DebuffAmount(int stat)
         {
-            fixedAmount = DebuffObject.Amount > 0 ? DebuffObject.Amount : 0;
             percentAmount = DebuffObject.Percent > 0 ? ((int)(stat * DebuffObject.Percent / 100)) : 0;
-            return stat -= (fixedAmount + percentAmount);
+            return stat -= percentAmount;
         }
 
         private void DebuffHandling()
@@ -77,15 +75,15 @@ namespace Battle
             switch(DebuffObject.Stat)
             {
                 case StatType.HP:
-                    stats.CurrentHP += (fixedAmount + percentAmount);
+                    stats.CurrentHP +=  percentAmount;
                     break;
                 case StatType.VHP:
                     break;
                 case StatType.SLASHDAMAGE:
-                    stats.SlashDamage += (fixedAmount + percentAmount);
+                    stats.SlashDamage +=  percentAmount;
                     break;
                 case StatType.SWORDDAMAGE:
-                    stats.SwordrainDamage += (fixedAmount + percentAmount);
+                    stats.SwordrainDamage += percentAmount;
                     break;
             }
 

@@ -62,6 +62,6 @@ public class PlayerAdjustColliderInMap : GMono
         capsuleCollider2D.offset = new Vector2(localPos.x, localPos.y);
         if(centerPoint == null || attackPoint == null) return;
         centerPoint.position = to2DVec(bounds.center);
-        attackPoint.position = to2DVec(bounds.center) + new Vector3(1, 0, 0);
+        //attackPoint.position = to2DVec(bounds.center) + new Vector3(1, 0, 0);
     }
 }

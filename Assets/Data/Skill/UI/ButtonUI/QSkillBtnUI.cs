@@ -10,84 +10,41 @@ namespace Battle
         protected override void Click()
         {
             base.Click();
-            if(Skills.Instance.QSkill is TileSkillSO) StartCoroutine(TileSkillActive());
-            if(Skills.Instance.QSkill is SelfSkillSO) SelfSkillActive();
-            if(Skills.Instance.QSkill is OpSkillSO) OpSkillActive();
+            if(SkillB.Instance.QSkill.skillSO is TileSkillSO) StartCoroutine(SkillB.Instance.SkillActivator.TileSkillActive());
+            // if(SkillB.Instance.QSkill is SelfSkillSO) SelfSkillActive();
+            // if(SkillB.Instance.QSkill is OpSkillSO) OpSkillActive();
         }
 
-        private IEnumerator TileSkillActive()
+        // private void SelfSkillActive()
+        // {
+        //     SelfSkillSO selfSkill = SkillB.Instance.QSkill as SelfSkillSO;
+
+        //     Game.Instance.Player.Stats.ManaDes(selfSkill.ManaCost);
+
+        //     //BuffHandling(selfSkill.Buffs);
+
+        //     //if(selfSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(selfSkill.Debuffs);
+        // }
+
+        // private void OpSkillActive()
+        // {
+        //     OpSkillSO opSkill = SkillB.Instance.QSkill as OpSkillSO;
+
+        //     Game.Instance.Player.Stats.ManaDes(opSkill.ManaCost);
+
+        //     Transform toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), Game.Instance.Player.transform.position, Quaternion.identity);
+        //     toOpObj.GetComponent<DestructiveObject>().Target = Game.Instance.Bot.transform;
+
+        //     toOpObj.gameObject.SetActive(true);
+
+        //     //DebuffHandling(opSkill.Debuffs);
+
+        //     // if(opSkill.AnotherTargets == SkillTarget.SELF) BuffHandling(opSkill.Buffs);
+        // }
+
+        protected override bool GetManaCost()
         {
-            TileSkillSO tileSkill = (TileSkillSO)Skills.Instance.QSkill;
-
-            Skills.Instance.Q.QTile.TargetsFinder.GetTileTargets();
-            Game.Instance.Player.Stats.ManaDes(tileSkill.ManaCost);
-
-            destructiveObjectSpawner.SpawnedCount = tileSkill.ObjectSpawnCount;
-
-            for(int i = 0; i < tileSkill.ObjectSpawnCount; i++)
-            {
-                Transform newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
-                newObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.TargetsFinder.TileTargets[i];
-
-                newObj.gameObject.SetActive(true);
-            }
-
-            // if(tileSkill.AnotherTargets == SkillTarget.OPPONENT || tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-            // {
-            //     Transform toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
-            //     toOpObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.Opponent;
-
-            //     toOpObj.gameObject.SetActive(true);
-
-            //     if(tileSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(tileSkill.Debuffs);
-
-            //     if(tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-            //     {
-            //         DebuffHandling(tileSkill.Debuffs);
-            //         BuffHandling(tileSkill.Buffs);
-            //     }
-            // }
-
-            while (destructiveObjectSpawner.SpawnedCount > 0)
-            {
-                yield return null;
-            }
-
-            Battle.Instance.TurnCount--;
-
-            StartCoroutine(Game.Instance.Board.BoardDestroyedMatches.SkillDestroyAndFill());
-        }
-
-        private void SelfSkillActive()
-        {
-            SelfSkillSO selfSkill = Skills.Instance.QSkill as SelfSkillSO;
-
-            Game.Instance.Player.Stats.ManaDes(selfSkill.ManaCost);
-
-            //BuffHandling(selfSkill.Buffs);
-
-            //if(selfSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(selfSkill.Debuffs);
-        }
-
-        private void OpSkillActive()
-        {
-            OpSkillSO opSkill = Skills.Instance.QSkill as OpSkillSO;
-
-            Game.Instance.Player.Stats.ManaDes(opSkill.ManaCost);
-
-            Transform toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), Game.Instance.Player.transform.position, Quaternion.identity);
-            toOpObj.GetComponent<DestructiveObject>().Target = Game.Instance.Bot.transform;
-
-            toOpObj.gameObject.SetActive(true);
-
-            //DebuffHandling(opSkill.Debuffs);
-
-            // if(opSkill.AnotherTargets == SkillTarget.SELF) BuffHandling(opSkill.Buffs);
-        }
-
-        protected override int GetManaCost()
-        {
-            return 20;//Skills.Instance.QSkill.ManaCost;
+            return SkillB.Instance.QUnlocking;
         }
 
         private void DebuffHandling(List<Debuff> debuffs)

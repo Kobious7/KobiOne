@@ -9,6 +9,8 @@ namespace InfiniteMap
 
         private void Update()
         {
+            if(Player.IsUIOpening) return;
+
             if (InputManager.Instance.Horizontal == 0) Player.Anim.IdleAnim();
             else Move();
             Jump();

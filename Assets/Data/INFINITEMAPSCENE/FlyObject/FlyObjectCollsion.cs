@@ -8,7 +8,6 @@ namespace InfiniteMap
     {
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.transform.name);
             Game.Instance.FlyObjectSpawner.Despawn(transform.parent);
 
             if (other.transform.name == "Monster")

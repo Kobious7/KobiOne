@@ -6,7 +6,14 @@ public abstract class EntityInfo
     public Sprite Model;
     public RuntimeAnimatorController Animator;
     public int Level;
+    public int Attack;
+    public int MagicAttack;
     public int HP;
-    public int SwordrainDamage;
+    public int Defense;
+    public int Accuracy;
     public int SlashDamage;
+    public int SwordrainDamage;
+    public float DamageRange;
+    public float CritRate;
+    public float CritDamage;
 }

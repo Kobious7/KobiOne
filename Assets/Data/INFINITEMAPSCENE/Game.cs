@@ -146,10 +146,20 @@ namespace InfiniteMap
             Vector3 playerPos = to2DVec(player.transform.position);
             mapData.PlayerInfo.Level = player.Stats.Level;
             mapData.PlayerInfo.PosOffset = playerPos - mapPos;
-            mapData.PlayerInfo.HP = player.Stats.MaxHP;
-            mapData.PlayerInfo.SwordrainDamage = player.Stats.SwordrainDamage;
-            mapData.PlayerInfo.SlashDamage = player.Stats.SlashDamage;
+            mapData.PlayerInfo.Attack = player.Stats.Stats[1].Value;
             mapData.PlayerInfo.CurrentExp = player.Stats.CurrentExp;
+            mapData.PlayerInfo.MagicAttack = player.Stats.Stats[2].Value;
+            mapData.PlayerInfo.HP = player.Stats.Stats[3].Value;
+            mapData.PlayerInfo.SlashDamage = player.Stats.Stats[4].Value;
+            mapData.PlayerInfo.SwordrainDamage = player.Stats.Stats[5].Value;
+            mapData.PlayerInfo.Defense = player.Stats.Stats[6].Value;
+            mapData.PlayerInfo.Accuracy = player.Stats.Stats[7].Value;
+            mapData.PlayerInfo.DamageRange = player.Stats.Stats[8].PercentBonus;
+            mapData.PlayerInfo.CritRate = player.Stats.Stats[10].PercentBonus;
+            mapData.PlayerInfo.CritDamage = player.Stats.Stats[11].PercentBonus;
+            mapData.PlayerInfo.QSkill = SkillSGT.Instance.Skill.QSkill;
+            mapData.PlayerInfo.ESkill = SkillSGT.Instance.Skill.ESkill;
+            mapData.PlayerInfo.SpaceSkill = SkillSGT.Instance.Skill.SpaceSkill;
         }
 
         public void LoadMonsterObj(Monster monster)

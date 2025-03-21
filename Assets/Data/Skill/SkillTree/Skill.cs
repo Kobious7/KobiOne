@@ -1,21 +1,26 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using InfiniteMap;
 using UnityEngine;
 
 public class Skill : GMono
 {
     [SerializeField] private int skillPoints;
-    [SerializeField] private SkillNode qSkill;
 
-    public SkillNode QSkill => qSkill;
+    public int SkillPoints => skillPoints;
 
-    [SerializeField] private SkillNode eSkill;
+    [SerializeField] private CurrentSkillNode qSkill;
 
-    public SkillNode ESkill => eSkill;
+    public CurrentSkillNode QSkill => qSkill;
 
-    [SerializeField] private SkillNode spaceSkill;
+    [SerializeField] private CurrentSkillNode eSkill;
 
-    public SkillNode SpaceSkill => spaceSkill;
+    public CurrentSkillNode ESkill => eSkill;
+
+    [SerializeField] private CurrentSkillNode spaceSkill;
+
+    public CurrentSkillNode SpaceSkill => spaceSkill;
     
     [SerializeField] private List<SkillTree> skillTrees;
 
@@ -28,6 +33,9 @@ public class Skill : GMono
     [SerializeField] private SkillUpdateBonus bonusUpdating;
 
     public SkillUpdateBonus BonusUpdating => bonusUpdating;
+    
+    public event Action OnSkillPointChanging;
+    private CharacterSO characterData;
 
     protected override void LoadComponents()
     {
@@ -35,6 +43,13 @@ public class Skill : GMono
         LoadSkillTrees();
         LoadUpgrading();
         LoadBonusUpdating();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        characterData = Game.Instance.CharacterData;
+        GetSkillData();
     }
 
     private void LoadSkillTrees()
@@ -58,6 +73,47 @@ public class Skill : GMono
         bonusUpdating = GetComponentInChildren<SkillUpdateBonus>();
     }
 
+    private void GetSkillData()
+    {
+        skillPoints = characterData.SkillPoints;
+
+        qSkill = GetSkillNodeData(characterData.QSkill);
+        eSkill = GetSkillNodeData(characterData.ESkill);
+        spaceSkill = GetSkillNodeData(characterData.SpaceSkill);
+        
+        for(int i = 0; i < skillTrees.Count; i++)
+        {
+            skillTrees[i].T1B0.Level = characterData.SkillTreeLevels[i].T1B0Level;
+            skillTrees[i].T2B1.Level = characterData.SkillTreeLevels[i].T2B1Level;
+            skillTrees[i].T2B2.Level = characterData.SkillTreeLevels[i].T2B2Level;
+            skillTrees[i].T2B3.Level = characterData.SkillTreeLevels[i].T2B3Level;
+            skillTrees[i].T3B1.Level = characterData.SkillTreeLevels[i].T3B1Level;
+            skillTrees[i].T3B2.Level = characterData.SkillTreeLevels[i].T3B2Level;
+            skillTrees[i].T3B3.Level = characterData.SkillTreeLevels[i].T3B3Level;
+        }
+    }
+
+    private CurrentSkillNode GetSkillNodeData(CurrentSkillNode currentSkillNodeData)
+    {
+        CurrentSkillNode skillNode = new();
+
+        if(currentSkillNodeData.Level <= 0) return null;
+        {
+            skillNode.Level = currentSkillNodeData.Level;
+
+            if(currentSkillNodeData.skillSO == null || skillNode.skillSO == null)
+            {
+                currentSkillNodeData.skillSO = skillTrees[currentSkillNodeData.TreeIndex].GetSkillNodeByName(currentSkillNodeData.NodeName).skillSO;
+                skillNode.skillSO = currentSkillNodeData.skillSO;
+            }
+            
+            skillNode.TreeIndex = currentSkillNodeData.TreeIndex;
+            skillNode.NodeName = currentSkillNodeData.NodeName;
+        }
+
+        return skillNode;
+    }
+
     public bool CheckSkillPoints(int skillPoint)
     {
         if(skillPoints >= skillPoint) return true;
@@ -67,25 +123,39 @@ public class Skill : GMono
     public void DecreaseSkillPoints(int point)
     {
         skillPoints -= point;
+        
+        OnSkillPointChanging?.Invoke();
     }
 
-    public void SetCurrentSkill(SkillNode skill, SkillButton button)
+    public void SetCurrentSkill(SkillNode skill, SkillButton button, int treeIndex)
     {
         if(button == SkillButton.Q)
         {
-            qSkill = skill;
+            qSkill = new();
+            qSkill.Level = skill.Level;
+            qSkill.skillSO = skill.skillSO;
+            qSkill.TreeIndex = treeIndex;
+            qSkill.NodeName = skill.skillSO.name;
 
             QDuplicateHandling(skill);
         }
         else if(button == SkillButton.E)
         {
-            eSkill = skill;
+            eSkill = new();
+            eSkill.Level = skill.Level;
+            eSkill.skillSO = skill.skillSO;
+            eSkill.TreeIndex = treeIndex;
+            eSkill.NodeName = skill.skillSO.name;
 
             EDuplicateHandling(skill);
         }
         else
         {
-            spaceSkill = skill;
+            spaceSkill = new();
+            spaceSkill.Level = skill.Level;
+            spaceSkill.skillSO = skill.skillSO;
+            spaceSkill.TreeIndex = treeIndex;
+            spaceSkill.NodeName = skill.skillSO.name;
             
             SpaceDuplicateHandling(skill);
         }

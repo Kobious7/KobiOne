@@ -4,6 +4,14 @@ namespace InfiniteMap
 {
     public class Player : GMono
     {
+        [SerializeField] private bool isUIOpening;
+
+        public bool IsUIOpening
+        {
+            get => isUIOpening;
+            set => isUIOpening = value;
+        }
+        
         [SerializeField] private Transform model;
 
         public Transform Model => model;

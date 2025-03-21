@@ -34,25 +34,25 @@ namespace Battle
 
         private void QClick()
         {
-            if(Skills.Instance.QSkill is TileSkillSO) StartCoroutine(SpawnDestructiveObject());
+            if(SkillB.Instance.QSkill.skillSO is TileSkillSO) StartCoroutine(SpawnDestructiveObject());
         }
 
         private IEnumerator SpawnDestructiveObject()
         {
-            TileSkillSO tileSkill = Skills.Instance.QSkill as TileSkillSO;
+            TileSkillSO tileSkill = SkillB.Instance.QSkill.skillSO as TileSkillSO;
 
-            Skills.Instance.Q.QTile.TargetsFinder.GetTileTargets();
+            //SkillB.Instance.Q.QTile.TargetsFinder.GetTileTargets();
             Game.Instance.Player.Stats.ManaDes(tileSkill.ManaCost);
 
-            destructiveObjectSpawner.SpawnedCount = tileSkill.ObjectSpawnCount;
+            // destructiveObjectSpawner.SpawnedCount = tileSkill.ObjectSpawnCount;
 
-            for(int i = 0; i < tileSkill.ObjectSpawnCount; i++)
-            {
-                Transform newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
-                newObj.GetComponent<DestructiveObject>().Target = Skills.Instance.Q.QTile.TargetsFinder.TileTargets[i];
+            // for(int i = 0; i < tileSkill.ObjectSpawnCount; i++)
+            // {
+            //     Transform newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
+            //     newObj.GetComponent<DestructiveObject>().Target = SkillB.Instance.Q.QTile.TargetsFinder.TileTargets[i];
 
-                newObj.gameObject.SetActive(true);
-            }
+            //     newObj.gameObject.SetActive(true);
+            // }
 
             // if(tileSkill.AnotherTargets == SkillTarget.NONE)
             // {
@@ -62,10 +62,9 @@ namespace Battle
             //     newObj.gameObject.SetActive(true);
             // }
 
-            while (destructiveObjectSpawner.SpawnedCount > 0)
-            {
+
                 yield return null;
-            }
+
 
             Battle.Instance.TurnCount--;
 
