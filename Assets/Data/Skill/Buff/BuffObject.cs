@@ -12,28 +12,28 @@ namespace Battle
             set => stats = value;
         }
 
-        [SerializeField] private StatType stat;
+        [SerializeField] private EquipStatType sourceStat;
 
-        public StatType Stat
+        public EquipStatType SourceStat
         {
-            get => stat;
-            set => stat = value;
+            get => sourceStat;
+            set => sourceStat = value;
         }
 
-        [SerializeField] private int amount;
+        [SerializeField] private EquipStatType trueStatBuff;
 
-        public int Amount
+        public EquipStatType TrueStatBuff
         {
-            get => amount;
-            set => amount = value;
+            get => trueStatBuff;
+            set => trueStatBuff = value;
         }
 
-        [SerializeField] private int percent;
+        [SerializeField] private int percentBuff;
 
-        public int Percent
+        public int PercentBuff
         {
-            get => percent;
-            set => percent = value;
+            get => percentBuff;
+            set => percentBuff = value;
         }
 
         [SerializeField] private DurationType durationType;
@@ -54,6 +54,35 @@ namespace Battle
 
         [SerializeField] private bool durationStack;
 
-        public bool DurationStack => durationStack;
+        public bool DurationStack
+        {
+            get => durationStack;
+            set => durationStack = value;
+        }
+
+        [SerializeField] private bool percentStack;
+
+        public bool PercentStack
+        {
+            get => percentStack;
+            set => percentStack = value;
+        }
+
+        [SerializeField] private BuffObjectHandling buffHandler;
+
+        public BuffObjectHandling BuffHandler => buffHandler;
+
+        protected override void LoadComponents()
+        {
+            base.LoadComponents();
+            LoadBuffHanlder();
+        }
+
+        private void LoadBuffHanlder()
+        {
+            if(buffHandler != null) return;
+
+            buffHandler = GetComponentInChildren<BuffObjectHandling>();
+        }
     }
 }

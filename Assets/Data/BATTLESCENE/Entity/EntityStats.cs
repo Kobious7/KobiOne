@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Battle
@@ -124,6 +125,30 @@ namespace Battle
             set { shieldStack = value; }
         }
 
+        [SerializeField] protected Dictionary<EquipStatType, StatBuffInfo> buffPercents;
+
+        public Dictionary<EquipStatType, StatBuffInfo> BuffPercents
+        {
+            get { return buffPercents; }
+            set { buffPercents = value; }
+        }
+
+        protected void InitBuff()
+        {
+            buffPercents = new();
+            buffPercents[EquipStatType.Attack] = new StatBuffInfo(attack, 0, 0);
+            buffPercents[EquipStatType.MagicAttack] = new StatBuffInfo(magicAttack, 0, 0);
+            buffPercents[EquipStatType.CurrentHPByMaxHP] = new StatBuffInfo(maxHP, 0, 0);
+            buffPercents[EquipStatType.HP] = new StatBuffInfo(maxHP, 0, 0);
+            buffPercents[EquipStatType.Defense] = new StatBuffInfo(defense, 0, 0);
+            buffPercents[EquipStatType.Accuracy] = new StatBuffInfo(accuracy, 0, 0);
+            buffPercents[EquipStatType.SlashDamage] = new StatBuffInfo(slashDamage, 0, 0);
+            buffPercents[EquipStatType.SwordrainDamage] = new StatBuffInfo(swordrainDamage, 0, 0);
+            buffPercents[EquipStatType.DamageRange] = new StatBuffInfo(0, damageRange, 0, true);
+            buffPercents[EquipStatType.CritRate] = new StatBuffInfo(0, critRate, 0, true);
+            buffPercents[EquipStatType.CritDamage] = new StatBuffInfo(0, critDamage, 0, true);
+        }
+
         public void HPIns(int amount)
         {
             currentHP += amount;
@@ -233,7 +258,6 @@ namespace Battle
             }
 
             receiver.VHPDes(damage);
-
             receiver.HPDes(lostHP);
         }
     }

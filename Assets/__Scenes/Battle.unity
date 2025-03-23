@@ -2395,12 +2395,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
-  stat: 0
-  amount: 0
-  percent: 0
+  sourceStat: 0
+  trueStatBuff: 0
+  percentBuff: 0
   durationType: 0
   duration: 0
   durationStack: 0
+  percentStack: 0
+  buffHandler: {fileID: 903609663}
 --- !u!1 &264513324
 GameObject:
   m_ObjectHideFlags: 0
@@ -5649,6 +5651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 2138709639}
   target: {fileID: 0}
+  mainTarget: 0
   spriteRenderer: {fileID: 2138709640}
   capsuleCollider: {fileID: 1755794477}
 --- !u!1 &694033914
@@ -6552,9 +6555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae7a465f511bc94084d21c91acb7774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffObject: {fileID: 250702216}
-  fixedAmount: 0
-  percentAmount: 0
+  buffObj: {fileID: 0}
+  previousFlatValue: 0
+  newFlatValue: 0
+  currentPercent: 0
 --- !u!1 &909160706
 GameObject:
   m_ObjectHideFlags: 0
@@ -7433,9 +7437,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d737c992dd4c03e44b71397ed60b621d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debuffObject: {fileID: 0}
-  fixedAmount: 0
-  percentAmount: 0
+  debuffObj: {fileID: 0}
+  previousFlatValue: 0
+  newFlatValue: 0
+  currentPercent: 0
 --- !u!1 &1101287767
 GameObject:
   m_ObjectHideFlags: 0
@@ -9797,6 +9802,7 @@ MonoBehaviour:
   objPool: []
   maxSpawnCount: 0
   spawnCount: 0
+  buffObjects: []
 --- !u!4 &1473092485
 Transform:
   m_ObjectHideFlags: 0
@@ -13441,6 +13447,7 @@ MonoBehaviour:
   objPool: []
   maxSpawnCount: 0
   spawnCount: 0
+  debuffObjects: []
 --- !u!1 &2027610006
 GameObject:
   m_ObjectHideFlags: 0
@@ -14080,12 +14087,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
-  stat: 0
-  amount: 0
-  percent: 0
+  sourceStat: 0
+  trueStatBuff: 0
+  percentBuff: 0
   durationType: 0
   duration: 0
   durationStack: 0
+  percentStack: 0
+  debuffHandler: {fileID: 1099866212}
 --- !u!1 &2102279888
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,11 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SelfSkillSO", menuName = "ScriptableObjects/SelfSkill")]
 public class SelfSkillSO : ActiveSkillSO
 {
-    private SkillTarget mainTarget = SkillTarget.SELF;
-
-    public SkillTarget MainTarget => mainTarget;
-
-    public bool OpponentTarget;
+    public bool Opponent;
     public List<ActiveBuff> Buffs;
-    public List<Debuff> Debuffs;
+    public List<ActiveDebuff> Debuffs;
 }

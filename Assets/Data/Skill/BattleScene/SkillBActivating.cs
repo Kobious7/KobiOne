@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 namespace Battle
@@ -60,7 +62,9 @@ namespace Battle
                     newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
                 }
 
-                newObj.GetComponent<DestructiveObject>().Target = SkillB.Q.QTile.TargetsFinder.TileTargets[i];
+                DestructiveObject destructiveObject = newObj.GetComponent<DestructiveObject>();
+                destructiveObject.Target = SkillB.Q.QTile.TargetsFinder.TileTargets[i];
+                destructiveObject.MainTarget = MainTargetType.Tile;
 
                 newObj.gameObject.SetActive(true);
             }
@@ -92,6 +96,11 @@ namespace Battle
                 }
             }
 
+            if(tileSkill.Buffs.Count > 0)
+            {
+                ApplyBuff(SkillB.QSkill, Game.Instance.Player.Stats);
+            }
+
             // if(tileSkill.AnotherTargets == SkillTarget.OPPONENT || tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
             // {
 
@@ -112,6 +121,52 @@ namespace Battle
             Battle.Instance.TurnCount--;
 
             StartCoroutine(Game.Instance.Board.BoardDestroyedMatches.SkillDestroyAndFill());
+        }
+
+        public void ApplyDebuff(SkillNode skill, EntityStats stats)
+        {
+            int level = skill.Level;
+            List<ActiveDebuff> debuffs = new();
+
+            if(skill.skillSO is TileSkillSO tileSkill)
+            {
+                debuffs = tileSkill.Debuffs;
+            }
+
+            if(skill.skillSO is SelfSkillSO selfSkill)
+            {
+                debuffs = selfSkill.Debuffs;
+            }
+
+            if(skill.skillSO is OpSkillSO opSkill)
+            {
+                debuffs = opSkill.Debuffs;
+            }
+
+            DebuffSpawner.Instance.SpawnDebuffs(level, debuffs, stats);
+        }
+
+        public void ApplyBuff(SkillNode skill, EntityStats stats)
+        {
+            int level = skill.Level;
+            List<ActiveBuff> buffs = new();
+
+            if(skill.skillSO is TileSkillSO tileSkill)
+            {
+                buffs = tileSkill.Buffs;
+            }
+
+            if(skill.skillSO is SelfSkillSO selfSkill)
+            {
+                buffs = selfSkill.Buffs;
+            }
+
+            if(skill.skillSO is OpSkillSO opSkill)
+            {
+                buffs = opSkill.Buffs;
+            }
+
+            BuffSpawner.Instance.SpawnBuffs(level, buffs, stats);
         }
     }
 }

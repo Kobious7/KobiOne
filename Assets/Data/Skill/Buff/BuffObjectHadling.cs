@@ -4,8 +4,9 @@ namespace Battle
 {
     public class BuffObjectHandling : BuffObjectAb
     {
-        [SerializeField] private int fixedAmount;
-        [SerializeField] private int percentAmount;
+        [SerializeField] private int previousFlatValue;
+        [SerializeField] private int newFlatValue;
+        [SerializeField] private float currentPercent;
 
         protected override void Start()
         {
@@ -21,72 +22,113 @@ namespace Battle
 
         private void TurnChange()
         {
-            if(BuffObject.DurationType == DurationType.TURN)
+            if(BuffObj.DurationType == DurationType.TURN)
             {
-                BuffObject.Duration = BuffObject.Duration - 1 <= 0 ? 0 : BuffObject.Duration - 1; 
+                BuffObj.Duration = BuffObj.Duration - 1 <= 0 ? 0 : BuffObj.Duration - 1; 
             }
         }
 
         private void CycleChange()
         {
-            if(BuffObject.DurationType == DurationType.CYCLE)
+            if(BuffObj.DurationType == DurationType.CYCLE)
             {
-                BuffObject.Duration = BuffObject.Duration - 1 <= 0 ? 0 : BuffObject.Duration - 1;
+                BuffObj.Duration = BuffObj.Duration - 1 <= 0 ? 0 : BuffObj.Duration - 1;
             }
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
+            previousFlatValue = 0;
+            newFlatValue = 0;
+            currentPercent = 0;
             BuffHandling();
         }
 
-        private int BuffAmount(int stat)
+        public void BuffHandling()
         {
-            fixedAmount = BuffObject.Amount > 0 ? BuffObject.Amount : 0;
-            percentAmount = BuffObject.Percent > 0 ? ((int)(stat * BuffObject.Percent / 100)) : 0;
-            return stat += (fixedAmount + percentAmount);
+            BuffCalculate();
         }
 
-        private void BuffHandling()
+        private void BuffCalculate()
         {
-            EntityStats stats = BuffObject.Stats;
+            EntityStats stats = BuffObj.Stats;
+            StatBuffInfo statBuff = stats.BuffPercents[BuffObj.TrueStatBuff];
 
-            switch(BuffObject.Stat)
+            if(statBuff.IsPercentValue)
+            {              
+                statBuff.PercentBonus = statBuff.PercentBonus - currentPercent + BuffObj.PercentBuff;
+                currentPercent = BuffObj.PercentBuff;
+
+                CalulatePercentStat(stats, statBuff, BuffObj.TrueStatBuff);
+            }
+            else
             {
-                case StatType.HP:
+                previousFlatValue = (int)(statBuff.OriginFlatValue * currentPercent / 100);
+                statBuff.PercentBonus -= currentPercent + BuffObj.PercentBuff;
+                currentPercent = BuffObj.PercentBuff;
+                newFlatValue = (int)(statBuff.OriginFlatValue * BuffObj.PercentBuff / 100);
+
+                CalulateFlatStat(stats, statBuff, BuffObj.TrueStatBuff);
+            }
+        }
+
+        private void CalulatePercentStat(EntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+        {
+            Debug.Log(statBuff.OriginPercentValue);
+            Debug.Log(statBuff.PercentBonus);
+            float percentAmount = statBuff.OriginPercentValue + statBuff.PercentBonus;
+            switch(equipStatType)
+            {
+                case EquipStatType.DamageRange:
+                    stats.DamageRange = percentAmount;
                     break;
-                case StatType.VHP:
+                case EquipStatType.CritRate:
+                    stats.CritRate = percentAmount;
                     break;
-                case StatType.SLASHDAMAGE:
-                    stats.SlashDamage = BuffAmount(stats.SlashDamage);
-                    break;
-                case StatType.SWORDDAMAGE:
+                case EquipStatType.CritDamage:
+                    stats.CritDamage = percentAmount;
                     break;
             }
         }
+
+        private void CalulateFlatStat(EntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+        {
+            switch(equipStatType)
+            {
+                case EquipStatType.Defense:
+                    stats.Defense = stats.Defense - previousFlatValue + newFlatValue;
+                    break;
+            }
+        }
+
 
         private void DespawnBuff()
         {
-            if(BuffObject.Duration > 0) return;
+            if(BuffObj.Duration > 0) return;
 
-            EntityStats stats = BuffObject.Stats;
+            BuffObj.PercentBuff = 0;
 
-            switch(BuffObject.Stat)
+            BuffCalculate();
+
+            DebuffSpawner.Instance.Despawn(transform.parent);
+        }
+
+        private int GetStatByType(EquipStatType statType)
+        {
+            EntityStats stats = BuffObj.Stats;
+
+            switch(statType)
             {
-                case StatType.HP:
-                    break;
-                case StatType.VHP:
-                    break;
-                case StatType.SLASHDAMAGE:
-                    stats.SlashDamage -= (fixedAmount + percentAmount);
-                    break;
-                case StatType.SWORDDAMAGE:
-                    break;
+                case EquipStatType.Defense:
+                    return stats.Defense;
+                case EquipStatType.SlashDamage:
+                    return stats.SlashDamage;
+                case EquipStatType.SwordrainDamage:
+                    return stats.SwordrainDamage;
+                default:
+                    return 0;
             }
-
-            BuffSpawner.Instance.Despawn(transform.parent);
-            return;
         }
     }
 }

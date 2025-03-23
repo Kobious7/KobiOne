@@ -46,6 +46,7 @@ public class DestructiveObjectCollision : DestructiveObjectAb
 
                     playerStats.DamageCalculate(rawSkillDamage, opStats);
                     Debug.Log("Skill Damage");
+                    skillB.SkillActivator.ApplyDebuff(skillB.QSkill, opStats);
                 }
             }
         }

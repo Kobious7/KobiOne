@@ -46,43 +46,5 @@ namespace Battle
         {
             return SkillB.Instance.QUnlocking;
         }
-
-        private void DebuffHandling(List<Debuff> debuffs)
-        {
-            if(debuffs.Count <= 0) return;
-
-            for(int i = 0; i < debuffs.Count; i++)
-            {
-                Transform debuff = DebuffSpawner.Instance.Spawn(DebuffSpawner.Instance.Prefabs[0], Vector3.zero, Quaternion.identity);
-                DebuffObject debuffObject = debuff.GetComponent<DebuffObject>();
-                debuffObject.Stats = Game.Instance.Bot.Stats;
-                debuffObject.DurationType = debuffs[i].durationType;
-                debuffObject.Duration = debuffs[i].Duration;
-                debuffObject.Stat = debuffs[i].Stat;
-                debuffObject.Amount = debuffs[i].Amount;
-                debuffObject.Percent = debuffs[i].Percent;
-
-                debuff.gameObject.SetActive(true);
-            }
-        }
-
-        private void BuffHandling(List<Buff> buffs)
-        {
-            if(buffs.Count <= 0) return;
-
-            for(int i = 0; i < buffs.Count; i++)
-            {
-                Transform buff = BuffSpawner.Instance.Spawn(BuffSpawner.Instance.Prefabs[0], Vector3.zero, Quaternion.identity);
-                BuffObject buffObject = buff.GetComponent<BuffObject>();
-                buffObject.Stats = Game.Instance.Player.Stats;
-                buffObject.DurationType = buffs[i].durationType;
-                buffObject.Duration = buffs[i].Duration;
-                buffObject.Stat = buffs[i].Stat;
-                buffObject.Amount = buffs[i].Amount;
-                buffObject.Percent = buffs[i].Percent;
-
-                buff.gameObject.SetActive(true);
-            }
-        }
     }
 }

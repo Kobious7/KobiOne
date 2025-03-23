@@ -4,10 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "OpSkillSO", menuName = "ScriptableObjects/OpSkill")]
 public class OpSkillSO : ActiveSkillSO
 {
-    private SkillTarget mainTarget = SkillTarget.OPPONENT;
-    
-    public SkillTarget MainTarget => mainTarget;
-
     public bool Self;
     public DamageStat Damage;
     public List<ActiveBuff> Buffs;

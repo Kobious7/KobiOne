@@ -2,9 +2,11 @@ using UnityEngine;
 
 namespace Battle
 {
-    public class DeDebuffObjectHandling : DebuffObjectAb
+    public class DebuffObjectHandling : DebuffObjectAb
     {
-        [SerializeField] private int percentAmount;
+        [SerializeField] private int previousFlatValue;
+        [SerializeField] private int newFlatValue;
+        [SerializeField] private float currentPercent;
 
         protected override void Start()
         {
@@ -20,75 +22,111 @@ namespace Battle
 
         private void TurnChange()
         {
-            if(DebuffObject.DurationType == DurationType.TURN)
+            if(DebuffObj.DurationType == DurationType.TURN)
             {
-                DebuffObject.Duration = DebuffObject.Duration - 1 <= 0 ? 0 : DebuffObject.Duration - 1; 
+                DebuffObj.Duration = DebuffObj.Duration - 1 <= 0 ? 0 : DebuffObj.Duration - 1; 
             }
         }
 
         private void CycleChange()
         {
-            if(DebuffObject.DurationType == DurationType.CYCLE)
+            if(DebuffObj.DurationType == DurationType.CYCLE)
             {
-                DebuffObject.Duration = DebuffObject.Duration - 1 <= 0 ? 0 : DebuffObject.Duration - 1;
+                DebuffObj.Duration = DebuffObj.Duration - 1 <= 0 ? 0 : DebuffObj.Duration - 1;
             }
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
+            previousFlatValue = 0;
+            newFlatValue = 0;
+            currentPercent = 0;
             DebuffHandling();
         }
 
-        private int DebuffAmount(int stat)
+        public void DebuffHandling()
         {
-            percentAmount = DebuffObject.Percent > 0 ? ((int)(stat * DebuffObject.Percent / 100)) : 0;
-            return stat -= percentAmount;
+            BuffCalculate();
         }
 
-        private void DebuffHandling()
+        private void BuffCalculate()
         {
-            EntityStats stats = DebuffObject.Stats;
+            EntityStats stats = DebuffObj.Stats;
+            StatBuffInfo statBuff = stats.BuffPercents[DebuffObj.TrueStatBuff];
 
-            switch(DebuffObject.Stat)
+            if(statBuff.IsPercentValue)
+            {              
+                statBuff.PercentBonus = statBuff.PercentBonus - currentPercent + DebuffObj.PercentBuff;
+                currentPercent = DebuffObj.PercentBuff;
+
+                CalulatePercentStat(stats, statBuff, DebuffObj.TrueStatBuff);
+            }
+            else
             {
-                case StatType.HP:
-                    stats.CurrentHP = DebuffAmount(stats.CurrentHP);
+                previousFlatValue = (int)(statBuff.OriginFlatValue * currentPercent / 100);
+                statBuff.PercentBonus -= currentPercent + DebuffObj.PercentBuff;
+                currentPercent = DebuffObj.PercentBuff;
+                newFlatValue = (int)(statBuff.OriginFlatValue * DebuffObj.PercentBuff / 100);
+
+                CalulateFlatStat(stats, statBuff, DebuffObj.TrueStatBuff);
+            }
+        }
+
+        private void CalulatePercentStat(EntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+        {
+            float percentAmount = statBuff.OriginPercentValue + statBuff.PercentBonus;
+            switch(equipStatType)
+            {
+                case EquipStatType.DamageRange:
+                    stats.DamageRange = percentAmount;
                     break;
-                case StatType.VHP:
+                case EquipStatType.CritRate:
+                    stats.CritRate = percentAmount;
                     break;
-                case StatType.SLASHDAMAGE:
-                    stats.SlashDamage = DebuffAmount(stats.SlashDamage);
-                    break;
-                case StatType.SWORDDAMAGE:
-                    stats.SwordrainDamage = DebuffAmount(stats.SwordrainDamage);
+                case EquipStatType.CritDamage:
+                    stats.CritDamage = percentAmount;
                     break;
             }
         }
+
+        private void CalulateFlatStat(EntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+        {
+            switch(equipStatType)
+            {
+                case EquipStatType.Defense:
+                    stats.Defense = stats.Defense - previousFlatValue + newFlatValue;
+                    break;
+            }
+        }
+
 
         private void DespawnDebuff()
         {
-            if(DebuffObject.Duration > 0) return;
+            if(DebuffObj.Duration > 0) return;
 
-            EntityStats stats = DebuffObject.Stats;
+            DebuffObj.PercentBuff = 0;
 
-            switch(DebuffObject.Stat)
-            {
-                case StatType.HP:
-                    stats.CurrentHP +=  percentAmount;
-                    break;
-                case StatType.VHP:
-                    break;
-                case StatType.SLASHDAMAGE:
-                    stats.SlashDamage +=  percentAmount;
-                    break;
-                case StatType.SWORDDAMAGE:
-                    stats.SwordrainDamage += percentAmount;
-                    break;
-            }
+            BuffCalculate();
 
             DebuffSpawner.Instance.Despawn(transform.parent);
-            return;
+        }
+
+        private int GetStatByType(EquipStatType statType)
+        {
+            EntityStats stats = DebuffObj.Stats;
+
+            switch(statType)
+            {
+                case EquipStatType.Defense:
+                    return stats.Defense;
+                case EquipStatType.SlashDamage:
+                    return stats.SlashDamage;
+                case EquipStatType.SwordrainDamage:
+                    return stats.SwordrainDamage;
+                default:
+                    return 0;
+            }
         }
     }
 }

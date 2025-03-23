@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class DebuffObjectAb : GMono
 {
-    [SerializeField] private DebuffObject debuffObject;
+    [SerializeField] private DebuffObject debuffObj;
 
-    public DebuffObject DebuffObject => debuffObject;
+    public DebuffObject DebuffObj => debuffObj;
 
     protected override void LoadComponents()
     {
@@ -15,8 +15,8 @@ public abstract class DebuffObjectAb : GMono
 
     private void LoadDebuffObject()
     {
-        if(debuffObject != null) return;
+        if(debuffObj != null) return;
 
-        debuffObject = transform.parent.GetComponent<DebuffObject>();
+        debuffObj = transform.parent.GetComponent<DebuffObject>();
     }
 }

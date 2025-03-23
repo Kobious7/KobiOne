@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class BuffObjectAb : GMono
 {
-    [SerializeField] private BuffObject buffObject;
+    [SerializeField] private BuffObject buffObj;
 
-    public BuffObject BuffObject => buffObject;
+    public BuffObject BuffObj => buffObj;
 
     protected override void LoadComponents()
     {
@@ -15,8 +15,8 @@ public abstract class BuffObjectAb : GMono
 
     private void LoadBuffObject()
     {
-        if(buffObject != null) return;
+        if(buffObj != null) return;
 
-        buffObject = transform.parent.GetComponent<BuffObject>();
+        buffObj = transform.parent.GetComponent<BuffObject>();
     }
 }

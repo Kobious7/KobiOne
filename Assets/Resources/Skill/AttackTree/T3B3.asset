@@ -36,12 +36,20 @@ MonoBehaviour:
     SourceDamage: 5
     Scaling: 100
     BonusPerLevel: 8
-  Buffs: []
+  Buffs:
+  - StatBuff: 15
+    SourceStat: 15
+    BuffPercent: 1000
+    PercentBonus: 0
+    DurationType: 0
+    Duration: 3
+    DurationStack: 1
+    PercentStack: 0
   Debuffs:
   - StatDebuff: 10
     SourceStat: 10
-    DebuffPercent: 10
-    PercentBonus: 5
+    DebuffPercent: -10
+    PercentBonus: -5
     DurationType: 0
     Duration: 1
     DurationStack: 0

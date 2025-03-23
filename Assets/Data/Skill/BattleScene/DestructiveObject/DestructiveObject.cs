@@ -14,6 +14,14 @@ public class DestructiveObject : GMono
         set => target = value;
     }
 
+    [SerializeField] private MainTargetType mainTarget;
+
+    public MainTargetType MainTarget
+    {
+        get => mainTarget;
+        set => mainTarget = value;
+    }
+
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     public SpriteRenderer SpriteRenderer => spriteRenderer;

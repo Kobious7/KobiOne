@@ -18,5 +18,5 @@ public enum EquipStatType
     CritDamage,
 
     //In battle
-    CurrentHP
+    CurrentHPByMaxHP
 }
