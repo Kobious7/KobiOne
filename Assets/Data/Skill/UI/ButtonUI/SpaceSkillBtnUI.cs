@@ -1,26 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Battle
 {
-    public class QSkillBtnUI : SkillBtnUI
+    public class SpaceSkillBtnUI : SkillBtnUI
     {
         protected override SkillNode GetSkill()
         {
-            return SkillB.Instance.QSkill;
+            return SkillB.Instance.SpaceSkill;
         }
 
         protected override void Click()
         {
             base.Click();
-            SkillB.Instance.SkillActivator.Active(SkillB.Instance.QSkill, SkillButton.Q);
+            SkillB.Instance.SkillActivator.Active(SkillB.Instance.SpaceSkill, SkillButton.Space);
         }
 
         protected override bool GetManaCost()
         {
-            return SkillB.Instance.QUnlocking;
+            return SkillB.Instance.SpaceUnlocking;
         }
     }
 }

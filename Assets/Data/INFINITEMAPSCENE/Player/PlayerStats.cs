@@ -247,7 +247,8 @@ namespace InfiniteMap
                 new Stat(8, "Damage Range"),
                 new Stat(9, "Speed"),
                 new Stat(10, "Crit Rate"),
-                new Stat(11, "Crit Damage")
+                new Stat(11, "Crit Damage"),
+                new Stat(12, "Mana Regeneration")
             };
 
             equipPotentialBonus = new List<Stat>
@@ -271,7 +272,8 @@ namespace InfiniteMap
                 new Stat(8, "Damage Range"),
                 new Stat(9, "Speed"),
                 new Stat(10, "Crit Rate"),
-                new Stat(11, "Crit Damage")
+                new Stat(11, "Crit Damage"),
+                new Stat(12, "Mana Regeneration")
             };
 
             passiveSkillPotentialBonus = new List<Stat>
@@ -295,7 +297,8 @@ namespace InfiniteMap
                 new Stat(8, "Damage Range"),
                 new Stat(9, "Speed"),
                 new Stat(10, "Crit Rate"),
-                new Stat(11, "Crit Damage")
+                new Stat(11, "Crit Damage"),
+                new Stat(12, "Mana Regeneration")
             };
         }
 
@@ -337,6 +340,9 @@ namespace InfiniteMap
                     break;
                 case 11:
                     CalculateCritDamageStat();
+                    break;
+                case 12:
+                    CalculateManaRegenStat();
                     break;
             }
         }
@@ -612,6 +618,13 @@ namespace InfiniteMap
             critDamage.IsPercentValue = true;
         }
 
+        private void CalculateManaRegenStat()
+        {
+            Stat manaRegen = stats[12];
+            manaRegen.PercentBonus = 1;
+            manaRegen.IsPercentValue = true;
+        }
+
         public void UpdatePassiveSkillBonus(List<PassiveSkillBonus> passiveSkillBonus)
         {
             foreach(var bonus in passiveSkillBonus)
@@ -707,6 +720,7 @@ namespace InfiniteMap
             if(equipBonus.Stat == EquipStatType.Speed) return 9;
             if(equipBonus.Stat == EquipStatType.CritRate) return 10;
             if(equipBonus.Stat == EquipStatType.CritDamage) return 11;
+            if(equipBonus.Stat == EquipStatType.ManaRegen) return 12;
             return 1000000;
         }
 
@@ -726,6 +740,7 @@ namespace InfiniteMap
             if(passiveSkillBonus.Stat == EquipStatType.Speed) return 9;
             if(passiveSkillBonus.Stat == EquipStatType.CritRate) return 10;
             if(passiveSkillBonus.Stat == EquipStatType.CritDamage) return 11;
+            if(passiveSkillBonus.Stat == EquipStatType.ManaRegen) return 12;
             return 1000000;
         }
     }

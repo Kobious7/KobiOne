@@ -23,13 +23,13 @@ namespace Battle
             StartDestroy();
         }
 
-        public IEnumerator SkillDestroyAndFill()
+        public IEnumerator SkillDestroyAndFill(TileSkill tileSkill)
         {
             yield return new WaitForSeconds(1);
 
             tiles = Board.BoardGen.Tiles;
 
-            Board.BoardMatches.SkillsMarkMatches(tiles);
+            Board.BoardMatches.SkillsMarkMatches(tileSkill, tiles);
             Battle.Instance.NewTileCounter();
             StartDestroy();
         }

@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace Battle
 {
-    public class QSkillBtnUI : SkillBtnUI
+    public class ESkillBtnUI : SkillBtnUI
     {
         protected override SkillNode GetSkill()
         {
-            return SkillB.Instance.QSkill;
+            return SkillB.Instance.ESkill;
         }
 
         protected override void Click()
         {
             base.Click();
-            SkillB.Instance.SkillActivator.Active(SkillB.Instance.QSkill, SkillButton.Q);
+            SkillB.Instance.SkillActivator.Active(SkillB.Instance.ESkill, SkillButton.E);
         }
 
         protected override bool GetManaCost()
         {
-            return SkillB.Instance.QUnlocking;
+            return SkillB.Instance.EUnlocking;
         }
     }
 }

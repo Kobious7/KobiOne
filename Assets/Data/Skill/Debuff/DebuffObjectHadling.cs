@@ -94,8 +94,29 @@ namespace Battle
         {
             switch(equipStatType)
             {
+                case EquipStatType.Attack:
+                    stats.Attack = stats.Attack - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.MagicAttack:
+                    stats.MagicAttack = stats.MagicAttack - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.HP:
+                    stats.MaxHP = stats.MaxHP - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.CurrentHPByMaxHP:
+                    stats.CurrentHP = stats.CurrentHP - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.SlashDamage:
+                    stats.SlashDamage = stats.SlashDamage - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.SwordrainDamage:
+                    stats.SwordrainDamage = stats.SwordrainDamage - previousFlatValue + newFlatValue;
+                    break;
                 case EquipStatType.Defense:
                     stats.Defense = stats.Defense - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.Accuracy:
+                    stats.Accuracy = stats.Accuracy - previousFlatValue + newFlatValue;
                     break;
             }
         }
@@ -110,23 +131,6 @@ namespace Battle
             BuffCalculate();
 
             DebuffSpawner.Instance.Despawn(transform.parent);
-        }
-
-        private int GetStatByType(EquipStatType statType)
-        {
-            EntityStats stats = DebuffObj.Stats;
-
-            switch(statType)
-            {
-                case EquipStatType.Defense:
-                    return stats.Defense;
-                case EquipStatType.SlashDamage:
-                    return stats.SlashDamage;
-                case EquipStatType.SwordrainDamage:
-                    return stats.SwordrainDamage;
-                default:
-                    return 0;
-            }
         }
     }
 }

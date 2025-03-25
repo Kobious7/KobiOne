@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,9 +46,17 @@ namespace Battle
             set => spaceUnlocking = value;
         }
 
-        [SerializeField] private Q q;
+        [SerializeField] private QSkill q;
 
-        public Q Q => q;
+        public QSkill Q => q;
+
+        [SerializeField] private ESkill e;
+
+        public ESkill E => e;
+
+        [SerializeField] private SpaceSkill space;
+
+        public SpaceSkill Space => space;
 
         [SerializeField] private SkillBActivating skillActivator;
 
@@ -71,6 +80,8 @@ namespace Battle
         {
             base.LoadComponents();
             LoadQ();
+            LoadE();
+            LoadSpace();
             LoadActivator();
             LoadCalculator();
         }
@@ -89,7 +100,21 @@ namespace Battle
         {
             if(q != null) return;
 
-            q = GetComponentInChildren<Q>();
+            q = GetComponentInChildren<QSkill>();
+        }
+
+        private void LoadE()
+        {
+            if(e != null) return;
+
+            e = GetComponentInChildren<ESkill>();
+        }
+
+        private void LoadSpace()
+        {
+            if(space != null) return;
+
+            space = GetComponentInChildren<SpaceSkill>();
         }
 
         private void LoadActivator()

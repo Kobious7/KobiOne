@@ -47,7 +47,9 @@ namespace Battle
 
         private void LoadSkillSOs()
         {
-            qSkill = FindObjectOfType<SkillB>().QSkill;
+            qSkill = SkillB.Instance.QSkill;
+            eSkill = SkillB.Instance.ESkill;
+            spaceSkill = SkillB.Instance.SpaceSkill;
         }
 
         private void LoadDestructiveObject()
@@ -61,12 +63,22 @@ namespace Battle
         {
             LoadSkillSOs();
             LoadDestructiveObject();
+
             Transform prefabContainer = transform.Find("Prefabs");
 
-            if(qSkill != null && qSkill.skillSO is TileSkillSO tileSkillSO)
+            CreatePrefab(qSkill, prefabContainer, "Q");
+            CreatePrefab(eSkill, prefabContainer, "E");
+            CreatePrefab(spaceSkill, prefabContainer, "Space");
+            destructiveObject.gameObject.SetActive(false);
+            LoadPrefabs();
+        }
+
+        private void CreatePrefab(SkillNode skill, Transform prefabContainer, string prefabName)
+        {
+            if(skill != null && skill.skillSO is TileSkillSO tileSkillSO)
             {
                 Transform prefab = Instantiate(destructiveObject);
-                prefab.name = "Q";
+                prefab.name = prefabName;
 
                 prefab.SetParent(prefabContainer);
                 prefab.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -76,10 +88,10 @@ namespace Battle
                 obj.AdjustCollider();
             }
 
-            if(qSkill != null && qSkill.skillSO is OpSkillSO opSkillSO)
+            if(skill != null && skill.skillSO is OpSkillSO opSkillSO && opSkillSO.ObjectMaxSpawnCount > 0)
             {
                 Transform prefab = Instantiate(destructiveObject);
-                prefab.name = "Q";
+                prefab.name = prefabName;
 
                 prefab.SetParent(prefabContainer);
                 prefab.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -88,9 +100,6 @@ namespace Battle
                 obj.SetSprite(opSkillSO.ObjectSprite);
                 obj.AdjustCollider();
             }
-
-            destructiveObject.gameObject.SetActive(false);
-            LoadPrefabs();
         }
 
         public Transform GetPrefabsByName(string name)

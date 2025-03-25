@@ -28,6 +28,14 @@ namespace Battle
             set => trueStatBuff = value;
         }
 
+        [SerializeField] private DamageType damageType;
+
+        public DamageType DamageType
+        {
+            get => damageType;
+            set => damageType = value;
+        }
+
         [SerializeField] private int percentBuff;
 
         public int PercentBuff

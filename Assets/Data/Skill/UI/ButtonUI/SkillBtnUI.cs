@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,24 +6,21 @@ namespace Battle
 {
     public class SkillBtnUI : GMono
     {
-        protected DestructiveObjectSpawner destructiveObjectSpawner;
-
         [SerializeField] protected Button button;
-
-        public Button Button => button;
+        [SerializeField] protected Image model;
 
         protected override void LoadComponents()
         {
             base.LoadComponents();
             LoadButton();
+            LoadModel();
         }
 
         protected override void Start()
         {
             base.Start();
-            destructiveObjectSpawner = DestructiveObjectSpawner.Instance;
 
-            button.onClick.AddListener(OnButtonClick);
+            StartCoroutine(WaitNexFrame());
         }
 
         private void FixedUpdate()
@@ -30,11 +28,25 @@ namespace Battle
             UpdateButtonUnlocking();
         }
 
+        private IEnumerator WaitNexFrame()
+        {
+            yield return null;
+
+            ShowSkill();
+        }
+
         private void LoadButton()
         {
             if(button != null) return;
 
             button = GetComponent<Button>();
+        }
+
+        private void LoadModel()
+        {
+            if(model != null) return;
+
+            model = transform.Find("Model").GetComponent<Image>();
         }
 
         private void OnButtonClick()
@@ -47,27 +59,43 @@ namespace Battle
             //Override
         }
 
+        private void ShowSkill()
+        {
+            SkillNode skill = GetSkill();
+
+            if(skill.Level <= 0)
+            {
+                transform.gameObject.SetActive(false);
+            }
+            else
+            {
+                model.sprite = skill.skillSO.SkillIcon;
+                button.onClick.AddListener(OnButtonClick);
+            }
+        }
+
         private void UpdateButtonUnlocking()
         {
             if(!GetManaCost())
             {
                 button.interactable = false;
-                ColorBlock colorBlock = button.colors;
-                colorBlock.normalColor = Color.black;
-                button.colors = colorBlock;
+                model.color = Color.gray;
             }
             else
             {
                 button.interactable = true;
-                ColorBlock colorBlock = button.colors;
-                colorBlock.normalColor = Color.white;
-                button.colors = colorBlock;
+                model.color = Color.white;
             }
         }
 
         protected virtual bool GetManaCost()
         {
-            return false;
+            return false; //Override
+        }
+
+        protected virtual SkillNode GetSkill()
+        {
+            return null; //Override
         }
     }
 }

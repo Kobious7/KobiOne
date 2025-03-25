@@ -1,5 +1,7 @@
 public enum DurationType
 {
     TURN,
-    CYCLE
+    CYCLE,
+    Immediately,
+    NextStrike
 }

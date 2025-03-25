@@ -157,6 +157,7 @@ namespace InfiniteMap
             mapData.PlayerInfo.DamageRange = player.Stats.Stats[8].PercentBonus;
             mapData.PlayerInfo.CritRate = player.Stats.Stats[10].PercentBonus;
             mapData.PlayerInfo.CritDamage = player.Stats.Stats[11].PercentBonus;
+            mapData.PlayerInfo.ManaRegen = player.Stats.Stats[12].PercentBonus;
             mapData.PlayerInfo.QSkill = SkillSGT.Instance.Skill.QSkill;
             mapData.PlayerInfo.ESkill = SkillSGT.Instance.Skill.ESkill;
             mapData.PlayerInfo.SpaceSkill = SkillSGT.Instance.Skill.SpaceSkill;

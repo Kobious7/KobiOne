@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 namespace Battle
@@ -8,17 +7,28 @@ namespace Battle
     public class SkillBActivating : SkillBAb
     {
         private DestructiveObjectSpawner destructiveObjectSpawner;
+        private EntityStats playerStats;
+        private EntityStats opStats;
 
         protected override void Start()
         {
             base.Start();
 
             destructiveObjectSpawner = DestructiveObjectSpawner.Instance;
+            playerStats = Game.Instance.Player.Stats;
+            opStats = Game.Instance.Bot.Stats;
         }
 
-        public IEnumerator TileSkillActive()
+        public void Active(SkillNode skill, SkillButton button)
         {
-            TileSkillSO tileSkill = (TileSkillSO)SkillB.QSkill.skillSO;
+            if(skill.skillSO is TileSkillSO) StartCoroutine(TileSkillActive(skill, button));
+            else if(skill.skillSO is SelfSkillSO) SelfSkillACtive(skill, button);
+            else OpSkillActive(skill, button);
+        }
+
+        private IEnumerator TileSkillActive(SkillNode skill, SkillButton button)
+        {
+            TileSkillSO tileSkill = (TileSkillSO)skill.skillSO;
 
             int objectSpawnCount = Random.Range(tileSkill.ObjectMinSpawnCount, tileSkill.ObjectMaxSpawnCount + 1);
             int tileObjects = 0, opObjects = 0;
@@ -45,7 +55,26 @@ namespace Battle
             destructiveObjectSpawner.TileSpawnCount = tileObjects;
             destructiveObjectSpawner.OpSpawnCount = opObjects;
 
-            SkillB.Q.QTile.TargetsFinder.GetTileTargets(tileObjects, tileSkill.AreaString);
+            TileSkill tile;
+            string prefabName;
+
+            if(button == SkillButton.Q)
+            {
+                tile = SkillB.Q.Tile;
+                prefabName = "Q";
+            }
+            else if(button == SkillButton.E)
+            {
+                tile = SkillB.E.Tile;
+                prefabName = "E";
+            }
+            else
+            {
+                tile = SkillB.Space.Tile;
+                prefabName = "Space";
+            }
+  
+            tile.TargetsFinder.GetTileTargets(tileObjects, tileSkill.AreaString);
             Game.Instance.Player.Stats.ManaDes(tileSkill.ManaCost);
 
             for(int i = 0; i < tileObjects; i++)
@@ -54,16 +83,16 @@ namespace Battle
 
                 if(tileSkill.AreaString == "rows")
                 {
-                    Vector3 pos = tileSkill.ObjectSpawnPos[SkillB.Q.QTile.TargetsFinder.TileTargets[i].GetComponent<Tiles>().TilePrefab.Y];
-                    newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), pos, Quaternion.identity);
+                    Vector3 pos = tileSkill.ObjectSpawnPos[tile.TargetsFinder.TileTargets[i].GetComponent<Tiles>().TilePrefab.Y];
+                    newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName(prefabName), pos, Quaternion.identity);
                 }
                 else
                 {
-                    newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
+                    newObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName(prefabName), destructiveObjectSpawner.transform.position, Quaternion.identity);
                 }
 
                 DestructiveObject destructiveObject = newObj.GetComponent<DestructiveObject>();
-                destructiveObject.Target = SkillB.Q.QTile.TargetsFinder.TileTargets[i];
+                destructiveObject.Target = tile.TargetsFinder.TileTargets[i];
                 destructiveObject.MainTarget = MainTargetType.Tile;
 
                 newObj.gameObject.SetActive(true);
@@ -82,15 +111,15 @@ namespace Battle
 
                     if(tileSkill.AreaString == "rows")
                     {
-                        toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), Game.Instance.Player.transform.position, Quaternion.identity);
+                        toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName(prefabName), playerStats.transform.parent.position, Quaternion.identity);
 
                     }
                     else
                     {
-                        toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName("Q"), destructiveObjectSpawner.transform.position, Quaternion.identity);
+                        toOpObj = destructiveObjectSpawner.Spawn(destructiveObjectSpawner.GetPrefabsByName(prefabName), destructiveObjectSpawner.transform.position, Quaternion.identity);
                     }
 
-                    toOpObj.GetComponent<DestructiveObject>().Target = SkillB.Q.QTile.Opponent;
+                    toOpObj.GetComponent<DestructiveObject>().Target = tile.Opponent;
 
                     toOpObj.gameObject.SetActive(true);   
                 }
@@ -98,29 +127,66 @@ namespace Battle
 
             if(tileSkill.Buffs.Count > 0)
             {
-                ApplyBuff(SkillB.QSkill, Game.Instance.Player.Stats);
+                ApplyBuff(skill, playerStats);
             }
-
-            // if(tileSkill.AnotherTargets == SkillTarget.OPPONENT || tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-            // {
-
-            //     if(tileSkill.AnotherTargets == SkillTarget.OPPONENT) DebuffHandling(tileSkill.Debuffs);
-
-            //     if(tileSkill.AnotherTargets == SkillTarget.SELFOPPONENT)
-            //     {
-            //         DebuffHandling(tileSkill.Debuffs);
-            //         BuffHandling(tileSkill.Buffs);
-            //     }
-            // }
 
             while (destructiveObjectSpawner.TileSpawnCount > 0 || destructiveObjectSpawner.OpSpawnCount > 0)
             {
                 yield return null;
             }
 
-            Battle.Instance.TurnCount--;
+            if(tileSkill.TurnCount) Battle.Instance.TurnCount--;
 
-            StartCoroutine(Game.Instance.Board.BoardDestroyedMatches.SkillDestroyAndFill());
+            StartCoroutine(Game.Instance.Board.BoardDestroyedMatches.SkillDestroyAndFill(tile));
+        }
+
+        private void SelfSkillACtive(SkillNode skill, SkillButton button)
+        {
+            SelfSkillSO selfSkill = (SelfSkillSO)skill.skillSO;
+
+            playerStats.ManaDes(selfSkill.ManaCost);
+
+            ApplyBuff(skill, playerStats);
+
+            if(selfSkill.Opponent && selfSkill.Debuffs.Count > 0)
+            {
+                ApplyDebuff(skill, opStats);
+            }
+
+            if(selfSkill.TurnCount)
+            {
+                Battle.Instance.TurnCount--;
+                Battle.Instance.TurnChange();
+            }
+        }
+
+        private void OpSkillActive(SkillNode skill, SkillButton button)
+        {
+            OpSkillSO opSkill = (OpSkillSO)skill.skillSO;
+
+            playerStats.ManaDes(opSkill.ManaCost);
+
+            int rawDamage = SkillB.Calculator.SkillDamageCalculate(playerStats, skill);
+            int finalDamage = playerStats.DamageCalculate(rawDamage, opStats);
+
+            Game.Instance.Bot.Stats.HPDes(finalDamage);
+
+            if(opSkill.Debuffs.Count > 0)
+            {
+                ApplyBuff(skill, opStats);
+            }
+
+            if(opSkill.Self && opSkill.Buffs.Count > 0)
+            {
+                ApplyBuff(skill, playerStats);
+            }
+
+            if(opSkill.TurnCount)
+            {
+                Battle.Instance.TurnCount--;
+                Battle.Instance.TurnChange();
+            }
+
         }
 
         public void ApplyDebuff(SkillNode skill, EntityStats stats)

@@ -26,9 +26,9 @@ namespace Battle
             }
         }
 
-        public void SkillsMarkMatches(Transform[,] tiles)
+        public void SkillsMarkMatches(TileSkill tileSkill, Transform[,] tiles)
         {
-            foreach (var item in SkillB.Instance.Q.QTile.TargetsFinder.AffectArea)
+            foreach (var item in tileSkill.TargetsFinder.AffectArea)
             {
                 Tiles tile = GetTile(tiles[item.X, item.Y]);
 

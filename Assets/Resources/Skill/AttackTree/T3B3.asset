@@ -34,17 +34,10 @@ MonoBehaviour:
   OpponentTarget: 1
   Damage:
     SourceDamage: 5
+    damageType: 1
     Scaling: 100
     BonusPerLevel: 8
-  Buffs:
-  - StatBuff: 15
-    SourceStat: 15
-    BuffPercent: 1000
-    PercentBonus: 0
-    DurationType: 0
-    Duration: 3
-    DurationStack: 1
-    PercentStack: 0
+  Buffs: []
   Debuffs:
   - StatDebuff: 10
     SourceStat: 10

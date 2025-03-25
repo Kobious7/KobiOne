@@ -21,6 +21,7 @@ namespace Battle
                 damageRange = playerInfo.DamageRange;
                 critRate = playerInfo.CritRate;
                 critDamage = playerInfo.CritDamage;
+                manaRegen = playerInfo.ManaRegen;
             }
 
             InitBuff(); 

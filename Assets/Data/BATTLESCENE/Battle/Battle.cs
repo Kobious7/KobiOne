@@ -73,6 +73,14 @@ namespace Battle
             set { botPlayed = value; }
         }
 
+        [SerializeField] private DamageType playerNextDamage;
+
+        public DamageType PlayerNextDamage
+        {
+            get { return playerNextDamage; }
+            set { playerNextDamage = value; }
+        }
+
         private Dictionary<TileEnum, int> tileCounter;
 
         public Dictionary<TileEnum, int> TileCounter => tileCounter;
@@ -246,20 +254,20 @@ namespace Battle
 
             if(tileCounter[TileEnum.HEART] > 0)
             {
-                if(pTurn) player.Stats.HPIns(2 * tileCounter[TileEnum.HEART]);
-                if(opTurn) bot.Stats.HPIns(2 * tileCounter[TileEnum.HEART]);
+                if(pTurn) player.Stats.HPIns((int)(player.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
+                if(opTurn) bot.Stats.HPIns((int)(bot.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
             }
 
             if(tileCounter[TileEnum.VHEART] > 0)
             {
-                if(pTurn) player.Stats.VHPIns(tileCounter[TileEnum.VHEART]);
-                if(opTurn) bot.Stats.VHPIns(tileCounter[TileEnum.VHEART]);
+                if(pTurn) player.Stats.VHPIns((int)(player.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
+                if(opTurn) bot.Stats.VHPIns((int)(bot.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
             }
 
             if(tileCounter[TileEnum.MANA] > 0)
             {
-                if(pTurn) player.Stats.ManaIns(tileCounter[TileEnum.MANA]);
-                if(opTurn) bot.Stats.ManaIns(tileCounter[TileEnum.MANA]);
+                if(pTurn) player.Stats.ManaIns((int)(player.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
+                if(opTurn) bot.Stats.ManaIns((int)(bot.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
             }
 
             if(tileCounter[TileEnum.SHEILD] > 0)
@@ -290,6 +298,8 @@ namespace Battle
 
                     bot.Stats.VHPDes(pSlashDamage);
                     bot.Stats.HPDes(lostHP);
+
+                    playerNextDamage = DamageType.SlashDamage;
 
                     yield return StartCoroutine(player.Moving.MoveBack());
 
@@ -346,8 +356,9 @@ namespace Battle
                     yield return StartCoroutine(player.Atack.MeleeAttack());
 
                     bot.Stats.VHPDes(pSlashDamage);
-
                     bot.Stats.HPDes(lostHP);
+
+                    playerNextDamage = DamageType.SlashDamage;
 
                     yield return StartCoroutine(player.Moving.MoveBack());
 

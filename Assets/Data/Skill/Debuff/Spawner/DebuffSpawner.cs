@@ -30,40 +30,47 @@ public class DebuffSpawner : Spawner
 
     public void SpawnDebuff(int level, ActiveDebuff debuff, EntityStats stats)
     {
-        if(debuff.DurationStack)
+        if(debuff.DurationType == DurationType.Immediately)
         {
-            DebuffObject foundObj = FindDebuff(debuff);
 
-            if(foundObj != null)
-            {
-                foundObj.Duration += debuff.Duration;
-            }
-            else
-            {
-                SpawnNewDebuff(level, debuff, stats);
-            }
-        }
-        else if(debuff.PercentStack)
-        {
-            DebuffObject foundObj = FindDebuff(debuff);
-
-            if(foundObj != null)
-            {
-                int percentBuff = (int)(debuff.PercentBonus * (level - 1) + debuff.DebuffPercent);
-                foundObj.PercentBuff += percentBuff;
-                foundObj.DebuffHandler.DebuffHandling();
-            }
-            else
-            {
-                SpawnNewDebuff(level, debuff, stats);
-            }
         }
         else
         {
-            DebuffObject foundObj = FindDebuff(debuff);
+            if(debuff.DurationStack)
+            {
+                DebuffObject foundObj = FindDebuff(debuff);
 
-            if( foundObj != null) foundObj.Duration = debuff.Duration;
-            else SpawnNewDebuff(level, debuff, stats);
+                if(foundObj != null)
+                {
+                    foundObj.Duration += debuff.Duration;
+                }
+                else
+                {
+                    SpawnNewDebuff(level, debuff, stats);
+                }
+            }
+            else if(debuff.PercentStack)
+            {
+                DebuffObject foundObj = FindDebuff(debuff);
+
+                if(foundObj != null)
+                {
+                    int percentBuff = (int)(debuff.PercentBonus * (level - 1) + debuff.DebuffPercent);
+                    foundObj.PercentBuff += percentBuff;
+                    foundObj.DebuffHandler.DebuffHandling();
+                }
+                else
+                {
+                    SpawnNewDebuff(level, debuff, stats);
+                }
+            }
+            else
+            {
+                DebuffObject foundObj = FindDebuff(debuff);
+
+                if( foundObj != null) foundObj.Duration = debuff.Duration;
+                else SpawnNewDebuff(level, debuff, stats);
+            }
         }
     }
 
@@ -83,6 +90,18 @@ public class DebuffSpawner : Spawner
         objCom.PercentStack = debuff.PercentStack;
 
         newDebuff.gameObject.SetActive(true);
+    }
+
+    public void ImmediatelyDebuffHandling(int level, ActiveBuff debuff, EntityStats stats)
+    {
+        int percentBuff = (int)(debuff.PercentBonus * (level - 1) + debuff.BuffPercent);
+
+        switch(debuff.StatBuff)
+        {
+            case EquipStatType.CurrentHPByMaxHP:
+                stats.HPDes((int)(percentBuff / 100 * stats.MaxHP));
+                break;
+        }
     }
 
     private DebuffObject FindDebuff(ActiveDebuff debuff)

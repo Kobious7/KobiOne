@@ -15,6 +15,7 @@ namespace Battle
             if (other.transform.name == "Opponent")
             {
                 Battle.Instance.DealSwordrainDamage(Game.Instance.Player, Game.Instance.Bot);
+                Battle.Instance.PlayerNextDamage = DamageType.SwordrainDamage;
                 Game.Instance.SwordrainSpawner.Despawn(transform.parent);
             }
         }

@@ -26,7 +26,7 @@ namespace Battle
             {
                 ActiveSkillSO skill = (ActiveSkillSO)SkillB.QSkill.skillSO;
 
-                if(playerStats.Mana > skill.ManaCost) SkillB.QUnlocking = true;
+                if(playerStats.Mana >= skill.ManaCost) SkillB.QUnlocking = true;
                 else SkillB.QUnlocking = false;
             }
         }
@@ -37,7 +37,7 @@ namespace Battle
             {
                 ActiveSkillSO skill = (ActiveSkillSO)SkillB.ESkill.skillSO;
 
-                if(playerStats.Mana > skill.ManaCost) SkillB.EUnlocking = true;
+                if(playerStats.Mana >= skill.ManaCost) SkillB.EUnlocking = true;
                 else SkillB.EUnlocking = false;
             }
         }
@@ -48,7 +48,7 @@ namespace Battle
             {
                 ActiveSkillSO skill = (ActiveSkillSO)SkillB.SpaceSkill.skillSO;
 
-                if(playerStats.Mana > skill.ManaCost) SkillB.SpaceUnlocking = true;
+                if(playerStats.Mana >= skill.ManaCost) SkillB.SpaceUnlocking = true;
                 else SkillB.SpaceUnlocking = false;
             }
         }

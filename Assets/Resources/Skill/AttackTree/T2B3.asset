@@ -33,17 +33,22 @@ MonoBehaviour:
   Self: 1
   Damage:
     SourceDamage: 5
+    damageType: 1
     Scaling: 200
     BonusPerLevel: 10
   Buffs:
   - StatBuff: 16
     SourceStat: 7
+    DamageType: 0
     BuffPercent: 5
     PercentBonus: 0.5
-    DurationType: 0
-    Duration: 1
+    DurationType: 2
+    Duration: 0
+    DurationStack: 0
+    PercentStack: 0
   Debuffs: []
-  ObjectSpawnCount: 0
+  ObjectMinSpawnCount: 0
+  ObjectMaxSpawnCount: 0
   ObjectSpawnPos: []
   ObjectSprite: {fileID: 0}
   ObjectSpeed: 0

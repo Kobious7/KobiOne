@@ -1,105 +1,137 @@
 using System.Collections.Generic;
 using System.Linq;
-using Battle;
 using UnityEngine;
 
-public class BuffSpawner : Spawner
+namespace Battle
 {
-    private static BuffSpawner instance;
-    public static BuffSpawner Instance => instance;
-
-    [SerializeField] private List<BuffObject> buffObjects;
-
-    protected override void Awake()
+    public class BuffSpawner : Spawner
     {
-        base.Awake();
-        if(instance != null) Debug.LogError("Only 1 BuffSpawner is allowed to exist!");
+        private static BuffSpawner instance;
+        public static BuffSpawner Instance => instance;
 
-        instance = this;
-    }
+        [SerializeField] private List<BuffObject> buffObjects;
 
-    public void SpawnBuffs(int level, List<ActiveBuff> buffs, EntityStats stats)
-    {
-        GetCurrentBuff();
-
-        foreach(var buff in buffs)
+        protected override void Awake()
         {
-            SpawnBuff(level, buff, stats);
+            base.Awake();
+            if(instance != null) Debug.LogError("Only 1 BuffSpawner is allowed to exist!");
+
+            instance = this;
         }
-    }
 
-    public void SpawnBuff(int level, ActiveBuff buff, EntityStats stats)
-    {
-        if(buff.DurationStack)
+        public void SpawnBuffs(int level, List<ActiveBuff> buffs, EntityStats stats)
         {
-            BuffObject foundObj = FindBuff(buff);
+            GetCurrentBuff();
 
-            if(foundObj != null)
+            foreach(var buff in buffs)
             {
-                foundObj.Duration += buff.Duration;
+                SpawnBuff(level, buff, stats);
+            }
+        }
+
+        public void SpawnBuff(int level, ActiveBuff buff, EntityStats stats)
+        {
+            if(buff.DurationType == DurationType.Immediately)
+            {
+                ImmediatelyBuffHandling(level, buff, stats);
+            }
+            else if(buff.DurationType == DurationType.NextStrike)
+            {
+                Battle.Instance.PlayerNextDamage = DamageType.None;
+                BuffObject foundObj = FindBuff(buff);
+
+                if(foundObj == null)
+                {
+                    SpawnNewBuff(level, buff, stats);
+                }
             }
             else
             {
-                SpawnNewBuff(level, buff, stats);
+                if(buff.DurationStack)
+                {
+                    BuffObject foundObj = FindBuff(buff);
+
+                    if(foundObj != null)
+                    {
+                        foundObj.Duration += buff.Duration;
+                    }
+                    else
+                    {
+                        SpawnNewBuff(level, buff, stats);
+                    }
+                }
+                else if(buff.PercentStack)
+                {
+                    BuffObject foundObj = FindBuff(buff);
+
+                    if(foundObj != null)
+                    {
+                        int percentBuff = (int)(buff.PercentBonus * (level - 1) + buff.BuffPercent);
+                        foundObj.PercentBuff += percentBuff;
+                        foundObj.BuffHandler.BuffHandling();
+                    }
+                    else
+                    {
+                        SpawnNewBuff(level, buff, stats);
+                    }
+                }
+                else
+                {
+                    BuffObject foundObj = FindBuff(buff);
+
+                    if(foundObj != null) foundObj.Duration = buff.Duration;
+                    else SpawnNewBuff(level, buff, stats);
+                }
             }
         }
-        else if(buff.PercentStack)
+
+        public void SpawnNewBuff(int level, ActiveBuff buff, EntityStats stats)
         {
-            BuffObject foundObj = FindBuff(buff);
+            Transform newBuff = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
 
-            if(foundObj != null)
-            {
-                int percentBuff = (int)(buff.PercentBonus * (level - 1) + buff.BuffPercent);
-                foundObj.PercentBuff += percentBuff;
-                foundObj.BuffHandler.BuffHandling();
-            }
-            else
-            {
-                SpawnNewBuff(level, buff, stats);
-            }
+            BuffObject objCom = newBuff.GetComponent<BuffObject>();
+            objCom.Stats = stats;
+            objCom.SourceStat = buff.SourceStat;
+            objCom.TrueStatBuff = buff.StatBuff;
+            objCom.DamageType = buff.DamageType;
+            int percentBuff = (int)(buff.PercentBonus * (level - 1) + buff.BuffPercent);
+            objCom.PercentBuff = percentBuff;
+            objCom.DurationType = buff.DurationType;
+            objCom.Duration = buff.Duration;
+            objCom.DurationStack = buff.DurationStack;
+            objCom.PercentStack = buff.PercentStack;
+
+            newBuff.gameObject.SetActive(true);
         }
-        else
+
+        public void ImmediatelyBuffHandling(int level, ActiveBuff buff, EntityStats stats)
         {
-            BuffObject foundObj = FindBuff(buff);
+            float percentBuff = buff.PercentBonus * (level - 1) + buff.BuffPercent;
 
-            if(foundObj != null) foundObj.Duration = buff.Duration;
-            else SpawnNewBuff(level, buff, stats);
-        }
-    }
-
-    public void SpawnNewBuff(int level, ActiveBuff buff, EntityStats stats)
-    {
-        Transform newBuff = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
-
-        BuffObject objCom = newBuff.GetComponent<BuffObject>();
-        objCom.Stats = stats;
-        objCom.SourceStat = buff.SourceStat;
-        objCom.TrueStatBuff = buff.StatBuff;
-        int percentBuff = (int)(buff.PercentBonus * (level - 1) + buff.BuffPercent);
-        objCom.PercentBuff = percentBuff;
-        objCom.DurationType = buff.DurationType;
-        objCom.Duration = buff.Duration;
-        objCom.DurationStack = buff.DurationStack;
-        objCom.PercentStack = buff.PercentStack;
-
-        newBuff.gameObject.SetActive(true);
-    }
-
-    private BuffObject FindBuff(ActiveBuff buff)
-    {
-        foreach(var buffObj in buffObjects)
-        {
-            if(buffObj.TrueStatBuff == buff.StatBuff && buffObj.SourceStat == buff.SourceStat && buffObj.DurationType == buff.DurationType)
+            switch(buff.StatBuff)
             {
-                return buffObj;
+                case EquipStatType.CurrentHPByMaxHP:
+                    stats.HPIns((int)(percentBuff / 100 * stats.MaxHP));
+                    break;
             }
         }
 
-        return null;
-    }
+        private BuffObject FindBuff(ActiveBuff buff)
+        {
+            foreach(var buffObj in buffObjects)
+            {
+                if(buffObj.TrueStatBuff == buff.StatBuff && buffObj.SourceStat == buff.SourceStat && buffObj.DurationType == buff.DurationType)
+                {
+                    return buffObj;
+                }
+            }
 
-    public void GetCurrentBuff()
-    {
-        buffObjects = GetComponentsInChildren<BuffObject>().ToList();
+            return null;
+        }
+
+        public void GetCurrentBuff()
+        {
+            buffObjects = GetComponentsInChildren<BuffObject>().ToList();
+        }
     }
 }

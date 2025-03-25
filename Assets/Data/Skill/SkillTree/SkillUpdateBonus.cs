@@ -85,7 +85,7 @@ public class SkillUpdateBonus : SkillAb
             new PassiveSkillBonus(EquipStatType.DefenseP), new PassiveSkillBonus(EquipStatType.Dexterity), new PassiveSkillBonus(EquipStatType.Attack),
             new PassiveSkillBonus(EquipStatType.MagicAttack), new PassiveSkillBonus(EquipStatType.HP), new PassiveSkillBonus(EquipStatType.Defense),
             new PassiveSkillBonus(EquipStatType.Accuracy), new PassiveSkillBonus(EquipStatType.DamageRange), new PassiveSkillBonus(EquipStatType.Speed),
-            new PassiveSkillBonus(EquipStatType.CritRate), new PassiveSkillBonus(EquipStatType.CritDamage)
+            new PassiveSkillBonus(EquipStatType.CritRate), new PassiveSkillBonus(EquipStatType.CritDamage), new PassiveSkillBonus(EquipStatType.ManaRegen)
         };
     }
 

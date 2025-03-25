@@ -93,6 +93,14 @@ namespace Battle
             set { critDamage = value; }
         }
 
+        [SerializeField] protected float manaRegen;
+
+        public float ManaRegen
+        {
+            get { return manaRegen;}
+            set { manaRegen = value;}
+        }
+
         [SerializeField] protected int vHP = 0;
 
         public int VHP
@@ -167,7 +175,7 @@ namespace Battle
         {
             vHP += amount;
 
-            if (vHP > maxHP / 2) vHP = maxHP / 2;
+            if (vHP > maxHP) vHP = maxHP;
         }
 
         public void VHPDes(int amount)

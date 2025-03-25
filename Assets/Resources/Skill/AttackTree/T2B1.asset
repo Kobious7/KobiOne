@@ -26,12 +26,15 @@ MonoBehaviour:
   Button: 0
   ManaCost: 40
   TurnCount: 0
-  OpponentTarget: 0
+  Opponent: 1
   Buffs:
   - StatBuff: 5
     SourceStat: 5
+    DamageType: 0
     BuffPercent: 20
     PercentBonus: 5
     DurationType: 0
     Duration: 3
+    DurationStack: 0
+    PercentStack: 0
   Debuffs: []

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Battle
@@ -17,7 +18,14 @@ namespace Battle
 
         private void FixedUpdate()
         {
-            DespawnBuff();
+            if(BuffObj.DurationType == DurationType.NextStrike)
+            {
+                DespawnNextStrikeBuff();
+            }
+            else
+            {
+                DespawnBuff();
+            }
         }
 
         private void TurnChange()
@@ -96,12 +104,33 @@ namespace Battle
         {
             switch(equipStatType)
             {
+                case EquipStatType.Attack:
+                    stats.Attack = stats.Attack - previousFlatValue + newFlatValue;
+                    stats.SlashDamage = stats.SlashDamage - (int)(previousFlatValue / 3) + (int)(newFlatValue / 3);
+                    break;
+                case EquipStatType.MagicAttack:
+                    stats.MagicAttack = stats.MagicAttack - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.HP:
+                    stats.MaxHP = stats.MaxHP - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.CurrentHPByMaxHP:
+                    stats.CurrentHP = stats.CurrentHP - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.SlashDamage:
+                    stats.SlashDamage = stats.SlashDamage - previousFlatValue + newFlatValue;
+                    break;
+                case EquipStatType.SwordrainDamage:
+                    stats.SwordrainDamage = stats.SwordrainDamage - previousFlatValue + newFlatValue;
+                    break;
                 case EquipStatType.Defense:
                     stats.Defense = stats.Defense - previousFlatValue + newFlatValue;
                     break;
+                case EquipStatType.Accuracy:
+                    stats.Accuracy = stats.Accuracy - previousFlatValue + newFlatValue;
+                    break;
             }
         }
-
 
         private void DespawnBuff()
         {
@@ -111,24 +140,18 @@ namespace Battle
 
             BuffCalculate();
 
-            DebuffSpawner.Instance.Despawn(transform.parent);
+            BuffSpawner.Instance.Despawn(transform.parent);
         }
 
-        private int GetStatByType(EquipStatType statType)
+        private void DespawnNextStrikeBuff()
         {
-            EntityStats stats = BuffObj.Stats;
+            if(Battle.Instance.PlayerNextDamage != BuffObj.DamageType) return;
 
-            switch(statType)
-            {
-                case EquipStatType.Defense:
-                    return stats.Defense;
-                case EquipStatType.SlashDamage:
-                    return stats.SlashDamage;
-                case EquipStatType.SwordrainDamage:
-                    return stats.SwordrainDamage;
-                default:
-                    return 0;
-            }
+            BuffObj.PercentBuff = 0;
+
+            BuffCalculate();
+
+            BuffSpawner.Instance.Despawn(transform.parent);
         }
     }
 }

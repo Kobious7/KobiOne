@@ -33,14 +33,15 @@ MonoBehaviour:
   OpponentTarget: 1
   Damage:
     SourceDamage: 5
+    damageType: 1
     Scaling: 100
     BonusPerLevel: 5
   Buffs: []
   Debuffs: []
   ObjectMinSpawnCount: 1
-  ObjectMaxSpawnCount: 6
+  ObjectMaxSpawnCount: 2
   MinObjectToOp: 0
-  MaxObjectToOp: 3
+  MaxObjectToOp: 1
   AreaString: 2x2
   Area:
   - X: 0
