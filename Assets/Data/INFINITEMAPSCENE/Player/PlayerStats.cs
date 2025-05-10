@@ -218,13 +218,12 @@ namespace InfiniteMap
             strength.TrueValue = characterData.Strength.TrueValue;
             defense.TrueValue = characterData.Defense.TrueValue;
             dexterity.TrueValue = characterData.Dexterity.TrueValue;
-            potential = new List<Stat>{
-                power,
-                magic,
-                strength,
-                defense,
-                dexterity
-            };
+            potential.Clear();
+            potential.Add(power);
+            potential.Add(magic);
+            potential.Add(strength);
+            potential.Add(defense);
+            potential.Add(dexterity);
 
             CalculatePower();
             CalculateMagic();
@@ -370,7 +369,7 @@ namespace InfiniteMap
         private void IncreaseLevel()
         {
             stats[0].Value = level;
-            Game.Instance.CharacterData.Level = level;
+            //Game.Instance.CharacterData.Level = level;
             //Game.Instance.CharacterData.CurrentExp = currentExp;
 
             OnStatChange?.Invoke(0);
@@ -569,8 +568,9 @@ namespace InfiniteMap
         {
             Stat strength = potential[2];
             Stat hp = stats[3];
-            int flat = strength.Value * 10 + hp.FlatBonus;
-            hp.Value = (int) ((flat + flat * hp.PercentBonus/ 100) * 10) ;
+            float multiplier = 1 + strength.Value * 0.0005f;
+            float flat = strength.Value * multiplier;
+            hp.Value = (int) ((flat + flat * hp.PercentBonus / 100) * 5) ;
         }
 
         private void CalculateDefenseStat()

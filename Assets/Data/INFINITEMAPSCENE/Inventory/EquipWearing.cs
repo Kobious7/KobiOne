@@ -23,10 +23,16 @@ namespace InfiniteMap
 
             if(equip.EquipSO.EquipType == EquipType.WEAP)
             {
+                if(equipment.Weapon != null && equipment.Weapon.Level > 0) 
+                {
+                    equipList.Add(equipment.Weapon);
+                    equipment.Calculator.NewWeaponBonus();
+                    equipment.Unequip.DisarmInvoke(equipment.Weapon);
+                }
+
                 equipment.Weapon = equip;
                 equipList.Remove(equip);
                 equipment.Calculator.CalculateWeapon();
-                Game.Instance.Player.SpriteSwap.SetSpriteResolver(1, equip.EquipSO.ItemName);
                 OnEquipWearing?.Invoke(equipment.Weapon);
             }
             if(equip.EquipSO.EquipType == EquipType.HELMET)
@@ -34,7 +40,6 @@ namespace InfiniteMap
                 equipment.Helmet = equip;
                 equipList.Remove(equip);
                 equipment.Calculator.CalculateHelmet();
-                Game.Instance.Player.SpriteSwap.SetSpriteResolver(0, equip.EquipSO.ItemName);
                 OnEquipWearing?.Invoke(equipment.Helmet);
             }
             if(equip.EquipSO.EquipType == EquipType.BODYARMOR)

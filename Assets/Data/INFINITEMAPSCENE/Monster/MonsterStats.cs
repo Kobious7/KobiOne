@@ -36,20 +36,35 @@ namespace InfiniteMap
             set { slashDamage = value; }
         }
 
+        [SerializeField] private bool loadFromData;
+
         protected override void OnEnable()
         {
             base.OnEnable();
             level = Random.Range(1, 10);
-            maxHP = 50 + level * 10;
+            maxHP = 30 + level * 10;
             slashDamage = level;
             swordrainDamage = level;
-            UpdateStats(Game.Instance.Map.MapLevel.PreviousLevel);
+            if(Game.Instance.MapData.InfiniteMapInfo.ReloadMonster)
+            {
+                loadFromData = true;
+            }
+
+            if(loadFromData)
+            {
+                UpdateStats(Game.Instance.MapData.InfiniteMapInfo.MapLevel);
+                loadFromData = false;
+            }
+            else
+            {
+                UpdateStats(Game.Instance.Map.MapLevel.CurrentLevel);
+            }
         }
 
         private void UpdateStats(int mapLevel)
         {
             level += 10 * mapLevel;
-            maxHP = 50 + level * 10;
+            maxHP = 30 + level * 10;
             slashDamage = level;
             swordrainDamage = level;
         }

@@ -13,8 +13,6 @@ namespace InfiniteMap
             if (other.transform.name == "Monster")
             {
                 Game.Instance.LoadAllObj(other.transform);
-                PlayerStatic.Instance.SetGameObject(Game.Instance.Player.RigModel);
-                PlayerStatic.Instance.LoadBattle("Battle");
             }
         }
     }

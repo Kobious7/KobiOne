@@ -9,11 +9,6 @@ namespace Battle
         protected override void LoadModel()
         {
             base.LoadModel();
-
-            PlayerStatic.Instance.transform.Find("RigModel").transform.SetParent(Model);
-            Model.Find("RigModel").transform.position = Model.parent.localPosition;
         }
-
-
     }
 }

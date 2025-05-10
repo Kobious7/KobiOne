@@ -18,7 +18,6 @@ namespace InfiniteMap
                 Equipment.Weapon = new InventoryEquip();
                 Equipment.Calculator.NewWeaponBonus();
                 OnEquipDisarming?.Invoke(equip);
-                Game.Instance.Player.SpriteSwap.SetSpriteResolver(1, "Default");
             }
             if(equip.EquipSO.EquipType == EquipType.HELMET)
             {
@@ -26,7 +25,6 @@ namespace InfiniteMap
                 Equipment.Helmet = new InventoryEquip();
                 Equipment.Calculator.NewHelmetBonus();
                 OnEquipDisarming?.Invoke(equip);
-                Game.Instance.Player.SpriteSwap.SetSpriteResolver(0, "Default");
             }
             if(equip.EquipSO.EquipType == EquipType.BODYARMOR)
             {
@@ -66,6 +64,11 @@ namespace InfiniteMap
 
             Game.Instance.Equipment.Calculator.CalculateTotalBonus();
             Game.Instance.Player.Stats.UpdateEquipBonus(Game.Instance.Equipment.StatsBonus);
+        }
+
+        public void DisarmInvoke(InventoryEquip equip)
+        {
+            OnEquipDisarming?.Invoke(equip);
         }
     }
 }

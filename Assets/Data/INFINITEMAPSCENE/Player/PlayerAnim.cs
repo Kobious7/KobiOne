@@ -1,22 +1,96 @@
+using System.Collections;
 using UnityEngine;
 
 namespace InfiniteMap
 {
     public class PlayerAnim : PlayerAb
     {
-        public void IdleAnim()
+        [SerializeField] private RuntimeAnimatorController origin;
+        [SerializeField] private AnimatorOverrideController staffOverride;
+
+        protected override void Start()
+        {
+            base.Start();
+            Game.Instance.Inventory.EquipWearing.OnEquipWearing += SwapOverride;
+        }
+
+        public void Idle()
         {
             Player.Animator.SetInteger("state", 0);
         }
 
-        public void RunAnim()
+        public void Run()
         {
             Player.Animator.SetInteger("state", 1);
         }
 
         public void MeleeAttack()
         {
-            Player.Animator.SetTrigger("attack");
+            Player.Animator.SetTrigger("melee_attack");
+        }
+
+        public void RangedAttack()
+        {
+            Player.Animator.SetTrigger("melee_attack");
+        }
+
+        public void IdleToJump()
+        {
+            Player.Animator.Play("IdleToJump");
+        }
+
+        public void Jump()
+        {
+            Player.Animator.Play("Jump");
+        }
+
+        public void Fall()
+        {
+            Player.Animator.Play("Fall");
+        }
+
+        public void FallToIlde()
+        {
+            Player.Animator.Play("FallToIdle");
+        }
+
+        public IEnumerator WaitAnim(string name)
+        {
+            yield return new WaitForSeconds(GetAnimDuration(name));
+        }
+
+        public float GetAnimDuration(string name)
+        {
+            foreach (AnimationClip clip in Player.Animator.runtimeAnimatorController.animationClips)
+            {
+                if (clip.name == name)
+                {
+                    Debug.Log(clip.length);
+                    return clip.length;
+                }
+            }
+
+            return 1;
+        }
+
+        public void SwapOverride(InventoryEquip weapon)
+        {
+            WeaponSO weaponSO = (WeaponSO)weapon.EquipSO;
+
+            SetWeaponOverride(weaponSO);
+        }
+
+        public void SetWeaponOverride(WeaponSO weaponSO)
+        {
+            switch(weaponSO.WeaponType)
+            {
+                case WeaponType.Sword:
+                    Player.Animator.runtimeAnimatorController = origin;
+                    break;
+                case WeaponType.Staff:
+                    Player.Animator.runtimeAnimatorController = staffOverride;
+                    break;
+            }
         }
     }
 }

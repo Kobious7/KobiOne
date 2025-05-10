@@ -60,7 +60,7 @@ namespace InfiniteMap
             int current = player.Stats.CurrentExp;
             int max = player.Stats.RequiredExp;
             levelText.text = level + "";
-            levelPercentText.text = $"{(((float)current / max) * 100):F2} %";
+            levelPercentText.text = current > 0 ? $"{(((float)current / max) * 100):F2}%" : "0%";
             levelPercent.fillAmount = Mathf.Lerp(levelPercent.fillAmount, (float)current/max, speed * Time.deltaTime);
         }
     }

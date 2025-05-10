@@ -16,9 +16,9 @@ namespace InfiniteMap
 
         public Transform Model => model;
 
-        [SerializeField] private GameObject rigModel;
+        [SerializeField] private Transform rigModel;
 
-        public GameObject RigModel => rigModel;
+        public Transform RigModel => rigModel;
 
         [SerializeField] private Animator animator;
 
@@ -36,9 +36,9 @@ namespace InfiniteMap
 
         public PlayerAnim Anim => anim;
 
-        [SerializeField] private Transform attackPoint;
+        [SerializeField] private PlayerAttackPoint attackPoint;
 
-        public Transform AttackPoint => attackPoint;
+        public PlayerAttackPoint AttackPoint => attackPoint;
 
         [SerializeField] private Transform centerPoint;
 
@@ -60,6 +60,14 @@ namespace InfiniteMap
 
         public PlayerSpriteSwap SpriteSwap => spriteSwap;
 
+        [SerializeField] private PlayerMeleeAttack meleeAttack;
+
+        public PlayerMeleeAttack MeleeAttack => meleeAttack;
+
+        [SerializeField] private PLayerRangeAttack rangedAttack;
+
+        public PLayerRangeAttack RangedAttack => rangedAttack;
+
         protected override void LoadComponents()
         {
             base.LoadComponents();
@@ -69,11 +77,14 @@ namespace InfiniteMap
             LoadRigibody2D();
             LoadAnimator();
             LoadAnimation();
-            LoadPoints();
+            LoadAttackPoint();
+            LoadCenterPoint();
             LoadShooting();
             LoadStats();
             LoadCapsuleCollider();
-            LoadSpriteSwap();
+            //LoadSpriteSwap();
+            LoadMeleeAttack();
+            LoadRangedAttack();
         }
 
         protected override void Start()
@@ -97,7 +108,7 @@ namespace InfiniteMap
         {
             if(rigModel != null) return;
 
-            rigModel = transform.Find("Model").GetComponentInChildren<PlayerAdjustColliderInMap>().gameObject;
+            rigModel = transform.Find("Model").Find("RigModel");
         }
 
         private void LoadRigibody()
@@ -118,7 +129,7 @@ namespace InfiniteMap
         {
             if (animator != null) return;
 
-            animator = transform.Find("Model").GetComponent<Animator>();
+            animator = transform.Find("Model").Find("RigModel").GetComponentInChildren<Animator>();
         }
 
         private void LoadAnimation()
@@ -128,11 +139,17 @@ namespace InfiniteMap
             anim = GetComponentInChildren<PlayerAnim>();
         }
 
-        private void LoadPoints()
+        private void LoadAttackPoint()
         {
-            if (attackPoint != null && centerPoint != null) return;
+            if(attackPoint != null) return;
 
-            attackPoint = transform.Find("AttackPoint");
+            attackPoint = GetComponentInChildren<PlayerAttackPoint>();
+        }
+
+        private void LoadCenterPoint()
+        {
+            if (centerPoint != null) return;
+
             centerPoint = transform.Find("CenterPoint");
         }
 
@@ -162,6 +179,20 @@ namespace InfiniteMap
             if(spriteSwap != null) return;
 
             spriteSwap = rigModel.GetComponent<PlayerSpriteSwap>();
+        }
+
+        private void LoadMeleeAttack()
+        {
+            if(meleeAttack != null) return;
+
+            meleeAttack = GetComponentInChildren<PlayerMeleeAttack>();
+        }
+
+        private void LoadRangedAttack()
+        {
+            if(rangedAttack != null) return;
+
+            rangedAttack = GetComponentInChildren<PLayerRangeAttack>();
         }
     }
 }

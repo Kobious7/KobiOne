@@ -138,6 +138,8 @@ namespace InfiniteMap
         public void LoadMapObj()
         {
             mapData.InfiniteMapInfo.Distance = map.Distance;
+            mapData.InfiniteMapInfo.MapLevel = map.MapLevel.CurrentLevel;
+            mapData.InfiniteMapInfo.ReloadMonster = true;
         }
 
         public void LoadPlayerObj()

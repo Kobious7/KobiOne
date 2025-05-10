@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace InfiniteMap
@@ -16,7 +17,7 @@ namespace InfiniteMap
 
             if (InputManager.Instance.Fire1 > 0 && canAttack)
             {
-                Attack();
+                StartCoroutine(Attack());
             }
         }
 
@@ -31,17 +32,19 @@ namespace InfiniteMap
             counter += Time.deltaTime;
         }
 
-        private void Attack()
+        private IEnumerator Attack()
         {
             canAttack = false;
             counter = 0;
             Player.Anim.MeleeAttack();
+
+            yield return StartCoroutine(Player.Anim.WaitAnim("SwordMeleeAttack"));
             CheckHit();
         }
 
         private void CheckHit()
         {
-            Collider[] monsters = Physics.OverlapSphere(Player.AttackPoint.position, range, layerMask);
+            Collider[] monsters = Physics.OverlapSphere(Player.CenterPoint.transform.position, range, layerMask);
 
             foreach (Collider monster in monsters)
             {
@@ -53,7 +56,7 @@ namespace InfiniteMap
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.DrawSphere(Player.AttackPoint.position, range);
+            Gizmos.DrawSphere(Player.CenterPoint.transform.position, range);
         }
     }
 }

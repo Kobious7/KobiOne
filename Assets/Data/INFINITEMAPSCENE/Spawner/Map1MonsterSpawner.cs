@@ -24,7 +24,7 @@ namespace InfiniteMap
 
         private void LoadFromData()
         {
-            List<MonsterInfo> list = Game.Instance.MapData.Map1MonsterSpawnerInfo.MonsterInfos;
+            List<MonsterInfo> list = Game.Instance.MapData.Map1MonsterSpawnerInfo.MonsterInfos.Count > 0 ? Game.Instance.MapData.Map1MonsterSpawnerInfo.MonsterInfos : Game.Instance.MapData.Map2MonsterSpawnerInfo.MonsterInfos;
 
             foreach (MonsterInfo monsterInfo in list)
             {

@@ -99,20 +99,20 @@ namespace InfiniteMap
         {
             base.Start();
             LoadEquip();
-            AddEquip(equipObtainer.CreateEquip(test));
-            AddEquip(equipObtainer.CreateEquip(test1));
-            AddEquip(equipObtainer.CreateEquip(test2));
-            AddEquip(equipObtainer.CreateEquip(test3));
-            AddEquip(equipObtainer.CreateEquip(test4));
-            AddEquip(equipObtainer.CreateEquip(test5));
-            AddEquip(equipObtainer.CreateEquip(test6));
-            equipObtainer.UpgradeEquip(weaponList[0], 100);
-            equipObtainer.UpgradeEquip(helmetList[0], 100);
-            equipObtainer.UpgradeEquip(bodyArmorList[0], 100);
-            equipObtainer.UpgradeEquip(legArmorList[0], 100);
-            equipObtainer.UpgradeEquip(bootsList[0], 100);
-            equipObtainer.UpgradeEquip(backItemList[0], 100);
-            equipObtainer.UpgradeEquip(auraList[0], 100);
+            AddEquip(equipObtainer.CreateEquip(test, Rarity.Common));
+            AddEquip(equipObtainer.CreateEquip(test1, Rarity.Common));
+            // AddEquip(equipObtainer.CreateEquip(test2));
+            // AddEquip(equipObtainer.CreateEquip(test3));
+            // AddEquip(equipObtainer.CreateEquip(test4));
+            // AddEquip(equipObtainer.CreateEquip(test5));
+            // AddEquip(equipObtainer.CreateEquip(test6));
+            // equipObtainer.UpgradeEquip(weaponList[0], 100);
+            // equipObtainer.UpgradeEquip(helmetList[0], 100);
+            // equipObtainer.UpgradeEquip(bodyArmorList[0], 100);
+            // equipObtainer.UpgradeEquip(legArmorList[0], 100);
+            // equipObtainer.UpgradeEquip(bootsList[0], 100);
+            // equipObtainer.UpgradeEquip(backItemList[0], 100);
+            // equipObtainer.UpgradeEquip(auraList[0], 100);
         }
 
         private void LoadEquipObtainer()
@@ -215,9 +215,9 @@ namespace InfiniteMap
         {
             foreach(ItemSO item in Game.Instance.MapData.ItemDropList)
             {
-                float rate = UnityEngine.Random.Range(0f, 1f);
+                float rate = UnityEngine.Random.Range(0f, 100f);
 
-                if(rate <= item.DropRate / 100)
+                if(rate <= item.DropRate)
                 {
                     if(item.ItemType == ItemType.STACK) AddStackableItem(new InventoryItem(item, 1));
                     else if(item.ItemType == ItemType.NOSTACK) AddUnstackableItem(new InventoryItem(item, 1));
@@ -226,13 +226,21 @@ namespace InfiniteMap
         }
 
         public void DropEquip()
-        {
+        {   
+            float dropRate = UnityEngine.Random.Range(0f, 100f);
+
+            if(dropRate > 30) return;
+
+            RarityCalculator rarityCalculator = new RarityCalculator();
+            
             foreach(EquipSO equipSO in Game.Instance.MapData.EquipDropList)
             {
-                InventoryEquip newEquip = equipObtainer.CreateEquip(equipSO);
 
-                if(newEquip == null) continue;
+                Rarity rarity = rarityCalculator.GetNormalMonsterRarity();
 
+                if(rarity == Rarity.None) continue;
+
+                InventoryEquip newEquip = equipObtainer.CreateEquip(equipSO, rarity);
                 AddEquip(newEquip);
             }
         }

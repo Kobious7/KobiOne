@@ -31,12 +31,9 @@ namespace InfiniteMap
                                                                 EquipStatType.CritDamage };
         }
 
-        public InventoryEquip CreateEquip(EquipSO equipSO)
+        public InventoryEquip CreateEquip(EquipSO equipSO, Rarity rarity)
         {
-            Rarity rarity = GetRarity();
             Debug.Log(rarity);
-            if(rarity == Rarity.None) return null;
-
             InventoryEquip newEquip = new InventoryEquip();
             newEquip.Level = 1;
             newEquip.EquipSO = equipSO;

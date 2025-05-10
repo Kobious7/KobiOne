@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f52434bc06f1b64695a9e0fe1e86c37, type: 3}
+  m_Name: EquipSpriteSet
+  m_EditorClassIdentifier: 
+  AllSets:
+  - SetName: 0x
+    SetId: 0
+    MainParts:
+    - PartName: Helmet
+      Parts:
+      - Sprite: {fileID: -7258608430293531761, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d0
+      - Sprite: {fileID: -290170977474627777, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d1
+      - Sprite: {fileID: -8566757464279764059, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d0
+      - Sprite: {fileID: 8300602518304807658, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d1
+      - Sprite: {fileID: -5924376802295014959, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d0
+      - Sprite: {fileID: 5602395029630782309, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d1
+      - Sprite: {fileID: -2620082275987674968, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d0
+      - Sprite: {fileID: 1147137363589411930, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d1
+    - PartName: Armor
+      Parts:
+      - Sprite: {fileID: 5231004308796308328, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d0
+      - Sprite: {fileID: -1639127174825781262, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d1
+      - Sprite: {fileID: -7206296363295073735, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: torso
+        Label: torso_d0
+      - Sprite: {fileID: 1171058385342570457, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: torso
+        Label: torso_d1
+    - PartName: Armwear
+      Parts:
+      - Sprite: {fileID: 9104547748900364202, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s1
+      - Sprite: {fileID: -6923581638075581396, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s2
+      - Sprite: {fileID: -7388677398161534326, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s3
+      - Sprite: {fileID: -7669982421396277248, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s1
+      - Sprite: {fileID: 3265052202720911307, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s2
+      - Sprite: {fileID: 7539922681770509132, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d0
+      - Sprite: {fileID: 4421431642369218015, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d1
+      - Sprite: {fileID: -8280509745639949924, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s1
+      - Sprite: {fileID: 5261274286621039833, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s2
+      - Sprite: {fileID: 4793140867740452860, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s3
+      - Sprite: {fileID: 224790649298246038, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_hand
+        Label: r_hand_d1
+    - PartName: Boots
+      Parts:
+      - Sprite: {fileID: 2003413194175302715, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_foot
+        Label: l_foot_d0
+      - Sprite: {fileID: -3359080995648201227, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_foot
+        Label: l_foot_d1
+      - Sprite: {fileID: 7175313135197416572, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_foot
+        Label: r_foot_d0
+      - Sprite: {fileID: -541572112448434652, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: r_foot
+        Label: r_foot_d1
+    - PartName: Weapon
+      Parts:
+      - Sprite: {fileID: 2320277201055155346, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: weapon_all
+        Label: weapon_all
+      - Sprite: {fileID: -1281095454371629169, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: weapon_h
+        Label: weapon_h
+  - SetName: 1x_s1
+    SetId: 11
+    MainParts:
+    - PartName: Helmet
+      Parts:
+      - Sprite: {fileID: -8232322720333151766, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d0
+      - Sprite: {fileID: -7947029995081790244, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d1
+      - Sprite: {fileID: -126581353701955132, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d0
+      - Sprite: {fileID: 1776684523326520138, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d1
+      - Sprite: {fileID: -3621444996604953585, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d0
+      - Sprite: {fileID: 7131052255109973771, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d1
+      - Sprite: {fileID: -5368283869961603081, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d0
+      - Sprite: {fileID: -3493310540957786549, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d1
+    - PartName: Armor
+      Parts:
+      - Sprite: {fileID: 8364076601950031668, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d0
+      - Sprite: {fileID: -7107898083172551762, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d1
+      - Sprite: {fileID: -5785778395439437995, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso
+        Label: torso_d0
+      - Sprite: {fileID: -5243038448054032193, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso
+        Label: torso_d1
+    - PartName: Armwear
+      Parts:
+      - Sprite: {fileID: -8242664850614195207, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s1
+      - Sprite: {fileID: -5885381580589888257, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s2
+      - Sprite: {fileID: -5880389790104535559, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s3
+      - Sprite: {fileID: -4245066052220575497, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s1
+      - Sprite: {fileID: -1478915116808774492, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s2
+      - Sprite: {fileID: -8477760048388167674, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d0
+      - Sprite: {fileID: 2172238206959212518, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d1
+      - Sprite: {fileID: -5026654036524769947, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s1
+      - Sprite: {fileID: 2748653288819046149, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s2
+      - Sprite: {fileID: -210436049894756151, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s3
+      - Sprite: {fileID: -529230811319817166, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d1
+    - PartName: Boots
+      Parts:
+      - Sprite: {fileID: -8403337073745448480, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_foot
+        Label: l_foot_d0
+      - Sprite: {fileID: 643308878021968100, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_foot
+        Label: l_foot_d1
+      - Sprite: {fileID: -7924916560411698064, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_foot
+        Label: r_foot_d0
+      - Sprite: {fileID: -1587200321965360341, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_foot
+        Label: r_foot_d1
+    - PartName: Weapon
+      Parts:
+      - Sprite: {fileID: -6376434356736318482, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: weapon_all
+        Label: weapon_all
+      - Sprite: {fileID: -2745425373253402117, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: weapon_h
+        Label: weapon_h
+  - SetName: 1x_s2
+    SetId: 12
+    MainParts:
+    - PartName: Helmet
+      Parts:
+      - Sprite: {fileID: -8232322720333151766, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d0
+      - Sprite: {fileID: -7947029995081790244, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba
+        Label: helmet_ba_d1
+      - Sprite: {fileID: -126581353701955132, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d0
+      - Sprite: {fileID: 1776684523326520138, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_h
+        Label: helmet_ba_h_d1
+      - Sprite: {fileID: -3621444996604953585, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d0
+      - Sprite: {fileID: 7131052255109973771, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_ba_t
+        Label: helmet_ba_t_d1
+      - Sprite: {fileID: -5368283869961603081, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d0
+      - Sprite: {fileID: -3493310540957786549, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: helmet_be
+        Label: helmet_be_d1
+    - PartName: Armor
+      Parts:
+      - Sprite: {fileID: 8364076601950031668, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d0
+      - Sprite: {fileID: -7107898083172551762, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso_be_l
+        Label: torso_be_l_d1
+      - Sprite: {fileID: -5785778395439437995, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso
+        Label: torso_d0
+      - Sprite: {fileID: -5243038448054032193, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: torso
+        Label: torso_d1
+    - PartName: Armwear
+      Parts:
+      - Sprite: {fileID: -8242664850614195207, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s1
+      - Sprite: {fileID: -5885381580589888257, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s2
+      - Sprite: {fileID: -5880389790104535559, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d0_s3
+      - Sprite: {fileID: -4245066052220575497, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s1
+      - Sprite: {fileID: -1478915116808774492, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s2
+      - Sprite: {fileID: -8477760048388167674, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d0
+      - Sprite: {fileID: 2172238206959212518, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_fingers
+        Label: r_fingers_d1
+      - Sprite: {fileID: -5026654036524769947, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s1
+      - Sprite: {fileID: 2748653288819046149, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s2
+      - Sprite: {fileID: -210436049894756151, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d0_s3
+      - Sprite: {fileID: -529230811319817166, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_hand
+        Label: r_hand_d1
+    - PartName: Boots
+      Parts:
+      - Sprite: {fileID: -8403337073745448480, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_foot
+        Label: l_foot_d0
+      - Sprite: {fileID: 643308878021968100, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_foot
+        Label: l_foot_d1
+      - Sprite: {fileID: -7924916560411698064, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_foot
+        Label: r_foot_d0
+      - Sprite: {fileID: -1587200321965360341, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: r_foot
+        Label: r_foot_d1
+    - PartName: Weapon
+      Parts:
+      - Sprite: {fileID: -6376434356736318482, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: weapon_all
+        Label: weapon_all
+      - Sprite: {fileID: -2745425373253402117, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: weapon_h
+        Label: weapon_h

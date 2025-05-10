@@ -22,8 +22,7 @@ namespace InfiniteMap
         protected override void Start()
         {
             base.Start();
-            StartCoroutine(WaitNextFrame());
-            
+            StartCoroutine(WaitNextFrame());   
         }
 
         private void LoadPotentialStatUIs()

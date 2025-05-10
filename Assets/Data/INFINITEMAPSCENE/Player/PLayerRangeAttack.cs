@@ -37,6 +37,7 @@ namespace InfiniteMap
             canAttack = false;
             counter = 0;
 
+            Player.Anim.RangedAttack();
             Player.Shooting.Shoot();
         }
     }

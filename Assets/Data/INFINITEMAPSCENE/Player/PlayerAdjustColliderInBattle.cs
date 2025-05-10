@@ -1,5 +1,6 @@
 using System.Collections;
 using Battle;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAdjustColliderInBattle : GMono
@@ -10,18 +11,23 @@ public class PlayerAdjustColliderInBattle : GMono
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private Bounds bounds;
     [SerializeField] private Vector3 localPos;
+    private Vector3 ground;
 
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(AdjustCollider());
+        StartCoroutine(AdjustPlaterPos());
     }
 
-    private IEnumerator a()
+    private IEnumerator AdjustPlaterPos()
     {
-        yield return null;
+        yield return StartCoroutine(AdjustCollider());
 
-        Debug.Log(transform.parent.parent.name);
+        ground = new Vector3(-8, -4, 0);
+        Vector3 localGround = transform.InverseTransformPoint(ground);
+        float yCurrentGround = localPos.y - height / 2;
+        float distanceFromGround = yCurrentGround - localGround.y;
+        transform.parent.parent.position = new Vector3(ground.x, transform.parent.parent.position.y - distanceFromGround, 0);
     }
 
     private IEnumerator AdjustCollider()
@@ -41,7 +47,7 @@ public class PlayerAdjustColliderInBattle : GMono
         }
 
         width = combinedBounds.size.x;
-        height = combinedBounds.size.y - 0.1f;
+        height = combinedBounds.size.y;
         bounds = combinedBounds;
 
         if (height > width)

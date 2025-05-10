@@ -8,7 +8,7 @@ namespace InfiniteMap
 
         public void Shoot()
         {
-            Transform obj = Game.Instance.FlyObjectSpawner.Spawn(prefab, Player.AttackPoint.position, Player.CenterPoint.rotation);
+            Transform obj = Game.Instance.FlyObjectSpawner.Spawn(prefab, Player.AttackPoint.transform.position, Player.CenterPoint.rotation);
 
             obj.gameObject.SetActive(true);
         }

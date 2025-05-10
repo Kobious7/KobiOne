@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -6,45 +7,78 @@ namespace InfiniteMap
 {
     public class PlayerSpriteSwap : GMono
     {
-        [SerializeField] private SpriteLibrary spriteLibrary;
-        [SerializeField] private List<PartSwap> partSwaps;
+        [SerializeField] private SpriteLibrary mainSLB;
+        [SerializeField] private EquipSpriteSetSO equipSets;
 
         protected override void LoadComponents()
         {
             base.LoadComponents();
             LoadSpriteLibrary();
-            LoadPartSwap();
+            LoadEquipSets();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            
+            Game.Instance.Inventory.EquipWearing.OnEquipWearing += PartSetSwap;
+            
+            for(int i = 0; i < 5; i++)
+            {
+                OverrideSet(0, i);
+            }
         }
 
         private void LoadSpriteLibrary()
         {
-            if(spriteLibrary != null) return;
+            if(mainSLB != null) return;
 
-            spriteLibrary = GetComponent<SpriteLibrary>();
+            mainSLB = GetComponent<SpriteLibrary>();
         }
 
-        private void LoadPartSwap()
+        private void LoadEquipSets()
         {
-            partSwaps = new();
-            PartSwap helmet = LoadPart("Head1", "Helmet");
-            PartSwap weapon = LoadPart("weapon", "Weapon");
+            if(equipSets != null) return;
 
-            partSwaps.Add(helmet);
-            partSwaps.Add(weapon);
+            equipSets = Resources.Load<EquipSpriteSetSO>("SpriteSwap/EquipSpriteSet"); 
         }
 
-        private PartSwap LoadPart(string partName, string categoryName)
+        private void PartSetSwap(InventoryEquip equip)
         {
-            PartSwap partSwap = new PartSwap();
-            partSwap.SpriteResolver = transform.Find(partName).GetComponent<SpriteResolver>();
-            partSwap.Category = categoryName;
+            EquipSO equipSO = equip.EquipSO;
 
-            return partSwap;
+            if(equipSO.SetId == 12)
+            {
+                ResetSet(equipSO.SetId, equipSO.PartIndex);
+            }
+            else
+            {
+                OverrideSet(equipSO.SetId, equipSO.PartIndex);
+            }
         }
 
-        public void SetSpriteResolver(int index, string label)
+        public void OverrideSet(int setId, int mainPartIndex)
         {
-            partSwaps[index].SpriteResolver.SetCategoryAndLabel(partSwaps[index].Category, label);
+            var overrideSet = equipSets.AllSets.FirstOrDefault(s => s.SetId == setId);
+
+            if(overrideSet == null || overrideSet.MainParts.Length < mainPartIndex) return;
+
+            foreach(var part in overrideSet.MainParts[mainPartIndex].Parts)
+            {
+                mainSLB.AddOverride(part.Sprite, part.Category, part.Label);
+            }
+        }
+
+        public void ResetSet(int setId, int mainPartIndex)
+        {
+            var overrideSet = equipSets.AllSets.FirstOrDefault(s => s.SetId == setId);
+
+            if(overrideSet == null || overrideSet.MainParts.Length < mainPartIndex) return;
+
+            foreach(var part in overrideSet.MainParts[mainPartIndex].Parts)
+            {
+                mainSLB.RemoveOverride(part.Category, part.Label);
+            }
         }
     }
 }

@@ -22,7 +22,6 @@ public class PlayerAdjustColliderInMap : GMono
         capsuleCollider = this.transform.parent.parent.GetComponentInChildren<CapsuleCollider>();
         capsuleCollider2D = this.transform.parent.parent.GetComponent<CapsuleCollider2D>();
         renderers = gameObject.GetComponentsInChildren<Renderer>();
-        Transform attackPoint = transform.parent.parent.Find("AttackPoint");
         Transform centerPoint = transform.parent.parent.Find("CenterPoint");
 
         if (renderers.Length < 0) return;
@@ -35,7 +34,7 @@ public class PlayerAdjustColliderInMap : GMono
         }
 
         width = combinedBounds.size.x;
-        height = combinedBounds.size.y - 0.1f;
+        height = combinedBounds.size.y;
         bounds = combinedBounds;
 
         if (height > width)
@@ -60,8 +59,7 @@ public class PlayerAdjustColliderInMap : GMono
         localPos = transform.InverseTransformPoint(bounds.center);
         capsuleCollider.center = localPos;
         capsuleCollider2D.offset = new Vector2(localPos.x, localPos.y);
-        if(centerPoint == null || attackPoint == null) return;
-        centerPoint.position = to2DVec(bounds.center);
-        //attackPoint.position = to2DVec(bounds.center) + new Vector3(1, 0, 0);
+        if(centerPoint == null) return;
+        centerPoint.position = to2DVec(bounds.center + Vector3.right);
     }
 }
