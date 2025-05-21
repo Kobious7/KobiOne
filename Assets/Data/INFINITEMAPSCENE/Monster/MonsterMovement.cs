@@ -36,6 +36,8 @@ namespace InfiniteMap
 
         private void MoveRight()
         {
+            Monster.Model.localScale = new Vector3(1, 1, 1);
+
             if (transform.parent.position.x <= xR)
                 transform.parent.Translate(Vector3.right * speed * Time.deltaTime);
             else
@@ -47,6 +49,8 @@ namespace InfiniteMap
 
         private void MoveLeft()
         {
+            Monster.Model.localScale = new Vector3(-1, 1, 1);
+
             if (transform.parent.position.x >= xL)
                 transform.parent.Translate(Vector3.left * speed * Time.deltaTime);
             else

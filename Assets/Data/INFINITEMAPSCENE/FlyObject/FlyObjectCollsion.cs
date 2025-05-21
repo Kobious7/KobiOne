@@ -7,10 +7,10 @@ namespace InfiniteMap
     public class FlyObjectCollison : FlyObjectAb
     {
         private void OnTriggerEnter(Collider other)
-        {
+        {        
             Game.Instance.FlyObjectSpawner.Despawn(transform.parent);
 
-            if (other.transform.name == "Monster")
+            if (other.transform.parent.name == "Monster")
             {
                 Game.Instance.LoadAllObj(other.transform);
             }

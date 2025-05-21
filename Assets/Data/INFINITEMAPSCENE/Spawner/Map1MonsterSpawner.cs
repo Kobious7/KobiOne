@@ -28,7 +28,7 @@ namespace InfiniteMap
 
             foreach (MonsterInfo monsterInfo in list)
             {
-                Transform newMonster = Spawn(prefabs[0], monsterInfo.PosOffset + Game.Instance.Map.Maps[0].position, Quaternion.identity);
+                Transform newMonster = Spawn(prefabs[Random.Range(0, prefabs.Count)], monsterInfo.PosOffset + Game.Instance.Map.Maps[0].position, Quaternion.identity);
                 
                 newMonster.gameObject.SetActive(true);
 

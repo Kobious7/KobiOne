@@ -64,9 +64,9 @@ namespace InfiniteMap
 
         public PlayerMeleeAttack MeleeAttack => meleeAttack;
 
-        [SerializeField] private PLayerRangeAttack rangedAttack;
+        [SerializeField] private PlayerRangedAttack rangedAttack;
 
-        public PLayerRangeAttack RangedAttack => rangedAttack;
+        public PlayerRangedAttack RangedAttack => rangedAttack;
 
         protected override void LoadComponents()
         {
@@ -192,7 +192,7 @@ namespace InfiniteMap
         {
             if(rangedAttack != null) return;
 
-            rangedAttack = GetComponentInChildren<PLayerRangeAttack>();
+            rangedAttack = GetComponentInChildren<PlayerRangedAttack>();
         }
     }
 }

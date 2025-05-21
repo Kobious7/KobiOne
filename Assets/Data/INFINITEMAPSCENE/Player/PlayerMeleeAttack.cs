@@ -13,11 +13,13 @@ namespace InfiniteMap
 
         private void Update()
         {
+            if(Player.IsUIOpening) return;
+            
             CountTime();
 
             if (InputManager.Instance.Fire1 > 0 && canAttack)
             {
-                StartCoroutine(Attack());
+                Attack();
             }
         }
 
@@ -32,25 +34,31 @@ namespace InfiniteMap
             counter += Time.deltaTime;
         }
 
-        private IEnumerator Attack()
+        private void Attack()
         {
             canAttack = false;
             counter = 0;
             Player.Anim.MeleeAttack();
-
-            yield return StartCoroutine(Player.Anim.WaitAnim("SwordMeleeAttack"));
-            CheckHit();
         }
 
-        private void CheckHit()
+        public IEnumerator CheckHit()
         {
+            Debug.Log("a");
             Collider[] monsters = Physics.OverlapSphere(Player.CenterPoint.transform.position, range, layerMask);
+
+            if (monsters.Length > 0)
+            {
+                Debug.Log(">0");
+                PlayerEventsInAnim.Instance.Hit = true;
+            }
 
             foreach (Collider monster in monsters)
             {
                 Debug.Log("" + monster.transform.name);
+
+                yield return new WaitForSeconds(1.5f);
+
                 LoadScene("Battle");
-                return;
             }
         }
 

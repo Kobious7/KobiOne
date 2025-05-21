@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace InfiniteMap
 {
-    public class PLayerRangeAttack : PlayerAb
+    public class PlayerRangedAttack : PlayerAb
     {
         [SerializeField] private float range = 1;
         [SerializeField] private float timer = 1;
@@ -38,7 +38,6 @@ namespace InfiniteMap
             counter = 0;
 
             Player.Anim.RangedAttack();
-            Player.Shooting.Shoot();
         }
     }
 }

@@ -44,6 +44,12 @@ TagManager:
   - name: Decoration
     uniqueID: 1225466713
     locked: 0
+  - name: Monster
+    uniqueID: 3900979477
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Trail
+    uniqueID: 425127657
     locked: 0

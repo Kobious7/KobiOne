@@ -31,7 +31,7 @@ namespace InfiniteMap
 
         public void RangedAttack()
         {
-            Player.Animator.SetTrigger("melee_attack");
+            Player.Animator.SetTrigger("ranged_attack");
         }
 
         public void IdleToJump()

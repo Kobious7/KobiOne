@@ -9,9 +9,9 @@ namespace InfiniteMap
             base.Start();
             Game.Instance.Inventory.EquipWearing.OnEquipWearing += SwapWeapon;
 
-            Player.MeleeAttack.gameObject.SetActive(false);
-            Player.AttackPoint.gameObject.SetActive(true);
-            Player.RangedAttack.gameObject.SetActive(true);
+            Player.MeleeAttack.gameObject.SetActive(true);
+            Player.AttackPoint.gameObject.SetActive(false);
+            Player.RangedAttack.gameObject.SetActive(false);
         }
 
         public void SwapWeapon(InventoryEquip equip)
@@ -22,7 +22,7 @@ namespace InfiniteMap
             {
                 case AttackRange.Melee:
                     Player.MeleeAttack.gameObject.SetActive(true);
-                    Player.AttackPoint.gameObject.SetActive(true);
+                    Player.AttackPoint.gameObject.SetActive(false);
                     Player.RangedAttack.gameObject.SetActive(false);
                     break;
                 case AttackRange.Ranged:
