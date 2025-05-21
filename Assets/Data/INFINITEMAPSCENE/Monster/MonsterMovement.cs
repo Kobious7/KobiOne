@@ -11,6 +11,15 @@ namespace InfiniteMap
         [SerializeField] private int[] arr = { -1, 1 };
         [SerializeField] private float distance = 10;
 
+        [Header("Idle & Move Time")]
+        [SerializeField] private float minIdleTime = 2f;
+        [SerializeField] private float maxIdleTime = 10f;
+        [SerializeField] private float minMoveDuration = 2f;
+        [SerializeField] private float maxMoveDuration = 10f;
+        private bool isIdle;
+        private float idleTimer;
+        private float moveTimer;
+
         protected override void Start()
         {
             base.Start();
@@ -20,16 +29,48 @@ namespace InfiniteMap
 
             if (rand == 1) isRight = true;
             if (rand == -1) isLeft = true;
+
+            ResetMoveTimer();
         }
 
         private void Update()
         {
-            if (Vector3.Distance(Game.Instance.Player.transform.position, transform.parent.position) > distance) return;
-            Move();
+            if (Vector3.Distance(Game.Instance.Player.transform.position, transform.parent.position) > distance)
+            {
+                Monster.Animator.speed = 0;
+                return;
+            }
+
+            Monster.Animator.speed = 1;
+            
+            if (isIdle)
+            {
+                Monster.Anim.Idle();
+
+                idleTimer -= Time.deltaTime;
+                if (idleTimer <= 0f)
+                {
+                    isIdle = false;
+                    ResetMoveTimer();
+                }
+            }
+            else
+            {
+                moveTimer -= Time.deltaTime;
+                Move();
+
+                if (moveTimer <= 0f)
+                {
+                    isIdle = true;
+                    idleTimer = Random.Range(minIdleTime, maxIdleTime);
+                }
+            }
         }
 
         private void Move()
         {
+            Monster.Anim.Run();
+
             if (isRight) MoveRight();
             if (isLeft) MoveLeft();
         }
@@ -58,6 +99,11 @@ namespace InfiniteMap
                 isLeft = false;
                 isRight = true;
             }
+        }
+
+        private void ResetMoveTimer()
+        {
+            moveTimer = Random.Range(minMoveDuration, maxMoveDuration);
         }
     }
 }

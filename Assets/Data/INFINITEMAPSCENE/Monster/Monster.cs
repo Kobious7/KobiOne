@@ -62,7 +62,7 @@ namespace InfiniteMap
 
         private void LoadAnimation()
         {
-            if (anim != animator) return;
+            if (anim != null) return;
 
             anim = GetComponentInChildren<MonsterAnim>();
         }
