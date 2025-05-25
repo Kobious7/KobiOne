@@ -23,6 +23,10 @@ public class Spawner : GMono
         set => spawnCount = value;
     }
 
+    [SerializeField] protected int activeCount;
+
+    public int ActiveCount => activeCount;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -69,6 +73,8 @@ public class Spawner : GMono
 
         newObj.SetPositionAndRotation(pos, rot);
 
+        activeCount++;
+
         return newObj;
     }
 
@@ -105,8 +111,9 @@ public class Spawner : GMono
 
     public virtual void Despawn(Transform obj)
     {
-        if(objPool.Contains(obj)) return;
+        if (objPool.Contains(obj)) return;
         objPool.Add(obj);
         obj.gameObject.SetActive(false);
+        activeCount = activeCount-- <= 0 ? 0 : activeCount--;
     }
 }
