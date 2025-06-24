@@ -87,7 +87,7 @@ public class HelmetUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 EquipDetailsUI.Instance.gameObject.SetActive(true);
-                EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.HelmetList[index]);
+                EquipDetailsUI.Instance.ShowDetails(InfiniteMapManager.Instance.Inventory.HelmetList[index]);
             }
 
             lastTimeClick = Time.time;

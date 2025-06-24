@@ -7,19 +7,19 @@ public class QTile : GMono
 
     public QTileFindTargets TargetsFinder => targetsFinder;
 
-    [SerializeField] private Transform opponent;
+    [SerializeField] private Transform monster;
 
-    public Transform Opponent => opponent;
+    public Transform Monster => monster;
 
-    [SerializeField] private Player player;
+    [SerializeField] private BPlayer player;
 
-    public Player Player => player;
+    public BPlayer Player => player;
 
     protected override void Start()
     {
         base.Start();
-        opponent = Game.Instance.Opponent.transform;
-        player = Game.Instance.Player;
+        monster = BattleManager.Instance.Monster.transform;
+        player = BattleManager.Instance.Player;
     }
 
     protected override void LoadComponents()

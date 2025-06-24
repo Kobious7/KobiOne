@@ -11,7 +11,7 @@ public class EquipWearing : InventoryAb
     protected override void Start()
     {
         base.Start();
-        equipment = Game.Instance.Equipment;
+        equipment = InfiniteMapManager.Instance.Equipment;
     }
 
     public void Equip(InventoryEquip equip)
@@ -77,6 +77,6 @@ public class EquipWearing : InventoryAb
         }
 
         equipment.Calculator.CalculateTotalBonus();
-        Game.Instance.Player.InfiniteMapStats.UpdateEquipBonus(equipment.StatsBonus);
+        InfiniteMapManager.Instance.Player.StatsSystem.UpdateEquipBonus(equipment.StatsBonus);
     }
 }

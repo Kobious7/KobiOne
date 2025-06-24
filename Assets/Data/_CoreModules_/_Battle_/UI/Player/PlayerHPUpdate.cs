@@ -4,11 +4,11 @@ public class PlayerHPUpdate : HPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Player.BattleStats.CurrentHP / Game.Instance.Player.BattleStats.MaxHP;
+        return (float)BattleManager.Instance.Player.Stats.CurrentHP / BattleManager.Instance.Player.Stats.MaxHP;
     }
 
     protected override string GetNewString()
     {
-        return $"{Game.Instance.Player.BattleStats.CurrentHP}/{Game.Instance.Player.BattleStats.MaxHP}";
+        return $"{BattleManager.Instance.Player.Stats.CurrentHP}/{BattleManager.Instance.Player.Stats.MaxHP}";
     }
 }

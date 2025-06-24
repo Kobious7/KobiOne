@@ -36,7 +36,7 @@ public class BackItemUISpawner : Spawner
     {
         yield return null;
 
-        backItemList = Game.Instance.Inventory.BackItemList;
+        backItemList = InfiniteMapManager.Instance.Inventory.BackItemList;
         SpawnBackItemUI();
     }
 

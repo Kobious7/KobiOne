@@ -14,7 +14,7 @@ public class HPDisUI : GMono
 
     private void FixedUpdate()
     {
-        hpText.text = $"{Game.Instance.Player.InfiniteMapStats.Level * 100}";
+        hpText.text = $"{InfiniteMapManager.Instance.Player.StatsSystem.Level * 100}";
     }
 
     private void LoadHPText()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CurrentSkill : SkillBAb
+public class CurrentSkill : BSkillAb
 {
     [SerializeField] protected TileSkill tile;
 

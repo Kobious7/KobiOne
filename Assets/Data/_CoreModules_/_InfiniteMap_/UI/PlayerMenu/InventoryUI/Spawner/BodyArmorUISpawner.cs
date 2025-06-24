@@ -36,7 +36,7 @@ public class BodyArmorUISpawner : Spawner
     {
         yield return null;
 
-        bodyArmorList = Game.Instance.Inventory.BodyArmorList;
+        bodyArmorList = InfiniteMapManager.Instance.Inventory.BodyArmorList;
         SpawnBodyArmorUI();
     }
 

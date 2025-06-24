@@ -4,11 +4,11 @@ public class BotHPUpdate : HPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Opponent.Stats.CurrentHP / Game.Instance.Opponent.Stats.MaxHP;
+        return (float)BattleManager.Instance.Monster.Stats.CurrentHP / BattleManager.Instance.Monster.Stats.MaxHP;
     }
 
     protected override string GetNewString()
     {
-        return $"{Game.Instance.Opponent.Stats.CurrentHP}/{Game.Instance.Opponent.Stats.MaxHP}";
+        return $"{BattleManager.Instance.Monster.Stats.CurrentHP}/{BattleManager.Instance.Monster.Stats.MaxHP}";
     }
 }

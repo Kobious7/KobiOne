@@ -50,7 +50,7 @@ public class DebuffObjectHandling : DebuffObjectAb
 
     private void BuffCalculate()
     {
-        IEntityBattleStats stats = DebuffObj.Stats;
+        BEntityStats stats = DebuffObj.Stats;
         StatBuffInfo statBuff = stats.BuffPercents[DebuffObj.TrueStatBuff];
 
         if(statBuff.IsPercentValue)
@@ -71,7 +71,7 @@ public class DebuffObjectHandling : DebuffObjectAb
         }
     }
 
-    private void CalulatePercentStat(IEntityBattleStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+    private void CalulatePercentStat(BEntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
     {
         float percentAmount = statBuff.OriginPercentValue + statBuff.PercentBonus;
         switch(equipStatType)
@@ -88,7 +88,7 @@ public class DebuffObjectHandling : DebuffObjectAb
         }
     }
 
-    private void CalulateFlatStat(IEntityBattleStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
+    private void CalulateFlatStat(BEntityStats stats, StatBuffInfo statBuff, EquipStatType equipStatType)
     {
         switch(equipStatType)
         {

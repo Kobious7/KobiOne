@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb89fb7d655182644b5235a4009ac6a3, type: 3}
+  m_Name: Support3
+  m_EditorClassIdentifier: 
+  SkillBranch: 2
+  SkillTier: 3
+  CharacterLevelRequirement: 30
+  MaxLevel: 20
+  SkillPointCost: 4
+  Description: Increase {SlashDamageBuffPercent}% Slash Damage value.
+  LockDescription: Inscrease Slash Damage
+  SkillIcon: {fileID: 21300000, guid: 4f677b5f7e3af4e49b3eb38b4aa6e9de, type: 3}
+  SkillName: Slash's power
+  Button: 0
+  ManaCost: 20
+  TurnCount: 0
+  Activator: {fileID: 4226212899183569208, guid: 5c5ffe212f7c48a49a7136e4c2837346, type: 3}
+  ExtraFX: {fileID: 0}
+  Opponent: 0
+  Buffs:
+  - StatBuff: 8
+    SourceStat: 8
+    DamageType: 1
+    BuffPercent: 50
+    PercentBonus: 10
+    DurationType: 0
+    Duration: 4
+    DurationStack: 0
+    PercentStack: 0
+  Debuffs: []

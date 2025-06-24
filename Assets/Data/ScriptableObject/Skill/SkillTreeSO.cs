@@ -6,11 +6,11 @@ public class SkillTreeSO : ScriptableObject
 {
     public string Name;
     public int Index;
-    public SkillNode T1B0;
-    public SkillNode T2B1;
-    public SkillNode T2B2;
-    public SkillNode T2B3;
-    public SkillNode T3B1;
-    public SkillNode T3B2;
-    public SkillNode T3B3;
+    public SkillNode Root;
+    public SkillNode Attack1;
+    public SkillNode Attack2;
+    public SkillNode Attack3;
+    public SkillNode Support1;
+    public SkillNode Support2;
+    public SkillNode Support3;
 }

@@ -15,7 +15,7 @@ public class MapLevel : MapAb
     {
         base.Start();
         
-        if(!Game.Instance.MapData.MapCanLoad) return;
+        if(!InfiniteMapManager.Instance.MapData.MapCanLoad) return;
 
         previousLevel = (int)Map.Distance / 500;
         currentLevel = previousLevel;

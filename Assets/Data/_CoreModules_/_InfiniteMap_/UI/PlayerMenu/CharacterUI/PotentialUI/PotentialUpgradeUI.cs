@@ -52,7 +52,7 @@ public class PotentialUpgradeUI : GMono
     private void OnTextChange(string text)
     {
         point = string.IsNullOrWhiteSpace(text) ? 0 : int.Parse(text);
-        point = Game.Instance.Player.InfiniteMapStats.CheckRemainPoints(point);
+        point = InfiniteMapManager.Instance.Player.StatsSystem.CheckRemainPoints(point);
         string sPoint = point <= 0 ? "" : point + "";
         textInput.text = sPoint;
     }
@@ -70,7 +70,7 @@ public class PotentialUpgradeUI : GMono
             return;
         }
 
-        Game.Instance.Player.InfiniteMapStats.IncreasePotentialPoint(potential, point);
+        InfiniteMapManager.Instance.Player.StatsSystem.IncreasePotentialPoint(potential, point);
 
         point = 0;
         textInput.text = "";

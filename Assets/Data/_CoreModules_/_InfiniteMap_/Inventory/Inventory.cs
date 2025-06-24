@@ -86,6 +86,8 @@ public class Inventory : GMono
     [SerializeField] private EquipSO test5;
     [SerializeField] private EquipSO test6;
 
+    private InfiniteMapManager infiniteMapManager;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -96,6 +98,9 @@ public class Inventory : GMono
     protected override void Start()
     {
         base.Start();
+
+        infiniteMapManager = InfiniteMapManager.Instance;
+
         LoadEquip();
         AddEquip(equipObtainer.CreateEquip(test, Rarity.Common));
         AddEquip(equipObtainer.CreateEquip(test1, Rarity.Common));
@@ -129,21 +134,21 @@ public class Inventory : GMono
 
     public void LoadInventory()
     {
-        listItems = Game.Instance.MapData.ListItems;
-        if(Game.Instance.MapData.Result == Result.WIN) GetDropItems();
+        listItems = infiniteMapManager.MapData.ListItems;
+        if(infiniteMapManager.MapData.Result == Result.WIN) GetDropItems();
     }
 
     public void LoadEquip()
     {
-        if(Game.Instance.MapData.MapCanLoad)
+        if(infiniteMapManager.MapData.MapCanLoad)
         {
-            weaponList = Game.Instance.MapData.WeaponList;
-            helmetList = Game.Instance.MapData.HelmetList;
-            bodyArmorList = Game.Instance.MapData.BodyArmorList;
-            legArmorList = Game.Instance.MapData.LegArmorList;
-            bootsList = Game.Instance.MapData.BootsList;
-            auraList = Game.Instance.MapData.AuraList;
-            backItemList = Game.Instance.MapData.BackItemList;
+            weaponList = infiniteMapManager.MapData.WeaponList;
+            helmetList = infiniteMapManager.MapData.HelmetList;
+            bodyArmorList = infiniteMapManager.MapData.BodyArmorList;
+            legArmorList = infiniteMapManager.MapData.LegArmorList;
+            bootsList = infiniteMapManager.MapData.BootsList;
+            auraList = infiniteMapManager.MapData.AuraList;
+            backItemList = infiniteMapManager.MapData.BackItemList;
         }
         else
         {
@@ -155,7 +160,7 @@ public class Inventory : GMono
             auraList = new(); //Game.Instance.MapData.AuraList;
             backItemList = new(); //Game.Instance.MapData.BackItemList;
         }
-        if(Game.Instance.MapData.Result == Result.WIN) DropEquip();
+        if(infiniteMapManager.MapData.Result == Result.WIN) DropEquip();
     }
 
     public void AddStackableItem(InventoryItem stackItem)
@@ -211,7 +216,7 @@ public class Inventory : GMono
 
     public void GetDropItems()
     {
-        foreach(ItemSO item in Game.Instance.MapData.ItemDropList)
+        foreach(ItemSO item in InfiniteMapManager.Instance.MapData.ItemDropList)
         {
             float rate = UnityEngine.Random.Range(0f, 100f);
 
@@ -231,7 +236,7 @@ public class Inventory : GMono
 
         RarityCalculator rarityCalculator = new RarityCalculator();
         
-        foreach(EquipSO equipSO in Game.Instance.MapData.EquipDropList)
+        foreach(EquipSO equipSO in InfiniteMapManager.Instance.MapData.EquipDropList)
         {
 
             Rarity rarity = rarityCalculator.GetNormalMonsterRarity();

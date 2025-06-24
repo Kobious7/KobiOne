@@ -12,7 +12,7 @@ public class UIKeyBoard : GMono
     {
         if(!InputManager.Instance.CPressed) return;
 
-        Game.Instance.Player.IsUIOpening = true;
+        InfiniteMapManager.Instance.Player.IsUIOpening = true;
 
         PlayerMenuUI.Instance.gameObject.SetActive(true);
         PlayerMenuUI.Instance.SetCurrentOption(1);
@@ -22,7 +22,7 @@ public class UIKeyBoard : GMono
     {
         if(!InputManager.Instance.BPressed) return;
 
-        Game.Instance.Player.IsUIOpening = true;
+        InfiniteMapManager.Instance.Player.IsUIOpening = true;
 
         PlayerMenuUI.Instance.gameObject.SetActive(true);
         PlayerMenuUI.Instance.SetCurrentOption(0);

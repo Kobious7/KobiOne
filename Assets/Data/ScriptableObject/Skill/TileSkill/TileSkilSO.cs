@@ -13,9 +13,12 @@ public class TileSkillSO : ActiveSkillSO
     public int ObjectMaxSpawnCount;
     public int MinObjectToOp;
     public int MaxObjectToOp;
+    public int AreaSquareRange;
     public string AreaString;
     public List<O> Area;
     public List<Vector3> ObjectSpawnPos;
     public Sprite ObjectSprite;
     public float ObjectSpeed;
+    public Transform DObjectPrefab;
+    public Transform DObjectHitFX;
 }

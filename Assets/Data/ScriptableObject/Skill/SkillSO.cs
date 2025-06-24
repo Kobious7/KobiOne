@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class SkillSO : ScriptableObject
 {
-    public SkillTier SkillTier;
     public SkillBranch SkillBranch;
-    public SkillSO PreviousSkill;
-    public int PreviousSkillLevelRequirement;
+    public SkillTier SkillTier;
     public int CharacterLevelRequirement;
     public int MaxLevel;
     public int SkillPointCost;

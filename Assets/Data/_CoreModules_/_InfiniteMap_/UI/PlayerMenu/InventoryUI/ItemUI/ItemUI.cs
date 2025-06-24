@@ -109,7 +109,7 @@ public class ItemUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 ItemDetailsUI.Instance.gameObject.SetActive(true);
-                ItemDetailsUI.Instance.ShowItem(Game.Instance.Inventory.ListItems[index]);
+                ItemDetailsUI.Instance.ShowItem(InfiniteMapManager.Instance.Inventory.ListItems[index]);
             }
 
             lastTimeClick = Time.time;

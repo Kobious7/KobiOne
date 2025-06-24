@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DebuffObject : GMono
 {
-    [SerializeField] private IEntityBattleStats stats;
+    [SerializeField] private BEntityStats stats;
 
-    public IEntityBattleStats Stats
+    public BEntityStats Stats
     {
         get => stats;
         set => stats = value;

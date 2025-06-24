@@ -6,11 +6,11 @@ public class FlyObjectInfiniteMapCollision : FlyObjectCollision
     {
         base.Collide(other);
         
-        Game.Instance.FlyObjectSpawner.Despawn(transform.parent);
+        InfiniteMapManager.Instance.FlyObjectSpawner.Despawn(transform.parent);
 
         if (other.transform.parent.name == "Monster")
         {
-            Game.Instance.LoadAllObj(other.transform);
+            InfiniteMapManager.Instance.LoadAllObj(other.transform);
         }
     }
 }

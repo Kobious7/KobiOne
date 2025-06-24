@@ -13,7 +13,7 @@ public class BoardMatches : BoardAb
 
     public void SkillMarkMatches(Transform[,] tiles)
     {
-        List<int[,]> markList = Game.Instance.TileSpawner.MarkList;
+        List<int[,]> markList = BattleManager.Instance.TileSpawner.MarkList;
 
         foreach (var item in markList)
         {

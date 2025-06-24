@@ -1,0 +1,64 @@
+using UnityEngine;
+
+public class IMPlayerAnim : EntityAnim
+{
+    [SerializeField] private RuntimeAnimatorController origin;
+    [SerializeField] private AnimatorOverrideController staffOverride;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += SwapOverride;
+    }
+
+    public void MeleeAttack()
+    {
+        Entity.Animator.SetTrigger("melee_attack");
+    }
+
+    public void RangedAttack()
+    {
+        Entity.Animator.SetTrigger("ranged_attack");
+    }
+
+    public void IdleToJump()
+    {
+        Entity.Animator.Play("IdleToJump");
+    }
+
+    public void Jump()
+    {
+        Entity.Animator.Play("Jump");
+    }
+
+    public void Fall()
+    {
+        Entity.Animator.Play("Fall");
+    }
+
+    public void FallToIlde()
+    {
+        Entity.Animator.Play("FallToIdle");
+    }
+
+    public void SwapOverride(InventoryEquip weapon)
+    {
+        WeaponSO weaponSO = (WeaponSO)weapon.EquipSO;
+
+        SetWeaponOverride(weaponSO);
+    }
+
+    public void SetWeaponOverride(WeaponSO weaponSO)
+    {
+        switch(weaponSO.WeaponType)
+        {
+            case WeaponType.Sword:
+                Entity.Animator.runtimeAnimatorController = origin;
+                break;
+            case WeaponType.Staff:
+                Entity.Animator.runtimeAnimatorController = staffOverride;
+                break;
+        }
+    }
+}

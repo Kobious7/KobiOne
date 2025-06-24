@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fad91949a7c8b4ab0e857a39e97e76, type: 3}
+  m_Name: Root
+  m_EditorClassIdentifier: 
+  SkillBranch: 0
+  SkillTier: 0
+  CharacterLevelRequirement: 0
+  MaxLevel: 20
+  SkillPointCost: 1
+  Description: Summon {Area} swords (max {ObjectMaxSpawnCount}) destroy the board
+    if opponent was hit by the sword deal Slash damage equals {SlashDamage}% Attack
+    stat.
+  LockDescription: Summon swords destroy the board if opponent was hit by the sword
+    deal Slash damage based on Attack stat.
+  SkillIcon: {fileID: 21300000, guid: da3970fa6ae11644dbc30ae24d63d664, type: 3}
+  SkillName: Sword Attack
+  Button: 0
+  ManaCost: 10
+  TurnCount: 1
+  Activator: {fileID: 4226212899183569208, guid: 1173cbe213f4933438d68e8fdd7b89b7, type: 3}
+  SelfTarget: 0
+  OpponentTarget: 1
+  Damage:
+    SourceDamage: 5
+    DamageType: 1
+    Scaling: 100
+    BonusPerLevel: 5
+  Buffs: []
+  Debuffs: []
+  ObjectMinSpawnCount: 1
+  ObjectMaxSpawnCount: 2
+  MinObjectToOp: 0
+  MaxObjectToOp: 1
+  AreaSquareRange: 2
+  AreaString: 2x2
+  Area:
+  - X: 0
+    Y: 0
+  - X: -1
+    Y: 0
+  - X: 0
+    Y: 1
+  - X: -1
+    Y: 1
+  ObjectSpawnPos: []
+  ObjectSprite: {fileID: 21300000, guid: bb2f74799a9a37546b779cbaeba7a7c5, type: 3}
+  ObjectSpeed: 2
+  DObjectPrefab: {fileID: 8870813180290849253, guid: d2638d94426987e4cae84e72bc617483, type: 3}
+  DObjectHitFX: {fileID: 4949317727072264376, guid: 8fb37ba285c726d4687145855b3811cb, type: 3}

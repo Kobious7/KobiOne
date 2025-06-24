@@ -13,7 +13,7 @@ public class SkillSGT : GMono
     protected override void Awake()
     {
         base.Awake();
-        if(instance != null) Debug.LogError("Only 1 SkillSGT is allowed to exist!");
+        if (instance != null) Debug.LogError("Only 1 SkillSGT is allowed to exist!");
 
         instance = this;
     }

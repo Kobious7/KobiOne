@@ -20,8 +20,8 @@ public class BoardGen : BoardAb
     {
         base.Start();
 
-        tileBgSpawner = Game.Instance.TileBackgroundSpawner;
-        tileSpawner = Game.Instance.TileSpawner;
+        tileBgSpawner = BattleManager.Instance.TileBackgroundSpawner;
+        tileSpawner = BattleManager.Instance.TileSpawner;
         tiles = new Transform[Board.Size, Board.Size * 2];
 
         GenTileBackground();

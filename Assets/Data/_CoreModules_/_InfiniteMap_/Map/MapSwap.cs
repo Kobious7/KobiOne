@@ -23,7 +23,7 @@ public class MapSwap : MapAb
     protected override void Start()
     {
         base.Start();
-        player = Game.Instance.Player.transform;
+        player = InfiniteMapManager.Instance.Player.transform;
         currentMap = MapEnum.Map0;
         map0 = true;
         canSwap = true;

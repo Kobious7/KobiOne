@@ -6,12 +6,13 @@ public class ParticleAttractor : MonoBehaviour
     public Transform target;
     public float attractionForce = 10f;
     public float minDistanceToKill = 0.1f;
+    public int particlesCount = 0;
 
     private ParticleSystem.Particle[] particles;
 
     void Start()
     {
-        particles = new ParticleSystem.Particle[ps.main.maxParticles];
+        particles = new ParticleSystem.Particle[particlesCount];
     }
 
     void Update()

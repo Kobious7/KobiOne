@@ -30,11 +30,11 @@ public class ChageStatsMPPlayer : GMono
 
     private void Increase()
     {
-        Game.Instance.Player.BattleStats.ManaIns(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.ManaIns(int.Parse(inputField.text));
     }
 
     private void Decrease()
     {
-        Game.Instance.Player.BattleStats.ManaDes(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.ManaDes(int.Parse(inputField.text));
     }
 }

@@ -6,23 +6,23 @@ public class QuitGame : MonoBehaviour
 {
     private void OnApplicationQuit()
     {
-        Game.Instance.MapData.MapCanLoad = false;
-        Game.Instance.MapData.Result = Result.NONE;
-        Game.Instance.MapData.InfiniteMapInfo = new();
-        Game.Instance.MapData.PlayerInfo = new();
-        Game.Instance.MapData.MonsterInfo = new();
-        Game.Instance.MapData.ItemDropList = new();
-        Game.Instance.MapData.EquipDropList = new();
-        Game.Instance.MapData.Map1MonsterSpawnerInfo = new();
-        Game.Instance.MapData.Map2MonsterSpawnerInfo= new();
-        Game.Instance.MapData.ListItems = new();
-        Game.Instance.MapData.WeaponList = new();
-        Game.Instance.MapData.HelmetList = new();
-        Game.Instance.MapData.BodyArmorList = new();
-        Game.Instance.MapData.LegArmorList = new();
-        Game.Instance.MapData.BootsList = new();
-        Game.Instance.MapData.AuraList = new();
-        Game.Instance.MapData.BackItemList = new();
+        InfiniteMapManager.Instance.MapData.MapCanLoad = false;
+        InfiniteMapManager.Instance.MapData.Result = Result.NONE;
+        InfiniteMapManager.Instance.MapData.InfiniteMapInfo = new();
+        InfiniteMapManager.Instance.MapData.PlayerInfo = new();
+        InfiniteMapManager.Instance.MapData.MonsterInfo = new();
+        InfiniteMapManager.Instance.MapData.ItemDropList = new();
+        InfiniteMapManager.Instance.MapData.EquipDropList = new();
+        InfiniteMapManager.Instance.MapData.Map1MonsterSpawnerInfo = new();
+        InfiniteMapManager.Instance.MapData.Map2MonsterSpawnerInfo = new();
+        InfiniteMapManager.Instance.MapData.ListItems = new();
+        InfiniteMapManager.Instance.MapData.WeaponList = new();
+        InfiniteMapManager.Instance.MapData.HelmetList = new();
+        InfiniteMapManager.Instance.MapData.BodyArmorList = new();
+        InfiniteMapManager.Instance.MapData.LegArmorList = new();
+        InfiniteMapManager.Instance.MapData.BootsList = new();
+        InfiniteMapManager.Instance.MapData.AuraList = new();
+        InfiniteMapManager.Instance.MapData.BackItemList = new();
         //SavingManager.Instance.SavePlayerData();
     }
 }

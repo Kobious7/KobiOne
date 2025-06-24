@@ -7,19 +7,19 @@ public class TileSkill : GMono
 
     public TileFindTargets TargetsFinder => targetsFinder;
 
-    [SerializeField] private Transform opponent;
+    [SerializeField] private BMonster monster;
 
-    public Transform Opponent => opponent;
+    public BMonster Monster => monster;
 
-    [SerializeField] private Player player;
+    [SerializeField] private BPlayer player;
 
-    public Player Player => player;
+    public BPlayer Player => player;
 
     protected override void Start()
     {
         base.Start();
-        opponent = Game.Instance.Opponent.transform;
-        player = Game.Instance.Player;
+        monster = BattleManager.Instance.Monster;
+        player = BattleManager.Instance.Player;
     }
 
     protected override void LoadComponents()

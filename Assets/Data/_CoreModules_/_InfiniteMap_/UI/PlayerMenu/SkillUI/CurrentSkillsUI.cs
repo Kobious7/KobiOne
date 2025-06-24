@@ -40,8 +40,8 @@ public class CurrentSkillsUI : GMono
 
     private void ShowCurrentSkillsUI()
     {
-        qSkill.sprite = skill.QSkill != null ? skill.QSkill.skillSO.SkillIcon : null;
-        eSkill.sprite = skill.ESkill != null ? skill.ESkill.skillSO.SkillIcon : null;
-        spaceSkill.sprite = skill.SpaceSkill != null ? skill.SpaceSkill.skillSO.SkillIcon : null;
+        qSkill.sprite = skill.QSkill.skillSO != null ? skill.QSkill.skillSO.SkillIcon : null;
+        eSkill.sprite = skill.ESkill.skillSO != null ? skill.ESkill.skillSO.SkillIcon : null;
+        spaceSkill.sprite = skill.SpaceSkill.skillSO != null ? skill.SpaceSkill.skillSO.SkillIcon : null;
     }
 }

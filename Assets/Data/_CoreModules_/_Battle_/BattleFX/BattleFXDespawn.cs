@@ -26,7 +26,7 @@ public class BattleFXDespawn : BattleFXAb
         {
             time = 0;
             despawn = false;
-            Game.Instance.FXSpawner.Despawn(transform.parent);
+            BattleManager.Instance.FXSpawner.Despawn(transform.parent);
         }
     }
 }

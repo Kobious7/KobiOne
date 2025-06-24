@@ -9,6 +9,7 @@ public class PotentialUI : GMono
     [SerializeField] private List<PotentialStatUI> potentialStatUIs;
     [SerializeField] private TextMeshProUGUI remainPoint;
     private List<Stat> potential;
+    private InfiniteMapManager infiniteMapManager;
 
     protected override void LoadComponents()
     {
@@ -20,6 +21,9 @@ public class PotentialUI : GMono
     protected override void Start()
     {
         base.Start();
+
+        infiniteMapManager = InfiniteMapManager.Instance;
+
         StartCoroutine(WaitNextFrame());   
     }
 
@@ -41,12 +45,12 @@ public class PotentialUI : GMono
     {
         yield return null;
         ShowPotentialPoint();
-        Game.Instance.Player.InfiniteMapStats.OnPotentialChange += UpdatePotential;
+        infiniteMapManager.Player.StatsSystem.OnPotentialChange += UpdatePotential;
     }
 
     private void ShowPotentialPoint()
     {
-        potential = Game.Instance.Player.InfiniteMapStats.Potential;
+        potential = infiniteMapManager.Player.StatsSystem.Potential;
 
         for (int i = 0; i < potentialStatUIs.Count; i++)
         {
@@ -54,12 +58,12 @@ public class PotentialUI : GMono
             potentialStatUIs[i].AddClickListener(potential[i]);
         }
 
-        remainPoint.text = $"{Game.Instance.Player.InfiniteMapStats.RemainPoints}";
+        remainPoint.text = $"{infiniteMapManager.Player.StatsSystem.RemainPoints}";
     }
 
     private void UpdatePotential(int index)
     {
         potentialStatUIs[index].ShowPoint(potential[index]);
-        remainPoint.text = $"{Game.Instance.Player.InfiniteMapStats.RemainPoints}";
+        remainPoint.text = $"{infiniteMapManager.Player.StatsSystem.RemainPoints}";
     }
 }

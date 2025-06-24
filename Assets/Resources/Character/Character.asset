@@ -57,12 +57,12 @@ MonoBehaviour:
     IsPercentValue: 0
     FlatBonus: 0
     PercentBonus: 0
-  SkillPoints: 0
+  SkillPoints: 99999
   QSkill:
     Level: 1
     skillSO: {fileID: 11400000, guid: f0c5c0cc1be48cb45a93d14dc078ede3, type: 2}
     TreeIndex: 0
-    NodeName: T1B0
+    NodeName: Root
   ESkill:
     Level: 0
     skillSO: {fileID: 0}
@@ -74,10 +74,10 @@ MonoBehaviour:
     TreeIndex: 0
     NodeName: 
   SkillTreeLevels:
-  - T1B0Level: 1
-    T2B1Level: 0
-    T2B2Level: 0
-    T2B3Level: 0
-    T3B1Level: 0
-    T3B2Level: 0
-    T3B3Level: 0
+  - RootLevel: 1
+    Attack1Level: 0
+    Attack2Level: 0
+    Attack3Level: 0
+    Support1Level: 0
+    Support2Level: 0
+    Support3Level: 0

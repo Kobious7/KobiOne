@@ -87,7 +87,7 @@ public class WeaponUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 EquipDetailsUI.Instance.gameObject.SetActive(true);
-                EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.WeaponList[index]);
+                EquipDetailsUI.Instance.ShowDetails(InfiniteMapManager.Instance.Inventory.WeaponList[index]);
                 
             }
 

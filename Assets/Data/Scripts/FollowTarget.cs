@@ -6,6 +6,6 @@ public class FollowTarget : GMono
 
     private void Update()
     {
-        transform.position = target.position;
+        transform.position = to2DVec(target.position);
     }
 }

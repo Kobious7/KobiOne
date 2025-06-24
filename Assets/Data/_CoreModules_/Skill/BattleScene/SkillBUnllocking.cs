@@ -1,13 +1,13 @@
 using UnityEngine;
-public class SkillBUnlocking : SkillBAb
+public class BSkillUnlocking : BSkillAb
 {
-    private IEntityBattleStats playerStats;
+    private BPlayerStats playerStats;
 
     protected override void Start()
     {
         base.Start();
 
-        playerStats = Game.Instance.Player.BattleStats;
+        playerStats = BattleManager.Instance.Player.Stats;
     }
 
     private void FixedUpdate()
@@ -19,34 +19,34 @@ public class SkillBUnlocking : SkillBAb
 
     private void CheckQUnlocking()
     {
-        if(SkillB.QSkill != null && SkillB.QSkill.Level > 0)
+        if(BSkill.QSkill != null && BSkill.QSkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)SkillB.QSkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.QSkill.skillSO;
 
-            if(playerStats.Mana >= skill.ManaCost) SkillB.QUnlocking = true;
-            else SkillB.QUnlocking = false;
+            if(playerStats.Mana >= skill.ManaCost) BSkill.QUnlocking = true;
+            else BSkill.QUnlocking = false;
         }
     }
 
     private void CheckEUnlocking()
     {
-        if(SkillB.ESkill != null && SkillB.ESkill.Level > 0)
+        if(BSkill.ESkill != null && BSkill.ESkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)SkillB.ESkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.ESkill.skillSO;
 
-            if(playerStats.Mana >= skill.ManaCost) SkillB.EUnlocking = true;
-            else SkillB.EUnlocking = false;
+            if(playerStats.Mana >= skill.ManaCost) BSkill.EUnlocking = true;
+            else BSkill.EUnlocking = false;
         }
     }
 
     private void CheckSpaceUnlocking()
     {
-        if(SkillB.SpaceSkill != null && SkillB.SpaceSkill.Level > 0)
+        if(BSkill.SpaceSkill != null && BSkill.SpaceSkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)SkillB.SpaceSkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.SpaceSkill.skillSO;
 
-            if(playerStats.Mana >= skill.ManaCost) SkillB.SpaceUnlocking = true;
-            else SkillB.SpaceUnlocking = false;
+            if(playerStats.Mana >= skill.ManaCost) BSkill.SpaceUnlocking = true;
+            else BSkill.SpaceUnlocking = false;
         }
     }
 }

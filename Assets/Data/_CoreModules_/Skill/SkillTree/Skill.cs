@@ -47,7 +47,7 @@ public class Skill : GMono
     protected override void Start()
     {
         base.Start();
-        characterData = Game.Instance.CharacterData;
+        characterData = InfiniteMapManager.Instance.CharacterData;
         GetSkillData();
     }
 
@@ -82,13 +82,13 @@ public class Skill : GMono
         
         for(int i = 0; i < skillTrees.Count; i++)
         {
-            skillTrees[i].T1B0.Level = characterData.SkillTreeLevels[i].T1B0Level;
-            skillTrees[i].T2B1.Level = characterData.SkillTreeLevels[i].T2B1Level;
-            skillTrees[i].T2B2.Level = characterData.SkillTreeLevels[i].T2B2Level;
-            skillTrees[i].T2B3.Level = characterData.SkillTreeLevels[i].T2B3Level;
-            skillTrees[i].T3B1.Level = characterData.SkillTreeLevels[i].T3B1Level;
-            skillTrees[i].T3B2.Level = characterData.SkillTreeLevels[i].T3B2Level;
-            skillTrees[i].T3B3.Level = characterData.SkillTreeLevels[i].T3B3Level;
+            skillTrees[i].Root.Level = characterData.SkillTreeLevels[i].RootLevel;
+            skillTrees[i].Attack1.Level = characterData.SkillTreeLevels[i].Attack1Level;
+            skillTrees[i].Attack2.Level = characterData.SkillTreeLevels[i].Attack2Level;
+            skillTrees[i].Attack3.Level = characterData.SkillTreeLevels[i].Attack3Level;
+            skillTrees[i].Support1.Level = characterData.SkillTreeLevels[i].Support1Level;
+            skillTrees[i].Support2.Level = characterData.SkillTreeLevels[i].Support2Level;
+            skillTrees[i].Support3.Level = characterData.SkillTreeLevels[i].Support3Level;
         }
     }
 
@@ -97,18 +97,17 @@ public class Skill : GMono
         CurrentSkillNode skillNode = new();
 
         if(currentSkillNodeData.Level <= 0) return null;
-        {
-            skillNode.Level = currentSkillNodeData.Level;
+        
+        skillNode.Level = currentSkillNodeData.Level;
 
-            if(currentSkillNodeData.skillSO == null || skillNode.skillSO == null)
-            {
-                currentSkillNodeData.skillSO = skillTrees[currentSkillNodeData.TreeIndex].GetSkillNodeByName(currentSkillNodeData.NodeName).skillSO;
-                skillNode.skillSO = currentSkillNodeData.skillSO;
-            }
-            
-            skillNode.TreeIndex = currentSkillNodeData.TreeIndex;
-            skillNode.NodeName = currentSkillNodeData.NodeName;
+        if(currentSkillNodeData.skillSO == null || skillNode.skillSO == null)
+        {
+            currentSkillNodeData.skillSO = skillTrees[currentSkillNodeData.TreeIndex].GetSkillNodeByName(currentSkillNodeData.NodeName).skillSO;
+            skillNode.skillSO = currentSkillNodeData.skillSO;
         }
+        
+        skillNode.TreeIndex = currentSkillNodeData.TreeIndex;
+        skillNode.NodeName = currentSkillNodeData.NodeName;
 
         return skillNode;
     }

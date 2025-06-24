@@ -4,7 +4,7 @@ using System;
 public class DamageStat
 {
     public EquipStatType SourceDamage;
-    public DamageType damageType;
+    public DamageType DamageType;
     public float Scaling;
     public float BonusPerLevel;
 }

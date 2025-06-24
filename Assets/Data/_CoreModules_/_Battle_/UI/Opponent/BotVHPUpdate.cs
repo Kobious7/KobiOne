@@ -4,6 +4,6 @@ public class BotVHPUpdate : VHPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Opponent.Stats.VHP / Game.Instance.Opponent.Stats.MaxHP * 2;
+        return (float)BattleManager.Instance.Monster.Stats.VHP / BattleManager.Instance.Monster.Stats.MaxHP * 2;
     }
 }

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44fdfab8e1e321d47a8553e5ed862f5a, type: 3}
+  m_Name: SwordBranch
+  m_EditorClassIdentifier: 
+  Name: Sword Branch
+  Index: 0
+  Root:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: f0c5c0cc1be48cb45a93d14dc078ede3, type: 2}
+  Attack1:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: bc00c1d5b2c97c04b8434f72dc37b99a, type: 2}
+  Attack2:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: 3404fc8b8f8c6614faf85dd1cba70db1, type: 2}
+  Attack3:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: 6441bf6d4b44fa84795b86c385d469c2, type: 2}
+  Support1:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: ac7722315671d8440bd1cd77121fc90d, type: 2}
+  Support2:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: 2178d57e9d31c4e47bcab1c036cf97c4, type: 2}
+  Support3:
+    Level: 0
+    skillSO: {fileID: 11400000, guid: a12aacd5c8e35474faa51b326f8f4440, type: 2}

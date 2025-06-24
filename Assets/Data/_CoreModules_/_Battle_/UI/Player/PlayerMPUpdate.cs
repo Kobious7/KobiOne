@@ -4,11 +4,11 @@ public class PlayerMPUpdate : MPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Player.BattleStats.Mana / 100;
+        return (float)BattleManager.Instance.Player.Stats.Mana / 100;
     }
 
     protected override string GetNewString()
     {
-        return $"{Game.Instance.Player.BattleStats.Mana}%";
+        return $"{BattleManager.Instance.Player.Stats.Mana}%";
     }
 }

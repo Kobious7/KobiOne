@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DestructiveObjectFindTarget : DestructiveObjectAb
+public class DestructiveObjectFlying : DestructiveObjectAb
 {
     [SerializeField] private float speed = 2;
 
@@ -14,9 +14,13 @@ public class DestructiveObjectFindTarget : DestructiveObjectAb
 
     public void Fly()
     {
-        if (Vector3.Distance(transform.parent.position, DObject.Target.position) > Time.deltaTime)
+        Vector3 targetPosWithOffset = new Vector3(DObject.Target.position.x - DObject.OffsetValue,
+                                        DObject.Target.position.y + DObject.OffsetValue,
+                                        DObject.Target.transform.position.z);
+
+        if (Vector3.Distance(transform.parent.position, targetPosWithOffset) > Time.deltaTime)
         {
-            transform.parent.position = Vector3.Lerp(transform.parent.position, DObject.Target.position, speed * Time.deltaTime);
+            transform.parent.position = Vector3.Lerp(transform.parent.position, targetPosWithOffset, speed * Time.deltaTime);
         }
     }
 
@@ -24,6 +28,6 @@ public class DestructiveObjectFindTarget : DestructiveObjectAb
     {
         Vector3 direction = DObject.Target.position - transform.parent.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        DObject.Model.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90));
+        transform.parent.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90));
     }
 }

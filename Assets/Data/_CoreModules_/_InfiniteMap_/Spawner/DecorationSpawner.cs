@@ -10,7 +10,7 @@ public class DecorationSpawner : Spawner
     protected override void Start()
     {
         base.Start();
-        map = Game.Instance.Map;
+        map = InfiniteMapManager.Instance.Map;
 
         map.MapSwap.OnMapSwap += SpawnDecorations;
         //SpawnDecorations(MapEnum.Map0);

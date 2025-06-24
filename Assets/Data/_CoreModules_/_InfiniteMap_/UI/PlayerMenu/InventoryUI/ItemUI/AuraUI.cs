@@ -87,7 +87,7 @@ public class AuraUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 EquipDetailsUI.Instance.gameObject.SetActive(true);
-                EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.AuraList[index]);
+                EquipDetailsUI.Instance.ShowDetails(InfiniteMapManager.Instance.Inventory.AuraList[index]);
             }
 
             lastTimeClick = Time.time;

@@ -30,11 +30,11 @@ public class ChageStatsHPPlayer : GMono
 
     private void Increase()
     {
-        Game.Instance.Player.BattleStats.HPIns(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.HPIns(int.Parse(inputField.text));
     }
 
     private void Decrease()
     {
-        Game.Instance.Player.BattleStats.HPDes(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.HPDes(int.Parse(inputField.text));
     }
 }

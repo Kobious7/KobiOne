@@ -87,7 +87,7 @@ public class BackItemUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 EquipDetailsUI.Instance.gameObject.SetActive(true);
-                EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.BackItemList[index]);
+                EquipDetailsUI.Instance.ShowDetails(InfiniteMapManager.Instance.Inventory.BackItemList[index]);
             }
 
             lastTimeClick = Time.time;

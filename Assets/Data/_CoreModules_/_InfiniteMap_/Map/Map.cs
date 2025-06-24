@@ -45,9 +45,9 @@ public class Map : GMono
     protected override void Start()
     {
         base.Start();
-        if(Game.Instance.MapData.MapCanLoad)
+        if(InfiniteMapManager.Instance.MapData.MapCanLoad)
         {
-            distance = Game.Instance.MapData.InfiniteMapInfo.Distance;
+            distance = InfiniteMapManager.Instance.MapData.InfiniteMapInfo.Distance;
         }
     }
 

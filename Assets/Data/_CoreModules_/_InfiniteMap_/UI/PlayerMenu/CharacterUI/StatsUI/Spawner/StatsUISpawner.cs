@@ -41,11 +41,11 @@ public class StatsUISpawner : Spawner
     {
         yield return null;
         
-        playerStats = Game.Instance.Player.InfiniteMapStats.Stats;
+        playerStats = InfiniteMapManager.Instance.Player.StatsSystem.Stats;
 
         SpawnStatLine();
         GetStatUIList();
-        Game.Instance.Player.InfiniteMapStats.OnStatChange += UpdateStat;
+        InfiniteMapManager.Instance.Player.StatsSystem.OnStatChange += UpdateStat;
     }
 
     private void SpawnStatLine()

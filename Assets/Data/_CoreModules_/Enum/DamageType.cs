@@ -2,5 +2,7 @@ public enum DamageType
 {
     None,
     SlashDamage,
-    SwordrainDamage
+    SwordrainDamage,
+    CritSlashDamage,
+    CritSwordrainDamage
 }

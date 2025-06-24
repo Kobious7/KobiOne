@@ -10,6 +10,6 @@ public class TextDisplayUpdate : TextDisplayAb
 
     private void UpdateText()
     {
-        text.Text.text = $"{(int)Game.Instance.Map.Distance}m";
+        text.Text.text = $"{(int)InfiniteMapManager.Instance.Map.Distance}m";
     }
 }

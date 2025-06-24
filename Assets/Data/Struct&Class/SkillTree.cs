@@ -3,23 +3,23 @@ using System;
 [Serializable]
 public class SkillTree : GMono
 {
-    public SkillNode T1B0;
-    public SkillNode T2B1;
-    public SkillNode T2B2;
-    public SkillNode T2B3;
-    public SkillNode T3B1;
-    public SkillNode T3B2;
-    public SkillNode T3B3;
+    public SkillNode Root;
+    public SkillNode Attack1;
+    public SkillNode Attack2;
+    public SkillNode Attack3;
+    public SkillNode Support1;
+    public SkillNode Support2;
+    public SkillNode Support3;
 
     public SkillNode GetSkillNodeByName(string nodeName)
     {
-        if(nodeName == "T1B0") return T1B0;
-        if(nodeName == "T2B1") return T2B1;
-        if(nodeName == "T2B2") return T2B2;
-        if(nodeName == "T2B3") return T2B3;
-        if(nodeName == "T3B1") return T3B1;
-        if(nodeName == "T3B2") return T3B2;
-        if(nodeName == "T3B3") return T3B3;
+        if(nodeName == "Root") return Root;
+        if(nodeName == "Attack1") return Attack1;
+        if(nodeName == "Attack2") return Attack2;
+        if(nodeName == "Attack3") return Attack3;
+        if(nodeName == "Support1") return Support1;
+        if(nodeName == "Support2") return Support2;
+        if(nodeName == "Support3") return Support3;
         return null;
     }
 }

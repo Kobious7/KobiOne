@@ -9,10 +9,10 @@ public abstract class DestructiveObjectAb : GMono
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadDestrcutiveObject();
+        LoadDestructiveObject();
     }
 
-    private void LoadDestrcutiveObject()
+    private void LoadDestructiveObject()
     {
         if(dObject != null) return;
 

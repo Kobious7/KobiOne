@@ -6,17 +6,17 @@ public class SpaceSkillBtnUI : SkillBtnUI
 {
     protected override SkillNode GetSkill()
     {
-        return SkillB.Instance.SpaceSkill;
+        return BSkill.Instance.SpaceSkill;
     }
 
     protected override void Click()
     {
         base.Click();
-        SkillB.Instance.SkillActivator.Active(SkillB.Instance.SpaceSkill, SkillButton.Space);
+        BSkill.Instance.SkillActivator.ActivateSkill(BSkill.Instance.SpaceSkill, SkillButton.Space);
     }
 
     protected override bool GetManaCost()
     {
-        return SkillB.Instance.SpaceUnlocking;
+        return BSkill.Instance.SpaceUnlocking;
     }
 }

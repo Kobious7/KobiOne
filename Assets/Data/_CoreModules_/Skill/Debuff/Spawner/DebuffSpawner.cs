@@ -17,7 +17,7 @@ public class DebuffSpawner : Spawner
         instance = this;
     }
 
-    public void SpawnDebuffs(int level, List<ActiveDebuff> debuffs, IEntityBattleStats stats)
+    public void SpawnDebuffs(int level, List<ActiveDebuff> debuffs, BEntityStats stats)
     {
         GetCurrentDebuff();
 
@@ -27,7 +27,7 @@ public class DebuffSpawner : Spawner
         }
     }
 
-    public void SpawnDebuff(int level, ActiveDebuff debuff, IEntityBattleStats stats)
+    public void SpawnDebuff(int level, ActiveDebuff debuff, BEntityStats stats)
     {
         if(debuff.DurationType == DurationType.Immediately)
         {
@@ -73,7 +73,7 @@ public class DebuffSpawner : Spawner
         }
     }
 
-    public void SpawnNewDebuff(int level, ActiveDebuff debuff, IEntityBattleStats stats)
+    public void SpawnNewDebuff(int level, ActiveDebuff debuff, BEntityStats stats)
     {
         Transform newDebuff = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
 
@@ -91,7 +91,7 @@ public class DebuffSpawner : Spawner
         newDebuff.gameObject.SetActive(true);
     }
 
-    public void ImmediatelyDebuffHandling(int level, ActiveBuff debuff, IEntityBattleStats stats)
+    public void ImmediatelyDebuffHandling(int level, ActiveBuff debuff, BEntityStats stats)
     {
         int percentBuff = (int)(debuff.PercentBonus * (level - 1) + debuff.BuffPercent);
 

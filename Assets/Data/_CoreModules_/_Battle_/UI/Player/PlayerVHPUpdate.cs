@@ -4,6 +4,6 @@ public class PlayerVHPUpdate : VHPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Player.BattleStats.VHP / Game.Instance.Player.BattleStats.MaxHP * 2;
+        return (float)BattleManager.Instance.Player.Stats.VHP / BattleManager.Instance.Player.Stats.MaxHP * 2;
     }
 }

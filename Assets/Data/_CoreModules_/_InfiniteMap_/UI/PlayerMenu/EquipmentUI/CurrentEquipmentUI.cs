@@ -74,8 +74,8 @@ public class CurrentEquipmentUI : GMono
     private IEnumerator WaitNextFrame()
     {
         yield return null;
-        equipment = Game.Instance.Equipment;
-        inventory = Game.Instance.Inventory;
+        equipment = InfiniteMapManager.Instance.Equipment;
+        inventory = InfiniteMapManager.Instance.Inventory;
         weaponList = inventory.WeaponList;
         helmetList = inventory.HelmetList;
         bodyArmorList = inventory.BodyArmorList;

@@ -9,8 +9,11 @@ public class Battle : GMono
     private static Battle instance;
 
     public static Battle Instance => instance;
+
     public event Action OnTurnChange;
     public event Action OnCycleChange;
+    public event Action OnPlayerLost;
+    public event Action OnMonsterLost;
 
     [SerializeField] private int turns = 1;
 
@@ -79,14 +82,21 @@ public class Battle : GMono
         set { playerNextDamage = value; }
     }
 
+    [SerializeField] private bool playerCrit;
+
+    public bool PlayerCrit
+    {
+        get { return playerCrit; }
+        set { playerCrit = value; }
+    }
+
     private Dictionary<TileEnum, int> tileCounter;
 
     public Dictionary<TileEnum, int> TileCounter => tileCounter;
 
-    private Player player;
-    private Opponent opponent;
-    private PlayerBatlleMeleeAttack meleeAttack;
-    private PlayerRangedAttack rangedAttack;
+    private BPlayer player;
+    private BMonster monster;
+    private BattleManager battleManager;
     private bool slashTile;
     private bool swordTile;
 
@@ -103,12 +113,11 @@ public class Battle : GMono
 
     protected override void Start()
     {
-        player = Game.Instance.Player;
-        opponent = Game.Instance.Opponent;
-
-        meleeAttack = (PlayerBatlleMeleeAttack)player.MeleeAttack;
-        meleeAttack.OnMeleeHitTarget += DealTileDamage;
-        rangedAttack = (PlayerBattleRangedAttack)player.RangedAttack;
+        battleManager = BattleManager.Instance;
+        player = battleManager.Player;
+        monster = battleManager.Monster;
+        player.MeleeAttack.OnMeleeHitTarget += DealTileDamage;
+        monster.MeleeAttack.OnMeleeHitTarget += DealTileDamage;
 
         StartCoroutine(Fight());
     }
@@ -119,15 +128,17 @@ public class Battle : GMono
         {
             StopCoroutine(Fight());
 
-            if (player.BattleStats.CurrentHP <= 0)
+            if (player.Stats.CurrentHP <= 0)
             {
+                OnPlayerLost?.Invoke();
                 BattleResult.Instance.Lose.gameObject.SetActive(true);
-                Game.Instance.MapData.Result = Result.LOST;
+                battleManager.MapData.Result = Result.LOST;
             }
-            if (opponent.Stats.CurrentHP <= 0)
+            if (monster.Stats.CurrentHP <= 0)
             {
+                OnMonsterLost?.Invoke();
                 BattleResult.Instance.Win.gameObject.SetActive(true);
-                Game.Instance.MapData.Result = Result.WIN;
+                battleManager.MapData.Result = Result.WIN;
             }
             BattleResult.Instance.OpacityBG.gameObject.SetActive(true);
             BattleResult.Instance.LoadMap.gameObject.SetActive(true);
@@ -139,7 +150,7 @@ public class Battle : GMono
     {
         yield return new WaitForSeconds(1);
 
-        while (player.BattleStats.CurrentHP > 0 && opponent.Stats.CurrentHP > 0)
+        while (player.Stats.CurrentHP > 0 && monster.Stats.CurrentHP > 0)
         {
             if (pTurn)
             {
@@ -148,7 +159,7 @@ public class Battle : GMono
 
                 while (countDownTurn > 0)
                 {
-                    if (player.BattleStats.CurrentHP <= 0 || opponent.Stats.CurrentHP <= 0)
+                    if (player.Stats.CurrentHP <= 0 || monster.Stats.CurrentHP <= 0)
                     {
                         end = true;
                     }
@@ -160,7 +171,7 @@ public class Battle : GMono
                 }
             }
 
-            if (player.BattleStats.CurrentHP <= 0 || opponent.Stats.CurrentHP <= 0)
+            if (player.Stats.CurrentHP <= 0 || monster.Stats.CurrentHP <= 0)
             {
                 end = true;
             }
@@ -183,21 +194,21 @@ public class Battle : GMono
             {
                 while (!endTurn)
                 {
-                    if (player.BattleStats.CurrentHP <= 0 || opponent.Stats.CurrentHP <= 0)
+                    if (player.Stats.CurrentHP <= 0 || monster.Stats.CurrentHP <= 0)
                     {
                         end = true;
                     }
                     if (!botPlayed)
                     {
                         botPlayed = true;
-                        Game.Instance.Opponent.OpponentDestroyAndFill.DestroyAndFill();
+                        battleManager.Monster.DestroyAndFill.DestroyAndFill();
                     }
 
                     yield return null;
                 }
             }
 
-            if (player.BattleStats.CurrentHP <= 0 || opponent.Stats.CurrentHP <= 0)
+            if (player.Stats.CurrentHP <= 0 || monster.Stats.CurrentHP <= 0)
             {
                 end = true;
             }
@@ -260,26 +271,26 @@ public class Battle : GMono
 
         if (tileCounter[TileEnum.HEART] > 0)
         {
-            if (pTurn) player.BattleStats.HPIns((int)(player.BattleStats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
-            if (opTurn) opponent.Stats.HPIns((int)(opponent.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
+            if (pTurn) player.Stats.HPIns((int)(player.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
+            if (opTurn) monster.Stats.HPIns((int)(monster.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
         }
 
         if (tileCounter[TileEnum.VHEART] > 0)
         {
-            if (pTurn) player.BattleStats.VHPIns((int)(player.BattleStats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
-            if (opTurn) opponent.Stats.VHPIns((int)(opponent.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
+            if (pTurn) player.Stats.VHPIns((int)(player.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
+            if (opTurn) monster.Stats.VHPIns((int)(monster.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
         }
 
         if (tileCounter[TileEnum.MANA] > 0)
         {
-            if (pTurn) player.BattleStats.ManaIns((int)(player.BattleStats.ManaRegen * tileCounter[TileEnum.MANA]));
-            if (opTurn) opponent.Stats.ManaIns((int)(opponent.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
+            if (pTurn) player.Stats.ManaIns((int)(player.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
+            if (opTurn) monster.Stats.ManaIns((int)(monster.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
         }
 
         if (tileCounter[TileEnum.SHEILD] > 0)
         {
-            if (pTurn) player.BattleStats.SheildStack(tileCounter[TileEnum.SHEILD]);
-            if (opTurn) opponent.Stats.SheildStack(tileCounter[TileEnum.SHEILD]);
+            if (pTurn) player.Stats.SheildStack(tileCounter[TileEnum.SHEILD]);
+            if (opTurn) monster.Stats.SheildStack(tileCounter[TileEnum.SHEILD]);
         }
 
         if (tileCounter[TileEnum.SLASH] > 0)
@@ -289,14 +300,31 @@ public class Battle : GMono
             {
                 slashTile = true;
 
-                if (player.SwapWeapon.CurrentAttackRange == AttackRange.Melee)
+                if (player.AttackRange.Current == AttackRange.Melee)
                 {
-                    yield return StartCoroutine(meleeAttack.BattleMeleeAttack());
+                    yield return StartCoroutine(player.MeleeAttack.MeleeAttack());
                 }
 
-                if (player.SwapWeapon.CurrentAttackRange == AttackRange.Ranged)
+                if (player.AttackRange.Current == AttackRange.Ranged)
                 {
-                    yield return StartCoroutine(rangedAttack.BattleRangedAttack());
+                    yield return StartCoroutine(player.RangedAttack.RangedAttack());
+                }
+
+                slashTile = false;
+            }
+
+            if (opTurn)
+            {
+                slashTile = true;
+
+                if (monster.AttackRange.Current == AttackRange.Melee)
+                {
+                    yield return StartCoroutine(monster.MeleeAttack.MeleeAttack());
+                }
+
+                if (monster.AttackRange.Current == AttackRange.Ranged)
+                {
+                    yield return StartCoroutine(monster.RangedAttack.RangedAttack());
                 }
 
                 slashTile = false;
@@ -311,14 +339,33 @@ public class Battle : GMono
 
                 swordTile = true;
 
-                if (player.SwapWeapon.CurrentAttackRange == AttackRange.Melee)
+                if (player.AttackRange.Current == AttackRange.Melee)
                 {
-                    yield return StartCoroutine(meleeAttack.BattleMeleeAttack());
+                    yield return StartCoroutine(player.MeleeAttack.MeleeAttack());
                 }
 
-                if (player.SwapWeapon.CurrentAttackRange == AttackRange.Ranged)
+                if (player.AttackRange.Current == AttackRange.Ranged)
                 {
-                    yield return StartCoroutine(rangedAttack.BattleRangedAttack());
+                    yield return StartCoroutine(player.RangedAttack.RangedAttack());
+                }
+
+                swordTile = false;
+            }
+
+            if (opTurn)
+            {
+                StartCoroutine(monster.Swordrain.SpawnSword(tileCounter[TileEnum.SWORD]));
+
+                swordTile = true;
+
+                if (monster.AttackRange.Current == AttackRange.Melee)
+                {
+                    yield return StartCoroutine(monster.MeleeAttack.MeleeAttack());
+                }
+
+                if (monster.AttackRange.Current == AttackRange.Ranged)
+                {
+                    yield return StartCoroutine(monster.RangedAttack.RangedAttack());
                 }
 
                 swordTile = false;
@@ -326,74 +373,21 @@ public class Battle : GMono
         }
     }
 
-    public void DealSwordrainDamage(IEntityBattleStats dealer, IEntityBattleStats receiver)
+    public void DealSwordrainDamage(BEntityStats dealer, BEntityStats receiver)
     {
-        int swordrainDamage = dealer.DamageCalculate(dealer.SwordrainDamage, receiver);
-        int receiverVHP = receiver.VHP;
-        int lostHP;
+        dealer.DealDamage(dealer.SwordrainDamage, receiver);
 
-        if (swordrainDamage > receiverVHP)
-        {
-            lostHP = swordrainDamage - receiverVHP;
-        }
-        else
-        {
-            lostHP = 0;
-        }
-
-        receiver.VHPDes(swordrainDamage);
-
-        receiver.HPDes(lostHP);
-
+        playerNextDamage = DamageType.SwordrainDamage;
     }
 
-    public void DealFlyObjectDamage(IEntityBattleStats dealer, IEntityBattleStats receiver)
+    public void DealTileDamage(BEntityStats dealer, BEntityStats receiver)
     {
         int tileNum = 0;
 
         if (slashTile) tileNum = tileCounter[TileEnum.SLASH];
         if (swordTile) tileNum = tileCounter[TileEnum.SWORD];
 
-        int swordrainDamage = dealer.DamageCalculate(tileNum * dealer.SwordrainDamage, receiver);
-        int receiverVHP = receiver.VHP;
-        int lostHP;
-
-        if (swordrainDamage > receiverVHP)
-        {
-            lostHP = swordrainDamage - receiverVHP;
-        }
-        else
-        {
-            lostHP = 0;
-        }
-
-        receiver.VHPDes(swordrainDamage);
-
-        receiver.HPDes(lostHP);
-    }
-
-    public void DealTileDamage()
-    {
-        int tileNum = 0;
-
-        if (slashTile) tileNum = tileCounter[TileEnum.SLASH];
-        if (swordTile) tileNum = tileCounter[TileEnum.SWORD];
-
-        int pSlashDamage = player.BattleStats.DamageCalculate(tileNum * player.BattleStats.SlashDamage, opponent.Stats);
-        int botVHP = opponent.Stats.VHP;
-        int lostHP;
-
-        if (pSlashDamage > botVHP)
-        {
-            lostHP = pSlashDamage - botVHP;
-        }
-        else
-        {
-            lostHP = 0;
-        }
-
-        opponent.Stats.VHPDes(pSlashDamage);
-        opponent.Stats.HPDes(lostHP);
+        dealer.DealDamage(tileNum * dealer.SlashDamage, receiver);
 
         playerNextDamage = DamageType.SlashDamage;
     }

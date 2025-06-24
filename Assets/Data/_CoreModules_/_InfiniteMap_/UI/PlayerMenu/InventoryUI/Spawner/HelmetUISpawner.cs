@@ -36,7 +36,7 @@ public class HelmetUISpawner : Spawner
     {
         yield return null;
 
-        helmetList = Game.Instance.Inventory.HelmetList;
+        helmetList = InfiniteMapManager.Instance.Inventory.HelmetList;
         SpawnHelmetUI();
     }
 

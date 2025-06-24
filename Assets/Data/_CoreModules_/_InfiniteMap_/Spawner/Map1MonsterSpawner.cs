@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class Map1MonsterSpawner : MonsterSpawner
 {
+    private InfiniteMapManager infiniteMapManager;
+
     protected override void Start()
     {
         base.Start();
 
-        if(Game.Instance.MapData.MapCanLoad)
+        infiniteMapManager = InfiniteMapManager.Instance;
+
+        if (infiniteMapManager.MapData.MapCanLoad)
         {
-            counter = Game.Instance.MapData.Map1MonsterSpawnerInfo.Counter;
+            counter = infiniteMapManager.MapData.Map1MonsterSpawnerInfo.Counter;
             spawnCount = 0;
             canSpawn = false;
             lockSpawn = false;
@@ -17,16 +21,16 @@ public class Map1MonsterSpawner : MonsterSpawner
             LoadFromData();
         }
 
-        Game.Instance.Map.MapSwap.OnMapSwap += SpawnInCurrentMap;
+        infiniteMapManager.Map.MapSwap.OnMapSwap += SpawnInCurrentMap;
     }
 
     private void LoadFromData()
     {
-        List<MonsterInfo> list = Game.Instance.MapData.Map1MonsterSpawnerInfo.MonsterInfos.Count > 0 ? Game.Instance.MapData.Map1MonsterSpawnerInfo.MonsterInfos : Game.Instance.MapData.Map2MonsterSpawnerInfo.MonsterInfos;
+        List<MonsterInfo> list = infiniteMapManager.MapData.Map1MonsterSpawnerInfo.MonsterInfos.Count > 0 ? infiniteMapManager.MapData.Map1MonsterSpawnerInfo.MonsterInfos : infiniteMapManager.MapData.Map2MonsterSpawnerInfo.MonsterInfos;
 
         foreach (MonsterInfo monsterInfo in list)
         {
-            Transform newMonster = Spawn(prefabs[Random.Range(0, prefabs.Count)], monsterInfo.PosOffset + Game.Instance.Map.Maps[0].position, Quaternion.identity);
+            Transform newMonster = Spawn(prefabs[Random.Range(0, prefabs.Count)], monsterInfo.PosOffset + infiniteMapManager.Map.Maps[0].position, Quaternion.identity);
             
             newMonster.gameObject.SetActive(true);
 

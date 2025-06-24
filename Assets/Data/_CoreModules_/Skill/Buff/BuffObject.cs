@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class BuffObject : GMono
 {
-    [SerializeField] private IEntityBattleStats stats;
+    [SerializeField] private BEntityStats stats;
 
-    public IEntityBattleStats Stats
+    public BEntityStats Stats
     {
         get => stats;
         set => stats = value;
@@ -77,6 +77,14 @@ public class BuffObject : GMono
     [SerializeField] private BuffObjectHandling buffHandler;
 
     public BuffObjectHandling BuffHandler => buffHandler;
+
+    [SerializeField] private SkillActivator activator;
+
+    public SkillActivator Activator
+    {
+        get => activator;
+        set => activator = value;
+    }
 
     protected override void LoadComponents()
     {

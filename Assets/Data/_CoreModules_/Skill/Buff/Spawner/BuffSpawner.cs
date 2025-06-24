@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,22 +13,22 @@ public class BuffSpawner : Spawner
     protected override void Awake()
     {
         base.Awake();
-        if(instance != null) Debug.LogError("Only 1 BuffSpawner is allowed to exist!");
+        if (instance != null) Debug.LogError("Only 1 BuffSpawner is allowed to exist!");
 
         instance = this;
     }
 
-    public void SpawnBuffs(int level, List<ActiveBuff> buffs, IEntityBattleStats stats)
+    public void SpawnBuffs(int level, List<ActiveBuff> buffs, BEntityStats stats, SkillActivator activator)
     {
         GetCurrentBuff();
 
         foreach(var buff in buffs)
         {
-            SpawnBuff(level, buff, stats);
+            SpawnBuff(level, buff, stats, activator);
         }
     }
 
-    public void SpawnBuff(int level, ActiveBuff buff, IEntityBattleStats stats)
+    public void SpawnBuff(int level, ActiveBuff buff, BEntityStats stats, SkillActivator activator)
     {
         if(buff.DurationType == DurationType.Immediately)
         {
@@ -40,7 +41,7 @@ public class BuffSpawner : Spawner
 
             if(foundObj == null)
             {
-                SpawnNewBuff(level, buff, stats);
+                SpawnNewBuff(level, buff, stats, activator);
             }
         }
         else
@@ -55,7 +56,7 @@ public class BuffSpawner : Spawner
                 }
                 else
                 {
-                    SpawnNewBuff(level, buff, stats);
+                    SpawnNewBuff(level, buff, stats, activator);
                 }
             }
             else if(buff.PercentStack)
@@ -70,7 +71,7 @@ public class BuffSpawner : Spawner
                 }
                 else
                 {
-                    SpawnNewBuff(level, buff, stats);
+                    SpawnNewBuff(level, buff, stats, activator);
                 }
             }
             else
@@ -78,12 +79,12 @@ public class BuffSpawner : Spawner
                 BuffObject foundObj = FindBuff(buff);
 
                 if(foundObj != null) foundObj.Duration = buff.Duration;
-                else SpawnNewBuff(level, buff, stats);
+                else SpawnNewBuff(level, buff, stats, activator);
             }
         }
     }
 
-    public void SpawnNewBuff(int level, ActiveBuff buff, IEntityBattleStats stats)
+    public void SpawnNewBuff(int level, ActiveBuff buff, BEntityStats stats, SkillActivator activator)
     {
         Transform newBuff = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
 
@@ -98,17 +99,19 @@ public class BuffSpawner : Spawner
         objCom.Duration = buff.Duration;
         objCom.DurationStack = buff.DurationStack;
         objCom.PercentStack = buff.PercentStack;
+        objCom.Activator = activator;
 
         newBuff.gameObject.SetActive(true);
     }
 
-    public void ImmediatelyBuffHandling(int level, ActiveBuff buff, IEntityBattleStats stats)
+    public void ImmediatelyBuffHandling(int level, ActiveBuff buff, BEntityStats stats)
     {
         float percentBuff = buff.PercentBonus * (level - 1) + buff.BuffPercent;
 
         switch(buff.StatBuff)
         {
             case EquipStatType.CurrentHPByMaxHP:
+
                 stats.HPIns((int)(percentBuff / 100 * stats.MaxHP));
                 break;
         }

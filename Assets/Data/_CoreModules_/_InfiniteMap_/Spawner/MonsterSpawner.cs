@@ -66,10 +66,10 @@ public class MonsterSpawner : Spawner
 
     public List<Transform> GetActiveMonster()
     {
-        List<Monster> objs = holder.GetComponentsInChildren<Monster>().ToList();
+        List<IMMonster> objs = holder.GetComponentsInChildren<IMMonster>().ToList();
         List<Transform> activeMonsters = new();
 
-        foreach (Monster obj in objs)
+        foreach (IMMonster obj in objs)
         {
             if (obj.gameObject.activeSelf) activeMonsters.Add(obj.transform);
         }
@@ -79,9 +79,9 @@ public class MonsterSpawner : Spawner
 
     public void DespawnAllMonster()
     {
-        List<Monster> objs = holder.GetComponentsInChildren<Monster>().ToList();
+        List<IMMonster> objs = holder.GetComponentsInChildren<IMMonster>().ToList();
 
-        foreach (Monster obj in objs)
+        foreach (IMMonster obj in objs)
         {
             if (objPool.Contains(obj.transform)) continue;
             objPool.Add(obj.transform);

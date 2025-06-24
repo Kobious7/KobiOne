@@ -36,7 +36,7 @@ public class LegArmorUISpawner : Spawner
     {
         yield return null;
 
-        legArmorList = Game.Instance.Inventory.LegArmorList;
+        legArmorList = InfiniteMapManager.Instance.Inventory.LegArmorList;
         SpawnLegArmorUI();
     }
 

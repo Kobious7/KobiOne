@@ -87,7 +87,7 @@ public class LegArmorUI : GMono
             if(Time.time - lastTimeClick < doubleClickTheshold)
             {
                 EquipDetailsUI.Instance.gameObject.SetActive(true);
-                EquipDetailsUI.Instance.ShowDetails(Game.Instance.Inventory.LegArmorList[index]);
+                EquipDetailsUI.Instance.ShowDetails(InfiniteMapManager.Instance.Inventory.LegArmorList[index]);
             }
 
             lastTimeClick = Time.time;

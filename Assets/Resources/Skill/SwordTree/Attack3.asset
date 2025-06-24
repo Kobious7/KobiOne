@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fad91949a7c8b4ab0e857a39e97e76, type: 3}
+  m_Name: Attack3
+  m_EditorClassIdentifier: 
+  SkillBranch: 1
+  SkillTier: 3
+  CharacterLevelRequirement: 30
+  MaxLevel: 20
+  SkillPointCost: 4
+  Description: Release sword energy waves that destroy {Area}(max {ObjectMaxSpawnCount})
+    on the board or hit your opponent, dealing {SlashDamage}% Slash damage. Each
+    hit reduces {DefenseDebuffPercent}% opponent's Defense.
+  LockDescription: Release sword energy waves that destroy rows on the board or hit
+    your opponent, dealing Slash damage based on Attack stat. Each hit reduces opponent's
+    Defense.
+  SkillIcon: {fileID: 21300000, guid: eaa2e318fc6a02b42872bc35e2ae48de, type: 3}
+  SkillName: Sword energy waves
+  Button: 0
+  ManaCost: 30
+  TurnCount: 1
+  Activator: {fileID: 4226212899183569208, guid: 471991a44db868d49a2d903a3607338f, type: 3}
+  SelfTarget: 0
+  OpponentTarget: 1
+  Damage:
+    SourceDamage: 5
+    DamageType: 1
+    Scaling: 100
+    BonusPerLevel: 8
+  Buffs: []
+  Debuffs:
+  - StatDebuff: 10
+    SourceStat: 10
+    DebuffPercent: -10
+    PercentBonus: -5
+    DurationType: 0
+    Duration: 1
+    DurationStack: 0
+    PercentStack: 1
+  ObjectMinSpawnCount: 4
+  ObjectMaxSpawnCount: 5
+  MinObjectToOp: 1
+  MaxObjectToOp: 3
+  AreaSquareRange: 0
+  AreaString: rows
+  Area: []
+  ObjectSpawnPos:
+  - {x: -5, y: -3.5, z: 0}
+  - {x: -5, y: -2.5, z: 0}
+  - {x: -5, y: -1.5, z: 0}
+  - {x: -5, y: -0.5, z: 0}
+  - {x: -5, y: 0.5, z: 0}
+  - {x: -5, y: 1.5, z: 0}
+  - {x: -5, y: 2.5, z: 0}
+  - {x: -5, y: 3.5, z: 0}
+  ObjectSprite: {fileID: 21300000, guid: 7fb3e7bc166bdc94da1643a417f17bfc, type: 3}
+  ObjectSpeed: 6
+  DObjectPrefab: {fileID: 2554047788431799075, guid: e1607053f06e7394d942a854c8ab9d1d, type: 3}
+  DObjectHitFX: {fileID: 4949317727072264376, guid: 8fb37ba285c726d4687145855b3811cb, type: 3}

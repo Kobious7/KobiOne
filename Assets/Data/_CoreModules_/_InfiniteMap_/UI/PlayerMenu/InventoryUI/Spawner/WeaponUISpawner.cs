@@ -36,7 +36,7 @@ public class WeaponUISpawner : Spawner
     {
         yield return null;
 
-        weaponList = Game.Instance.Inventory.WeaponList;
+        weaponList = InfiniteMapManager.Instance.Inventory.WeaponList;
         SpawnWeaponUI();
     }
 

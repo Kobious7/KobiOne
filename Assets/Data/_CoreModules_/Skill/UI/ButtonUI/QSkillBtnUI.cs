@@ -6,17 +6,17 @@ public class QSkillBtnUI : SkillBtnUI
 {
     protected override SkillNode GetSkill()
     {
-        return SkillB.Instance.QSkill;
+        return BSkill.Instance.QSkill;
     }
 
     protected override void Click()
     {
         base.Click();
-        SkillB.Instance.SkillActivator.Active(SkillB.Instance.QSkill, SkillButton.Q);
+        BSkill.Instance.SkillActivator.ActivateSkill(BSkill.Instance.QSkill, SkillButton.Q);
     }
 
     protected override bool GetManaCost()
     {
-        return SkillB.Instance.QUnlocking;
+        return BSkill.Instance.QUnlocking;
     }
 }

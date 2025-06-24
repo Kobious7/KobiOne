@@ -36,7 +36,7 @@ public class BootsUISpawner : Spawner
     {
         yield return null;
 
-        bootsList = Game.Instance.Inventory.BootsList;
+        bootsList = InfiniteMapManager.Instance.Inventory.BootsList;
         SpawnBootsUI();
     }
 

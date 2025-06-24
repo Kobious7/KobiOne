@@ -7,7 +7,7 @@ public class SkillUpdateBonus : SkillAb
 
     public List<PassiveSkillBonus> AllTreeBonus => allTreeBonus;
 
-    [SerializeField] private List<PassiveSkillBonus> attackTreeBonus;
+    [SerializeField] private List<PassiveSkillBonus> swordTreeBonus;
 
     protected override void LoadComponents()
     {
@@ -19,13 +19,13 @@ public class SkillUpdateBonus : SkillAb
 
     private void UpdateCurrentBonus(SkillTree skillTree)
     {
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T1B0);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T2B1);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T2B2);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T2B3);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T3B1);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T3B2);
-        UpdateBonusPerPassiveSkill(attackTreeBonus, skillTree.T3B3);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Root);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack1);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack2);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack3);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support1);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support2);
+        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support3);
     }
 
     private void UpdateBonusPerPassiveSkill(List<PassiveSkillBonus> list, SkillNode skill)
@@ -51,10 +51,10 @@ public class SkillUpdateBonus : SkillAb
     {
         if(treeIndex == 0)
         {
-            UpdateBonusBySkillTree(skill, attackTreeBonus);
+            UpdateBonusBySkillTree(skill, swordTreeBonus);
         }
 
-        Game.Instance.Player.InfiniteMapStats.UpdatePassiveSkillBonus(allTreeBonus);
+        InfiniteMapManager.Instance.Player.StatsSystem.UpdatePassiveSkillBonus(allTreeBonus);
     }
 
     private void UpdateBonusBySkillTree(SkillNode skill, List<PassiveSkillBonus> list)
@@ -90,7 +90,7 @@ public class SkillUpdateBonus : SkillAb
 
     private void NewAttackBonusList()
     {
-        attackTreeBonus = new List<PassiveSkillBonus>
+        swordTreeBonus = new List<PassiveSkillBonus>
         {
             new PassiveSkillBonus(EquipStatType.Power), new PassiveSkillBonus(EquipStatType.Attack)
         };

@@ -30,11 +30,11 @@ public class ChangeStatsVHPPlayer : GMono
 
     private void Increase()
     {
-        Game.Instance.Player.BattleStats.VHPIns(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.VHPIns(int.Parse(inputField.text));
     }
 
     private void Decrease()
     {
-        Game.Instance.Player.BattleStats.VHPDes(int.Parse(inputField.text));
+        BattleManager.Instance.Player.Stats.VHPDes(int.Parse(inputField.text));
     }
 }

@@ -13,18 +13,26 @@ public class TileDragging : TileAb
     private Board board;
     private BoardMatches boardMatches;
     private BoardDestroyedMatches boardDestroyedMatches;
+    private BattleManager battleManager;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        battleManager = BattleManager.Instance;
+    }
 
     private void OnMouseDown()
     {
         firstMousePos = to2DVec(InputManager.Instance.MousePos);
 
-        if (!Game.Instance.TileBorder.Model.gameObject.activeSelf)
+        if (!battleManager.TileBorder.Model.gameObject.activeSelf)
         {
-            Game.Instance.TileBorder.Model.gameObject.SetActive(true);
-            Game.Instance.TileBorder.IsDisplayed = true;
+            battleManager.TileBorder.Model.gameObject.SetActive(true);
+            battleManager.TileBorder.IsDisplayed = true;
         }
 
-        Game.Instance.TileBorder.transform.position = transform.parent.localPosition;
+        battleManager.TileBorder.transform.position = transform.parent.localPosition;
     }
 
     private void OnMouseUp()
@@ -46,7 +54,7 @@ public class TileDragging : TileAb
 
     public void ChangePos()
     {
-        board = Game.Instance.Board;
+        board = battleManager.Board;
         tiles = board.BoardGen.Tiles;
         boardMatches = board.BoardMatches;
         boardDestroyedMatches = board.BoardDestroyedMatches;

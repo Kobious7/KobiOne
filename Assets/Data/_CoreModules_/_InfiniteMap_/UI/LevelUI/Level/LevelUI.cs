@@ -28,7 +28,7 @@ public class LevelUI : GMono
 
     private void Update()
     {
-        UpdateLevel(Game.Instance.Player);
+        UpdateLevel(InfiniteMapManager.Instance.Player);
     }
 
     private void LoadLevelText()
@@ -52,11 +52,11 @@ public class LevelUI : GMono
         levelPercent = transform.Find("LevelPercent").GetComponent<Image>();
     }
 
-    public void UpdateLevel(Player player)
+    public void UpdateLevel(IMPlayer player)
     {
-        int level = Game.Instance.CharacterData.Level;
-        int current = player.InfiniteMapStats.CurrentExp;
-        int max = player.InfiniteMapStats.RequiredExp;
+        int level = InfiniteMapManager.Instance.CharacterData.Level;
+        int current = player.StatsSystem.CurrentExp;
+        int max = player.StatsSystem.RequiredExp;
         levelText.text = level + "";
         levelPercentText.text = current > 0 ? $"{(((float)current / max) * 100):F2}%" : "0%";
         levelPercent.fillAmount = Mathf.Lerp(levelPercent.fillAmount, (float)current/max, speed * Time.deltaTime);

@@ -14,12 +14,12 @@ public class DestructiveObject : GMono
         set => target = value;
     }
 
-    [SerializeField] private MainTargetType mainTarget;
+    [SerializeField] private float offsetValue;
 
-    public MainTargetType MainTarget
+    public float OffsetValue
     {
-        get => mainTarget;
-        set => mainTarget = value;
+        get => offsetValue;
+        set => offsetValue = value;
     }
 
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -29,6 +29,22 @@ public class DestructiveObject : GMono
     [SerializeField] private CapsuleCollider capsuleCollider;
 
     public CapsuleCollider CapsuleCollider => capsuleCollider;
+
+    [SerializeField] private Transform hitFX;
+
+    public Transform HitFX
+    {
+        get => hitFX;
+        set => hitFX = value;
+    }
+
+    [SerializeField] private SkillButton skillButton;
+
+    public SkillButton SkillButton
+    {
+        get => skillButton;
+        set => skillButton = value;
+    }
 
     protected override void LoadComponents()
     {

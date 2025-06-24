@@ -12,18 +12,20 @@ public class QTileFindTargets : GMono
     public List<O> AffectArea => affectArea;
 
     private TileSkillSO skillProps;
+    private BattleManager battleManager;
 
     protected override void Start()
     {
         base.Start();
-        skillProps = (TileSkillSO)SkillB.Instance.QSkill.skillSO;
+        battleManager = BattleManager.Instance;
+        skillProps = (TileSkillSO)BSkill.Instance.QSkill.skillSO;
     }
 
     public void GetTileTargets(int number, string areaString)
     {
         tileTargets = new();
         affectArea = new();
-        Game.Instance.TileSpawner.GetGeneratedTilesList();
+        battleManager.TileSpawner.GetGeneratedTilesList();
 
         if (areaString == "rows")
         {
@@ -44,19 +46,19 @@ public class QTileFindTargets : GMono
         while (rowNum != number)
         {
             int rand = rowIndex[Random.Range(0, rowIndex.Count)];
-            Tiles firstColumTile = Game.Instance.TileSpawner.GetFirstColumTile(rand);
+            Tiles firstColumTile = battleManager.TileSpawner.GetFirstColumTile(rand);
             int index = rowIndex.IndexOf(rand);
 
             rowIndex.RemoveAt(index);
 
             List<O> areas = new List<O> { new O(0, 0), new O(1, 0), new O(2, 0), new O(3, 0), new O(4, 0), new O(5, 0), new O(6, 0), new O(7, 0) };
 
-            Tiles trueTarget = Game.Instance.TileSpawner.GetTileByXY(firstColumTile.TilePrefab.X + 7, firstColumTile.TilePrefab.Y);
+            Tiles trueTarget = battleManager.TileSpawner.GetTileByXY(firstColumTile.TilePrefab.X + 7, firstColumTile.TilePrefab.Y);
             tileTargets.Add(trueTarget.transform);
 
             foreach (var area in areas)
             {
-                Tiles tileXY = Game.Instance.TileSpawner.GetTileByXY(area.X + firstColumTile.TilePrefab.X, area.Y + firstColumTile.TilePrefab.Y);
+                Tiles tileXY = battleManager.TileSpawner.GetTileByXY(area.X + firstColumTile.TilePrefab.X, area.Y + firstColumTile.TilePrefab.Y);
                 affectArea.Add(new O(tileXY.TilePrefab.X, tileXY.TilePrefab.Y));
             }
 
@@ -68,11 +70,11 @@ public class QTileFindTargets : GMono
     {
         while (tileTargets.Count != number)
         {
-            Tiles rand = Game.Instance.TileSpawner.GetRandomTile();
+            Tiles rand = battleManager.TileSpawner.GetRandomTile();
 
             while (!IsOKTarget(rand))
             {
-                rand = Game.Instance.TileSpawner.GetRandomTile();
+                rand = battleManager.TileSpawner.GetRandomTile();
             }
 
             if (!tileTargets.Contains(rand.transform))

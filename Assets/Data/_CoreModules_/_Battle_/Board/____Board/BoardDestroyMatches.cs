@@ -86,7 +86,7 @@ public class BoardDestroyedMatches : BoardAb
 
     public void DestroyM()
     {
-        tileSpawner = Game.Instance.TileSpawner;
+        tileSpawner = BattleManager.Instance.TileSpawner;
 
         for (int x = 0; x < Board.Size; x++)
         {
@@ -97,7 +97,7 @@ public class BoardDestroyedMatches : BoardAb
                 if (t.TilePrefab.CanBeDestroyed)
                 {
                     if (Battle.Instance.TileCounter.ContainsKey(t.TilePrefab.TileEnum)) Battle.Instance.TileCounter[t.TilePrefab.TileEnum]++;
-                    Transform fx = Game.Instance.FXSpawner.Spawn(Game.Instance.FXSpawner.FX.transform, t.transform.position, Quaternion.identity);
+                    Transform fx = BattleManager.Instance.FXSpawner.Spawn(BattleManager.Instance.FXSpawner.FX.transform, t.transform.position, Quaternion.identity);
                     fx.gameObject.SetActive(true);
                     tileSpawner.Despawn(tiles[x, y]);
 

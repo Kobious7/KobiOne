@@ -4,11 +4,11 @@ public class BotMPUpdate : MPUpdate
 {
     protected override float GetNewFillAmount()
     {
-        return (float)Game.Instance.Opponent.Stats.Mana / 100;
+        return (float)BattleManager.Instance.Monster.Stats.Mana / 100;
     }
 
     protected override string GetNewString()
     {
-        return $"{Game.Instance.Opponent.Stats.Mana}%";
+        return $"{BattleManager.Instance.Monster.Stats.Mana}%";
     }
 }

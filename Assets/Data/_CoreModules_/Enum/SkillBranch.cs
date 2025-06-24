@@ -1,7 +1,6 @@
 public enum SkillBranch
 {
-    Zero,
-    One,
-    Two,
-    Three
+    Root,
+    Attack,
+    Support
 }

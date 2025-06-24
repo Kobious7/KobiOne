@@ -1,78 +1,133 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
-public class DestructiveObjectCollision : DestructiveObjectAb
+public abstract class DestructiveObjectCollision : DestructiveObjectAb
 {
-    private SkillB skillB;
-    private PlayerBattleStats playerStats;
-    private OpponentStats opStats;
+    [SerializeField] protected Transform normalHitFX;
+    [SerializeField] protected Transform currentNomarlHitFXObject;
+    protected BSkill bSkill;
+    protected BPlayerStats playerStats;
+    protected BMonsterStats opStats;
+    protected BMonsterAnim opAnim;
 
     protected override void Start()
     {
         base.Start();
 
-        skillB = SkillB.Instance;
-        playerStats = Game.Instance.Player.BattleStats;
-        opStats = Game.Instance.Opponent.Stats;
+        bSkill = BSkill.Instance;
+        playerStats = BattleManager.Instance.Player.Stats;
+        opStats = BattleManager.Instance.Monster.Stats;
+        opAnim = BattleManager.Instance.Monster.Anim as BMonsterAnim;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(DObject.Target.name == "Tile")
+        Debug.Log(DObject.Target.name);
+
+        if (DObject.Target.name == "Tile")
         {
             if (other.transform.parent.name == "Tile")
             {
                 TilePrefab tile = other.transform.parent.GetComponentInChildren<TilePrefab>();
                 TilePrefab target = DObject.Target.GetComponentInChildren<TilePrefab>();
-                
+
                 if (tile.X == target.X && tile.Y == target.Y)
                 {
-                    DestructiveObjectSpawner.Instance.Despawn(transform.parent);
-                    DestructiveObjectSpawner.Instance.TileSpawnCount--;
+                    SpawnTileHitFX(other.transform);
+                    StartCoroutine(WaitHit(() =>
+                    {
+                        DestructiveObjectSpawner.Instance.Despawn(transform.parent);
+                        DestructiveObjectSpawner.Instance.TileSpawnCount--;
+                    }));
                 }
             }
         }
 
-        if(DObject.Target.name == "Opponent")
+        if (DObject.Target.parent.name == "Monster")
         {
-            if(other.transform.name == "Opponent")
+            if (other.transform.name == "Monster")
             {
-                DestructiveObjectSpawner.Instance.Despawn(transform.parent);
-                DestructiveObjectSpawner.Instance.OpSpawnCount--;
-
-                if(transform.parent.name == "Q")
+                SpawnOpHitFX(other.transform);
+                StartCoroutine(WaitHit(() =>
                 {
-                    int rawSkillDamage = skillB.Calculator.SkillDamageCalculate(playerStats, skillB.QSkill);
-
-                    int finalDamage = playerStats.DamageCalculate(rawSkillDamage, opStats);
-                    
-                    opStats.HPDes(finalDamage);
-                    Debug.Log("Skill Damage");
-                    skillB.SkillActivator.ApplyDebuff(skillB.QSkill, opStats);
-                }
-
-                if(transform.parent.name == "E")
-                {
-                    int rawSkillDamage = skillB.Calculator.SkillDamageCalculate(playerStats, skillB.ESkill);
-
-                    int finalDamage = playerStats.DamageCalculate(rawSkillDamage, opStats);
-                    
-                    opStats.HPDes(finalDamage);
-                    Debug.Log("Skill Damage");
-                    skillB.SkillActivator.ApplyDebuff(skillB.ESkill, opStats);
-                }
-
-                if(transform.parent.name == "Space")
-                {
-                    int rawSkillDamage = skillB.Calculator.SkillDamageCalculate(playerStats, skillB.SpaceSkill);
-
-                    int finalDamage = playerStats.DamageCalculate(rawSkillDamage, opStats);
-                    
-                    opStats.HPDes(finalDamage);
-                    Debug.Log("Skill Damage");
-                    skillB.SkillActivator.ApplyDebuff(skillB.SpaceSkill, opStats);
-                }
-
-                Battle.Instance.PlayerNextDamage = DamageType.SlashDamage;
+                    opAnim.BeingHit();
+                    DealDamage();
+                    DestructiveObjectSpawner.Instance.Despawn(transform.parent);
+                    DestructiveObjectSpawner.Instance.OpSpawnCount--;
+                }));
             }
         }
+    }
+
+    protected virtual void SpawnTileHitFX(Transform other)
+    {
+        Vector3 offsetPos = new Vector3(other.transform.parent.position.x - DObject.OffsetValue,
+                                        other.transform.parent.position.y + DObject.OffsetValue,
+                                        other.transform.parent.position.z);
+        Transform hitFx = DestructiveObjectFXSpawner.Instance.Spawn(normalHitFX, offsetPos, Quaternion.identity);
+
+        hitFx.gameObject.SetActive(true);
+
+        currentNomarlHitFXObject = hitFx;
+    }
+
+    protected virtual void SpawnOpHitFX(Transform other)
+    {
+        Vector3 pos = other.GetComponent<BMonster>().CenterPoint.position;
+        Transform hitFX = DestructiveObjectFXSpawner.Instance.Spawn(normalHitFX, pos, Quaternion.identity);
+
+        hitFX.gameObject.SetActive(true);
+
+        currentNomarlHitFXObject = hitFX;
+    }
+
+    protected virtual IEnumerator WaitHit(Action onFXDespawn)
+    {
+        BSkillFX skillFX = normalHitFX.GetComponent<BSkillFX>();
+
+        DObject.Model.gameObject.SetActive(false);
+        yield return StartCoroutine(skillFX.WaitHitFX());
+
+        DespawnFX();
+        onFXDespawn?.Invoke();
+
+        DObject.Model.gameObject.SetActive(true);
+    }
+
+    protected virtual void DespawnFX()
+    {
+        DestructiveObjectFXSpawner.Instance.Despawn(currentNomarlHitFXObject);
+    }
+
+    private void DealDamage()
+    {
+        if (DObject.SkillButton == SkillButton.Q)
+        {
+            CalculateDamage(bSkill.QSkill);
+        }
+
+        if (DObject.SkillButton == SkillButton.E)
+        {
+            CalculateDamage(bSkill.ESkill);
+        }
+
+        if (DObject.SkillButton == SkillButton.Space)
+        {
+            CalculateDamage(bSkill.SpaceSkill);
+        }
+    }
+
+    private void CalculateDamage(SkillNode skill)
+    {
+        int rawSkillDamage = bSkill.Calculator.SkillDamageCalculate(playerStats, skill);
+        playerStats.DealDamage(rawSkillDamage, opStats);
+
+        Debug.Log("Skill Damage");
+        if (skill.skillSO is TileSkillSO tileSkillSO)
+        {
+            Battle.Instance.PlayerNextDamage = tileSkillSO.Damage.DamageType;
+        }
+        
+        bSkill.SkillActivator.Activators[skill].ApplyDebuff(skill, opStats);
     }
 }

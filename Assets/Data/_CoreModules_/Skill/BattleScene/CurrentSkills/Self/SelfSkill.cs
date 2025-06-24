@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class SelfSkill : GMono
 {
-    [SerializeField] private Player player;
+    [SerializeField] private BPlayer player;
 
-    public Player Player => player;
+    public BPlayer Player => player;
 
-    [SerializeField] private Opponent opponent;
+    [SerializeField] private BMonster monster;
 
-    public Opponent Opponent => opponent;
+    public BMonster Monster => monster;
 
     protected override void Start()
     {
         base.Start();
 
-        player = Game.Instance.Player;
-        opponent = Game.Instance.Opponent;
+        player = BattleManager.Instance.Player;
+        monster = BattleManager.Instance.Monster;
     }
 }

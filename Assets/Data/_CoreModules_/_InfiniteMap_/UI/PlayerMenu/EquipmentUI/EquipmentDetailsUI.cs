@@ -160,14 +160,14 @@ public class EquipmentDetailsUI : GMono
 
     private void EquipClickListener(InventoryEquip equip)
     {
-        Game.Instance.Inventory.EquipWearing.Equip(equip);
+        InfiniteMapManager.Instance.Inventory.EquipWearing.Equip(equip);
         equipBtn.gameObject.SetActive(false);
         unequipBtn.gameObject.SetActive(false);
     }
 
     private void UnequipClickListener(InventoryEquip equip)
     {
-        Game.Instance.Equipment.Unequip.Unequip(equip);
+        InfiniteMapManager.Instance.Equipment.Unequip.Unequip(equip);
         equipBtn.gameObject.SetActive(false);
         unequipBtn.gameObject.SetActive(false);
     }

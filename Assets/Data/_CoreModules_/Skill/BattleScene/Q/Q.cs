@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Q : SkillBAb
+public class Q : BSkillAb
 {
     [SerializeField] private QTile qTile;
 
@@ -52,21 +52,21 @@ public class Q : SkillBAb
 
     private void LoadQType()
     {
-        if(SkillB.QSkill.skillSO is TileSkillSO)
+        if(BSkill.QSkill.skillSO is TileSkillSO)
         {
             qTile.gameObject.SetActive(true); 
             qSelf.gameObject.SetActive(false);
             qOp.gameObject.SetActive(false);
         }
 
-        if(SkillB.QSkill.skillSO is SelfSkillSO)
+        if(BSkill.QSkill.skillSO is SelfSkillSO)
         {
             qTile.gameObject.SetActive(false); 
             qSelf.gameObject.SetActive(true);
             qOp.gameObject.SetActive(false);
         }
 
-        if(SkillB.QSkill.skillSO is OpSkillSO)
+        if(BSkill.QSkill.skillSO is OpSkillSO)
         {
             qTile.gameObject.SetActive(false); 
             qSelf.gameObject.SetActive(false);

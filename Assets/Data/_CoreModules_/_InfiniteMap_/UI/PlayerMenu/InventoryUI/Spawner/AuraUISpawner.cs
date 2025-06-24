@@ -36,7 +36,7 @@ public class AuraUISpawner : Spawner
     {
         yield return null;
 
-        auraList = Game.Instance.Inventory.AuraList;
+        auraList = InfiniteMapManager.Instance.Inventory.AuraList;
         SpawnAuraUI();
     }
 

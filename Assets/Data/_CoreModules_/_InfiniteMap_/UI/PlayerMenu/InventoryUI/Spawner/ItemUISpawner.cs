@@ -28,8 +28,8 @@ public class ItemUISpawner : Spawner
     protected override void Start()
     {
         base.Start();
-        Game.Instance.Inventory.LoadInventory();
-        spawnList = Game.Instance.Inventory.ListItems;
+        InfiniteMapManager.Instance.Inventory.LoadInventory();
+        spawnList = InfiniteMapManager.Instance.Inventory.ListItems;
         SpawnItemUI();
     }
 
