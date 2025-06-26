@@ -26,6 +26,10 @@ public class Entity : GMono
 
     public EntityAttackPoint AttackPoint => attackPoint;
 
+    [SerializeField] private Transform textDamagePoint;
+
+    public Transform TextDamagePoint => textDamagePoint;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -35,6 +39,7 @@ public class Entity : GMono
         LoadAnimation();
         LoadCenterPoint();
         LoadAttackPoint();
+        LoadTextDamagePoint();
     }
 
     private void LoadModel()
@@ -77,5 +82,12 @@ public class Entity : GMono
         if (attackPoint != null) return;
 
         attackPoint = GetComponentInChildren<EntityAttackPoint>();
+    }
+
+    private void LoadTextDamagePoint()
+    {
+        if (textDamagePoint != null) return;
+
+        textDamagePoint = transform.Find("TextDamagePoint");
     }
 }

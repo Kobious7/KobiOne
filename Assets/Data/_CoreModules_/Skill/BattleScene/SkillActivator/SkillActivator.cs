@@ -7,8 +7,8 @@ public abstract class SkillActivator : GMono, ISkillActivate
 {
     protected DestructiveObjectSpawner destructiveObjectSpawner;
     protected BattleManager battleManager;
-    protected BPlayerStats playerStats;
-    protected BMonsterStats opStats;
+    protected BEntityStats playerStats;
+    protected BEntityStats opStats;
     protected BPlayerAnim playerAnim;
     protected BPlayerMovement playerMovement;
     protected BMonsterAnim monsterAnim;
@@ -23,7 +23,7 @@ public abstract class SkillActivator : GMono, ISkillActivate
         playerStats = battleManager.Player.Stats;
         opStats = battleManager.Monster.Stats;
         playerAnim = battleManager.Player.Anim as BPlayerAnim;
-        playerMovement = battleManager.Player.Movement;
+        playerMovement = battleManager.Player.Movement as BPlayerMovement;
         monsterAnim = battleManager.Monster.Anim as BMonsterAnim;
         bSkill = BSkill.Instance;
     }

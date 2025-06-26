@@ -9,6 +9,5 @@ public enum TileEnum
     MANA,
     SHEILD,
     VHEART,
-    LIGHT,
-    DARK
+    EXP
 }

@@ -9,6 +9,7 @@ public class BuffSpawner : Spawner
     public static BuffSpawner Instance => instance;
 
     [SerializeField] private List<BuffObject> buffObjects;
+    public event Action<int, BEntityStats, NonDamageType> OnHPBuff;
 
     protected override void Awake()
     {
@@ -111,8 +112,10 @@ public class BuffSpawner : Spawner
         switch(buff.StatBuff)
         {
             case EquipStatType.CurrentHPByMaxHP:
-
-                stats.HPIns((int)(percentBuff / 100 * stats.MaxHP));
+                int insAmount = (int)(percentBuff / 100 * stats.MaxHP);
+                
+                stats.HPIns(insAmount);
+                OnHPBuff?.Invoke(insAmount, stats, NonDamageType.HP);
                 break;
         }
     }

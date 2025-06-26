@@ -7,8 +7,8 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
     [SerializeField] protected Transform normalHitFX;
     [SerializeField] protected Transform currentNomarlHitFXObject;
     protected BSkill bSkill;
-    protected BPlayerStats playerStats;
-    protected BMonsterStats opStats;
+    protected BEntityStats playerStats;
+    protected BEntityStats opStats;
     protected BMonsterAnim opAnim;
 
     protected override void Start()
@@ -120,13 +120,15 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
     private void CalculateDamage(SkillNode skill)
     {
         int rawSkillDamage = bSkill.Calculator.SkillDamageCalculate(playerStats, skill);
-        playerStats.DealDamage(rawSkillDamage, opStats);
+        DamageType damageType = DamageType.None;
 
         Debug.Log("Skill Damage");
         if (skill.skillSO is TileSkillSO tileSkillSO)
         {
-            Battle.Instance.PlayerNextDamage = tileSkillSO.Damage.DamageType;
+            damageType = tileSkillSO.Damage.DamageType;
         }
+
+        playerStats.DealDamage(rawSkillDamage, opStats, damageType);
         
         bSkill.SkillActivator.Activators[skill].ApplyDebuff(skill, opStats);
     }

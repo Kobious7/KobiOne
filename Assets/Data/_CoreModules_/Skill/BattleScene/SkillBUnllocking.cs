@@ -1,7 +1,7 @@
 using UnityEngine;
 public class BSkillUnlocking : BSkillAb
 {
-    private BPlayerStats playerStats;
+    private BEntityStats playerStats;
 
     protected override void Start()
     {

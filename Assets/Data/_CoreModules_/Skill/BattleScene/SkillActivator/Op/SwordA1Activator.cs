@@ -4,7 +4,6 @@ using UnityEngine;
 public class SwordA1Activator : SkillActivator
 {
     private int rawDamage;
-    private DamageType pendingDamageType;
 
     public override IEnumerator Activate(SkillNode skill, SkillButton button)
     {
@@ -37,9 +36,7 @@ public class SwordA1Activator : SkillActivator
 
     public override void DealOpSkillDamage()
     {
-        playerStats.DealDamage(rawDamage, opStats);
+        playerStats.DealDamage(rawDamage, opStats, DamageType.SlashDamage);
         monsterAnim.BeingHit();
-        
-        Battle.Instance.PlayerNextDamage = DamageType.SlashDamage;
     }
 }

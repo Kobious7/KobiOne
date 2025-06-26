@@ -271,14 +271,31 @@ public class Battle : GMono
 
         if (tileCounter[TileEnum.HEART] > 0)
         {
-            if (pTurn) player.Stats.HPIns((int)(player.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
-            if (opTurn) monster.Stats.HPIns((int)(monster.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]));
+            if (pTurn)
+            {
+                int insAmount = (int)(player.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]);
+                player.Stats.HPIns(insAmount);
+            }
+
+            if (opTurn)
+            {
+                int insAmount = (int)(monster.Stats.MaxHP * 0.005 * tileCounter[TileEnum.HEART]);
+                monster.Stats.HPIns(insAmount);
+            }
         }
 
         if (tileCounter[TileEnum.VHEART] > 0)
         {
-            if (pTurn) player.Stats.VHPIns((int)(player.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
-            if (opTurn) monster.Stats.VHPIns((int)(monster.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]));
+            if (pTurn)
+            {
+                int insAmount = (int)(player.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]);
+                player.Stats.VHPIns(insAmount);
+            }
+            if (opTurn)
+            {
+                int insAmount = (int)(monster.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]);
+                monster.Stats.VHPIns(insAmount);
+            }             
         }
 
         if (tileCounter[TileEnum.MANA] > 0)
@@ -375,19 +392,31 @@ public class Battle : GMono
 
     public void DealSwordrainDamage(BEntityStats dealer, BEntityStats receiver)
     {
-        dealer.DealDamage(dealer.SwordrainDamage, receiver);
+        if (receiver.ShieldStack > 0)
+        {
+            StartCoroutine(receiver.ShieldBreak());
+            return;
+        }
+        
+        dealer.DealDamage(dealer.SwordrainDamage, receiver, DamageType.SwordrainDamage);
 
         playerNextDamage = DamageType.SwordrainDamage;
     }
 
     public void DealTileDamage(BEntityStats dealer, BEntityStats receiver)
     {
+        if (receiver.ShieldStack > 0)
+        {
+            StartCoroutine(receiver.ShieldBreak());
+            return;
+        }
+
         int tileNum = 0;
 
         if (slashTile) tileNum = tileCounter[TileEnum.SLASH];
         if (swordTile) tileNum = tileCounter[TileEnum.SWORD];
 
-        dealer.DealDamage(tileNum * dealer.SlashDamage, receiver);
+        dealer.DealDamage(tileNum * dealer.SlashDamage, receiver, DamageType.SlashDamage);
 
         playerNextDamage = DamageType.SlashDamage;
     }
