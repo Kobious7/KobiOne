@@ -28,7 +28,8 @@ MonoBehaviour:
   ExtraFX: {fileID: 0}
   Opponent: 0
   Buffs:
-  - StatBuff: 8
+  - Icon: {fileID: 21300000, guid: 4f677b5f7e3af4e49b3eb38b4aa6e9de, type: 3}
+    StatBuff: 8
     SourceStat: 8
     DamageType: 1
     BuffPercent: 50
@@ -37,4 +38,5 @@ MonoBehaviour:
     Duration: 4
     DurationStack: 0
     PercentStack: 0
+    Description: + {Value}% {StatBuff} in {Duration}.
   Debuffs: []

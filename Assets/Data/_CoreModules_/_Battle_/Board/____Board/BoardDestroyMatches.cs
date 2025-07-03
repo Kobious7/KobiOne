@@ -42,7 +42,7 @@ public class BoardDestroyedMatches : BoardAb
     {
         tiles = Board.BoardGen.Tiles;
 
-        DestroyM();
+        yield return StartCoroutine(DestroyM());
         Board.BoardFilling.Fill();
         StartCoroutine(Board.BoardGen.GenFullBoard());
         Board.BoardMatches.MarkAsMatches(tiles);
@@ -75,16 +75,16 @@ public class BoardDestroyedMatches : BoardAb
         {
             for (int y = 0; y < Board.Size; y++)
             {
-                Tiles t = GetTile(tiles[x, y]);
+                TileBoard t = GetTile(tiles[x, y]);
 
-                if (t.TilePrefab.CanBeDestroyed) return true;
+                if (t.TileProperties.CanBeDestroyed) return true;
             }
         }
 
         return false;
     }
 
-    public void DestroyM()
+    public IEnumerator DestroyM()
     {
         tileSpawner = BattleManager.Instance.TileSpawner;
 
@@ -92,13 +92,28 @@ public class BoardDestroyedMatches : BoardAb
         {
             for (int y = 0; y < Board.Size; y++)
             {
-                Tiles t = GetTile(tiles[x, y]);
+                TileBoard t = GetTile(tiles[x, y]);
 
-                if (t.TilePrefab.CanBeDestroyed)
+                if (t.TileProperties.CanBeDestroyed)
                 {
-                    if (Battle.Instance.TileCounter.ContainsKey(t.TilePrefab.TileEnum)) Battle.Instance.TileCounter[t.TilePrefab.TileEnum]++;
-                    Transform fx = BattleManager.Instance.FXSpawner.Spawn(BattleManager.Instance.FXSpawner.FX.transform, t.transform.position, Quaternion.identity);
-                    fx.gameObject.SetActive(true);
+                    t.OnDespawnAnim();
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+
+        for (int x = 0; x < Board.Size; x++)
+        {
+            for (int y = 0; y < Board.Size; y++)
+            {
+                TileBoard t = GetTile(tiles[x, y]);
+
+                if (t.TileProperties.CanBeDestroyed)
+                {
+                    if (Battle.Instance.TileCounter.ContainsKey(t.TileProperties.TileEnum)) Battle.Instance.TileCounter[t.TileProperties.TileEnum]++;
+                    t.OffDespawnAnim();
                     tileSpawner.Despawn(tiles[x, y]);
 
                     tiles[x, y] = null;

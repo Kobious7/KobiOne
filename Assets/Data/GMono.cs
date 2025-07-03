@@ -24,9 +24,9 @@ public class GMono : MonoBehaviour
 
     protected virtual void OnDisable() {}
 
-    public Tiles GetTile(Transform obj)
+    public TileBoard GetTile(Transform obj)
     {
-        return obj.GetComponent<Tiles>();
+        return obj.GetComponent<TileBoard>();
     }
 
     public Vector3 to2DVec(Vector3 vector)

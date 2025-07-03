@@ -15,6 +15,7 @@ public class BoardGen : BoardAb
 
     private TileBackgroundSpawner tileBgSpawner;
     private TileSpawner tileSpawner;
+    private TileEnum[] randomTileTypes = { TileEnum.EXP, TileEnum.HEART, TileEnum.MANA, TileEnum.SHEILD, TileEnum.SLASH, TileEnum.SWORD, TileEnum.VHEART };
 
     protected override void Start()
     {
@@ -58,10 +59,9 @@ public class BoardGen : BoardAb
         {
             for (int y = 0; y < Board.Size; y++)
             {
-                Transform newTileB = tileBgSpawner.Spawn(tileB, GetWorldPosition(x, y, 0), Quaternion.identity);
+                Transform newTileB = tileBgSpawner.Spawn(tileB, GetWorldPosition(x, y, 2), Quaternion.identity);
 
                 newTileB.gameObject.SetActive(true);
-
             }
         }
     }
@@ -72,21 +72,18 @@ public class BoardGen : BoardAb
         {
             for (int y = Board.Size; y < Board.Size * 2; y++)
             {
-                Transform newTile = tileSpawner.Spawn(tileSpawner.TileObject, GetWorldPosition(x, y, -1), Quaternion.identity);
-                //newTile.localScale = Vector3.zero;
+                TileEnum randomTileType = randomTileTypes[Random.Range(0, randomTileTypes.Length)];
 
-                newTile.gameObject.SetActive(true);
-
-                Tiles newTilePrefab = GetTile(newTile);
-
-                newTilePrefab.TilePrefab.SetTileEnum((TileEnum)Random.Range(0, newTilePrefab.TilePrefab.TileDictLength));
-
-                while (HasMatchesWhenGen(newTilePrefab.TilePrefab.TileEnum, x, y))
+                while (HasMatchesWhenGen(randomTileType, x, y))
                 {
-                    newTilePrefab.TilePrefab.SetTileEnum((TileEnum)Random.Range(0, newTilePrefab.TilePrefab.TileDictLength));
+                    randomTileType = randomTileTypes[Random.Range(0, randomTileTypes.Length)];
                 }
 
-                newTilePrefab.TilePrefab.SetXY(x, y);
+                Transform newTile = tileSpawner.SpawnTilePrefab(randomTileType, GetWorldPosition(x, y, 1), Quaternion.identity);
+                TileBoard newTileBoard = GetTile(newTile);
+
+                newTileBoard.TileProperties.SetXY(x, y);
+                newTile.gameObject.SetActive(true);
 
                 tiles[x, y] = newTile;
             }
@@ -103,14 +100,12 @@ public class BoardGen : BoardAb
             {
                 if (tiles[x, Board.Size * 2 - 1] == null)
                 {
-                    Transform newTile = tileSpawner.Spawn(tileSpawner.TileObject, Board.BoardGen.GetWorldPosition(x, Board.Size * 2 - 1, -1), Quaternion.identity);
+                    TileEnum randomTileType = randomTileTypes[Random.Range(0, randomTileTypes.Length)];
+                    Transform newTile = tileSpawner.SpawnTilePrefab(randomTileType, Board.BoardGen.GetWorldPosition(x, Board.Size * 2 - 1, 0), Quaternion.identity);
+                    TileBoard newTileBoard = GetTile(newTile);
 
+                    newTileBoard.TileProperties.SetXY(x, Board.Size * 2 - 1);
                     newTile.gameObject.SetActive(true);
-
-                    Tiles newTilePrefab = GetTile(newTile);
-
-                    newTilePrefab.TilePrefab.SetTileEnum((TileEnum)Random.Range(0, newTilePrefab.TilePrefab.TileDictLength));
-                    newTilePrefab.TilePrefab.SetXY(x, Board.Size * 2 - 1);
 
                     tiles[x, Board.Size * 2 - 1] = newTile;
                 }
@@ -125,11 +120,11 @@ public class BoardGen : BoardAb
                         yP++;
                     }
 
-                    Tiles tile = GetTile(tiles[x, yP]);
-                    Vector3 toPos = Board.BoardGen.GetWorldPosition(x, y, -1);
+                    TileBoard tile = GetTile(tiles[x, yP]);
+                    Vector3 toPos = GetWorldPosition(x, y, 1);
                     tile.transform.position = toPos;
 
-                    tile.TilePrefab.SetXY(x, y);
+                    tile.TileProperties.SetXY(x, y);
 
                     tiles[x, y] = tiles[x, yP];
                     tiles[x, yP] = null;
@@ -142,34 +137,34 @@ public class BoardGen : BoardAb
     {
         if (x < 2 && y >= Board.Size + 2)
         {
-            Tiles tileBot1 = GetTile(tiles[x, y - 1]);
-            Tiles tileBot2 = GetTile(tiles[x, y - 1]);
-            if (tileType == tileBot1.TilePrefab.TileEnum
-                && tileType == tileBot2.TilePrefab.TileEnum)
+            TileBoard tileBot1 = GetTile(tiles[x, y - 1]);
+            TileBoard tileBot2 = GetTile(tiles[x, y - 1]);
+            if (tileType == tileBot1.TileProperties.TileEnum
+                && tileType == tileBot2.TileProperties.TileEnum)
                 return true;
         }
 
         if (x >= 2 && y < Board.Size + 2)
         {
-            Tiles tileLeft1 = GetTile(tiles[x - 1, y]);
-            Tiles tileLeft2 = GetTile(tiles[x - 1, y]);
+            TileBoard tileLeft1 = GetTile(tiles[x - 1, y]);
+            TileBoard tileLeft2 = GetTile(tiles[x - 1, y]);
 
-            if (tileType == tileLeft1.TilePrefab.TileEnum
-                && tileType == tileLeft2.TilePrefab.TileEnum)
+            if (tileType == tileLeft1.TileProperties.TileEnum
+                && tileType == tileLeft2.TileProperties.TileEnum)
                 return true;
         }
 
         if (x >= 2 && y >= Board.Size + 2)
         {
-            Tiles tileBot1 = GetTile(tiles[x, y - 1]);
-            Tiles tileBot2 = GetTile(tiles[x, y - 1]);
-            Tiles tileLeft1 = GetTile(tiles[x - 1, y]);
-            Tiles tileLeft2 = GetTile(tiles[x - 1, y]);
+            TileBoard tileBot1 = GetTile(tiles[x, y - 1]);
+            TileBoard tileBot2 = GetTile(tiles[x, y - 1]);
+            TileBoard tileLeft1 = GetTile(tiles[x - 1, y]);
+            TileBoard tileLeft2 = GetTile(tiles[x - 1, y]);
 
-            if (tileType == tileBot1.TilePrefab.TileEnum
-                && tileType == tileBot2.TilePrefab.TileEnum
-                || tileType == tileLeft1.TilePrefab.TileEnum
-                && tileType == tileLeft2.TilePrefab.TileEnum)
+            if (tileType == tileBot1.TileProperties.TileEnum
+                && tileType == tileBot2.TileProperties.TileEnum
+                || tileType == tileLeft1.TileProperties.TileEnum
+                && tileType == tileLeft2.TileProperties.TileEnum)
                 return true;
         }
 

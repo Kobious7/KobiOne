@@ -82,7 +82,7 @@ public class CombatText : GMono
 
         if (damageType == DamageType.SwordrainDamage)
         {
-            combatText.color = ColorUtility.TryParseHtmlString("#A86EFF", out Color color) ? color : Color.white;
+            combatText.color = ColorUtility.TryParseHtmlString("#E47FFF", out Color color) ? color : Color.white;
         }
 
         if (crit)

@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class ActiveDebuff
 {
+    public Sprite Icon;
     public EquipStatType StatDebuff;
     public EquipStatType SourceStat;
     public float DebuffPercent;
@@ -11,4 +13,5 @@ public class ActiveDebuff
     public int Duration;
     public bool DurationStack;
     public bool PercentStack;
+    public string Description;
 }

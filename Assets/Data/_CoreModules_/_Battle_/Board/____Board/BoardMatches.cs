@@ -17,10 +17,10 @@ public class BoardMatches : BoardAb
 
         foreach (var item in markList)
         {
-            Tiles tile = GetTile(tiles[item[0, 0], item[0, 1]]);
+            TileBoard tile = GetTile(tiles[item[0, 0], item[0, 1]]);
 
-            if (tile.TilePrefab.CanBeDestroyed == false)
-                tile.TilePrefab.CanBeDestroyed = true;
+            if (tile.TileProperties.CanBeDestroyed == false)
+                tile.TileProperties.CanBeDestroyed = true;
         }
     }
 
@@ -28,10 +28,10 @@ public class BoardMatches : BoardAb
     {
         foreach (var item in tileSkill.TargetsFinder.AffectArea)
         {
-            Tiles tile = GetTile(tiles[item.X, item.Y]);
+            TileBoard tile = GetTile(tiles[item.X, item.Y]);
 
-            if (tile.TilePrefab.CanBeDestroyed == false)
-                tile.TilePrefab.CanBeDestroyed = true;
+            if (tile.TileProperties.CanBeDestroyed == false)
+                tile.TileProperties.CanBeDestroyed = true;
         }
     }
 
@@ -43,63 +43,63 @@ public class BoardMatches : BoardAb
             {
                 if (tiles[x, y] == null) continue;
 
-                Tiles tile = GetTile(tiles[x, y]);
+                TileBoard tile = GetTile(tiles[x, y]);
 
-                if (tile.TilePrefab.CanBeDestroyed == false)
+                if (tile.TileProperties.CanBeDestroyed == false)
                 {
                     if (y + 2 < Board.Size)
                     {
-                        Tiles tileXY1 = GetTile(tiles[x, y + 1]);
-                        Tiles tileXY2 = GetTile(tiles[x, y + 2]);
+                        TileBoard tileXY1 = GetTile(tiles[x, y + 1]);
+                        TileBoard tileXY2 = GetTile(tiles[x, y + 2]);
 
-                        if (tile.TilePrefab.TileEnum == tileXY1.TilePrefab.TileEnum
-                            && tile.TilePrefab.TileEnum == tileXY2.TilePrefab.TileEnum)
+                        if (tile.TileProperties.TileEnum == tileXY1.TileProperties.TileEnum
+                            && tile.TileProperties.TileEnum == tileXY2.TileProperties.TileEnum)
                         {
-                            tile.TilePrefab.CanBeDestroyed = true;
-                            if (tileXY1.TilePrefab.CanBeDestroyed == false) tileXY1.TilePrefab.CanBeDestroyed = true;
-                            if (tileXY2.TilePrefab.CanBeDestroyed == false) tileXY2.TilePrefab.CanBeDestroyed = true;
+                            tile.TileProperties.CanBeDestroyed = true;
+                            if (tileXY1.TileProperties.CanBeDestroyed == false) tileXY1.TileProperties.CanBeDestroyed = true;
+                            if (tileXY2.TileProperties.CanBeDestroyed == false) tileXY2.TileProperties.CanBeDestroyed = true;
                         }
                     }
 
                     if (x + 2 < Board.Size)
                     {
-                        Tiles tileX1Y = GetTile(tiles[x + 1, y]);
-                        Tiles tileX2Y = GetTile(tiles[x + 2, y]);
+                        TileBoard tileX1Y = GetTile(tiles[x + 1, y]);
+                        TileBoard tileX2Y = GetTile(tiles[x + 2, y]);
 
-                        if (tile.TilePrefab.TileEnum == tileX1Y.TilePrefab.TileEnum
-                            && tile.TilePrefab.TileEnum == tileX2Y.TilePrefab.TileEnum)
+                        if (tile.TileProperties.TileEnum == tileX1Y.TileProperties.TileEnum
+                            && tile.TileProperties.TileEnum == tileX2Y.TileProperties.TileEnum)
                         {
-                            tile.TilePrefab.CanBeDestroyed = true;
-                            if (tileX1Y.TilePrefab.CanBeDestroyed == false) tileX1Y.TilePrefab.CanBeDestroyed = true;
-                            if (tileX2Y.TilePrefab.CanBeDestroyed == false) tileX2Y.TilePrefab.CanBeDestroyed = true;
+                            tile.TileProperties.CanBeDestroyed = true;
+                            if (tileX1Y.TileProperties.CanBeDestroyed == false) tileX1Y.TileProperties.CanBeDestroyed = true;
+                            if (tileX2Y.TileProperties.CanBeDestroyed == false) tileX2Y.TileProperties.CanBeDestroyed = true;
                         }
                     }
 
                     if (y - 2 >= 0)
                     {
-                        Tiles tileXYM1 = GetTile(tiles[x, y - 1]);
-                        Tiles tileXYM2 = GetTile(tiles[x, y - 2]);
+                        TileBoard tileXYM1 = GetTile(tiles[x, y - 1]);
+                        TileBoard tileXYM2 = GetTile(tiles[x, y - 2]);
 
-                        if (tile.TilePrefab.TileEnum == tileXYM1.TilePrefab.TileEnum
-                            && tile.TilePrefab.TileEnum == tileXYM2.TilePrefab.TileEnum)
+                        if (tile.TileProperties.TileEnum == tileXYM1.TileProperties.TileEnum
+                            && tile.TileProperties.TileEnum == tileXYM2.TileProperties.TileEnum)
                         {
-                            tile.TilePrefab.CanBeDestroyed = true;
-                            if (tileXYM1.TilePrefab.CanBeDestroyed == false) tileXYM1.TilePrefab.CanBeDestroyed = true;
-                            if (tileXYM2.TilePrefab.CanBeDestroyed == false) tileXYM2.TilePrefab.CanBeDestroyed = true;
+                            tile.TileProperties.CanBeDestroyed = true;
+                            if (tileXYM1.TileProperties.CanBeDestroyed == false) tileXYM1.TileProperties.CanBeDestroyed = true;
+                            if (tileXYM2.TileProperties.CanBeDestroyed == false) tileXYM2.TileProperties.CanBeDestroyed = true;
                         }
                     }
 
                     if (x - 2 >= 0)
                     {
-                        Tiles tileXM1Y = GetTile(tiles[x - 1, y]);
-                        Tiles tileXM2Y = GetTile(tiles[x - 2, y]);
+                        TileBoard tileXM1Y = GetTile(tiles[x - 1, y]);
+                        TileBoard tileXM2Y = GetTile(tiles[x - 2, y]);
 
-                        if (tile.TilePrefab.TileEnum == tileXM1Y.TilePrefab.TileEnum
-                            && tile.TilePrefab.TileEnum == tileXM2Y.TilePrefab.TileEnum)
+                        if (tile.TileProperties.TileEnum == tileXM1Y.TileProperties.TileEnum
+                            && tile.TileProperties.TileEnum == tileXM2Y.TileProperties.TileEnum)
                         {
-                            tile.TilePrefab.CanBeDestroyed = true;
-                            if (tileXM1Y.TilePrefab.CanBeDestroyed == false) tileXM1Y.TilePrefab.CanBeDestroyed = true;
-                            if (tileXM2Y.TilePrefab.CanBeDestroyed == false) tileXM2Y.TilePrefab.CanBeDestroyed = true;
+                            tile.TileProperties.CanBeDestroyed = true;
+                            if (tileXM1Y.TileProperties.CanBeDestroyed == false) tileXM1Y.TileProperties.CanBeDestroyed = true;
+                            if (tileXM2Y.TileProperties.CanBeDestroyed == false) tileXM2Y.TileProperties.CanBeDestroyed = true;
                         }
                     }
                 }
@@ -107,96 +107,96 @@ public class BoardMatches : BoardAb
         }
     }
 
-    public bool CanBeDestroyed(Tiles tile, int x, int y, Transform[,] tiles, TileDirection direction)
+    public bool CanBeDestroyed(TileBoard tile, int x, int y, Transform[,] tiles, TileDirection direction)
     {
         if (y + 1 < Board.Size && direction != TileDirection.BOTTOM)
         {
-            Tiles tileXY1 = GetTile(tiles[x, y + 1]);
+            TileBoard tileXY1 = GetTile(tiles[x, y + 1]);
 
             if (y - 1 >= 0)
             {
-                Tiles tileXYM1 = GetTile(tiles[x, y - 1]);
+                TileBoard tileXYM1 = GetTile(tiles[x, y - 1]);
 
-                if (tile.TilePrefab.TileEnum == tileXY1.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileXYM1.TilePrefab.TileEnum && direction != TileDirection.TOP)
+                if (tile.TileProperties.TileEnum == tileXY1.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileXYM1.TileProperties.TileEnum && direction != TileDirection.TOP)
                     return true;
             }
 
             if (y + 2 < Board.Size)
             {
-                Tiles tileXY2 = GetTile(tiles[x, y + 2]);
+                TileBoard tileXY2 = GetTile(tiles[x, y + 2]);
 
-                if (tile.TilePrefab.TileEnum == tileXY1.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileXY2.TilePrefab.TileEnum)
+                if (tile.TileProperties.TileEnum == tileXY1.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileXY2.TileProperties.TileEnum)
                     return true;
             }
         }
 
         if (x + 1 < Board.Size && direction != TileDirection.LEFT)
         {
-            Tiles tileX1Y = GetTile(tiles[x + 1, y]);
+            TileBoard tileX1Y = GetTile(tiles[x + 1, y]);
 
             if (x - 1 >= 0)
             {
-                Tiles tileXM1Y = GetTile(tiles[x - 1, y]);
+                TileBoard tileXM1Y = GetTile(tiles[x - 1, y]);
 
-                if (tile.TilePrefab.TileEnum == tileX1Y.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileXM1Y.TilePrefab.TileEnum && direction != TileDirection.RIGHT)
+                if (tile.TileProperties.TileEnum == tileX1Y.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileXM1Y.TileProperties.TileEnum && direction != TileDirection.RIGHT)
                     return true;
             }
 
             if (x + 2 < Board.Size)
             {
-                Tiles tileX2Y = GetTile(tiles[x + 2, y]);
+                TileBoard tileX2Y = GetTile(tiles[x + 2, y]);
 
-                if (tile.TilePrefab.TileEnum == tileX1Y.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileX2Y.TilePrefab.TileEnum)
+                if (tile.TileProperties.TileEnum == tileX1Y.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileX2Y.TileProperties.TileEnum)
                     return true;
             }
         }
 
         if (y - 1 >= 0 && direction != TileDirection.TOP)
         {
-            Tiles tileXYM1 = GetTile(tiles[x, y - 1]);
+            TileBoard tileXYM1 = GetTile(tiles[x, y - 1]);
 
             if (y + 1 < Board.Size)
             {
-                Tiles tileXY1 = GetTile(tiles[x, y + 1]);
+                TileBoard tileXY1 = GetTile(tiles[x, y + 1]);
 
-                if (tile.TilePrefab.TileEnum == tileXYM1.TilePrefab.TileEnum
-                        && tile.TilePrefab.TileEnum == tileXY1.TilePrefab.TileEnum && direction != TileDirection.BOTTOM)
+                if (tile.TileProperties.TileEnum == tileXYM1.TileProperties.TileEnum
+                        && tile.TileProperties.TileEnum == tileXY1.TileProperties.TileEnum && direction != TileDirection.BOTTOM)
                     return true;
             }
 
             if (y - 2 >= 0)
             {
-                Tiles tileXYM2 = GetTile(tiles[x, y - 2]);
+                TileBoard tileXYM2 = GetTile(tiles[x, y - 2]);
 
-                if (tile.TilePrefab.TileEnum == tileXYM1.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileXYM2.TilePrefab.TileEnum)
+                if (tile.TileProperties.TileEnum == tileXYM1.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileXYM2.TileProperties.TileEnum)
                     return true;
             }
         }
 
         if (x - 2 >= 0 && direction != TileDirection.RIGHT)
         {
-            Tiles tileXM1Y = GetTile(tiles[x - 1, y]);
+            TileBoard tileXM1Y = GetTile(tiles[x - 1, y]);
 
             if (x + 1 < Board.Size)
             {
-                Tiles tileX1Y = GetTile(tiles[x + 1, y]);
+                TileBoard tileX1Y = GetTile(tiles[x + 1, y]);
 
-                if (tile.TilePrefab.TileEnum == tileXM1Y.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileX1Y.TilePrefab.TileEnum && direction != TileDirection.LEFT)
+                if (tile.TileProperties.TileEnum == tileXM1Y.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileX1Y.TileProperties.TileEnum && direction != TileDirection.LEFT)
                     return true;
             }
 
             if (x - 2 >= 0)
             {
-                Tiles tileXM2Y = GetTile(tiles[x - 2, y]);
+                TileBoard tileXM2Y = GetTile(tiles[x - 2, y]);
 
-                if (tile.TilePrefab.TileEnum == tileXM1Y.TilePrefab.TileEnum
-                    && tile.TilePrefab.TileEnum == tileXM2Y.TilePrefab.TileEnum)
+                if (tile.TileProperties.TileEnum == tileXM1Y.TileProperties.TileEnum
+                    && tile.TileProperties.TileEnum == tileXM2Y.TileProperties.TileEnum)
                     return true;
             }
         }
@@ -229,64 +229,64 @@ public class BoardMatches : BoardAb
 
         int count = 1;
 
-        Tiles tileXY = GetTile(tiles[x, y]);
+        TileBoard tileXY = GetTile(tiles[x, y]);
 
         if (x + 1 < Board.Size && x - 1 >= 0)
         {
-            Tiles tileX1Y = GetTile(tiles[x + 1, y + 1]);
-            Tiles tileXM1Y = GetTile(tiles[x - 1, y + 1]);
+            TileBoard tileX1Y = GetTile(tiles[x + 1, y + 1]);
+            TileBoard tileXM1Y = GetTile(tiles[x - 1, y + 1]);
 
-            if (tileX1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXM1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum)
+            if (tileX1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXM1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum)
             {
                 count += 2;
 
                 if (x + 2 < Board.Size)
                 {
-                    Tiles tileX2Y = GetTile(tiles[x + 2, y + 1]);
+                    TileBoard tileX2Y = GetTile(tiles[x + 2, y + 1]);
 
-                    if (tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
 
                 if (x - 2 >= 0)
                 {
-                    Tiles tileXM2Y = GetTile(tiles[x - 2, y + 1]);
+                    TileBoard tileXM2Y = GetTile(tiles[x - 2, y + 1]);
 
-                    if (tileXM2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXM2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
             }
             else
             {
                 if (x + 2 < Board.Size)
                 {
-                    Tiles tileX2Y = GetTile(tiles[x + 2, y + 1]);
+                    TileBoard tileX2Y = GetTile(tiles[x + 2, y + 1]);
 
-                    if (tileX1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileX1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
 
                 if (x - 2 >= 0)
                 {
-                    Tiles tileXM2Y = GetTile(tiles[x - 2, y + 1]);
+                    TileBoard tileXM2Y = GetTile(tiles[x - 2, y + 1]);
 
-                    if (tileXM1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXM2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXM1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXM2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
             }
         }
 
         if (y + 3 < Board.Size)
         {
-            Tiles tileXY2 = GetTile(tiles[x, y + 2]);
-            Tiles tileXY3 = GetTile(tiles[x, y + 3]);
+            TileBoard tileXY2 = GetTile(tiles[x, y + 2]);
+            TileBoard tileXY3 = GetTile(tiles[x, y + 3]);
 
-            if (tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXY3.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+            if (tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXY3.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
         }
 
         if (count >= 3)
         {
-            TileCanBeMatches tile = new(x, y, TileDirection.TOP, tileXY.TilePrefab.TileEnum, count);
+            TileCanBeMatches tile = new(x, y, TileDirection.TOP, tileXY.TileProperties.TileEnum, count);
 
             matches.Add(tile);
         }
@@ -298,64 +298,64 @@ public class BoardMatches : BoardAb
 
         int count = 1;
 
-        Tiles tileXY = GetTile(tiles[x, y]);
+        TileBoard tileXY = GetTile(tiles[x, y]);
 
         if (y + 1 < Board.Size && y - 1 >= 0)
         {
-            Tiles tileXY1 = GetTile(tiles[x + 1, y + 1]);
-            Tiles tileXYM1 = GetTile(tiles[x + 1, y - 1]);
+            TileBoard tileXY1 = GetTile(tiles[x + 1, y + 1]);
+            TileBoard tileXYM1 = GetTile(tiles[x + 1, y - 1]);
 
-            if (tileXY1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXYM1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum)
+            if (tileXY1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXYM1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum)
             {
                 count += 2;
 
                 if (y + 2 < Board.Size)
                 {
-                    Tiles tileXY2 = GetTile(tiles[x + 1, y + 2]);
+                    TileBoard tileXY2 = GetTile(tiles[x + 1, y + 2]);
 
-                    if (tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
 
                 if (y - 2 >= 0)
                 {
-                    Tiles tileXYM2 = GetTile(tiles[x + 1, y - 2]);
+                    TileBoard tileXYM2 = GetTile(tiles[x + 1, y - 2]);
 
-                    if (tileXYM2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXYM2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
             }
             else
             {
                 if (y + 2 < Board.Size)
                 {
-                    Tiles tileXY2 = GetTile(tiles[x + 1, y + 2]);
+                    TileBoard tileXY2 = GetTile(tiles[x + 1, y + 2]);
 
-                    if (tileXY1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXY1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
 
                 if (y - 2 >= 0)
                 {
-                    Tiles tileXYM2 = GetTile(tiles[x + 1, y - 2]);
+                    TileBoard tileXYM2 = GetTile(tiles[x + 1, y - 2]);
 
-                    if (tileXYM1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXYM2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXYM1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXYM2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
             }
         }
 
         if (x + 3 < Board.Size)
         {
-            Tiles tileX2Y = GetTile(tiles[x + 2, y]);
-            Tiles tileX3Y = GetTile(tiles[x + 3, y]);
+            TileBoard tileX2Y = GetTile(tiles[x + 2, y]);
+            TileBoard tileX3Y = GetTile(tiles[x + 3, y]);
 
-            if (tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileX3Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+            if (tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileX3Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
         }
 
         if (count >= 3)
         {
-            TileCanBeMatches tile = new(x, y, TileDirection.RIGHT, tileXY.TilePrefab.TileEnum, count);
+            TileCanBeMatches tile = new(x, y, TileDirection.RIGHT, tileXY.TileProperties.TileEnum, count);
 
             matches.Add(tile);
         }
@@ -367,64 +367,64 @@ public class BoardMatches : BoardAb
 
         int count = 1;
 
-        Tiles tileXY = GetTile(tiles[x, y]);
+        TileBoard tileXY = GetTile(tiles[x, y]);
 
         if (x + 1 < Board.Size && x - 1 >= 0)
         {
-            Tiles tileX1Y = GetTile(tiles[x + 1, y - 1]);
-            Tiles tileXM1Y = GetTile(tiles[x - 1, y - 1]);
+            TileBoard tileX1Y = GetTile(tiles[x + 1, y - 1]);
+            TileBoard tileXM1Y = GetTile(tiles[x - 1, y - 1]);
 
-            if (tileX1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXM1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum)
+            if (tileX1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXM1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum)
             {
                 count += 2;
 
                 if (x + 2 < Board.Size)
                 {
-                    Tiles tileX2Y = GetTile(tiles[x + 2, y - 1]);
+                    TileBoard tileX2Y = GetTile(tiles[x + 2, y - 1]);
 
-                    if (tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
 
                 if (x - 2 >= 0)
                 {
-                    Tiles tileXM2Y = GetTile(tiles[x - 2, y - 1]);
+                    TileBoard tileXM2Y = GetTile(tiles[x - 2, y - 1]);
 
-                    if (tileXM2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXM2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
             }
             else
             {
                 if (x + 2 < Board.Size)
                 {
-                    Tiles tileX2Y = GetTile(tiles[x + 2, y - 1]);
+                    TileBoard tileX2Y = GetTile(tiles[x + 2, y - 1]);
 
-                    if (tileX1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileX1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
 
                 if (x - 2 >= 0)
                 {
-                    Tiles tileXM2Y = GetTile(tiles[x - 2, y - 1]);
+                    TileBoard tileXM2Y = GetTile(tiles[x - 2, y - 1]);
 
-                    if (tileXM1Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXM2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXM1Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXM2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
             }
         }
 
         if (y - 3 >= 0)
         {
-            Tiles tileXY2 = GetTile(tiles[x, y - 2]);
-            Tiles tileXY3 = GetTile(tiles[x, y - 3]);
+            TileBoard tileXY2 = GetTile(tiles[x, y - 2]);
+            TileBoard tileXY3 = GetTile(tiles[x, y - 3]);
 
-            if (tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXY3.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+            if (tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXY3.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
         }
 
         if (count >= 3)
         {
-            TileCanBeMatches tile = new(x, y, TileDirection.BOTTOM, tileXY.TilePrefab.TileEnum, count);
+            TileCanBeMatches tile = new(x, y, TileDirection.BOTTOM, tileXY.TileProperties.TileEnum, count);
 
             matches.Add(tile);
         }
@@ -436,64 +436,64 @@ public class BoardMatches : BoardAb
 
         int count = 1;
 
-        Tiles tileXY = GetTile(tiles[x, y]);
+        TileBoard tileXY = GetTile(tiles[x, y]);
 
         if (y + 1 < Board.Size && y - 1 >= 0)
         {
-            Tiles tileXY1 = GetTile(tiles[x - 1, y + 1]);
-            Tiles tileXYM1 = GetTile(tiles[x - 1, y - 1]);
+            TileBoard tileXY1 = GetTile(tiles[x - 1, y + 1]);
+            TileBoard tileXYM1 = GetTile(tiles[x - 1, y - 1]);
 
-            if (tileXY1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileXYM1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum)
+            if (tileXY1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileXYM1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum)
             {
                 count += 2;
 
                 if (y + 2 < Board.Size)
                 {
-                    Tiles tileXY2 = GetTile(tiles[x - 1, y + 2]);
+                    TileBoard tileXY2 = GetTile(tiles[x - 1, y + 2]);
 
-                    if (tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
 
                 if (y - 2 >= 0)
                 {
-                    Tiles tileXYM2 = GetTile(tiles[x - 1, y - 2]);
+                    TileBoard tileXYM2 = GetTile(tiles[x - 1, y - 2]);
 
-                    if (tileXYM2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count++;
+                    if (tileXYM2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count++;
                 }
             }
             else
             {
                 if (y + 2 < Board.Size)
                 {
-                    Tiles tileXY2 = GetTile(tiles[x - 1, y + 2]);
+                    TileBoard tileXY2 = GetTile(tiles[x - 1, y + 2]);
 
-                    if (tileXY1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXY2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXY1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXY2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
 
                 if (y - 2 >= 0)
                 {
-                    Tiles tileXYM2 = GetTile(tiles[x - 1, y - 2]);
+                    TileBoard tileXYM2 = GetTile(tiles[x - 1, y - 2]);
 
-                    if (tileXYM1.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                        && tileXYM2.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+                    if (tileXYM1.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                        && tileXYM2.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
                 }
             }
         }
 
         if (x - 3 >= 0)
         {
-            Tiles tileX2Y = GetTile(tiles[x - 2, y]);
-            Tiles tileX3Y = GetTile(tiles[x - 3, y]);
+            TileBoard tileX2Y = GetTile(tiles[x - 2, y]);
+            TileBoard tileX3Y = GetTile(tiles[x - 3, y]);
 
-            if (tileX2Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum
-                && tileX3Y.TilePrefab.TileEnum == tileXY.TilePrefab.TileEnum) count += 2;
+            if (tileX2Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum
+                && tileX3Y.TileProperties.TileEnum == tileXY.TileProperties.TileEnum) count += 2;
         }
 
         if (count >= 3)
         {
-            TileCanBeMatches tile = new(x, y, TileDirection.LEFT, tileXY.TilePrefab.TileEnum, count);
+            TileCanBeMatches tile = new(x, y, TileDirection.LEFT, tileXY.TileProperties.TileEnum, count);
 
             matches.Add(tile);
         }
@@ -518,20 +518,20 @@ public class BoardMatches : BoardAb
 
     private void Count(int x, int y)
     {
-        Tiles tile = GetTile(tiles[x, y]);
+        TileBoard tile = GetTile(tiles[x, y]);
 
-        if (!tile.TilePrefab.CanBeDestroyed) return;
-        if (tile.TilePrefab.HasCount) return;
+        if (!tile.TileProperties.CanBeDestroyed) return;
+        if (tile.TileProperties.HasCount) return;
 
-        tile.TilePrefab.HasCount = true;
+        tile.TileProperties.HasCount = true;
         count++;
 
         if (y + 1 < Board.Size)
         {
-            Tiles tileXY1 = GetTile(tiles[x, y + 1]);
+            TileBoard tileXY1 = GetTile(tiles[x, y + 1]);
 
-            if (tileXY1.TilePrefab.CanBeDestroyed && !tileXY1.TilePrefab.HasCount
-                && tile.TilePrefab.TileEnum == tileXY1.TilePrefab.TileEnum)
+            if (tileXY1.TileProperties.CanBeDestroyed && !tileXY1.TileProperties.HasCount
+                && tile.TileProperties.TileEnum == tileXY1.TileProperties.TileEnum)
             {
                 Count(x, y + 1);
             }
@@ -539,10 +539,10 @@ public class BoardMatches : BoardAb
 
         if (x + 1 < Board.Size)
         {
-            Tiles tileX1Y = GetTile(tiles[x + 1, y]);
+            TileBoard tileX1Y = GetTile(tiles[x + 1, y]);
 
-            if (tileX1Y.TilePrefab.CanBeDestroyed && !tileX1Y.TilePrefab.HasCount
-                && tile.TilePrefab.TileEnum == tileX1Y.TilePrefab.TileEnum)
+            if (tileX1Y.TileProperties.CanBeDestroyed && !tileX1Y.TileProperties.HasCount
+                && tile.TileProperties.TileEnum == tileX1Y.TileProperties.TileEnum)
             {
                 Count(x + 1, y);
             }
@@ -550,10 +550,10 @@ public class BoardMatches : BoardAb
 
         if (y - 1 >= 0)
         {
-            Tiles tileXYM1 = GetTile(tiles[x, y - 1]);
+            TileBoard tileXYM1 = GetTile(tiles[x, y - 1]);
 
-            if (tileXYM1.TilePrefab.CanBeDestroyed && !tileXYM1.TilePrefab.HasCount
-                && tile.TilePrefab.TileEnum == tileXYM1.TilePrefab.TileEnum)
+            if (tileXYM1.TileProperties.CanBeDestroyed && !tileXYM1.TileProperties.HasCount
+                && tile.TileProperties.TileEnum == tileXYM1.TileProperties.TileEnum)
             {
                 Count(x, y - 1);
             }
@@ -561,10 +561,10 @@ public class BoardMatches : BoardAb
 
         if (x - 1 >= 0)
         {
-            Tiles tileXM1Y = GetTile(tiles[x - 1, y]);
+            TileBoard tileXM1Y = GetTile(tiles[x - 1, y]);
 
-            if (tileXM1Y.TilePrefab.CanBeDestroyed && !tileXM1Y.TilePrefab.HasCount
-                && tile.TilePrefab.TileEnum == tileXM1Y.TilePrefab.TileEnum)
+            if (tileXM1Y.TileProperties.CanBeDestroyed && !tileXM1Y.TileProperties.HasCount
+                && tile.TileProperties.TileEnum == tileXM1Y.TileProperties.TileEnum)
             {
                 Count(x - 1, y);
             }

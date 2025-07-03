@@ -29,6 +29,7 @@ MonoBehaviour:
   ManaCost: 30
   TurnCount: 1
   Activator: {fileID: 4226212899183569208, guid: 471991a44db868d49a2d903a3607338f, type: 3}
+  ExtraFX: {fileID: 0}
   SelfTarget: 0
   OpponentTarget: 1
   Damage:
@@ -38,14 +39,16 @@ MonoBehaviour:
     BonusPerLevel: 8
   Buffs: []
   Debuffs:
-  - StatDebuff: 10
+  - Icon: {fileID: 21300000, guid: eaa2e318fc6a02b42872bc35e2ae48de, type: 3}
+    StatDebuff: 10
     SourceStat: 10
     DebuffPercent: -10
-    PercentBonus: -5
+    PercentBonus: -0.25
     DurationType: 0
     Duration: 1
     DurationStack: 0
     PercentStack: 1
+    Description: '{Value}% {StatBuff} in {Duration}'
   ObjectMinSpawnCount: 4
   ObjectMaxSpawnCount: 5
   MinObjectToOp: 1

@@ -49,7 +49,7 @@ public abstract class SkillActivator : GMono, ISkillActivate
             debuffs = opSkill.Debuffs;
         }
 
-        DebuffSpawner.Instance.SpawnDebuffs(level, debuffs, stats);
+        OpponentDebuffSpawner.Instance.SpawnDebuffs(level, debuffs, stats);
     }
 
     public void ApplyBuff(SkillNode skill, BEntityStats stats, SkillActivator activator)
@@ -72,7 +72,7 @@ public abstract class SkillActivator : GMono, ISkillActivate
             buffs = opSkill.Buffs;
         }
 
-        BuffSpawner.Instance.SpawnBuffs(level, buffs, stats, activator);
+        PlayerBuffSpawner.Instance.SpawnBuffs(level, buffs, stats, activator);
     }
 
     public virtual void DealOpSkillDamage() { }

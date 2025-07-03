@@ -28,8 +28,8 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
         {
             if (other.transform.parent.name == "Tile")
             {
-                TilePrefab tile = other.transform.parent.GetComponentInChildren<TilePrefab>();
-                TilePrefab target = DObject.Target.GetComponentInChildren<TilePrefab>();
+                TileProperties tile = other.transform.parent.GetComponentInChildren<TileProperties>();
+                TileProperties target = DObject.Target.GetComponentInChildren<TileProperties>();
 
                 if (tile.X == target.X && tile.Y == target.Y)
                 {

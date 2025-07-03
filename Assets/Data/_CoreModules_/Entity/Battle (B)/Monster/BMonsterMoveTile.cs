@@ -26,7 +26,7 @@ public class BMonsterMoveTile : BEntityComponent
         int x = pickedTile.X;
         int y = pickedTile.Y;
         TileDirection direction = pickedTile.TileDirection;
-        Tiles tile = GetTile(tiles[x, y]);
+        TileBoard tile = GetTile(tiles[x, y]);
 
         if (!battleManager.TileBorder.Model.gameObject.activeSelf)
         {

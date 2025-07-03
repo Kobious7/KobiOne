@@ -27,11 +27,11 @@ public class BoardFilling : BoardAb
                 yP++;
             }
 
-            Tiles tile = GetTile(tiles[x, yP]);
-            Vector3 toPos = Board.BoardGen.GetWorldPosition(x, y, -1);
+            TileBoard tile = GetTile(tiles[x, yP]);
+            Vector3 toPos = Board.BoardGen.GetWorldPosition(x, y, 1);
             StartCoroutine(tile.TileMoving.Moving(toPos));
 
-            tile.TilePrefab.SetXY(x, y);
+            tile.TileProperties.SetXY(x, y);
             tiles[x, y] = tiles[x, yP];
             tiles[x, yP] = null;
         }

@@ -66,20 +66,20 @@ public class TileFindTargets : GMono
         while(rowNum != number)
         {
             int rand = rowIndex[Random.Range(0, rowIndex.Count)];
-            Tiles firstColumTile = battleManager.TileSpawner.GetFirstColumTile(rand);
+            TileBoard firstColumTile = battleManager.TileSpawner.GetFirstColumTile(rand);
             int index = rowIndex.IndexOf(rand);
 
             rowIndex.RemoveAt(index);
 
             List<O> areas = new List<O>{new O(0, 0), new O(1, 0), new O(2, 0), new O(3, 0), new O(4, 0), new O(5, 0), new O(6, 0), new O(7, 0)};
 
-            Tiles trueTarget = battleManager.TileSpawner.GetTileByXY(firstColumTile.TilePrefab.X + 7, firstColumTile.TilePrefab.Y);
+            TileBoard trueTarget = battleManager.TileSpawner.GetTileByXY(firstColumTile.TileProperties.X + 7, firstColumTile.TileProperties.Y);
             tileTargets.Add(trueTarget.transform);
             
             foreach(var area in areas)
             {
-                Tiles tileXY = battleManager.TileSpawner.GetTileByXY(area.X + firstColumTile.TilePrefab.X, area.Y + firstColumTile.TilePrefab.Y);
-                affectArea.Add(new O(tileXY.TilePrefab.X, tileXY.TilePrefab.Y));
+                TileBoard tileXY = battleManager.TileSpawner.GetTileByXY(area.X + firstColumTile.TileProperties.X, area.Y + firstColumTile.TileProperties.Y);
+                affectArea.Add(new O(tileXY.TileProperties.X, tileXY.TileProperties.Y));
             }
 
             rowNum++;
@@ -90,7 +90,7 @@ public class TileFindTargets : GMono
     {
         while(tileTargets.Count != number)
         {
-            Tiles rand = battleManager.TileSpawner.GetRandomTile();
+            TileBoard rand = battleManager.TileSpawner.GetRandomTile();
 
             while(!IsOKTarget(rand))
             {
@@ -105,24 +105,24 @@ public class TileFindTargets : GMono
         }
     }
 
-    private bool IsOKTarget(Tiles tile)
+    private bool IsOKTarget(TileBoard tile)
     {
         List<O> area = skillProps.Area;
 
         for (int i = 0; i < area.Count; i++)
         {
-            if (tile.TilePrefab.X + area[i].X >= 8 || tile.TilePrefab.X + area[i].X < 0
-                || tile.TilePrefab.Y + area[i].Y >= 8 || tile.TilePrefab.Y + area[i].Y < 0)
+            if (tile.TileProperties.X + area[i].X >= 8 || tile.TileProperties.X + area[i].X < 0
+                || tile.TileProperties.Y + area[i].Y >= 8 || tile.TileProperties.Y + area[i].Y < 0)
                 return false;
         }
 
         return true;
     }
 
-    private void CreateAffectArea(Tiles tile)
+    private void CreateAffectArea(TileBoard tile)
     {
-        int x = tile.TilePrefab.X;
-        int y = tile.TilePrefab.Y;
+        int x = tile.TileProperties.X;
+        int y = tile.TileProperties.Y;
 
         foreach(O o in skillProps.Area)
         {

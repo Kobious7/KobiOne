@@ -55,7 +55,7 @@ public class SwordA3Activator : SkillActivator
 
         for (int i = 0; i < tileObjects; i++)
         {
-            Vector3 pos = tileSkill.ObjectSpawnPos[tile.TargetsFinder.TileTargets[i].GetComponent<Tiles>().TilePrefab.Y];
+            Vector3 pos = tileSkill.ObjectSpawnPos[tile.TargetsFinder.TileTargets[i].GetComponent<TileBoard>().TileProperties.Y];
             Transform newObj = destructiveObjectSpawner.Spawn(tileSkill.DObjectPrefab, pos, Quaternion.identity);
             DestructiveObject destructiveObject = newObj.GetComponent<DestructiveObject>();
             destructiveObject.Target = tile.TargetsFinder.TileTargets[i];
@@ -87,10 +87,15 @@ public class SwordA3Activator : SkillActivator
             ApplyBuff(skill, playerStats, this);
         }
 
-        while (destructiveObjectSpawner.TileSpawnCount > 0 || destructiveObjectSpawner.OpSpawnCount > 0)
+        if (tileSkill.Debuffs.Count > 0)
         {
-            yield return null;
+            ApplyDebuff(skill, opStats);
         }
+
+        while (destructiveObjectSpawner.TileSpawnCount > 0 || destructiveObjectSpawner.OpSpawnCount > 0)
+            {
+                yield return null;
+            }
 
         if (tileSkill.TurnCount) Battle.Instance.TurnCount--;
 

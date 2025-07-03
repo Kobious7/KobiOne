@@ -173,7 +173,7 @@ public class KeyboardMT : GMono
         Vector3 currentPos = battleManager.TileBorder.transform.position;
         int x = (int)(currentPos.x + 3.5f);
         int y = (int)(currentPos.y + 3.5f);
-        Tiles tile = GetTile(tiles[x, y]);
+        TileBoard tile = GetTile(tiles[x, y]);
         bool reverse = MoveTileCheck(tile, x, y);
 
         if (reverse) return;
@@ -185,7 +185,7 @@ public class KeyboardMT : GMono
         Debug.Log("????");
     }
 
-    private bool MoveTileCheck(Tiles tile, int x, int y)
+    private bool MoveTileCheck(TileBoard tile, int x, int y)
     {
         if (InputManager.Instance.Vertical > 0 && y + 1 < 8)
         {
