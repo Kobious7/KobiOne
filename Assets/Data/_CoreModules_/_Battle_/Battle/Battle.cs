@@ -34,6 +34,9 @@ public class Battle : GMono
     [SerializeField] private bool pFisrt = true;
     [SerializeField] private bool pTurn = true;
     [SerializeField] private bool opTurn = false;
+
+    public bool OpTurn => opTurn;
+
     [SerializeField] private bool endTurn = false;
 
     public bool EndTurn
@@ -102,7 +105,7 @@ public class Battle : GMono
 
     [SerializeField] private bool end;
     [SerializeField] private bool show = true;
-
+    [SerializeField] private int collectedExp = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -238,7 +241,8 @@ public class Battle : GMono
             { TileEnum.MANA, 0 },
             { TileEnum.SHEILD, 0 },
             { TileEnum.HEART, 0 },
-            { TileEnum.VHEART, 0 }
+            { TileEnum.VHEART, 0 },
+            { TileEnum.EXP, 0 }
         };
     }
 
@@ -268,6 +272,17 @@ public class Battle : GMono
         //{
         //    Debug.Log($"{keyValuePair.Key} = {keyValuePair.Value}");
         //}
+        if (tileCounter[TileEnum.EXP] > 0)
+        {
+            if (pTurn)
+            {
+                int flatExp = player.Stats.ExpFlatBonus * tileCounter[TileEnum.EXP];
+                int amount = (int)(flatExp + flatExp * player.Stats.ExpPercentBonus / 100);
+                amount = (int)(UnityEngine.Random.Range(0.8f, 1.2f) * amount);
+                collectedExp += amount;
+                player.Stats.EXPIns(amount);
+            }
+        }
 
         if (tileCounter[TileEnum.HEART] > 0)
         {
@@ -295,7 +310,7 @@ public class Battle : GMono
             {
                 int insAmount = (int)(monster.Stats.MaxHP * 0.01 * tileCounter[TileEnum.VHEART]);
                 monster.Stats.VHPIns(insAmount);
-            }             
+            }
         }
 
         if (tileCounter[TileEnum.MANA] > 0)
@@ -388,6 +403,8 @@ public class Battle : GMono
                 swordTile = false;
             }
         }
+
+        BSkill.Instance.SkillActivator.IsCasting = false;
     }
 
     public void DealSwordrainDamage(BEntityStats dealer, BEntityStats receiver)

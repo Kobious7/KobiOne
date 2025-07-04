@@ -4,8 +4,9 @@ using UnityEngine;
 public class SwordS1Activator : SkillActivator
 {
     private SelfSkillSO current;
-    public override IEnumerator Activate(SkillNode skill, SkillButton button)
+    public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
+        activatorManager.IsCasting = true;
         SelfSkillSO selfSkill = (SelfSkillSO)skill.skillSO;
         current = selfSkill;
 
@@ -22,6 +23,8 @@ public class SwordS1Activator : SkillActivator
         }
 
         yield return null;
+
+        activatorManager.IsCasting = false;
     }
 
     public override void EndSkillEffect()

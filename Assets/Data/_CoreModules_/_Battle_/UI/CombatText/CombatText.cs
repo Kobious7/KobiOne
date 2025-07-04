@@ -116,5 +116,11 @@ public class CombatText : GMono
         {
             combatText.color = ColorUtility.TryParseHtmlString("#3399FF", out Color color) ? color : Color.white;
         }
+
+        if (noneDamageType == NonDamageType.EXP)
+        {
+            combatText.text = $"+{amount}Exp";
+            combatText.color = ColorUtility.TryParseHtmlString("#ADFF2F", out Color color) ? color : Color.white;
+        }
     }
 }

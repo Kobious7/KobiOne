@@ -5,8 +5,9 @@ public class SwordA1Activator : SkillActivator
 {
     private int rawDamage;
 
-    public override IEnumerator Activate(SkillNode skill, SkillButton button)
+    public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
+        activatorManager.IsCasting = true;
         OpSkillSO opSkill = (OpSkillSO)skill.skillSO;
 
         playerStats.ManaDes(opSkill.ManaCost);
@@ -32,6 +33,8 @@ public class SwordA1Activator : SkillActivator
             Battle.Instance.TurnCount--;
             Battle.Instance.TurnChange();
         }
+        
+        activatorManager.IsCasting = false;
     }
 
     public override void DealOpSkillDamage()

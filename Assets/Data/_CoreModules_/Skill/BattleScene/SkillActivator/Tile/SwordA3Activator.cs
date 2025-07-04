@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class SwordA3Activator : SkillActivator
 {
-    public override IEnumerator Activate(SkillNode skill, SkillButton button)
+    public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
+        activatorManager.IsCasting = true;
         TileSkillSO tileSkill = (TileSkillSO)skill.skillSO;
 
         int objectSpawnCount = Random.Range(tileSkill.ObjectMinSpawnCount, tileSkill.ObjectMaxSpawnCount + 1);
@@ -93,9 +94,9 @@ public class SwordA3Activator : SkillActivator
         }
 
         while (destructiveObjectSpawner.TileSpawnCount > 0 || destructiveObjectSpawner.OpSpawnCount > 0)
-            {
-                yield return null;
-            }
+        {
+            yield return null;
+        }
 
         if (tileSkill.TurnCount) Battle.Instance.TurnCount--;
 

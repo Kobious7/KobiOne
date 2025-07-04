@@ -13,6 +13,14 @@ public class BSkillActivator : BSkillAb
 
     public SkillButton CurrentSkill => currentSkill;
 
+    [SerializeField] private bool isCasting;
+
+    public bool IsCasting
+    {
+        get => isCasting;
+        set => isCasting = value;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -47,7 +55,7 @@ public class BSkillActivator : BSkillAb
         {
             currentSkill = button;
 
-            StartCoroutine(activator.Activate(skill, button));
+            StartCoroutine(activator.Activate(skill, button, this));
         }
     }
 }

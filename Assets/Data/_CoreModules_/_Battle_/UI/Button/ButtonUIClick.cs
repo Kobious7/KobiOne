@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ButtonUIBClick : ButtonUIAb
+public class ButtonUIBClick : ButtonUIBAb
 {
     protected override void Start()
     {

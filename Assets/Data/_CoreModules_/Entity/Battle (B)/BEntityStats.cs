@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BEntityStats : BEntityComponent
@@ -135,6 +136,22 @@ public class BEntityStats : BEntityComponent
         set { shieldStack = value; }
     }
 
+    [SerializeField] protected int expFlatBonus = 0;
+
+    public int ExpFlatBonus
+    {
+        get { return expFlatBonus; }
+        set { expFlatBonus = value; }
+    }
+
+    [SerializeField] protected float expPercentBonus = 0;
+
+    public float ExpPercentBonus
+    {
+        get { return expPercentBonus; }
+        set { expPercentBonus = value; }
+    }
+
     [SerializeField] protected Dictionary<EquipStatType, StatBuffInfo> buffPercents;
 
     public Dictionary<EquipStatType, StatBuffInfo> BuffPercents
@@ -157,6 +174,11 @@ public class BEntityStats : BEntityComponent
         buffPercents[EquipStatType.DamageRange] = new StatBuffInfo(0, damageRange, 0, true);
         buffPercents[EquipStatType.CritRate] = new StatBuffInfo(0, critRate, 0, true);
         buffPercents[EquipStatType.CritDamage] = new StatBuffInfo(0, critDamage, 0, true);
+    }
+
+    public void EXPIns(int amount)
+    {
+        OnNoneDamageStatInscrease?.Invoke(amount, this, NonDamageType.EXP);
     }
 
     public void HPIns(int amount)

@@ -29,6 +29,7 @@ public class BoardFilling : BoardAb
 
             TileBoard tile = GetTile(tiles[x, yP]);
             Vector3 toPos = Board.BoardGen.GetWorldPosition(x, y, 1);
+            tile.TileProperties.Sprite.enabled = true;
             StartCoroutine(tile.TileMoving.Moving(toPos));
 
             tile.TileProperties.SetXY(x, y);

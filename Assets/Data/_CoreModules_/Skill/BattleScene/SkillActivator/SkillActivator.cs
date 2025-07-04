@@ -27,7 +27,7 @@ public abstract class SkillActivator : GMono, ISkillActivate
         monsterAnim = battleManager.Monster.Anim as BMonsterAnim;
         bSkill = BSkill.Instance;
     }
-    public abstract IEnumerator Activate(SkillNode skill, SkillButton button);
+    public abstract IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager);
 
     public void ApplyDebuff(SkillNode skill, BEntityStats stats)
     {

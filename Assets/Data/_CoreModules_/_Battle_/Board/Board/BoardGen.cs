@@ -104,6 +104,7 @@ public class BoardGen : BoardAb
                     Transform newTile = tileSpawner.SpawnTilePrefab(randomTileType, Board.BoardGen.GetWorldPosition(x, Board.Size * 2 - 1, 0), Quaternion.identity);
                     TileBoard newTileBoard = GetTile(newTile);
 
+                    newTileBoard.TileProperties.Sprite.enabled = false;
                     newTileBoard.TileProperties.SetXY(x, Board.Size * 2 - 1);
                     newTile.gameObject.SetActive(true);
 

@@ -15,7 +15,7 @@ public abstract class ButtonUIBAb : GMono
     private void LoadButtonUI()
     {
         if (buttonUI != null) return;
-
+        
         buttonUI = transform.parent.GetComponent<ButtonUIB>();
     }
 }

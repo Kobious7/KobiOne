@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class SwordRActivator : SkillActivator
 {
-    public override IEnumerator Activate(SkillNode skill, SkillButton button)
+    public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
+        activatorManager.IsCasting = true;
         TileSkillSO tileSkill = (TileSkillSO)skill.skillSO;
 
         int objectSpawnCount = Random.Range(tileSkill.ObjectMinSpawnCount, tileSkill.ObjectMaxSpawnCount + 1);

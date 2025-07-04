@@ -11573,6 +11573,7 @@ MonoBehaviour:
   anim: {fileID: 171787091}
   centerPoint: {fileID: 1287728663}
   attackPoint: {fileID: 1721174530}
+  textDamagePoint: {fileID: 0}
   isUIOpening: 0
   rb2D: {fileID: 468620462}
   meleeAttack: {fileID: 1759676122}
@@ -51225,7 +51226,7 @@ GameObject:
   - component: {fileID: 1200703875}
   - component: {fileID: 1200703876}
   m_Layer: 0
-  m_Name: ===InfiniteMapManager===
+  m_Name: ___[ INFINITEMAP MANAGER ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72735,7 +72736,7 @@ GameObject:
   - component: {fileID: 1434747740}
   - component: {fileID: 1434747739}
   m_Layer: 0
-  m_Name: ===GameSaving===
+  m_Name: ___[ GAME SAVING ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76222,7 +76223,7 @@ GameObject:
   - component: {fileID: 1541722005}
   - component: {fileID: 1541722004}
   m_Layer: 0
-  m_Name: ===InputManager===
+  m_Name: ___[ INPUT MANAGER ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76382,7 +76383,7 @@ GameObject:
   - component: {fileID: 1544179544}
   - component: {fileID: 1544179543}
   m_Layer: 0
-  m_Name: ===GameUI===
+  m_Name: ___[ UI MANAGER ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145781,9 +145782,6 @@ SceneRoots:
   - {fileID: 134233335}
   - {fileID: 1531178323}
   - {fileID: 468620461}
-  - {fileID: 1200703875}
-  - {fileID: 1544179544}
-  - {fileID: 1541722005}
   - {fileID: 750094129}
   - {fileID: 651614235}
   - {fileID: 1078339583}
@@ -145797,10 +145795,13 @@ SceneRoots:
   - {fileID: 841697638}
   - {fileID: 1791765654}
   - {fileID: 1951864811}
-  - {fileID: 1434747740}
   - {fileID: 1940617119}
   - {fileID: 1263025974}
   - {fileID: 1472183351}
   - {fileID: 2531734308193608770}
   - {fileID: 1388531594}
   - {fileID: 1755038918}
+  - {fileID: 1200703875}
+  - {fileID: 1434747740}
+  - {fileID: 1544179544}
+  - {fileID: 1541722005}

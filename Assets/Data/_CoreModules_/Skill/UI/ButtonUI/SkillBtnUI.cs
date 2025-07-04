@@ -7,6 +7,7 @@ public class SkillBtnUI : GMono
     [SerializeField] protected Button button;
     [SerializeField] protected Image model;
 
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -81,8 +82,15 @@ public class SkillBtnUI : GMono
         }
         else
         {
-            button.interactable = true;
-            model.color = Color.white;
+            if (Battle.Instance.OpTurn || BSkill.Instance.SkillActivator.IsCasting)
+            {
+                button.interactable = false;
+            }
+            else
+            {
+                button.interactable = true;
+                model.color = Color.white;
+            }
         }
     }
 
