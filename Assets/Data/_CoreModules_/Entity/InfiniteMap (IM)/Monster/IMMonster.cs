@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class IMMonster : Entity
 {
+    [SerializeField] private int mapLevel;
+
+    public int MapLevel
+    {
+        get => mapLevel;
+        set => mapLevel = value;
+    }
+    
     [SerializeField] private IMMonsterStats stats;
 
     public IMMonsterStats Stats => stats;

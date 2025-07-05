@@ -10,7 +10,8 @@ public class FlyObjectInfiniteMapCollision : FlyObjectCollision
 
         if (other.transform.parent.name == "Monster")
         {
-            InfiniteMapManager.Instance.LoadAllObj(other.transform);
+            InfiniteMapManager.Instance.LoadDataToInfiniteMapSO(other.transform);
+            LoadScene(BATTLE);
         }
     }
 }

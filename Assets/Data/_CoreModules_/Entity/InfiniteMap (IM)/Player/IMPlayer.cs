@@ -40,6 +40,15 @@ public class IMPlayer : Entity
         LoadShooting();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        if (InfiniteMapManager.Instance.MapData.MapCanLoad)
+        {
+            transform.position = InfiniteMapManager.Instance.MapData.PlayerInfo.PosOffset + InfiniteMapManager.Instance.Map.Maps[0].position;
+        }
+    }
+
     private void LoadRigibody2D()
     {
         if (rb2D != null) return;

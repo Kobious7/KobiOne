@@ -17,8 +17,8 @@ public class MapLevel : MapAb
         
         if(!InfiniteMapManager.Instance.MapData.MapCanLoad) return;
 
-        previousLevel = (int)Map.Distance / 500;
-        currentLevel = previousLevel;
+        currentLevel = InfiniteMapManager.Instance.MapData.MapInfo.Level;
+        previousLevel = currentLevel;
     }
 
     private void FixedUpdate()

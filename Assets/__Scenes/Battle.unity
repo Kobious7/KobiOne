@@ -4981,7 +4981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370844076}
   m_Layer: 0
-  m_Name: ___[ BUFF ]___
+  m_Name: ___[ Buff ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6763,7 +6763,7 @@ GameObject:
   - component: {fileID: 547074736}
   - component: {fileID: 547074735}
   m_Layer: 0
-  m_Name: ___[ KEYBOARDMOVE ]___
+  m_Name: ___[ Keyboard Mover ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10058,6 +10058,50 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 243c7083891007b4f9095ace638b6a44, type: 3}
   m_PrefabInstance: {fileID: 946118650679501270}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1089526657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1089526659}
+  - component: {fileID: 1089526658}
+  m_Layer: 0
+  m_Name: ___[ Quit Game ]___
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1089526658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089526657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d37c74c12e632e499d6416870865efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1089526659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089526657}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093160762
 GameObject:
   m_ObjectHideFlags: 0
@@ -14111,7 +14155,7 @@ GameObject:
   - component: {fileID: 1468499283}
   - component: {fileID: 1468499284}
   m_Layer: 0
-  m_Name: ___[ BATTLEMANAGER ]___
+  m_Name: ___[ Battle Manager ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15455,7 +15499,7 @@ GameObject:
   - component: {fileID: 1566823146}
   - component: {fileID: 1566823147}
   m_Layer: 0
-  m_Name: ___[ INPUTMANAGER ]___
+  m_Name: ___[ Input Manager ]___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107634,8 +107678,6 @@ SceneRoots:
   - {fileID: 1881490725}
   - {fileID: 1787920469}
   - {fileID: 12232704}
-  - {fileID: 1468499283}
-  - {fileID: 1566823146}
   - {fileID: 1884516773}
   - {fileID: 643336876}
   - {fileID: 72734521}
@@ -107643,11 +107685,9 @@ SceneRoots:
   - {fileID: 204293036}
   - {fileID: 1119660500}
   - {fileID: 1743015583}
-  - {fileID: 547074736}
   - {fileID: 2043419253}
   - {fileID: 523915951}
   - {fileID: 27237418}
-  - {fileID: 370844076}
   - {fileID: 1070936416}
   - {fileID: 153375745}
   - {fileID: 4258378145243862498}
@@ -107656,3 +107696,8 @@ SceneRoots:
   - {fileID: 192348750}
   - {fileID: 777001836}
   - {fileID: 2004891052}
+  - {fileID: 370844076}
+  - {fileID: 547074736}
+  - {fileID: 1566823146}
+  - {fileID: 1468499283}
+  - {fileID: 1089526659}

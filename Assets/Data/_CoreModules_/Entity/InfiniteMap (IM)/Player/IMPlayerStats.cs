@@ -36,48 +36,6 @@ public class IMPlayerStats : EntityComponent
         set { remainPoints = value; }
     }
 
-    //=======Potential======
-
-    [SerializeField] private int power = 1;
-
-    public int Power
-    {
-        get { return power; }
-        set { power = value; }
-    }
-
-    [SerializeField] private int magic;
-
-    public int Magic
-    {
-        get { return magic; }
-        set { magic = value; }
-    }
-
-    [SerializeField] private int strength;
-
-    public int Strength
-    {
-        get { return strength; }
-        set { strength = value; }
-    }
-
-    [SerializeField] private int defense;
-
-    public int Defense
-    {
-        get { return defense; }
-        set { defense = value; }
-    }
-
-    [SerializeField] private int dexterity;
-
-    public int Dexterity
-    {
-        get { return dexterity;}
-        set { dexterity = value;}
-    }
-
     [SerializeField] private List<Stat> potential;
 
     public List<Stat> Potential
@@ -86,60 +44,6 @@ public class IMPlayerStats : EntityComponent
         set { potential = value; }
     }
 
-    //=======Potential======
-
-    //=======Main Stats======
-
-    //Main Stat: Attack
-
-    [SerializeField] private int attack;
-
-    public int Attack
-    {
-        get { return attack; }
-        set { attack = value; }
-    }
-
-    [SerializeField] private int slashDamage;
-
-    public int SlashDamage
-    {
-        get { return slashDamage; }
-        set { slashDamage = value; }
-    }
-
-    //Main Stat: Magic
-
-    [SerializeField] private int magicAttack;
-
-    public int MagicAttack
-    {
-        get { return magicAttack; }
-        set { magicAttack = value; }
-    }
-
-    [SerializeField] private int swordrainDamage;
-
-    public int SwordrainDamage
-    {
-        get { return swordrainDamage; }
-        set { swordrainDamage = value; }
-    }
-
-    //Main Stats: Max HP
-
-    [SerializeField] private int maxHP;
-
-    public int MaxHP
-    {
-        get { return maxHP; }
-        set { maxHP = value; }
-    }
-
-    //Main Stats: Defense
-
-    //Main Stats: Dexterity
-
     [SerializeField] private List<Stat> stats;
     
     public List<Stat> Stats
@@ -147,8 +51,6 @@ public class IMPlayerStats : EntityComponent
         get { return stats; }
         set { stats = value; }
     }
-
-    //=======Main Stats======
 
     [SerializeField] private List<Stat> equipPotentialBonus;
     [SerializeField] private List<Stat> equipStatBonus;

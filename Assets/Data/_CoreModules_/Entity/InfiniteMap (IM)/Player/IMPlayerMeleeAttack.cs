@@ -61,9 +61,11 @@ public class IMPlayerMeleeAttack : EntityComponent, IEntityMeleeAttack
 
         foreach (Collider monster in monsters)
         {
-            yield return new WaitForSeconds(1.5f);
+            Debug.Log(monster.transform.parent.name);
+            yield return new WaitForSeconds(1f);
 
-            //LoadScene("Battle");
+            InfiniteMapManager.Instance.LoadDataToInfiniteMapSO(monster.transform.parent);
+            LoadScene(BATTLE);
         }
     }
 

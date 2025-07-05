@@ -8,7 +8,7 @@ public class QuitGame : MonoBehaviour
     {
         InfiniteMapManager.Instance.MapData.MapCanLoad = false;
         InfiniteMapManager.Instance.MapData.Result = Result.NONE;
-        InfiniteMapManager.Instance.MapData.InfiniteMapInfo = new();
+        InfiniteMapManager.Instance.MapData.MapInfo = new();
         InfiniteMapManager.Instance.MapData.PlayerInfo = new();
         InfiniteMapManager.Instance.MapData.MonsterInfo = new();
         InfiniteMapManager.Instance.MapData.ItemDropList = new();

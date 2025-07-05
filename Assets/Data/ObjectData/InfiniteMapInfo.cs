@@ -4,6 +4,6 @@ using System;
 public class InfiniteMapInfo
 {
     public float Distance;
-    public int MapLevel;
+    public int Level;
     public bool ReloadMonster;
 }

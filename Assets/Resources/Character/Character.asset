@@ -20,7 +20,7 @@ MonoBehaviour:
   Power:
     Index: 0
     Name: Power
-    TrueValue: 1000000
+    TrueValue: 100000
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0

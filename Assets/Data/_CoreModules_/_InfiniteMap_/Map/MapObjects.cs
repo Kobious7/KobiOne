@@ -20,8 +20,8 @@ public class MapObjects : MapAb
         map0 = Map.Maps[0];
         map1 = Map.Maps[1];
         currentMap = Map.MapSwap.CurrentMap;
-        monstersMap1 = InfiniteMapManager.Instance.Map1MonsterSpawner.GetActiveMonster();
-        monstersMap2 = InfiniteMapManager.Instance.Map2MonsterSpawner.GetActiveMonster();
+        monstersMap1 = InfiniteMapManager.Instance.Map1MonsterSpawner.GetActiveMonsters();
+        monstersMap2 = InfiniteMapManager.Instance.Map2MonsterSpawner.GetActiveMonsters();
         Vector3 map0Pos = new Vector3(250, 0, 0);
         Vector3 map1Pos = new Vector3(-250, 0, 0);
 

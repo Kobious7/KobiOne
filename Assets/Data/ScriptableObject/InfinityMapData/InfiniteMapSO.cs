@@ -20,12 +20,12 @@ public class InfiniteMapSO : ScriptableObject
         set => result = value;
     }
 
-    [SerializeField] private InfiniteMapInfo infiniteMapInfo;
+    [SerializeField] private InfiniteMapInfo mapInfo;
 
-    public InfiniteMapInfo InfiniteMapInfo
+    public InfiniteMapInfo MapInfo
     {
-        get => infiniteMapInfo;
-        set => infiniteMapInfo = value;
+        get => mapInfo;
+        set => mapInfo = value;
     }
 
     [SerializeField] private PlayerInfo playerInfo;

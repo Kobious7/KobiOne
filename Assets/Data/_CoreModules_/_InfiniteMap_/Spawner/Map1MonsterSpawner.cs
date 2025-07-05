@@ -32,6 +32,12 @@ public class Map1MonsterSpawner : MonsterSpawner
         {
             Transform newMonster = Spawn(prefabs[Random.Range(0, prefabs.Count)], monsterInfo.PosOffset + infiniteMapManager.Map.Maps[0].position, Quaternion.identity);
             
+            IMMonster monsterCom = newMonster.GetComponent<IMMonster>();
+            monsterCom.Stats.ZeroLevel = monsterInfo.ZeroLevel;
+            monsterCom.Stats.AttackType = monsterInfo.AttackType;
+            
+            monsterCom.Stats.LoadFromData = true;
+            
             newMonster.gameObject.SetActive(true);
 
             spawnCount++;

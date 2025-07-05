@@ -47,7 +47,7 @@ public class Map : GMono
         base.Start();
         if(InfiniteMapManager.Instance.MapData.MapCanLoad)
         {
-            distance = InfiniteMapManager.Instance.MapData.InfiniteMapInfo.Distance;
+            distance = InfiniteMapManager.Instance.MapData.MapInfo.Distance;
         }
     }
 

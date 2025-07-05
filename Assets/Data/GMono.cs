@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class GMono : MonoBehaviour
 {
+    protected const string BATTLE = "Battle";
+    protected const string INFINITEMAP = "InfiniteMap";
+
     protected virtual void Awake()
     {
         LoadComponents();

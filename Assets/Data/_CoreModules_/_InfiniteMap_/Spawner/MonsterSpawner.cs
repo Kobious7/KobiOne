@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MonsterSpawner : Spawner
 {
+    protected AttackType[] attackTypes = { AttackType.Attack, AttackType.MagicAttack, AttackType.AllAttack };
     [SerializeField] private Transform map;
     [SerializeField] protected float timer = 300;
 
@@ -57,6 +58,9 @@ public class MonsterSpawner : Spawner
         {
             Vector3 newPos = new Vector3(Random.Range(map.position.x - 245, map.position.x + 245), -1.75f, 0);
             Transform monster = Spawn(prefabs[Random.Range(0, prefabs.Count)], newPos, Quaternion.identity);
+            IMMonster monsterCom = monster.GetComponent<IMMonster>();
+            monsterCom.Stats.ZeroLevel = Random.Range(1, 10);
+            monsterCom.Stats.AttackType = attackTypes[Random.Range(0, attackTypes.Length)];
 
             monster.gameObject.SetActive(true);
 
@@ -64,7 +68,7 @@ public class MonsterSpawner : Spawner
         }
     }
 
-    public List<Transform> GetActiveMonster()
+    public List<Transform> GetActiveMonsters()
     {
         List<IMMonster> objs = holder.GetComponentsInChildren<IMMonster>().ToList();
         List<Transform> activeMonsters = new();
