@@ -5,61 +5,70 @@ using UnityEngine;
 public class IMPlayerStats : EntityComponent
 {
     [SerializeField] private int level = 1;
-
-    public int Level
-    {
-        get { return level; }
-        set { level = value; }
-    }
-
     [SerializeField] private int requiredExp;
-
-    public int RequiredExp
-    {
-        get { return requiredExp; }
-        set { requiredExp = value; }
-    }
-
     [SerializeField] private int currentExp;
-
-    public int CurrentExp
-    {
-        get { return currentExp; }
-        set { currentExp = value; }
-    }
-
     [SerializeField] private int remainPoints;
-
-    public int RemainPoints
-    {
-        get { return remainPoints; }
-        set { remainPoints = value; }
-    }
-
     [SerializeField] private List<Stat> potential;
-
-    public List<Stat> Potential
-    {
-        get { return potential; }
-        set { potential = value; }
-    }
-
     [SerializeField] private List<Stat> stats;
-    
-    public List<Stat> Stats
-    {
-        get { return stats; }
-        set { stats = value; }
-    }
-
     [SerializeField] private List<Stat> equipPotentialBonus;
     [SerializeField] private List<Stat> equipStatBonus;
     [SerializeField] private List<Stat> passiveSkillPotentialBonus;
     [SerializeField] private List<Stat> passiveSkillStatBonus;
+    [SerializeField] private int lerpExpStack;
+    [SerializeField] private int expFromBattle;
     public event Action<int> OnPotentialChange;
     public event Action<int> OnStatChange;
     public event Action<int> OnLevelUp;
     private InfiniteMapManager infiniteMapManager;
+
+    #region Player element getters and setters
+    public int Level
+    {
+        get => level;
+        set => level = value;
+    }
+
+    public int RequiredExp
+    {
+        get => requiredExp;
+        set => requiredExp = value;
+    }
+
+    public int CurrentExp
+    {
+        get => currentExp;
+        set => currentExp = value;
+    }
+    public int RemainPoints
+    {
+        get => remainPoints;
+        set => remainPoints = value;
+    }
+
+    public List<Stat> Potential
+    {
+        get => potential;
+        set => potential = value;
+    }
+    
+    public List<Stat> Stats
+    {
+        get => stats;
+        set => stats = value;
+    }
+
+    public int LerpExpStack
+    {
+        get => lerpExpStack;
+        set => lerpExpStack = value;
+    }
+
+    public int ExpFromBattle
+    {
+        get => expFromBattle;
+        set => expFromBattle = value;
+    }
+    #endregion
 
     protected override void Start()
     {
@@ -74,6 +83,7 @@ public class IMPlayerStats : EntityComponent
     {
         LoadPotentialFromSO();
         CreateStats();
+        CalculateExp();
         StatsCalculation();
     }
 
@@ -81,25 +91,26 @@ public class IMPlayerStats : EntityComponent
     {
         if(infiniteMapManager.MapData.MapCanLoad)
         {
-            if(infiniteMapManager.MapData.Result == Result.WIN)
+            int exp = 0;
+
+            if (infiniteMapManager.MapData.Result == Result.WIN)
+                exp = UnityEngine.Random.Range(infiniteMapManager.MapData.MonsterInfo.Level + 4, infiniteMapManager.MapData.MonsterInfo.Level + 9);
+
+            expFromBattle = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
+            currentExp += expFromBattle;
+
+            while (currentExp >= requiredExp)
             {
-                int exp = UnityEngine.Random.Range(infiniteMapManager.MapData.MonsterInfo.Level + 4, infiniteMapManager.MapData.MonsterInfo.Level + 9);
+                level++;
+                lerpExpStack++;
+                Debug.Log("Lerp stack: " + lerpExpStack);
+                remainPoints += 5;
+                currentExp -= requiredExp;
 
-                //Debug.Log("" + exp);
+                IncreaseLevel();
 
-                currentExp += exp;
-
-                while(currentExp >= requiredExp)
-                {
-                    level++;
-                    remainPoints += 5;
-                    currentExp -= requiredExp;
-
-                    IncreaseLevel();
-
-                    int averageMonsters = (level / 10) * 10 + level;
-                    requiredExp = ((level / 10) * 10 + 10) * averageMonsters;
-                }
+                int averageMonsters = (level / 10) * 10 + level;
+                requiredExp = ((level / 10) * 10 + 10) * averageMonsters;
             }
         }
     }
@@ -217,9 +228,6 @@ public class IMPlayerStats : EntityComponent
     {
         switch(stat.Index)
         {
-            case 0:
-                CalculateExp();
-                break;
             case 1:
                 CalculateAttackStat();
                 break;
@@ -262,6 +270,7 @@ public class IMPlayerStats : EntityComponent
             level = infiniteMapManager.CharacterData.Level;
             currentExp = infiniteMapManager.CharacterData.CurrentExp;
         }
+
         int averageMonsters = (level / 10) * 10 + level;
         requiredExp = ((level / 10) * 10 + 10) * averageMonsters;
         Stat levelStat = stats[0];

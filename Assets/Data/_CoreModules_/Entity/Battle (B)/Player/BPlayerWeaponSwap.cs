@@ -9,10 +9,21 @@ public class BPlayerWeaponSwap : BEntityComponent
         base.Start();
 
         player = Entity as BPlayer;
+        PlayerInfo playerInfo = BattleManager.Instance.MapData.PlayerInfo;
 
-        player.MeleeAttack.gameObject.SetActive(true);
-        player.AttackPoint.gameObject.SetActive(false);
-        player.RangedAttack.gameObject.SetActive(false);
+        if (BattleManager.Instance.MapData.MapCanLoad)
+        {
+            if (playerInfo.Weapon.EquipSO == null) return;
+
+            SwapWeapon(BattleManager.Instance.MapData.PlayerInfo.Weapon);
+        }
+        else
+        {
+            player.MeleeAttack.gameObject.SetActive(true);
+            player.AttackPoint.gameObject.SetActive(false);
+            player.RangedAttack.gameObject.SetActive(false);
+        }
+
     }
 
     public void SwapWeapon(InventoryEquip equip)

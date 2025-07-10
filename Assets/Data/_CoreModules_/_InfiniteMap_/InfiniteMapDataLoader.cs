@@ -9,6 +9,7 @@ public class InfinitMapSODataLoader : GMono
     private Map1MonsterSpawner map1MonsterSpawner;
     private Map2MonsterSpawner map2MonsterSpawner;
     private Inventory inventory;
+    private Equipment equipment;
 
     protected override void Start()
     {
@@ -19,11 +20,13 @@ public class InfinitMapSODataLoader : GMono
         map1MonsterSpawner = infiniteMapManager.Map1MonsterSpawner;
         map2MonsterSpawner = infiniteMapManager.Map2MonsterSpawner;
         inventory = infiniteMapManager.Inventory;
+        equipment = infiniteMapManager.Equipment;
     }
 
     public void LoadAllObj(Transform monster)
     {
         mapData.MapCanLoad = true;
+        mapData.PrimarionSoul = inventory.PrimarionSoul;
         LoadMapObj();
         LoadPlayerObj();
         LoadMonsterObj(monster.GetComponent<IMMonster>());
@@ -45,9 +48,11 @@ public class InfinitMapSODataLoader : GMono
         Vector3 mapPos = map.MapSwap.CurrentMap == MapEnum.Map0 ? to2DVec(map.Maps[0].position) : to2DVec(map.Maps[1].position);
         Vector3 playerPos = to2DVec(player.transform.position);
         mapData.PlayerInfo.Level = player.StatsSystem.Level;
+        mapData.PlayerInfo.CurrentExp = player.StatsSystem.CurrentExp;
+        mapData.PlayerInfo.RequiredExp = player.StatsSystem.RequiredExp;
+        mapData.PlayerInfo.ExpFromBattle = 0;
         mapData.PlayerInfo.PosOffset = playerPos - mapPos;
         mapData.PlayerInfo.Attack = player.StatsSystem.Stats[1].Value;
-        mapData.PlayerInfo.CurrentExp = player.StatsSystem.CurrentExp;
         mapData.PlayerInfo.MagicAttack = player.StatsSystem.Stats[2].Value;
         mapData.PlayerInfo.HP = player.StatsSystem.Stats[3].Value;
         mapData.PlayerInfo.SlashDamage = player.StatsSystem.Stats[4].Value;
@@ -61,6 +66,7 @@ public class InfinitMapSODataLoader : GMono
         mapData.PlayerInfo.QSkill = SkillSGT.Instance.Skill.QSkill;
         mapData.PlayerInfo.ESkill = SkillSGT.Instance.Skill.ESkill;
         mapData.PlayerInfo.SpaceSkill = SkillSGT.Instance.Skill.SpaceSkill;
+        mapData.PlayerInfo.Weapon = equipment.Weapon;
     }
 
     public void LoadMonsterObj(IMMonster monster)
@@ -136,7 +142,7 @@ public class InfinitMapSODataLoader : GMono
 
     private void LoadListItems()
     {
-        mapData.ListItems = inventory.ListItems;
+        mapData.ItemList = inventory.ItemList;
     }
 
     private void LoadEquipList()

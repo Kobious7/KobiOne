@@ -6,39 +6,51 @@ using UnityEngine;
 public class Inventory : GMono
 {
     public event Action<InventoryEquip> OnEquipAdding;
-    [SerializeField] private List<InventoryItem> listItems;
+    [SerializeField] private int primarionSoul;
+    [SerializeField] private int rewardPrimarionSoul;
+    [SerializeField] private List<InventoryItem> itemList;
+    [SerializeField] private List<InventoryEquip> weaponList;
+    [SerializeField] private List<InventoryEquip> helmetList;
+    [SerializeField] private List<InventoryEquip> bodyArmorList;
+    [SerializeField] private List<InventoryEquip> legArmorList;
+    [SerializeField] private List<InventoryEquip> bootsList;
+    [SerializeField] private List<InventoryEquip> auraList;
+    [SerializeField] private List<InventoryEquip> backItemList;
+    [SerializeField] private List<InventoryStuff> rewardItemList;
 
-    public List<InventoryItem> ListItems
+    #region Inventory element getters and setters
+    public int PrimarionSoul
     {
-        get => listItems;
-        set => listItems = value;
+        get => primarionSoul;
+        set => primarionSoul = value;
     }
 
-    [SerializeField] private List<InventoryEquip> weaponList;
+    public int RewardPrimarionSoul
+    {
+        get => rewardPrimarionSoul;
+        set => primarionSoul = value;
+    }
 
+    public List<InventoryItem> ItemList
+    {
+        get => itemList;
+        set => itemList = value;
+    }
     public List<InventoryEquip> WeaponList
     {
         get => weaponList;
         set => weaponList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> helmetList;
-
     public List<InventoryEquip> HelmetList
     {
         get => helmetList;
         set => helmetList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> bodyArmorList;
-
     public List<InventoryEquip> BodyArmorList
     {
         get => bodyArmorList;
         set => bodyArmorList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> legArmorList;
 
     public List<InventoryEquip> LegArmorList
     {
@@ -46,15 +58,11 @@ public class Inventory : GMono
         set => legArmorList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> bootsList;
-
     public List<InventoryEquip>BootsList
     {
         get => bootsList;
         set => bootsList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> auraList;
 
     public List<InventoryEquip> AuraList
     {
@@ -62,13 +70,18 @@ public class Inventory : GMono
         set => auraList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> backItemList;
-
     public List<InventoryEquip> BackItemList
     {
         get => backItemList;
         set => backItemList = value;
     }
+
+    public List<InventoryStuff> RewardItemList
+    {
+        get => rewardItemList;
+        set => rewardItemList = value;
+    }
+    #endregion
 
     [SerializeField] private EquipObtainer equipObtainer;
 
@@ -101,7 +114,7 @@ public class Inventory : GMono
 
         infiniteMapManager = InfiniteMapManager.Instance;
 
-        LoadEquip();
+        LoadInventoryResources();
         AddEquip(equipObtainer.CreateEquip(test, Rarity.Common));
         AddEquip(equipObtainer.CreateEquip(test1, Rarity.Common));
         // AddEquip(equipObtainer.CreateEquip(test2));
@@ -132,10 +145,29 @@ public class Inventory : GMono
         equipWearing = GetComponentInChildren<EquipWearing>();
     }
 
-    public void LoadInventory()
+    public void LoadInventoryResources()
     {
-        listItems = infiniteMapManager.MapData.ListItems;
-        if(infiniteMapManager.MapData.Result == Result.WIN) GetDropItems();
+        rewardItemList = new();
+
+        LoadPrimarionSoul();
+        LoadItem();
+        LoadEquip();
+    }
+
+    public void LoadPrimarionSoul()
+    {
+        if (infiniteMapManager.MapData.MapCanLoad && infiniteMapManager.MapData.Result == Result.WIN)
+        {
+            int monsterLevel = infiniteMapManager.MapData.MonsterInfo.Level;
+            rewardPrimarionSoul = UnityEngine.Random.Range(monsterLevel / 2 + monsterLevel, (monsterLevel / 2 + monsterLevel) + monsterLevel * monsterLevel / 100);
+            primarionSoul += InfiniteMapManager.Instance.MapData.PrimarionSoul + rewardPrimarionSoul;
+        }
+    }
+
+    public void LoadItem()
+    {
+        itemList = infiniteMapManager.MapData.ItemList;
+        if (infiniteMapManager.MapData.Result == Result.WIN) GetDropItems();
     }
 
     public void LoadEquip()
@@ -165,18 +197,17 @@ public class Inventory : GMono
 
     public void AddStackableItem(InventoryItem stackItem)
     {
-
-        if(listItems.Count == 0)
+        if (itemList.Count == 0)
         {
-            listItems.Add(stackItem);
+            itemList.Add(stackItem);
         }
         else
         {
             bool isNewItem = false;
 
-            foreach(InventoryItem item in listItems)
+            foreach (InventoryItem item in itemList)
             {
-                if(item.ItemSO.ItemCode == stackItem.ItemSO.ItemCode)
+                if (item.ItemSO.ItemCode == stackItem.ItemSO.ItemCode)
                 {
                     item.Quantity = item.Quantity + stackItem.Quantity > item.ItemSO.MaxStack ? item.ItemSO.MaxStack : item.Quantity + stackItem.Quantity;
                     return;
@@ -185,19 +216,23 @@ public class Inventory : GMono
                 isNewItem = true;
             }
 
-            if(isNewItem) listItems.Add(stackItem);
+            if (isNewItem) itemList.Add(stackItem);
+
+            rewardItemList.Add(stackItem);
         } 
     }
 
-    public void AddUnstackableItem(InventoryItem unstackableItem)
+    public void AddUnstackableItem(InventoryItem unstackItem)
     {
-        listItems.Add(unstackableItem);
+        itemList.Add(unstackItem);
+        rewardItemList.Add(unstackItem);
     }
 
     public void AddEquip(InventoryEquip equip)
     {
         List<InventoryEquip> equipList = GetEquipListByEquipType(equip.EquipSO.EquipType);
         equipList.Add(equip);
+        rewardItemList.Add(equip);
         OnEquipAdding?.Invoke(equip);
     }
 

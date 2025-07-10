@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class InventoryItem
+public class InventoryItem : InventoryStuff
 {
     [SerializeField] private ItemSO itemSO;
 

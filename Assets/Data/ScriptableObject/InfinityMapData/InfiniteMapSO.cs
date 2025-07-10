@@ -5,14 +5,30 @@ using UnityEngine;
 public class InfiniteMapSO : ScriptableObject
 {
     [SerializeField] private bool mapCanLoad;
+    [SerializeField] private Result result;
+    [SerializeField] private InfiniteMapInfo mapInfo;
+    [SerializeField] private PlayerInfo playerInfo;
+    [SerializeField] private MonsterInfo monsterInfo;
+    [SerializeField] private int primarionSoul;
+    [SerializeField] private List<ItemSO> itemDropList;
+    [SerializeField] private List<EquipSO> equipDropList;
+    [SerializeField] private Map1MonsterSpawnerInfo map1MonsterSpawnerInfo;
+    [SerializeField] private Map2MonsterSpawnerInfo map2MonsterSpawnerInfo;
+    [SerializeField] private List<InventoryItem> itemList;
+    [SerializeField] private List<InventoryEquip> weaponList;
+    [SerializeField] private List<InventoryEquip> helmetList;
+    [SerializeField] private List<InventoryEquip> bodyArmorList;
+    [SerializeField] private List<InventoryEquip> legArmorList;
+    [SerializeField] private List<InventoryEquip> bootsList;
+    [SerializeField] private List<InventoryEquip> auraList;
+    [SerializeField] private List<InventoryEquip> backItemList;
 
+    #region InfiniteMapSO element getters and setters
     public bool MapCanLoad
     {
         get => mapCanLoad;
         set => mapCanLoad = value;
     }
-
-    [SerializeField] private Result result;
 
     public Result Result
     {
@@ -20,15 +36,11 @@ public class InfiniteMapSO : ScriptableObject
         set => result = value;
     }
 
-    [SerializeField] private InfiniteMapInfo mapInfo;
-
     public InfiniteMapInfo MapInfo
     {
         get => mapInfo;
         set => mapInfo = value;
     }
-
-    [SerializeField] private PlayerInfo playerInfo;
 
     public PlayerInfo PlayerInfo
     {
@@ -36,15 +48,17 @@ public class InfiniteMapSO : ScriptableObject
         set => playerInfo = value;
     }
 
-    [SerializeField] private MonsterInfo monsterInfo;
-
     public MonsterInfo MonsterInfo
     {
         get => monsterInfo;
         set => monsterInfo = value;
     }
 
-    [SerializeField] private List<ItemSO> itemDropList;
+    public int PrimarionSoul
+    {
+        get => primarionSoul;
+        set => primarionSoul = value;
+    }
 
     public List<ItemSO> ItemDropList
     {
@@ -52,15 +66,11 @@ public class InfiniteMapSO : ScriptableObject
         set => itemDropList = value;
     }
 
-    [SerializeField] private List<EquipSO> equipDropList;
-
     public List<EquipSO> EquipDropList
     {
         get => equipDropList;
         set => equipDropList = value;
     }
-
-    [SerializeField] private Map1MonsterSpawnerInfo map1MonsterSpawnerInfo;
 
     public Map1MonsterSpawnerInfo Map1MonsterSpawnerInfo
     {
@@ -68,23 +78,17 @@ public class InfiniteMapSO : ScriptableObject
         set => map1MonsterSpawnerInfo = value;
     }
 
-    [SerializeField] private Map2MonsterSpawnerInfo map2MonsterSpawnerInfo;
-
     public Map2MonsterSpawnerInfo Map2MonsterSpawnerInfo
     {
         get => map2MonsterSpawnerInfo;
-        set =>map2MonsterSpawnerInfo = value;
+        set => map2MonsterSpawnerInfo = value;
     }
 
-    [SerializeField] private List<InventoryItem> listItems;
-
-    public List<InventoryItem> ListItems
+    public List<InventoryItem> ItemList
     {
-        get => listItems;
-        set => listItems = value;
+        get => itemList;
+        set => itemList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> weaponList;
 
     public List<InventoryEquip> WeaponList
     {
@@ -92,15 +96,11 @@ public class InfiniteMapSO : ScriptableObject
         set => weaponList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> helmetList;
-
     public List<InventoryEquip> HelmetList
     {
         get => helmetList;
         set => helmetList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> bodyArmorList;
 
     public List<InventoryEquip> BodyArmorList
     {
@@ -108,15 +108,11 @@ public class InfiniteMapSO : ScriptableObject
         set => bodyArmorList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> legArmorList;
-
     public List<InventoryEquip> LegArmorList
     {
         get => legArmorList;
         set => legArmorList = value;
     }
-
-    [SerializeField] private List<InventoryEquip> bootsList;
 
     public List<InventoryEquip> BootsList
     {
@@ -124,19 +120,16 @@ public class InfiniteMapSO : ScriptableObject
         set => bootsList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> auraList;
-
     public List<InventoryEquip> AuraList
     {
         get => auraList;
         set => auraList = value;
     }
 
-    [SerializeField] private List<InventoryEquip> backItemList;
-
     public List<InventoryEquip> BackItemList
     {
         get => backItemList;
         set => backItemList = value;
     }
+    #endregion
 }

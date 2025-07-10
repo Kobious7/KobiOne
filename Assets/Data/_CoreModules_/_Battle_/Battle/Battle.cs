@@ -14,16 +14,36 @@ public class Battle : GMono
     public event Action OnCycleChange;
     public event Action OnPlayerLost;
     public event Action OnMonsterLost;
-
     [SerializeField] private int turns = 1;
+    [SerializeField] private int cycle = 1;
+    [SerializeField] private bool pFisrt = true;
+    [SerializeField] private bool pTurn = true;
+    [SerializeField] private bool opTurn = false;
+    public bool OpTurn => opTurn;
+    [SerializeField] private bool endTurn = false;
+    [SerializeField] private bool canDrag = true;
+    [SerializeField] private float countDownTurn = 90;
+    [SerializeField] private int turnCount = 1;
+    [SerializeField] private bool botPlayed = false;
+    [SerializeField] private DamageType playerNextDamage;
+    [SerializeField] private bool playerCrit;
+    private Dictionary<TileEnum, int> tileCounter;
+    public Dictionary<TileEnum, int> TileCounter => tileCounter;
+    private BPlayer player;
+    private BMonster monster;
+    private BattleManager battleManager;
+    private bool slashTile;
+    private bool swordTile;
+    [SerializeField] private bool end;
+    [SerializeField] private bool show = true;
+    [SerializeField] private int collectedExp = 0;
 
+    #region Battle element getters and setters
     public int Turns
     {
         get => turns;
         set => turns = value;
     }
-
-    [SerializeField] private int cycle = 1;
 
     public int Cycle
     {
@@ -31,21 +51,11 @@ public class Battle : GMono
         set => cycle = value;
     }
 
-    [SerializeField] private bool pFisrt = true;
-    [SerializeField] private bool pTurn = true;
-    [SerializeField] private bool opTurn = false;
-
-    public bool OpTurn => opTurn;
-
-    [SerializeField] private bool endTurn = false;
-
     public bool EndTurn
     {
         get { return endTurn; }
         set { endTurn = value; }
     }
-
-    [SerializeField] private bool canDrag = true;
 
     public bool CanDrag
     {
@@ -53,15 +63,11 @@ public class Battle : GMono
         set { canDrag = value; }
     }
 
-    [SerializeField] private float countDownTurn = 90;
-
     public float CountDownTurn
     {
         get { return countDownTurn; }
         set { countDownTurn = value; }
     }
-
-    [SerializeField] private int turnCount = 1;
 
     public int TurnCount
     {
@@ -69,15 +75,11 @@ public class Battle : GMono
         set { turnCount = value; }
     }
 
-    [SerializeField] private bool botPlayed = false;
-
     public bool BotPlayed
     {
         get { return botPlayed; }
         set { botPlayed = value; }
     }
-
-    [SerializeField] private DamageType playerNextDamage;
 
     public DamageType PlayerNextDamage
     {
@@ -85,27 +87,13 @@ public class Battle : GMono
         set { playerNextDamage = value; }
     }
 
-    [SerializeField] private bool playerCrit;
-
     public bool PlayerCrit
     {
         get { return playerCrit; }
         set { playerCrit = value; }
     }
+    #endregion
 
-    private Dictionary<TileEnum, int> tileCounter;
-
-    public Dictionary<TileEnum, int> TileCounter => tileCounter;
-
-    private BPlayer player;
-    private BMonster monster;
-    private BattleManager battleManager;
-    private bool slashTile;
-    private bool swordTile;
-
-    [SerializeField] private bool end;
-    [SerializeField] private bool show = true;
-    [SerializeField] private int collectedExp = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -143,6 +131,9 @@ public class Battle : GMono
                 BattleResult.Instance.Win.gameObject.SetActive(true);
                 battleManager.MapData.Result = Result.WIN;
             }
+
+            battleManager.MapData.PlayerInfo.ExpFromBattle += collectedExp;
+
             BattleResult.Instance.OpacityBG.gameObject.SetActive(true);
             BattleResult.Instance.LoadMap.gameObject.SetActive(true);
             show = false;

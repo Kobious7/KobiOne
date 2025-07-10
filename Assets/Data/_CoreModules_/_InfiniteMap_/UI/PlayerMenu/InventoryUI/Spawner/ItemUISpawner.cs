@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class ItemUISpawner : Spawner
 {
@@ -28,14 +29,20 @@ public class ItemUISpawner : Spawner
     protected override void Start()
     {
         base.Start();
-        InfiniteMapManager.Instance.Inventory.LoadInventory();
-        spawnList = InfiniteMapManager.Instance.Inventory.ListItems;
+        StartCoroutine(WaitNextFrame());
+    }
+
+    private IEnumerator WaitNextFrame()
+    {
+        yield return null;
+
+        spawnList = InfiniteMapManager.Instance.Inventory.ItemList;
         SpawnItemUI();
     }
 
     protected override void LoadHolder()
     {
-        if(holder != null) return;
+        if (holder != null) return;
 
         holder = GetComponent<ScrollRect>().content;
     }

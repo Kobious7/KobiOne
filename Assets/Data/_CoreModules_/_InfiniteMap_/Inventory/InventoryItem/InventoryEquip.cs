@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class InventoryEquip
+public class InventoryEquip : InventoryStuff
 {
     [SerializeField] private int level;
     [SerializeField] private EquipSO equipSO;

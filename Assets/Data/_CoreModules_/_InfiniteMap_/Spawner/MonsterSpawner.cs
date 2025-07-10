@@ -56,7 +56,7 @@ public class MonsterSpawner : Spawner
 
         while (spawnCount < maxSpawnCount)
         {
-            Vector3 newPos = new Vector3(Random.Range(map.position.x - 245, map.position.x + 245), -1.75f, 0);
+            Vector3 newPos = new Vector3(Random.Range(map.position.x - 230, map.position.x + 230), -1.75f, 0);
             Transform monster = Spawn(prefabs[Random.Range(0, prefabs.Count)], newPos, Quaternion.identity);
             IMMonster monsterCom = monster.GetComponent<IMMonster>();
             monsterCom.Stats.ZeroLevel = Random.Range(1, 10);

@@ -23,4 +23,13 @@ public class CharacterSO : ScriptableObject
     public CurrentSkillNode ESkill;
     public CurrentSkillNode SpaceSkill;
     public List<SkillLevelData> SkillTreeLevels;
+
+    [Header("Equipment")]
+    public InventoryEquip Weapon;
+    public InventoryEquip Helmet;
+    public InventoryEquip BodyArmor;
+    public InventoryEquip LegArmor;
+    public InventoryEquip Boots;
+    public InventoryEquip BackItem;
+    public InventoryEquip Aura;
 }

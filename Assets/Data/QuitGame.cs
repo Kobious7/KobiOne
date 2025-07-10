@@ -15,7 +15,7 @@ public class QuitGame : MonoBehaviour
         InfiniteMapManager.Instance.MapData.EquipDropList = new();
         InfiniteMapManager.Instance.MapData.Map1MonsterSpawnerInfo = new();
         InfiniteMapManager.Instance.MapData.Map2MonsterSpawnerInfo = new();
-        InfiniteMapManager.Instance.MapData.ListItems = new();
+        InfiniteMapManager.Instance.MapData.ItemList = new();
         InfiniteMapManager.Instance.MapData.WeaponList = new();
         InfiniteMapManager.Instance.MapData.HelmetList = new();
         InfiniteMapManager.Instance.MapData.BodyArmorList = new();

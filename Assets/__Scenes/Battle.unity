@@ -91149,8 +91149,8 @@ MonoBehaviour:
   mana: 0
   shieldCount: 0
   shieldStack: 0
-  expFlatBonus: 4567
-  expPercentBonus: 50
+  expFlatBonus: 0
+  expPercentBonus: 0
 --- !u!114 &6501506635014190358
 MonoBehaviour:
   m_ObjectHideFlags: 0
