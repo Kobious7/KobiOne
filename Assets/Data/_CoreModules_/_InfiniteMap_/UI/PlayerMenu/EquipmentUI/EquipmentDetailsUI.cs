@@ -13,14 +13,14 @@ public class EquipmentDetailsUI : GMono
     [SerializeField] private EquipmentStatUI mainStat;
     [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private EquipmentSubStatsSpawner subStats;
-    [SerializeField] private Button closeBtn, equipBtn, unequipBtn;
+    [SerializeField] private Button closeBtn, equipBtn, unequipBtn, upgradeBtn;
 
     private CurrentEquipmentUI currentEquipmentUI;
 
     protected override void Awake()
     {
         base.Awake();
-        if(instance != null) Debug.LogError("Only 1 EquipmentDetailsUI is allowed to exist!");
+        if (instance != null) Debug.LogError("Only 1 EquipmentDetailsUI is allowed to exist!");
 
         instance = this;
         transform.gameObject.SetActive(false);
@@ -38,6 +38,8 @@ public class EquipmentDetailsUI : GMono
         LoadCloseButton();
         LoadEquipButton();
         LoadUnequipButton();
+
+        upgradeBtn = transform.Find("Buttons").Find("ButtonLine1").Find("UpgradeBtn").GetComponent<Button>();
     }
 
     protected override void Start()
@@ -49,65 +51,65 @@ public class EquipmentDetailsUI : GMono
 
     private void LoadQualityColor()
     {
-        if(qualityColor != null) return;
+        if (qualityColor != null) return;
 
         qualityColor = transform.Find("BG").GetComponent<Image>();
     }
 
     private void LoadModel()
     {
-        if(model != null) return;
+        if (model != null) return;
 
         model = transform.Find("Model").GetComponent<Image>();
     }
 
     private void LoadEquipName()
     {
-        if(equipName != null) return;
+        if (equipName != null) return;
 
         equipName = transform.Find("Name").GetComponent<TextMeshProUGUI>();
     }
 
     private void LoadMainStat()
     {
-        if(mainStat != null) return;
+        if (mainStat != null) return;
 
         mainStat = transform.Find("MainStat").GetComponent<EquipmentStatUI>();
     }
 
     private void LoadLevel()
     {
-        if(level != null) return;
+        if (level != null) return;
 
         level = transform.Find("Level").Find("Value").GetComponent<TextMeshProUGUI>();
     }
 
     private void LoadSubStats()
     {
-        if(subStats != null) return;
+        if (subStats != null) return;
 
         subStats = transform.Find("SubStats").GetComponent<EquipmentSubStatsSpawner>();
     }
 
     private void LoadCloseButton()
     {
-        if(closeBtn != null) return;
+        if (closeBtn != null) return;
 
         closeBtn = transform.Find("CloseBtn").GetComponent<Button>();
     }
 
     private void LoadEquipButton()
     {
-        if(equipBtn != null) return;
+        if (equipBtn != null) return;
 
-        equipBtn = transform.Find("EquipBtn").GetComponent<Button>();
+        equipBtn = transform.Find("Buttons").Find("ButtonLine1").Find("EquipBtn").Find("EquipBtn").GetComponent<Button>();
     }
 
     private void LoadUnequipButton()
     {
-        if(unequipBtn != null) return;
+        if (unequipBtn != null) return;
 
-        unequipBtn = transform.Find("UnequipBtn").GetComponent<Button>();
+        unequipBtn = transform.Find("Buttons").Find("ButtonLine1").Find("EquipBtn").Find("UnequipBtn").GetComponent<Button>();
     }
 
     public void ShowDetails(InventoryEquip equip)
@@ -119,10 +121,14 @@ public class EquipmentDetailsUI : GMono
         mainStat.Show(equip.MainStat);
         subStats.SpawnSubStats(equip.SubStats);
         equipBtn.onClick.RemoveAllListeners();
+        unequipBtn.onClick.RemoveAllListeners();
+        upgradeBtn.onClick.RemoveAllListeners();
+        upgradeBtn.onClick.AddListener(() => UpgradeClickListener(equip));
     }
 
     public void AddEquipClickListener(InventoryEquip equip)
     {
+        unequipBtn.transform.parent.gameObject.SetActive(true);
         unequipBtn.gameObject.SetActive(false);
         equipBtn.gameObject.SetActive(true);
         equipBtn.onClick.AddListener(() => EquipClickListener(equip));
@@ -130,6 +136,7 @@ public class EquipmentDetailsUI : GMono
 
     public void AddUnequipClickListener(InventoryEquip equip)
     {
+        unequipBtn.transform.parent.gameObject.SetActive(true);
         unequipBtn.gameObject.SetActive(true);
         equipBtn.gameObject.SetActive(false);
         unequipBtn.onClick.AddListener(() => UnequipClickListener(equip));
@@ -137,15 +144,15 @@ public class EquipmentDetailsUI : GMono
 
     private void Click()
     {
-        if(currentEquipmentUI.CurrentEquip != null)
+        if (currentEquipmentUI.CurrentEquip != null)
         {
             currentEquipmentUI.CurrentEquip.OnSelected.gameObject.SetActive(false);
             currentEquipmentUI.CurrentEquip = null;
         }
 
-        if(currentEquipmentUI.CurrentSpawner != null)
+        if (currentEquipmentUI.CurrentSpawner != null)
         {
-            if(currentEquipmentUI.CurrentSpawner.CurrentEquip != null)
+            if (currentEquipmentUI.CurrentSpawner.CurrentEquip != null)
             {
                 currentEquipmentUI.CurrentSpawner.CurrentEquip.OnSelected.gameObject.SetActive(false);
                 currentEquipmentUI.CurrentSpawner.CurrentEquip = null;
@@ -154,21 +161,25 @@ public class EquipmentDetailsUI : GMono
             currentEquipmentUI.CurrentSpawner.gameObject.SetActive(false);
             currentEquipmentUI.CurrentSpawner = null;
         }
-        
+
         transform.gameObject.SetActive(false);
     }
 
     private void EquipClickListener(InventoryEquip equip)
     {
         InfiniteMapManager.Instance.Inventory.EquipWearing.Equip(equip);
-        equipBtn.gameObject.SetActive(false);
-        unequipBtn.gameObject.SetActive(false);
+        unequipBtn.transform.parent.gameObject.SetActive(false);
     }
 
     private void UnequipClickListener(InventoryEquip equip)
     {
         InfiniteMapManager.Instance.Equipment.Unequip.Unequip(equip);
-        equipBtn.gameObject.SetActive(false);
-        unequipBtn.gameObject.SetActive(false);
+        unequipBtn.transform.parent.gameObject.SetActive(false);
+    }
+
+    private void UpgradeClickListener(InventoryEquip equip)
+    {
+        EquipmentUpgradeUI.Instance.gameObject.SetActive(true);
+        EquipmentUpgradeUI.Instance.SetEquipmentUpgradeUI(equip);
     }
 }

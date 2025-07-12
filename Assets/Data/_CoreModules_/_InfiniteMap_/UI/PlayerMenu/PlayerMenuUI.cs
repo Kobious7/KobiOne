@@ -90,7 +90,7 @@ public class PlayerMenuUI : GMono
     {
         playerMenu[currentIndex].gameObject.SetActive(false);
 
-        int trueIndex = index <= 0 ? playerMenu.Count - 1 : index;
+        int trueIndex = index < 0 ? playerMenu.Count - 1 : index;
 
         playerMenu[trueIndex].gameObject.SetActive(true);
 

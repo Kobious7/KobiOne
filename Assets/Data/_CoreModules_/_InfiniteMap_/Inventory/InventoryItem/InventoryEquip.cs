@@ -10,6 +10,8 @@ public class InventoryEquip : InventoryStuff
     [SerializeField] private Rarity rarity;
     [SerializeField] private EquipStat mainStat;
     [SerializeField] private List<EquipStat> subStats;
+    [SerializeField] private int currentUpgradeCost;
+    [SerializeField] private int nextUpgradeCost;
 
     public int Level
     {
@@ -39,6 +41,18 @@ public class InventoryEquip : InventoryStuff
     {
         get => subStats;
         set => subStats = value;
+    }
+
+    public int CurrentUpgradeCost
+    {
+        get => currentUpgradeCost;
+        set => currentUpgradeCost = value;
+    }
+
+    public int NextUpgradeCost
+    {
+        get => nextUpgradeCost;
+        set => nextUpgradeCost = value;
     }
 
     public InventoryEquip()

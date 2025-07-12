@@ -122,7 +122,7 @@ public class Inventory : GMono
         // AddEquip(equipObtainer.CreateEquip(test4));
         // AddEquip(equipObtainer.CreateEquip(test5));
         // AddEquip(equipObtainer.CreateEquip(test6));
-        // equipObtainer.UpgradeEquip(weaponList[0], 100);
+        //equipObtainer.UpgradeEquip(weaponList[0], 50);
         // equipObtainer.UpgradeEquip(helmetList[0], 100);
         // equipObtainer.UpgradeEquip(bodyArmorList[0], 100);
         // equipObtainer.UpgradeEquip(legArmorList[0], 100);
