@@ -17,11 +17,16 @@ public class InfiniteMapSO : ScriptableObject
     [SerializeField] private List<InventoryItem> itemList;
     [SerializeField] private List<InventoryEquip> weaponList;
     [SerializeField] private List<InventoryEquip> helmetList;
-    [SerializeField] private List<InventoryEquip> bodyArmorList;
-    [SerializeField] private List<InventoryEquip> legArmorList;
+    [SerializeField] private List<InventoryEquip> armorList;
+    [SerializeField] private List<InventoryEquip> armwearList;
     [SerializeField] private List<InventoryEquip> bootsList;
-    [SerializeField] private List<InventoryEquip> auraList;
-    [SerializeField] private List<InventoryEquip> backItemList;
+    [SerializeField] private List<InventoryEquip> specialList;
+    [SerializeField] private InventoryEquip weapon;
+    [SerializeField] private InventoryEquip helmet;
+    [SerializeField] private InventoryEquip armor;
+    [SerializeField] private InventoryEquip armwear;
+    [SerializeField] private InventoryEquip boots;
+    [SerializeField] private InventoryEquip special;
 
     #region InfiniteMapSO element getters and setters
     public bool MapCanLoad
@@ -102,16 +107,16 @@ public class InfiniteMapSO : ScriptableObject
         set => helmetList = value;
     }
 
-    public List<InventoryEquip> BodyArmorList
+    public List<InventoryEquip> ArmorList
     {
-        get => bodyArmorList;
-        set => bodyArmorList = value;
+        get => armorList;
+        set => armorList = value;
     }
 
-    public List<InventoryEquip> LegArmorList
+    public List<InventoryEquip> ArmwearList
     {
-        get => legArmorList;
-        set => legArmorList = value;
+        get => armwearList;
+        set => armwearList = value;
     }
 
     public List<InventoryEquip> BootsList
@@ -120,16 +125,46 @@ public class InfiniteMapSO : ScriptableObject
         set => bootsList = value;
     }
 
-    public List<InventoryEquip> AuraList
+    public List<InventoryEquip> SpecialList
     {
-        get => auraList;
-        set => auraList = value;
+        get => specialList;
+        set => specialList = value;
     }
 
-    public List<InventoryEquip> BackItemList
+    public InventoryEquip Weapon
     {
-        get => backItemList;
-        set => backItemList = value;
+        get => weapon;
+        set => weapon = value;
+    }
+
+    public InventoryEquip Helmet
+    {
+        get => helmet;
+        set => helmet = value;
+    }
+
+    public InventoryEquip Armor
+    {
+        get => armor;
+        set => armor = value;
+    }
+
+    public InventoryEquip Armwear
+    {
+        get => armwear;
+        set => armwear = value;
+    }
+
+    public InventoryEquip Boots
+    {
+        get => boots;
+        set => boots = value;
+    }
+
+    public InventoryEquip Special
+    {
+        get => special;
+        set => special = value;
     }
     #endregion
 }

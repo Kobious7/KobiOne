@@ -18,11 +18,10 @@ public class QuitGame : MonoBehaviour
         InfiniteMapManager.Instance.MapData.ItemList = new();
         InfiniteMapManager.Instance.MapData.WeaponList = new();
         InfiniteMapManager.Instance.MapData.HelmetList = new();
-        InfiniteMapManager.Instance.MapData.BodyArmorList = new();
-        InfiniteMapManager.Instance.MapData.LegArmorList = new();
+        InfiniteMapManager.Instance.MapData.ArmorList = new();
+        InfiniteMapManager.Instance.MapData.ArmwearList = new();
         InfiniteMapManager.Instance.MapData.BootsList = new();
-        InfiniteMapManager.Instance.MapData.AuraList = new();
-        InfiniteMapManager.Instance.MapData.BackItemList = new();
+        InfiniteMapManager.Instance.MapData.SpecialList = new();
         //SavingManager.Instance.SavePlayerData();
     }
 }
