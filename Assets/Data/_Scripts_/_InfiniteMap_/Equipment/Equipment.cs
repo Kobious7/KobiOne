@@ -9,10 +9,10 @@ public class Equipment : GMono
     [SerializeField] private InventoryEquip armwear;
     [SerializeField] private InventoryEquip boots;
     [SerializeField] private InventoryEquip special;
-    [SerializeField] private List<EquipBonus> statsBonus;
-    [SerializeField] private EquipmentCalculation calculator;
+    [SerializeField] private List<OtherSourcesBonus> statsBonus;
+    [SerializeField] private EquipmentCalculator calculator;
 
-    public EquipmentCalculation Calculator => calculator;
+    public EquipmentCalculator Calculator => calculator;
 
     [SerializeField] private EquipDisarming unequip;
 
@@ -22,8 +22,7 @@ public class Equipment : GMono
     {
         base.LoadComponents();
         CreateStatsBonus();
-        LoadEquipmentCalculation();
-        calculator.CalculateBonus();
+        LoadEquipmentCalculator();
         LoadUnequip();
     }
 
@@ -45,11 +44,11 @@ public class Equipment : GMono
         NewStatBonus();
     }
 
-    private void LoadEquipmentCalculation()
+    private void LoadEquipmentCalculator()
     {
         if(calculator != null) return;
 
-        calculator = GetComponentInChildren<EquipmentCalculation>();
+        calculator = GetComponentInChildren<EquipmentCalculator>();
     }
 
     private void LoadUnequip()
@@ -59,7 +58,7 @@ public class Equipment : GMono
         unequip = GetComponentInChildren<EquipDisarming>();
     }
 
-    public EquipBonus GetEquipBonusByStat(EquipStatType statType)
+    public OtherSourcesBonus GetEquipBonusByStat(EquipStatType statType)
     {
         foreach(var stat in statsBonus)
         {
@@ -71,13 +70,13 @@ public class Equipment : GMono
 
     public void NewStatBonus()
     {
-        statsBonus = new List<EquipBonus>
+        statsBonus = new List<OtherSourcesBonus>
         {
-            new EquipBonus(EquipStatType.Power), new EquipBonus(EquipStatType.Magic), new EquipBonus(EquipStatType.Strength),
-            new EquipBonus(EquipStatType.DefenseP), new EquipBonus(EquipStatType.Dexterity), new EquipBonus(EquipStatType.Attack),
-            new EquipBonus(EquipStatType.MagicAttack), new EquipBonus(EquipStatType.HP), new EquipBonus(EquipStatType.Defense),
-            new EquipBonus(EquipStatType.Accuracy), new EquipBonus(EquipStatType.DamageRange), new EquipBonus(EquipStatType.Speed),
-            new EquipBonus(EquipStatType.CritRate), new EquipBonus(EquipStatType.CritDamage)
+            new OtherSourcesBonus(EquipStatType.Power), new OtherSourcesBonus(EquipStatType.Magic), new OtherSourcesBonus(EquipStatType.Strength),
+            new OtherSourcesBonus(EquipStatType.DefenseP), new OtherSourcesBonus(EquipStatType.Dexterity), new OtherSourcesBonus(EquipStatType.Attack),
+            new OtherSourcesBonus(EquipStatType.MagicAttack), new OtherSourcesBonus(EquipStatType.HP), new OtherSourcesBonus(EquipStatType.Defense),
+            new OtherSourcesBonus(EquipStatType.Accuracy), new OtherSourcesBonus(EquipStatType.DamageRange), new OtherSourcesBonus(EquipStatType.Speed),
+            new OtherSourcesBonus(EquipStatType.CritRate), new OtherSourcesBonus(EquipStatType.CritDamage)
         };
     }
 
@@ -117,7 +116,7 @@ public class Equipment : GMono
         set => special = value;
     }
 
-    public List<EquipBonus> StatsBonus
+    public List<OtherSourcesBonus> StatsBonus
     {
         get => statsBonus;
         set => statsBonus = value;

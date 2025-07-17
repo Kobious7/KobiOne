@@ -30,6 +30,10 @@ public class IMPlayer : Entity
 
     public IMEntityShooting Shooting => shooting;
 
+    [SerializeField] private IMPlayerMovement movement;
+
+    public IMPlayerMovement Movement => movement;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -38,6 +42,8 @@ public class IMPlayer : Entity
         LoadStatsSystem();
         LoadRangedAttack();
         LoadShooting();
+
+        if (movement == null) movement = GetComponentInChildren<IMPlayerMovement>();
     }
 
     protected override void Start()

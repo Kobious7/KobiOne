@@ -5,6 +5,7 @@ using UnityEngine;
 public class DecorationSpawner : Spawner
 {
     [SerializeField] private int quantity;
+    [SerializeField] private float minSpacing = 10f;
     private Map map;
 
     protected override void Start()
@@ -13,7 +14,7 @@ public class DecorationSpawner : Spawner
         map = InfiniteMapManager.Instance.Map;
 
         map.MapSwap.OnMapSwap += SpawnDecorations;
-        //SpawnDecorations(MapEnum.Map0);
+        SpawnDecorations(MapEnum.Map0);
     }
 
     private void SpawnDecorations(MapEnum currentMap)
@@ -22,13 +23,26 @@ public class DecorationSpawner : Spawner
 
         DespawnAllDeco();
 
-        while(quantityTemp > 0)
+        Transform current = currentMap == MapEnum.Map0 ? map.Maps[0] : map.Maps[1];
+        List<Vector3> spawnedPositions = new();
+        int attempts = 0;
+        int maxAttempts = 500;
+
+        while (quantityTemp > 0 && attempts < maxAttempts)
         {
-            Transform current = currentMap == MapEnum.Map0 ? map.Maps[0] : map.Maps[1];
+            attempts++;
+
             Transform randDeco = prefabs[Random.Range(0, prefabs.Count)];
-            Vector3 newPos = new Vector3(Random.Range(current.position.x - 245, current.position.x + 245), randDeco.position.y, randDeco.position.z);
-            Transform deco = Spawn(randDeco, newPos, Quaternion.identity);
+            Vector3 candidatePos = new Vector3(Random.Range(current.position.x - 245f, current.position.x + 245f),
+                                                randDeco.position.y,
+                                                randDeco.position.z);
+
+            bool tooClose = spawnedPositions.Any(pos => Vector3.Distance(pos, candidatePos) < minSpacing);
+            if (tooClose) continue;
+
+            Transform deco = Spawn(randDeco, candidatePos, Quaternion.identity);
             deco.gameObject.SetActive(true);
+            spawnedPositions.Add(candidatePos);
 
             quantityTemp--;
         }

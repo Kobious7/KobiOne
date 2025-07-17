@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BMonsterRangedAttack : BEntityComponent
 {
-    [SerializeField] private float range = 1;
     private BMonsterAnim anim;
 
     protected override void Start()

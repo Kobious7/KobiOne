@@ -9,22 +9,17 @@ public class CameraFollowWithEdgeLimit : GMono
     public float offsetX = 0f;
     public float offsetY = 0f;
 
-    [Header("X Axis Settings")]
-    public bool lockX = true;
+    [Header("Lock X Left Settings")]
+    public bool lockXLeft = true;
     public float stopLeft = -10f;
-    public float stopRight = 20f;
-
-    [Header("Y Axis Settings")]
-    public bool lockY = false;
-    public float stopBottom = -5f;
-    public float stopTop = 10f;
 
     private Camera cam;
+    private InfiniteMapManager infiniteMapManager;
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        
+
         cam = Camera.main;
     }
 
@@ -32,7 +27,8 @@ public class CameraFollowWithEdgeLimit : GMono
     {
         base.Start();
 
-        target = InfiniteMapManager.Instance.Player.transform;
+        infiniteMapManager = InfiniteMapManager.Instance;
+        target = infiniteMapManager.Player.transform;
     }
 
     private void LateUpdate()
@@ -40,25 +36,25 @@ public class CameraFollowWithEdgeLimit : GMono
         if (target == null || cam == null) return;
 
         Vector3 camPos = transform.position;
-
-        // Lấy vị trí có offset
         Vector3 targetPos = target.position + new Vector3(offsetX, offsetY, 0f);
-
         float camHeight = cam.orthographicSize * 2f;
         float camWidth = camHeight * cam.aspect;
-
         float newX = camPos.x;
         float newY = camPos.y;
 
         // X follow
-        if (lockX)
+        if (lockXLeft && infiniteMapManager.Map.Distance <= 0)
         {
+            stopLeft = infiniteMapManager.Player.Movement.XStop - 1f;
             float leftEdge = targetPos.x - camWidth / 2f;
-            float rightEdge = targetPos.x + camWidth / 2f;
 
-            if (leftEdge >= stopLeft && rightEdge <= stopRight)
+            if (leftEdge >= stopLeft)
             {
                 newX = targetPos.x;
+            }
+            else
+            {
+                newX = stopLeft + camWidth / 2;
             }
         }
         else
@@ -66,21 +62,7 @@ public class CameraFollowWithEdgeLimit : GMono
             newX = targetPos.x;
         }
 
-        // Y follow
-        if (lockY)
-        {
-            float bottomEdge = targetPos.y - camHeight / 2f;
-            float topEdge = targetPos.y + camHeight / 2f;
-
-            if (bottomEdge >= stopBottom && topEdge <= stopTop)
-            {
-                newY = targetPos.y;
-            }
-        }
-        else
-        {
-            newY = targetPos.y;
-        }
+        newY = targetPos.y;
 
         // Gán vị trí mới
         transform.position = new Vector3(newX, newY, camPos.z);

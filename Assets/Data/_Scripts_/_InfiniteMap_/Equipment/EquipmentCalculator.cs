@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EquipmentCalculation : EquipmentAb
+public class EquipmentCalculator : EquipmentAb
 {
-    [SerializeField] private List<EquipBonus> weaponBonus;
-    [SerializeField] private List<EquipBonus> helmetBonus;
-    [SerializeField] private List<EquipBonus> armorBonus;
-    [SerializeField] private List<EquipBonus> armwearBonus;
-    [SerializeField] private List<EquipBonus> bootsBonus;
-    [SerializeField] private List<EquipBonus> specialBonus;
+    public event Action<List<OtherSourcesBonus>> OnTotalBonusChanged;
+    [SerializeField] private List<OtherSourcesBonus> weaponBonus;
+    [SerializeField] private List<OtherSourcesBonus> helmetBonus;
+    [SerializeField] private List<OtherSourcesBonus> armorBonus;
+    [SerializeField] private List<OtherSourcesBonus> armwearBonus;
+    [SerializeField] private List<OtherSourcesBonus> bootsBonus;
+    [SerializeField] private List<OtherSourcesBonus> specialBonus;
 
     protected override void LoadComponents()
     {
@@ -22,14 +24,16 @@ public class EquipmentCalculation : EquipmentAb
         NewSpecialBonus();
     }
 
-    public void CalculateBonus()
+    public void InitTotalBonus()
     {
-        CalculatePerEquip(Equipment.Weapon);
-        CalculatePerEquip(Equipment.Helmet);
-        CalculatePerEquip(Equipment.Armor);
-        CalculatePerEquip(Equipment.Armwear);
-        CalculatePerEquip(Equipment.Boots);
-        CalculatePerEquip(Equipment.Special);
+        InfiniteMapSO mapData = InfiniteMapManager.Instance.MapData;
+
+        if (mapData.Weapon != null) CalculatePerEquip(mapData.Weapon);
+        if (mapData.Helmet != null) CalculatePerEquip(mapData.Helmet);
+        if (mapData.Armor != null) CalculatePerEquip(mapData.Armor);
+        if (mapData.Armwear != null) CalculatePerEquip(mapData.Armwear);
+        if (mapData.Boots != null) CalculatePerEquip(mapData.Boots);
+        if (mapData.Special != null) CalculatePerEquip(mapData.Special);
         CalculateTotalBonus();
     }
 
@@ -67,8 +71,8 @@ public class EquipmentCalculation : EquipmentAb
     {
         if(equip.Level <= 0) return;
 
-        List<EquipBonus> equipBonus = GetEquipBonusType(equip);
-        EquipBonus mainStatBonus = GetEquipBonusByStat(equipBonus, equip.MainStat.Stat);
+        List<OtherSourcesBonus> equipBonus = GetEquipBonusType(equip);
+        OtherSourcesBonus mainStatBonus = GetEquipBonusByStat(equipBonus, equip.MainStat.Stat);
 
         if(equip.MainStat.TypeBonus == TypeBonus.FlatBonus)
         {
@@ -81,7 +85,7 @@ public class EquipmentCalculation : EquipmentAb
 
         foreach(var subStat in equip.SubStats)
         {
-            EquipBonus subStatBonus = GetEquipBonusByStat(equipBonus, subStat.Stat);
+            OtherSourcesBonus subStatBonus = GetEquipBonusByStat(equipBonus, subStat.Stat);
 
             if(subStat.TypeBonus == TypeBonus.FlatBonus)
             {
@@ -100,7 +104,7 @@ public class EquipmentCalculation : EquipmentAb
 
         Equipment.NewStatBonus();
 
-        foreach(var bonus in Equipment.StatsBonus)
+        foreach (var bonus in Equipment.StatsBonus)
         {
             int weaponFlatBonus = Equipment.Weapon.Level <= 0 ? 0 : weaponBonus[index].FlatValue;
             float weaponPercentBonus = Equipment.Weapon.Level <= 0 ? 0 : weaponBonus[index].PercentValue;
@@ -119,9 +123,11 @@ public class EquipmentCalculation : EquipmentAb
             bonus.PercentValue = weaponPercentBonus + helmetPercentBonus + armorPercentBonus + armwearPercentBonus + bootsPercentBonus + specialPercentBonus;
             index++;
         }
+
+        OnTotalBonusChanged?.Invoke(Equipment.StatsBonus);
     }
 
-    private List<EquipBonus> GetEquipBonusType(InventoryEquip equip)
+    private List<OtherSourcesBonus> GetEquipBonusType(InventoryEquip equip)
     {
         if(equip.EquipSO.EquipType == EquipType.Weapon) return weaponBonus;
         else if(equip.EquipSO.EquipType == EquipType.Helmet) return helmetBonus;
@@ -131,7 +137,7 @@ public class EquipmentCalculation : EquipmentAb
         else return specialBonus;
     }
 
-    public EquipBonus GetEquipBonusByStat(List<EquipBonus> equipBonus, EquipStatType statType)
+    public OtherSourcesBonus GetEquipBonusByStat(List<OtherSourcesBonus> equipBonus, EquipStatType statType)
     {
         foreach(var stat in equipBonus)
         {
@@ -141,15 +147,15 @@ public class EquipmentCalculation : EquipmentAb
         return null;
     }
 
-    private List<EquipBonus> NewEquipBonus()
+    private List<OtherSourcesBonus> NewEquipBonus()
     {
-        return new List<EquipBonus>
+        return new List<OtherSourcesBonus>
         {
-            new EquipBonus(EquipStatType.Power), new EquipBonus(EquipStatType.Magic), new EquipBonus(EquipStatType.Strength),
-            new EquipBonus(EquipStatType.DefenseP), new EquipBonus(EquipStatType.Dexterity), new EquipBonus(EquipStatType.Attack),
-            new EquipBonus(EquipStatType.MagicAttack), new EquipBonus(EquipStatType.HP), new EquipBonus(EquipStatType.Defense),
-            new EquipBonus(EquipStatType.Accuracy), new EquipBonus(EquipStatType.DamageRange), new EquipBonus(EquipStatType.Speed),
-            new EquipBonus(EquipStatType.CritRate), new EquipBonus(EquipStatType.CritDamage)
+            new OtherSourcesBonus(EquipStatType.Power), new OtherSourcesBonus(EquipStatType.Magic), new OtherSourcesBonus(EquipStatType.Strength),
+            new OtherSourcesBonus(EquipStatType.DefenseP), new OtherSourcesBonus(EquipStatType.Dexterity), new OtherSourcesBonus(EquipStatType.Attack),
+            new OtherSourcesBonus(EquipStatType.MagicAttack), new OtherSourcesBonus(EquipStatType.HP), new OtherSourcesBonus(EquipStatType.Defense),
+            new OtherSourcesBonus(EquipStatType.Accuracy), new OtherSourcesBonus(EquipStatType.DamageRange), new OtherSourcesBonus(EquipStatType.Speed),
+            new OtherSourcesBonus(EquipStatType.CritRate), new OtherSourcesBonus(EquipStatType.CritDamage)
         };
     }
 

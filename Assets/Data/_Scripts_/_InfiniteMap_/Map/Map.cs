@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -60,7 +61,7 @@ public class Map : GMono
             distance = InfiniteMapManager.Instance.MapData.MapInfo.Distance;
         }
 
-        if (distance <= 500)
+        if (distance <= 500f)
         {
             standbyMaps[0].gameObject.SetActive(true);
             standbyMaps[1].gameObject.SetActive(false);
@@ -83,7 +84,6 @@ public class Map : GMono
 
     private void LoadMaps()
     {
-        Debug.Log(maps.Count);
         if (maps.Count > 0) return;
 
         maps.Add(transform.Find("Map1"));
@@ -113,7 +113,14 @@ public class Map : GMono
 
     private void CheckStandbyMap(MapEnum currentMap)
     {
-        if (distance <= 500)
+        StartCoroutine(WaitAMoment(currentMap));
+    }
+
+    private IEnumerator WaitAMoment(MapEnum currentMap)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (distance <= 500f)
         {
             if (currentMap == MapEnum.Map0)
             {

@@ -62,7 +62,6 @@ public class EquipDisarming : EquipmentAb
         }
 
         infiniteMapManager.Equipment.Calculator.CalculateTotalBonus();
-        infiniteMapManager.Player.StatsSystem.UpdateEquipBonus(infiniteMapManager.Equipment.StatsBonus);
     }
 
     public void DisarmInvoke(InventoryEquip equip)

@@ -70,6 +70,5 @@ public class EquipWearing : InventoryAb
         }
 
         equipment.Calculator.CalculateTotalBonus();
-        InfiniteMapManager.Instance.Player.StatsSystem.UpdateEquipBonus(equipment.StatsBonus);
     }
 }

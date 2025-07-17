@@ -1,106 +1,176 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillUpdateBonus : SkillAb
 {
-    [SerializeField] private List<PassiveSkillBonus> allTreeBonus;
+    public event Action<List<OtherSourcesBonus>> OnSkillBonusChanged;
+    public event Action<SkillTree> OnSkillTreeActiveChanged;
 
-    public List<PassiveSkillBonus> AllTreeBonus => allTreeBonus;
+    [SerializeField] private List<OtherSourcesBonus> allTreeBonus;
 
-    [SerializeField] private List<PassiveSkillBonus> swordTreeBonus;
+    public List<OtherSourcesBonus> AllTreeBonus => allTreeBonus;
+
+    [SerializeField] private List<OtherSourcesBonus> swordTreeBonus;
+    [SerializeField] private WeaponType weaponType;
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
         NewAllBonusList();
         NewSwordBranchBonusList();
-        UpdateCurrentBonus(Skill.SkillTrees[0]);
     }
 
-    private void UpdateCurrentBonus(SkillTree skillTree)
+    protected override void Start()
     {
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Root);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack1);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack2);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Attack3);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support1);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support2);
-        UpdateBonusPerPassiveSkill(swordTreeBonus, skillTree.Support3);
+        base.Start();
+        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += UpdateSkillTreesBonusWhenWeaponChanged;
     }
 
-    private void UpdateBonusPerPassiveSkill(List<PassiveSkillBonus> list, SkillNode skill)
+    public List<OtherSourcesBonus> InitActiveSkillTreesBonus()
     {
-        if(skill.skillSO is not PassiveSkillSO) return;
+        if (InfiniteMapManager.Instance.Equipment.Weapon.Level > 0)
+        {
+            WeaponSO weaponSO = InfiniteMapManager.Instance.Equipment.Weapon.EquipSO as WeaponSO;
+            weaponType = weaponSO.WeaponType;
+        }
+        else
+        {
+            weaponType = WeaponType.Sword;
+        }
+
+        UpdateAllSkillTree();
+
+        return allTreeBonus;
+    }
+
+    private void UpdateSkillTreesBonusWhenWeaponChanged(InventoryEquip weapon)
+    {
+        if (weapon.EquipSO is not WeaponSO) return;
+
+        WeaponSO weaponSO = weapon.EquipSO as WeaponSO;
+
+        if (weaponSO.WeaponType == weaponType) return;
+
+        weaponType = weaponSO.WeaponType;
+
+        NewAllBonusList();
+        UpdateAllSkillTree();
+
+        OnSkillBonusChanged?.Invoke(allTreeBonus);
+    }
+
+    public void UpdateAllSkillTree()
+    {
+        UpdateSwordTreeBonus(Skill.SkillTrees[0]);
+    }
+
+    private void UpdateSwordTreeBonus(SkillTree swordTree)
+    {
+        if (swordTree.TypeRequires.Contains(weaponType))
+        {
+            UpdateBonusPerPassiveSkill(swordTreeBonus, swordTree.Support2);
+            swordTree.IsActive = true;
+        }
+        else
+        {
+            NewSwordBranchBonusList();
+            swordTree.IsActive = false;
+        }
+
+        OnSkillTreeActiveChanged?.Invoke(swordTree);
+        CalculateBonusPerTree(swordTreeBonus);
+    }
+
+    private void UpdateBonusPerPassiveSkill(List<OtherSourcesBonus> list, SkillNode skill)
+    {
+        if (skill.skillSO is not PassiveSkillSO) return;
 
         PassiveSkillSO passiveSkill = (PassiveSkillSO)skill.skillSO;
         int level = skill.Level;
 
-        foreach(var buff in passiveSkill.Buffs)
+        foreach (var buff in passiveSkill.Buffs)
         {
-            PassiveSkillBonus bonus = GetPassiveSkillBonusByStat(list, buff.Stat);
+            OtherSourcesBonus bonus = GetPassiveSkillBonusByStat(list, buff.Stat);
             bonus.FlatValue = buff.FlatValue + buff.FlatBonus * (level - 1);
-            bonus.PercentValue = buff.PercentValue + buff.PercentValue * (level - 1);
-            PassiveSkillBonus allBonus = GetPassiveSkillBonusByStat(allTreeBonus, buff.Stat);
-            allBonus.FlatValue += bonus.FlatValue;
-            allBonus.PercentValue += bonus.PercentValue;
+            bonus.PercentValue = buff.PercentValue + buff.PercentBonus * (level - 1);
         }
-
     }
 
-    public void UpdateBonus(SkillNode skill, int treeIndex)
+    private void CalculateBonusPerTree(List<OtherSourcesBonus> treeBonus)
     {
-        if(treeIndex == 0)
+        foreach (var bonus in treeBonus)
+        {
+            int index = GetAllTreeBonusIndexByStat(bonus.Stat);
+            allTreeBonus[index].FlatValue += bonus.FlatValue;
+            allTreeBonus[index].PercentValue += bonus.PercentValue;
+        }
+    }
+
+    public void UpdateBonusAfterUpgrading(SkillNode skill, int treeIndex)
+    {
+        if (treeIndex == 0 && Skill.SkillTrees[treeIndex].TypeRequires.Contains(weaponType))
         {
             UpdateBonusBySkillTree(skill, swordTreeBonus);
         }
 
-        InfiniteMapManager.Instance.Player.StatsSystem.UpdatePassiveSkillBonus(allTreeBonus);
+        OnSkillBonusChanged?.Invoke(allTreeBonus);
     }
 
-    private void UpdateBonusBySkillTree(SkillNode skill, List<PassiveSkillBonus> list)
+    private void UpdateBonusBySkillTree(SkillNode skill, List<OtherSourcesBonus> list)
     {
         PassiveSkillSO passiveSkill = (PassiveSkillSO)skill.skillSO;
         int level = skill.Level;
 
-        foreach(var buff in passiveSkill.Buffs)
+        foreach (var buff in passiveSkill.Buffs)
         {
-            PassiveSkillBonus bonus = GetPassiveSkillBonusByStat(list, buff.Stat);
+            OtherSourcesBonus bonus = GetPassiveSkillBonusByStat(list, buff.Stat);
             bonus.FlatValue = buff.FlatValue + buff.FlatBonus * (level - 1);
             bonus.PercentValue = buff.PercentValue + buff.PercentBonus * (level - 1);
-            PassiveSkillBonus previousBonus = new PassiveSkillBonus(bonus.Stat);
+            OtherSourcesBonus previousBonus = new OtherSourcesBonus(bonus.Stat);
             previousBonus.FlatValue = buff.FlatValue + buff.FlatBonus * (level - 2);
             previousBonus.PercentValue = buff.PercentValue + buff.PercentBonus * (level - 2);
-            PassiveSkillBonus allBonus = GetPassiveSkillBonusByStat(allTreeBonus, buff.Stat);
+            OtherSourcesBonus allBonus = GetPassiveSkillBonusByStat(allTreeBonus, buff.Stat);
             allBonus.FlatValue = allBonus.FlatValue - previousBonus.FlatValue + bonus.FlatValue;
             allBonus.PercentValue = allBonus.PercentValue - previousBonus.PercentValue + bonus.PercentValue;
         }
     }
 
-    private void NewAllBonusList()
+    public void NewAllBonusList()
     {
-        allTreeBonus = new List<PassiveSkillBonus>
+        allTreeBonus = new List<OtherSourcesBonus>
         {
-            new PassiveSkillBonus(EquipStatType.Power), new PassiveSkillBonus(EquipStatType.Magic), new PassiveSkillBonus(EquipStatType.Strength),
-            new PassiveSkillBonus(EquipStatType.DefenseP), new PassiveSkillBonus(EquipStatType.Dexterity), new PassiveSkillBonus(EquipStatType.Attack),
-            new PassiveSkillBonus(EquipStatType.MagicAttack), new PassiveSkillBonus(EquipStatType.HP), new PassiveSkillBonus(EquipStatType.Defense),
-            new PassiveSkillBonus(EquipStatType.Accuracy), new PassiveSkillBonus(EquipStatType.DamageRange), new PassiveSkillBonus(EquipStatType.Speed),
-            new PassiveSkillBonus(EquipStatType.CritRate), new PassiveSkillBonus(EquipStatType.CritDamage), new PassiveSkillBonus(EquipStatType.ManaRegen)
+            new OtherSourcesBonus(EquipStatType.Power), new OtherSourcesBonus(EquipStatType.Magic), new OtherSourcesBonus(EquipStatType.Strength),
+            new OtherSourcesBonus(EquipStatType.DefenseP), new OtherSourcesBonus(EquipStatType.Dexterity), new OtherSourcesBonus(EquipStatType.Attack),
+            new OtherSourcesBonus(EquipStatType.MagicAttack), new OtherSourcesBonus(EquipStatType.HP), new OtherSourcesBonus(EquipStatType.Defense),
+            new OtherSourcesBonus(EquipStatType.Accuracy), new OtherSourcesBonus(EquipStatType.DamageRange), new OtherSourcesBonus(EquipStatType.Speed),
+            new OtherSourcesBonus(EquipStatType.CritRate), new OtherSourcesBonus(EquipStatType.CritDamage), new OtherSourcesBonus(EquipStatType.ManaRegen)
         };
     }
 
     private void NewSwordBranchBonusList()
     {
-        swordTreeBonus = new List<PassiveSkillBonus>
+        swordTreeBonus = new List<OtherSourcesBonus>
         {
-            new PassiveSkillBonus(EquipStatType.Power), new PassiveSkillBonus(EquipStatType.Attack)
+            new OtherSourcesBonus(EquipStatType.Attack)
         };
     }
 
-    private PassiveSkillBonus GetPassiveSkillBonusByStat(List<PassiveSkillBonus> list, EquipStatType stat)
+    private OtherSourcesBonus GetPassiveSkillBonusByStat(List<OtherSourcesBonus> list, EquipStatType stat)
     {
-        foreach(var item in list)
-            if(item.Stat == stat) return item;
+        foreach (var item in list)
+            if (item.Stat == stat) return item;
 
         return null;
+    }
+
+    private int GetAllTreeBonusIndexByStat(EquipStatType stat)
+    {
+        for (int i = 0; i < allTreeBonus.Count; i++)
+        {
+            if (allTreeBonus[i].Stat == stat) return i;
+        }
+
+        return 0;
     }
 }

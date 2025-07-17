@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class skillPointsUI : GMono
 {
     [SerializeField] private TextMeshProUGUI skillPointsText;
+    [SerializeField] private Button resetBtns;
+    [SerializeField] private ResetPromptUI resetPromptUI;
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadText();
+
+        skillPointsText = transform.Find("Text").GetComponent<TextMeshProUGUI>();
+        resetBtns = transform.Find("ResetBtn").GetComponent<Button>();
+        resetPromptUI = GetComponentInChildren<ResetPromptUI>();
     }
 
     protected override void Start()
@@ -19,23 +25,24 @@ public class skillPointsUI : GMono
         StartCoroutine(WaitNextFrame());
     }
 
-    private void LoadText()
-    {
-        if(skillPointsText != null) return;
-
-        skillPointsText = transform.Find("Text").GetComponent<TextMeshProUGUI>();
-    }
-
     private IEnumerator WaitNextFrame()
     {
         yield return null;
         ShowSkillPointsUI();
-        
+
         SkillSGT.Instance.Skill.OnSkillPointChanging += ShowSkillPointsUI;
     }
 
     private void ShowSkillPointsUI()
     {
         skillPointsText.text = $"{SkillSGT.Instance.Skill.SkillPoints}";
+
+        resetBtns.onClick.RemoveAllListeners();
+        resetBtns.onClick.AddListener(ClickToOpenPromptListener);
+    }
+
+    private void ClickToOpenPromptListener()
+    {
+        resetPromptUI.gameObject.SetActive(true);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SkillUpgrade : SkillAb
@@ -6,15 +7,15 @@ public class SkillUpgrade : SkillAb
     {
         bool canUpgrade = Skill.CheckSkillPoints(skill.skillSO.SkillPointCost);
 
-        if(!canUpgrade) return;
+        if (!canUpgrade) return;
 
         skill.Level++;
 
         Skill.DecreaseSkillPoints(skill.skillSO.SkillPointCost);
 
-        if(skill.skillSO is PassiveSkillSO)
+        if (skill.skillSO is PassiveSkillSO)
         {
-            Skill.BonusUpdating.UpdateBonus(skill, treeIndex);
+            Skill.BonusUpdating.UpdateBonusAfterUpgrading(skill, treeIndex);
         }
     }
 }

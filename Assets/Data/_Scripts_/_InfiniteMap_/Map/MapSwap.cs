@@ -40,10 +40,10 @@ public class MapSwap : MapAb
             OnMapChange?.Invoke(currentMap);
         }
 
-        if (Map.Distance <= 0) return;
-
         RightSwapMap();
         LeftSwapMap();
+
+        if (Map.Distance <= 500f) return;
 
         if (!CheckCurrentMap()) return;
 

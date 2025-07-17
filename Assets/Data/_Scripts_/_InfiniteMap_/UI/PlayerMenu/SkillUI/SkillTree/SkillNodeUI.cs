@@ -29,10 +29,10 @@ public class SkillNodeUI : GMono
         model = transform.Find("Image").GetComponent<Image>();
     }
 
-    public void ShowSkill(SkillNode skill, int treeIndex)
+    public void ShowSkill(SkillNode skill, int treeIndex, bool treeActive)
     {
         button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(() => Click(skill, treeIndex));
+        button.onClick.AddListener(() => Click(skill, treeIndex, treeActive));
         model.sprite = skill.skillSO.SkillIcon;
 
         if(skill.Level > 0)
@@ -45,9 +45,15 @@ public class SkillNodeUI : GMono
         }
     }
 
-    private void Click(SkillNode skill, int treeIndex)
+    public void UpdateClick(SkillNode skill, int treeIndex, bool treeActive)
     {
-        SkillDetailUI.Instance.ShowSkilDetailsUI(skill, treeIndex);
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => Click(skill, treeIndex, treeActive));
+    }
+
+    private void Click(SkillNode skill, int treeIndex, bool treeActive)
+    {
+        SkillDetailUI.Instance.ShowSkilDetailsUI(skill, treeIndex, treeActive);
     }
 
     public Color GetColor(string hexastring)

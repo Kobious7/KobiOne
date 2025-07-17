@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class IMPlayerMovement : IMEntityMovement
@@ -7,7 +8,10 @@ public class IMPlayerMovement : IMEntityMovement
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool isJumping, isFalling;
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private float xStop = -30f;
+    [SerializeField] private float xStop;
+
+    public float XStop => xStop;
+    
     private InfiniteMapManager infiniteMapManager;
     private IMPlayer player;
     private IMPlayerAnim anim;
@@ -18,6 +22,7 @@ public class IMPlayerMovement : IMEntityMovement
         infiniteMapManager = InfiniteMapManager.Instance;
         player = Entity as IMPlayer;
         anim = Entity.Anim as IMPlayerAnim;
+        infiniteMapManager.Map.MapSwap.OnMapChange += CalculateXStop;
     }
 
     private void Update()
@@ -81,12 +86,12 @@ public class IMPlayerMovement : IMEntityMovement
             player.Model.localScale = new Vector3(-1, 1, 1);
         }
 
-        if (transform.parent.position.x <= xStop && InputManager.Instance.Horizontal < 0)
+        if (infiniteMapManager.Map.Distance <= 0 && InputManager.Instance.Horizontal < 0 && transform.parent.position.x <= xStop)
         {
             player.Rb2D.velocity = new Vector2(0, player.Rb2D.velocity.y);
             return;
         }
-        
+
         player.Rb2D.velocity = new Vector2(InputManager.Instance.Horizontal * speed, player.Rb2D.velocity.y);
         Vector3 distanceMoved = new Vector3(distanceMoved2D.x, distanceMoved2D.y, 0);
     }
@@ -107,5 +112,31 @@ public class IMPlayerMovement : IMEntityMovement
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(Entity.Model.position, 0.1f);
+    }
+
+    private void CalculateXStop(MapEnum current)
+    {
+        StartCoroutine(CalculateXStopCoroutine(current));
+    }
+
+    private IEnumerator CalculateXStopCoroutine(MapEnum current)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 xStopTemp = new();
+
+        if (infiniteMapManager.Map.Distance <= 500f)
+        {
+            if (current == MapEnum.Map0)
+            {
+                xStopTemp = infiniteMapManager.Map.Maps[0].TransformPoint(Vector3.zero);
+                xStop = xStopTemp.x - 278.5f;
+            }
+            else
+            {
+                xStopTemp = infiniteMapManager.Map.Maps[1].TransformPoint(Vector3.zero);
+                xStop = xStopTemp.x - 278.5f;
+            }
+        }
     }
 }

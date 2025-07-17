@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class IMPlayerRangedAttack : EntityComponent
 {
-    [SerializeField] private float range = 1;
     [SerializeField] private float timer = 1;
     [SerializeField] private float counter = 0;
     [SerializeField] private bool canAttack;

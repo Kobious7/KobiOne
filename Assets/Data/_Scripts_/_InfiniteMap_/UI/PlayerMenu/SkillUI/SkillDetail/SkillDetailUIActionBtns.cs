@@ -8,7 +8,7 @@ public class SkillDetailUIActionBtns : GMono
     [SerializeField] private Button qBtn;
     [SerializeField] private Button eBtn;
     [SerializeField] private Button spaceBtn;
-    public event Action<SkillNode, int> OnSkillUpgrading;
+    public event Action<SkillNode, int, bool> OnSkillUpgrading;
     public event Action OnSkillUsing;
 
     protected override void LoadComponents()
@@ -27,26 +27,29 @@ public class SkillDetailUIActionBtns : GMono
         spaceBtn = transform.Find("SpaceBtn").GetComponent<Button>(); 
     }
 
-    public void AddClickListeners(SkillNode skill, int treeIndex)
+    public void AddClickListeners(SkillNode skill, int treeIndex, bool treeActive)
     {
-        if(skill.Level > 0)
+        if (skill.Level > 0)
         {
             upgradeBtn.gameObject.SetActive(true);
             qBtn.gameObject.SetActive(true);
             eBtn.gameObject.SetActive(true);
             spaceBtn.gameObject.SetActive(true);
 
-            if(skill.Level < skill.skillSO.MaxLevel)
+            if (skill.Level < skill.skillSO.MaxLevel)
             {
                 upgradeBtn.onClick.RemoveAllListeners();
-                upgradeBtn.onClick.AddListener(() => UpgradeClick(skill, treeIndex));
+                upgradeBtn.onClick.AddListener(() => UpgradeClick(skill, treeIndex, treeActive));
+
+                if (treeActive) upgradeBtn.gameObject.SetActive(true);
+                else upgradeBtn.gameObject.SetActive(false);
             }
             else
             {
                 upgradeBtn.gameObject.SetActive(false);
             }
 
-            if(skill.skillSO is ActiveSkillSO)
+            if (skill.skillSO is ActiveSkillSO)
             {
                 qBtn.onClick.RemoveAllListeners();
                 qBtn.onClick.AddListener(() => QClick(skill, treeIndex));
@@ -72,10 +75,10 @@ public class SkillDetailUIActionBtns : GMono
         }
     }
 
-    private void UpgradeClick(SkillNode skill, int treeIndex)
+    private void UpgradeClick(SkillNode skill, int treeIndex, bool treeActive)
     {
         SkillSGT.Instance.Skill.Upgrading.Upgrade(skill, treeIndex);
-        OnSkillUpgrading?.Invoke(skill, treeIndex);
+        OnSkillUpgrading?.Invoke(skill, treeIndex, treeActive);
     }
 
     private void QClick(SkillNode skill, int treeIndex)

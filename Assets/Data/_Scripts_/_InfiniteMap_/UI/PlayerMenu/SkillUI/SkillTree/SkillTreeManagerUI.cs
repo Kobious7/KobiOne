@@ -24,7 +24,7 @@ public class SkillTreeManagerUI : GMono
 
     private void LoadSkillTreeUIs()
     {
-        if(skillTreeUIs.Count > 0) return;
+        if (skillTreeUIs.Count > 0) return;
 
         skillTreeUIs = transform.GetComponent<ScrollRect>().content.GetComponentsInChildren<SkillTreeUI>().ToList();
     }
@@ -32,15 +32,30 @@ public class SkillTreeManagerUI : GMono
     private IEnumerator WaitNextFrame()
     {
         yield return null;
+        InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += CheckSkillTree;
+        InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += ResetButtons;
         skillTrees = SkillSGT.Instance.Skill.SkillTrees;
         ShowSkillTrees();
     }
 
     private void ShowSkillTrees()
     {
-        for(int i = 0; i < skillTreeUIs.Count; i++)
+        for (int i = 0; i < skillTreeUIs.Count; i++)
         {
             skillTreeUIs[i].ShowSkillTree(skillTrees[i], i);
+        }
+    }
+
+    private void CheckSkillTree(SkillTree skillTree)
+    {
+        skillTreeUIs[skillTree.Index].CheckSkillTreeCompatible(skillTree);
+    }
+
+    private void ResetButtons(SkillTree skillTree)
+    {
+        for (int i = 0; i < skillTreeUIs.Count; i++)
+        {
+            skillTreeUIs[i].ResetUpgradeButton(skillTrees[i], i);
         }
     }
 }

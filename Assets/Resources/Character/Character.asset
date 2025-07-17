@@ -79,5 +79,117 @@ MonoBehaviour:
     Attack2Level: 0
     Attack3Level: 0
     Support1Level: 0
-    Support2Level: 0
+    Support2Level: 10
     Support3Level: 0
+  Weapon:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  Helmet:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  BodyArmor:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  LegArmor:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  Boots:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  BackItem:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0
+  Aura:
+    level: 0
+    equipSO: {fileID: 0}
+    rarity: 0
+    mainStat:
+      Stat: 0
+      TypeBonus: 0
+      FlatBaseValue: 0
+      PercentBaseValue: 0
+      FlatValue: 0
+      PercentValue: 0
+      FlatBonus: 0
+      PercentBonus: 0
+    subStats: []
+    currentUpgradeCost: 0
+    nextUpgradeCost: 0

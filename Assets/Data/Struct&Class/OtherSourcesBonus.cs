@@ -1,15 +1,15 @@
 using System;
 
 [Serializable]
-public class EquipBonus
+public class OtherSourcesBonus
 {
     public EquipStatType Stat;
     public int FlatValue;
     public float PercentValue;
 
-    public EquipBonus() {}
+    public OtherSourcesBonus() {}
 
-    public EquipBonus(EquipStatType stat)
+    public OtherSourcesBonus(EquipStatType stat)
     {
         Stat = stat;
     }

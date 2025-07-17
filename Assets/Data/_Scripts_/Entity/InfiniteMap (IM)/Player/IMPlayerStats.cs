@@ -4,70 +4,35 @@ using UnityEngine;
 
 public class IMPlayerStats : EntityComponent
 {
-    [SerializeField] private int level = 1;
-    [SerializeField] private int requiredExp;
-    [SerializeField] private int currentExp;
+    [Header("EXP & Level")]
+    [SerializeField] private int level = 1, requiredExp, currentExp, lerpExpStack, expFromBattle;
+
+    [Header("Stat Points")]
     [SerializeField] private int remainPoints;
-    [SerializeField] private List<Stat> potential;
-    [SerializeField] private List<Stat> stats;
-    [SerializeField] private List<Stat> equipPotentialBonus;
-    [SerializeField] private List<Stat> equipStatBonus;
-    [SerializeField] private List<Stat> passiveSkillPotentialBonus;
-    [SerializeField] private List<Stat> passiveSkillStatBonus;
-    [SerializeField] private int lerpExpStack;
-    [SerializeField] private int expFromBattle;
+
+    [Header("Stats")]
+    [SerializeField] private List<Stat> potential, stats,  equipPotentialBonus, equipStatBonus, passiveSkillPotentialBonus, passiveSkillStatBonus;
+
+    private string[] potentialNames = { "Power", "Magic", "Strength", "Defense", "Dexterity" };
+    private string[] statNames = { "Level", "Attack", "Magic Attack", "HP", "Slash Damage", "Swordrain Damage", "Defense", "Accuracy", "Damage Range", "Speed",
+                                "Crit Rate", "Crit Damage", "Mana Regeneration" };
+
     public event Action<int> OnPotentialChange;
     public event Action<int> OnStatChange;
-    public event Action<int> OnLevelUp;
+
     private InfiniteMapManager infiniteMapManager;
+    private SkillUpdateBonus skillUpdateBonus;
+    private EquipmentCalculator equipmentCalculator;
 
-    #region Player element getters and setters
-    public int Level
-    {
-        get => level;
-        set => level = value;
-    }
-
-    public int RequiredExp
-    {
-        get => requiredExp;
-        set => requiredExp = value;
-    }
-
-    public int CurrentExp
-    {
-        get => currentExp;
-        set => currentExp = value;
-    }
-    public int RemainPoints
-    {
-        get => remainPoints;
-        set => remainPoints = value;
-    }
-
-    public List<Stat> Potential
-    {
-        get => potential;
-        set => potential = value;
-    }
-    
-    public List<Stat> Stats
-    {
-        get => stats;
-        set => stats = value;
-    }
-
-    public int LerpExpStack
-    {
-        get => lerpExpStack;
-        set => lerpExpStack = value;
-    }
-
-    public int ExpFromBattle
-    {
-        get => expFromBattle;
-        set => expFromBattle = value;
-    }
+    #region Properties
+    public int Level { get => level; set => level = value; }
+    public int RequiredExp { get => requiredExp; set => requiredExp = value; }
+    public int CurrentExp { get => currentExp; set => currentExp = value; }
+    public int RemainPoints { get => remainPoints; set => remainPoints = value; }
+    public List<Stat> Potential { get => potential; set => potential = value; }
+    public List<Stat> Stats { get => stats; set => stats = value; }
+    public int LerpExpStack { get => lerpExpStack; set => lerpExpStack = value; }
+    public int ExpFromBattle { get => expFromBattle; set => expFromBattle = value; }
     #endregion
 
     protected override void Start()
@@ -75,44 +40,25 @@ public class IMPlayerStats : EntityComponent
         base.Start();
 
         infiniteMapManager = InfiniteMapManager.Instance;
+        infiniteMapManager.Skill.OnSkillPointsReset += UpdatePassiveSkillBonus;
+
+        skillUpdateBonus = infiniteMapManager.Skill.BonusUpdating;
+        skillUpdateBonus.OnSkillBonusChanged += UpdatePassiveSkillBonus;
+
+        equipmentCalculator = infiniteMapManager.Equipment.Calculator;
+        equipmentCalculator.OnTotalBonusChanged += UpdateEquipBonus;
 
         LoadStats();
+        UpdatePassiveSkillBonus(skillUpdateBonus.InitActiveSkillTreesBonus());
+        equipmentCalculator.InitTotalBonus();
     }
 
     public void LoadStats()
     {
         LoadPotentialFromSO();
-        CreateStats();
+        CreateStatLists();
         CalculateExp();
         StatsCalculation();
-    }
-
-    private void ExpUpdate()
-    {
-        if(infiniteMapManager.MapData.MapCanLoad)
-        {
-            int exp = 0;
-
-            if (infiniteMapManager.MapData.Result == Result.WIN)
-                exp = UnityEngine.Random.Range(infiniteMapManager.MapData.MonsterInfo.Level + 4, infiniteMapManager.MapData.MonsterInfo.Level + 9);
-
-            expFromBattle = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
-            currentExp += expFromBattle;
-
-            while (currentExp >= requiredExp)
-            {
-                level++;
-                lerpExpStack++;
-                Debug.Log("Lerp stack: " + lerpExpStack);
-                remainPoints += 5;
-                currentExp -= requiredExp;
-
-                IncreaseLevel();
-
-                int averageMonsters = (level / 10) * 10 + level;
-                requiredExp = ((level / 10) * 10 + 10) * averageMonsters;
-            }
-        }
     }
 
     public int CheckRemainPoints(int point)
@@ -122,23 +68,14 @@ public class IMPlayerStats : EntityComponent
 
     private void LoadPotentialFromSO()
     {
-        CharacterSO characterData = InfiniteMapManager.Instance.CharacterData;
-        Stat power = new Stat(0, "Power");
-        Stat magic = new Stat(1, "Magic");
-        Stat strength = new Stat(2, "Strength");
-        Stat defense = new Stat(3, "Defense");
-        Stat dexterity = new Stat(4, "Dexterity");
-        power.TrueValue = characterData.Power.TrueValue;
-        magic.TrueValue = characterData.Magic.TrueValue;
-        strength.TrueValue = characterData.Strength.TrueValue;
-        defense.TrueValue = characterData.Defense.TrueValue;
-        dexterity.TrueValue = characterData.Dexterity.TrueValue;
-        potential.Clear();
-        potential.Add(power);
-        potential.Add(magic);
-        potential.Add(strength);
-        potential.Add(defense);
-        potential.Add(dexterity);
+        CharacterSO characterData = infiniteMapManager.CharacterData;
+
+        potential = CreateStatListFromNames(potentialNames);
+        potential[0].TrueValue = characterData.Power.TrueValue;
+        potential[1].TrueValue = characterData.Magic.TrueValue;
+        potential[2].TrueValue = characterData.Strength.TrueValue;
+        potential[3].TrueValue = characterData.Defense.TrueValue;
+        potential[4].TrueValue = characterData.Dexterity.TrueValue;
 
         CalculatePower();
         CalculateMagic();
@@ -147,78 +84,30 @@ public class IMPlayerStats : EntityComponent
         CalculateDexterity();
     }
 
-    private void CreateStats()
+    private void CreateStatLists()
     {
-        stats = new List<Stat>{
-            new Stat(0, "Level"),
-            new Stat(1, "Attack"),
-            new Stat(2, "Magic Attack"),
-            new Stat(3, "HP"),
-            new Stat(4, "Slash Damage"),
-            new Stat(5, "Swordrain Damage"),
-            new Stat(6, "Defense"),
-            new Stat(7, "Accuracy"),
-            new Stat(8, "Damage Range"),
-            new Stat(9, "Speed"),
-            new Stat(10, "Crit Rate"),
-            new Stat(11, "Crit Damage"),
-            new Stat(12, "Mana Regeneration")
-        };
+        stats = CreateStatListFromNames(statNames);
+        equipPotentialBonus = CreateStatListFromNames(potentialNames);
+        equipStatBonus = CreateStatListFromNames(statNames);
+        passiveSkillPotentialBonus = CreateStatListFromNames(potentialNames);
+        passiveSkillStatBonus = CreateStatListFromNames(statNames);
+    }
 
-        equipPotentialBonus = new List<Stat>
+    private List<Stat> CreateStatListFromNames(string[] names)
+    {
+        List<Stat> statList = new List<Stat>();
+
+        for (int i = 0; i < names.Length; i++)
         {
-            new Stat(0, "Power"),
-            new Stat(1, "Magic"),
-            new Stat(2, "Strength"),
-            new Stat(3, "Defense"),
-            new Stat(4, "Dexterity")
-        };
+            statList.Add(new Stat(i, names[i]));
+        }
 
-        equipStatBonus = new List<Stat>{
-            new Stat(0, "Level"),
-            new Stat(1, "Attack"),
-            new Stat(2, "Magic Attack"),
-            new Stat(3, "HP"),
-            new Stat(4, "Slash Damage"),
-            new Stat(5, "Swordrain Damage"),
-            new Stat(6, "Defense"),
-            new Stat(7, "Accuracy"),
-            new Stat(8, "Damage Range"),
-            new Stat(9, "Speed"),
-            new Stat(10, "Crit Rate"),
-            new Stat(11, "Crit Damage"),
-            new Stat(12, "Mana Regeneration")
-        };
-
-        passiveSkillPotentialBonus = new List<Stat>
-        {
-            new Stat(0, "Power"),
-            new Stat(1, "Magic"),
-            new Stat(2, "Strength"),
-            new Stat(3, "Defense"),
-            new Stat(4, "Dexterity")
-        };
-
-        passiveSkillStatBonus = new List<Stat>{
-            new Stat(0, "Level"),
-            new Stat(1, "Attack"),
-            new Stat(2, "Magic Attack"),
-            new Stat(3, "HP"),
-            new Stat(4, "Slash Damage"),
-            new Stat(5, "Swordrain Damage"),
-            new Stat(6, "Defense"),
-            new Stat(7, "Accuracy"),
-            new Stat(8, "Damage Range"),
-            new Stat(9, "Speed"),
-            new Stat(10, "Crit Rate"),
-            new Stat(11, "Crit Damage"),
-            new Stat(12, "Mana Regeneration")
-        };
+        return statList;
     }
 
     private void StatsCalculation()
     {
-        for(int i = 0; i < stats.Count; i++)
+        for (int i = 0; i < stats.Count; i++)
         {
             Calulate(stats[i]);
         }
@@ -271,12 +160,41 @@ public class IMPlayerStats : EntityComponent
             currentExp = infiniteMapManager.CharacterData.CurrentExp;
         }
 
-        int averageMonsters = (level / 10) * 10 + level;
-        requiredExp = ((level / 10) * 10 + 10) * averageMonsters;
+        requiredExp = CalculateRequiredExp(level);
         Stat levelStat = stats[0];
         levelStat.Value = level;
 
         ExpUpdate();
+    }
+
+    private void ExpUpdate()
+    {
+        if(infiniteMapManager.MapData.MapCanLoad)
+        {
+            int exp = infiniteMapManager.MapData.Result == Result.WIN ?
+                        UnityEngine.Random.Range(infiniteMapManager.MapData.MonsterInfo.Level + 4, infiniteMapManager.MapData.MonsterInfo.Level + 9) : 0;
+
+            expFromBattle = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
+            currentExp += expFromBattle;
+
+            while (currentExp >= requiredExp)
+            {
+                level++;
+                lerpExpStack++;
+                remainPoints += 5;
+                currentExp -= requiredExp;
+
+                IncreaseLevel();
+
+                requiredExp = CalculateRequiredExp(level);
+            }
+        }
+    }
+
+    private int CalculateRequiredExp(int level)
+    {
+        int avgMonster = (level / 10) * 10 + level;
+        return ((level / 10) * 10 + 10) * avgMonster;
     }
 
     private void IncreaseLevel()
@@ -540,59 +458,47 @@ public class IMPlayerStats : EntityComponent
     }
     #endregion
 
-    public void UpdatePassiveSkillBonus(List<PassiveSkillBonus> passiveSkillBonus)
+    public void UpdatePassiveSkillBonus(List<OtherSourcesBonus> passiveSkillBonus)
     {
-        foreach (var bonus in passiveSkillBonus)
-        {
-            int index = GetIndexFromStat(bonus);
-
-            if (bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength
-                || bonus.Stat == EquipStatType.DefenseP || bonus.Stat == EquipStatType.Dexterity)
-            {
-                passiveSkillPotentialBonus[index].FlatBonus = bonus.FlatValue;
-                passiveSkillPotentialBonus[index].PercentBonus = bonus.PercentValue;
-            }
-            else
-            {
-                passiveSkillStatBonus[index].FlatBonus = bonus.FlatValue;
-                passiveSkillStatBonus[index].PercentBonus = bonus.PercentValue;
-            }
-        }
-
-        UpdateBonus();
+        ApplyBonusList(passiveSkillBonus, passiveSkillPotentialBonus, passiveSkillStatBonus);
     }
 
-    public void UpdateEquipBonus(List<EquipBonus> equipBonus)
+    public void UpdateEquipBonus(List<OtherSourcesBonus> equipBonus)
     {
-        foreach(var bonus in equipBonus)
-        {
-            int index = GetIndexFromStat(bonus);
+        ApplyBonusList(equipBonus, equipPotentialBonus, equipStatBonus);
+    }
 
-            if(bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength
-                || bonus.Stat == EquipStatType.DefenseP || bonus.Stat == EquipStatType.Dexterity)
+    private void ApplyBonusList<T>(List<T> list, List<Stat> potentialList, List<Stat> statList) where T : OtherSourcesBonus
+    {
+        foreach (var bonus in list)
+        {
+            int index = GetIndexFromStat(bonus.Stat);
+            if (index == -1) continue;
+
+            if (bonus.Stat == EquipStatType.Power || bonus.Stat == EquipStatType.Magic || bonus.Stat == EquipStatType.Strength || bonus.Stat == EquipStatType.DefenseP
+                || bonus.Stat == EquipStatType.Dexterity)
             {
-                equipPotentialBonus[index].FlatBonus = bonus.FlatValue;
-                equipPotentialBonus[index].PercentBonus = bonus.PercentValue;
+                potentialList[index].FlatBonus = bonus.FlatValue;
+                potentialList[index].PercentBonus = bonus.PercentValue;
             }
             else
             {
-                equipStatBonus[index].FlatBonus = bonus.FlatValue;
-                equipStatBonus[index].PercentBonus = bonus.PercentValue;
+                statList[index].FlatBonus = bonus.FlatValue;
+                statList[index].PercentBonus = bonus.PercentValue;
             }
         }
-
         UpdateBonus();
     }
 
     public void UpdateBonus()
     {
-        foreach(var potential in potential)
+        foreach (var potential in potential)
         {
             potential.FlatBonus = 0;
             potential.PercentBonus = 0;
         }
 
-        foreach(var stat in stats)
+        foreach (var stat in stats)
         {
             stat.FlatBonus = 0;
             stat.PercentBonus = 0;
@@ -600,7 +506,7 @@ public class IMPlayerStats : EntityComponent
 
         int i = 0;
 
-        foreach(var potential in potential)
+        foreach (var potential in potential)
         {
             potential.FlatBonus += equipPotentialBonus[i].FlatBonus + passiveSkillPotentialBonus[i].FlatBonus;
             potential.PercentBonus += equipPotentialBonus[i].PercentBonus + passiveSkillPotentialBonus[i].PercentBonus;
@@ -609,7 +515,7 @@ public class IMPlayerStats : EntityComponent
 
         i = 0;
 
-        foreach(var stat in stats)
+        foreach (var stat in stats)
         {
             stat.FlatBonus += equipStatBonus[i].FlatBonus + passiveSkillStatBonus[i].FlatBonus;
             stat.PercentBonus += equipStatBonus[i].PercentBonus + passiveSkillStatBonus[i].PercentBonus;
@@ -618,44 +524,27 @@ public class IMPlayerStats : EntityComponent
 
         ReCalculate();
     }
-
-    private int GetIndexFromStat(EquipBonus equipBonus)
+    
+    private int GetIndexFromStat(EquipStatType stat)
     {
-        if(equipBonus.Stat == EquipStatType.Power) return 0;
-        if(equipBonus.Stat == EquipStatType.Magic) return 1;
-        if(equipBonus.Stat == EquipStatType.Strength) return 2;
-        if(equipBonus.Stat == EquipStatType.DefenseP) return 3;
-        if(equipBonus.Stat == EquipStatType.Dexterity) return 4;
-        if(equipBonus.Stat == EquipStatType.Attack) return 1;
-        if(equipBonus.Stat == EquipStatType.MagicAttack) return 2;
-        if(equipBonus.Stat == EquipStatType.HP) return 3;
-        if(equipBonus.Stat == EquipStatType.Defense) return 6;
-        if(equipBonus.Stat == EquipStatType.Accuracy) return 7;
-        if(equipBonus.Stat == EquipStatType.DamageRange) return 8;
-        if(equipBonus.Stat == EquipStatType.Speed) return 9;
-        if(equipBonus.Stat == EquipStatType.CritRate) return 10;
-        if(equipBonus.Stat == EquipStatType.CritDamage) return 11;
-        if(equipBonus.Stat == EquipStatType.ManaRegen) return 12;
-        return 1000000;
-    }
-
-    private int GetIndexFromStat(PassiveSkillBonus passiveSkillBonus)
-    {
-        if(passiveSkillBonus.Stat == EquipStatType.Power) return 0;
-        if(passiveSkillBonus.Stat == EquipStatType.Magic) return 1;
-        if(passiveSkillBonus.Stat == EquipStatType.Strength) return 2;
-        if(passiveSkillBonus.Stat == EquipStatType.DefenseP) return 3;
-        if(passiveSkillBonus.Stat == EquipStatType.Dexterity) return 4;
-        if(passiveSkillBonus.Stat == EquipStatType.Attack) return 1;
-        if(passiveSkillBonus.Stat == EquipStatType.MagicAttack) return 2;
-        if(passiveSkillBonus.Stat == EquipStatType.HP) return 3;
-        if(passiveSkillBonus.Stat == EquipStatType.Defense) return 6;
-        if(passiveSkillBonus.Stat == EquipStatType.Accuracy) return 7;
-        if(passiveSkillBonus.Stat == EquipStatType.DamageRange) return 8;
-        if(passiveSkillBonus.Stat == EquipStatType.Speed) return 9;
-        if(passiveSkillBonus.Stat == EquipStatType.CritRate) return 10;
-        if(passiveSkillBonus.Stat == EquipStatType.CritDamage) return 11;
-        if(passiveSkillBonus.Stat == EquipStatType.ManaRegen) return 12;
-        return 1000000;
+        return stat switch
+        {
+            EquipStatType.Power => 0,
+            EquipStatType.Magic => 1,
+            EquipStatType.Strength => 2,
+            EquipStatType.DefenseP => 3,
+            EquipStatType.Dexterity => 4,
+            EquipStatType.Attack => 1,
+            EquipStatType.MagicAttack => 2,
+            EquipStatType.HP => 3,
+            EquipStatType.Defense => 6,
+            EquipStatType.Accuracy => 7,
+            EquipStatType.DamageRange => 8,
+            EquipStatType.Speed => 9,
+            EquipStatType.CritRate => 10,
+            EquipStatType.CritDamage => 11,
+            EquipStatType.ManaRegen => 12,
+            _ => -1
+        };
     }
 }

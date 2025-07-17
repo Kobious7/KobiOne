@@ -31,7 +31,7 @@ public class SwordTreeTextFormatter : SkillTreeTextFormatter
         {
             replacements["MaxHPBuffPercent"] = $"{(int)(skill.Buffs[0].BuffPercent + skill.Buffs[0].PercentBonus * (level - 1))}";
         }
-        }
+    }
 
     protected override void CreatePassiveSkillReplacements(PassiveSkillSO skill, int level)
     {

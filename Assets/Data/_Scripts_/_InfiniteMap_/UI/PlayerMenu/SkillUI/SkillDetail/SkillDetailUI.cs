@@ -52,16 +52,16 @@ public class SkillDetailUI : GMono
         actionBtns = GetComponentInChildren<SkillDetailUIActionBtns>();
     }
 
-    public void ShowSkilDetailsUI(SkillNode skill, int treeIndex)
+    public void ShowSkilDetailsUI(SkillNode skill, int treeIndex, bool treeActive)
     {
         transform.gameObject.SetActive(true);
         detailUI.ShowText(skill);
-        actionBtns.AddClickListeners(skill, treeIndex);
+        actionBtns.AddClickListeners(skill, treeIndex, treeActive);
     }
 
-    private void ShowAgain(SkillNode skill, int treeIndex)
+    private void ShowAgain(SkillNode skill, int treeIndex, bool treeActive)
     {
         detailUI.ShowText(skill);
-        actionBtns.AddClickListeners(skill, treeIndex);
+        actionBtns.AddClickListeners(skill, treeIndex, treeActive);
     }
 }

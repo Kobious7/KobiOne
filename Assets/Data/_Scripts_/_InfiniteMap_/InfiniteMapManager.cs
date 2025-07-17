@@ -48,6 +48,10 @@ public class InfiniteMapManager : GMono
 
     public InfinitMapSODataLoader InfinitMapSODataLoader => infinitMapSODataLoader;
 
+    [SerializeField] private Skill skill;
+
+    public Skill Skill => skill;
+
     protected override void Awake()
     {
         base.Awake();
@@ -68,6 +72,8 @@ public class InfiniteMapManager : GMono
         LoadInventory();
         LoadEquipment();
         LoadSODataLoader();
+        
+        if (skill == null) skill = FindObjectOfType<Skill>();
     }
 
     protected void LoadMapData()
