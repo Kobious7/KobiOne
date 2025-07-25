@@ -27,7 +27,13 @@ public class IMPlayerMovement : IMEntityMovement
 
     private void Update()
     {
-        if (player.IsUIOpening) return;
+        if (player.CanLockMovement)
+        {
+            player.Model.localScale = player.Model.localScale.x != 1 ? Vector3.one: player.Model.localScale;
+            return;
+        }
+
+        if (InfiniteMapManager.Instance.IsUIOpening) return;
 
         CheckGrounded();
         HandleJump();

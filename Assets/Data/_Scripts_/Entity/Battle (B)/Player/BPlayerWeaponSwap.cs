@@ -9,13 +9,11 @@ public class BPlayerWeaponSwap : BEntityComponent
         base.Start();
 
         player = Entity as BPlayer;
-        PlayerInfo playerInfo = BattleManager.Instance.MapData.PlayerInfo;
+        PlayerSO playerData = BattleManager.Instance.PlayerData;
 
-        if (BattleManager.Instance.MapData.MapCanLoad)
+        if (playerData.Weapon.EquipSO != null)
         {
-            if (playerInfo.Weapon.EquipSO == null) return;
-
-            SwapWeapon(BattleManager.Instance.MapData.PlayerInfo.Weapon);
+            SwapWeapon(playerData.Weapon);
         }
         else
         {

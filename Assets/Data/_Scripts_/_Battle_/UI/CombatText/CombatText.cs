@@ -71,7 +71,7 @@ public class CombatText : GMono
 
     public void SetDamageText(int damage, DamageType damageType, bool crit)
     {
-        combatText.fontSize = 14;
+        combatText.fontSize = 28;
 
         combatText.text = $"{damage}";
 
@@ -87,13 +87,13 @@ public class CombatText : GMono
 
         if (crit)
         {
-            combatText.fontSize = 28;
+            combatText.fontSize = 50;
         }
     }
 
     public void SetNoneDamageText(int amount, NonDamageType noneDamageType)
     {
-        combatText.fontSize = 22;
+        combatText.fontSize = 32;
         combatText.text = $"+{amount}";
 
         if (noneDamageType == NonDamageType.HP)

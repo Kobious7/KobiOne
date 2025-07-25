@@ -8,49 +8,35 @@ public class InfiniteMapManager : GMono
 
     public static InfiniteMapManager Instance => instance;
 
+    [SerializeField] private bool isUIOpening = false;
     [SerializeField] private InfiniteMapSO mapData;
-
-    public InfiniteMapSO MapData => mapData;
-
-    [SerializeField] private CharacterSO characterData;
-
-    public CharacterSO CharacterData => characterData;
-
+    [SerializeField] private PlayerSO playerData;
     [SerializeField] private FlyObjectSpawner flyObjectSpawner;
-
-    public FlyObjectSpawner FlyObjectSpawner => flyObjectSpawner;
-
     [SerializeField] private IMPlayer player;
-
-    public IMPlayer Player => player;
-
     [SerializeField] private Map map;
-
-    public Map Map => map;
-
     [SerializeField] private Map1MonsterSpawner map1MonsterSpawner;
-
-    public Map1MonsterSpawner Map1MonsterSpawner => map1MonsterSpawner;
-
     [SerializeField] private Map2MonsterSpawner map2MonsterSpawner;
-
-    public Map2MonsterSpawner Map2MonsterSpawner => map2MonsterSpawner;
-
     [SerializeField] private Inventory inventory;
-
-    public Inventory Inventory => inventory;
-
     [SerializeField] private Equipment equipment;
-
-    public Equipment Equipment => equipment;
-
     [SerializeField] private InfinitMapSODataLoader infinitMapSODataLoader;
-
-    public InfinitMapSODataLoader InfinitMapSODataLoader => infinitMapSODataLoader;
-
     [SerializeField] private Skill skill;
+    [SerializeField] private BattleEntrance battleEntrance;
 
+    #region Properties
+    public bool IsUIOpening { get => isUIOpening; set => isUIOpening = value; }
+    public InfiniteMapSO MapData => mapData;
+    public PlayerSO PlayerData => playerData;
+    public FlyObjectSpawner FlyObjectSpawner => flyObjectSpawner;
+    public IMPlayer Player => player;
+    public Map Map => map;
+    public Map1MonsterSpawner Map1MonsterSpawner => map1MonsterSpawner;
+    public Map2MonsterSpawner Map2MonsterSpawner => map2MonsterSpawner;
+    public Inventory Inventory => inventory;
+    public Equipment Equipment => equipment;
+    public InfinitMapSODataLoader InfinitMapSODataLoader => infinitMapSODataLoader;
     public Skill Skill => skill;
+    public BattleEntrance BattleEntrance => battleEntrance;
+    #endregion
 
     protected override void Awake()
     {
@@ -64,7 +50,7 @@ public class InfiniteMapManager : GMono
     {
         base.LoadComponents();
         LoadMapData();
-        LoadCharacterData();
+        LoadPlayerData();
         LoadPlayer();
         LoadFlyObjectSpawner();
         LoadMap();
@@ -72,8 +58,9 @@ public class InfiniteMapManager : GMono
         LoadInventory();
         LoadEquipment();
         LoadSODataLoader();
-        
+
         if (skill == null) skill = FindObjectOfType<Skill>();
+        if (battleEntrance == null) battleEntrance = FindObjectOfType<BattleEntrance>();
     }
 
     protected void LoadMapData()
@@ -83,11 +70,11 @@ public class InfiniteMapManager : GMono
         mapData = Resources.Load<InfiniteMapSO>("InfinityMapData");
     }
 
-    private void LoadCharacterData()
+    private void LoadPlayerData()
     {
-        if (characterData != null) return;
+        if (playerData != null) return;
 
-        characterData = Resources.Load<CharacterSO>("Character/Character");
+        playerData = Resources.Load<PlayerSO>("Player/Player");
     }
 
     private void LoadFlyObjectSpawner()
@@ -138,10 +125,5 @@ public class InfiniteMapManager : GMono
         if (infinitMapSODataLoader != null) return;
 
         infinitMapSODataLoader = FindObjectOfType<InfinitMapSODataLoader>();
-    }
-
-    public void LoadDataToInfiniteMapSO(Transform monster)
-    {
-        infinitMapSODataLoader.LoadAllObj(monster);
     }
 }

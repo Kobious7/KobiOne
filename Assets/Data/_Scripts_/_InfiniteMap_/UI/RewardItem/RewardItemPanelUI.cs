@@ -8,7 +8,7 @@ public class RewardItemPanelUI : GMono
         {
             this.gameObject.SetActive(true);
             
-            InfiniteMapManager.Instance.Player.IsUIOpening = true;
+            InfiniteMapManager.Instance.IsUIOpening = true;
         }
         else
         {

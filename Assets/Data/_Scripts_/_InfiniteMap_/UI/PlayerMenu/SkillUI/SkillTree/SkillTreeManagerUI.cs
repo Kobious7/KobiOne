@@ -34,7 +34,7 @@ public class SkillTreeManagerUI : GMono
         yield return null;
         InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += CheckSkillTree;
         InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += ResetButtons;
-        skillTrees = SkillSGT.Instance.Skill.SkillTrees;
+        skillTrees = SkillSGT.Instance.Skill.SkillTreeList;
         ShowSkillTrees();
     }
 

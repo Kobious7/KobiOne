@@ -4,6 +4,6 @@ public class ESkill : CurrentSkill
 {
     protected override SkillSO GetSkillSO()
     {
-        return BSkill.ESkill.skillSO;
+        return BSkill.ESkill.SkillSO;
     }
 }

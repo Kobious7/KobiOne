@@ -26,14 +26,14 @@ public class EquipmentCalculator : EquipmentAb
 
     public void InitTotalBonus()
     {
-        InfiniteMapSO mapData = InfiniteMapManager.Instance.MapData;
+        PlayerSO playerData = InfiniteMapManager.Instance.PlayerData;
 
-        if (mapData.Weapon != null) CalculatePerEquip(mapData.Weapon);
-        if (mapData.Helmet != null) CalculatePerEquip(mapData.Helmet);
-        if (mapData.Armor != null) CalculatePerEquip(mapData.Armor);
-        if (mapData.Armwear != null) CalculatePerEquip(mapData.Armwear);
-        if (mapData.Boots != null) CalculatePerEquip(mapData.Boots);
-        if (mapData.Special != null) CalculatePerEquip(mapData.Special);
+        if (playerData.Weapon != null) CalculatePerEquip(playerData.Weapon);
+        if (playerData.Helmet != null) CalculatePerEquip(playerData.Helmet);
+        if (playerData.Armor != null) CalculatePerEquip(playerData.Armor);
+        if (playerData.Armwear != null) CalculatePerEquip(playerData.Armwear);
+        if (playerData.Boots != null) CalculatePerEquip(playerData.Boots);
+        if (playerData.Special != null) CalculatePerEquip(playerData.Special);
         CalculateTotalBonus();
     }
 

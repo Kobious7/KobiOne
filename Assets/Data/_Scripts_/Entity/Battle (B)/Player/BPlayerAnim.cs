@@ -11,18 +11,15 @@ public class BPlayerAnim : BEntityAnim
     {
         base.Start();
 
-        PlayerInfo playerInfo = BattleManager.Instance.MapData.PlayerInfo;
+        PlayerSO playerData = BattleManager.Instance.PlayerData;
 
-        if (BattleManager.Instance.MapData.MapCanLoad)
+        if (playerData.Weapon.EquipSO != null)
         {
-            if (playerInfo.Weapon.EquipSO == null)
-            {
-                Entity.Animator.runtimeAnimatorController = origin;
-            }
-            else
-            {
-                SwapOverride(BattleManager.Instance.MapData.PlayerInfo.Weapon);
-            }
+            SwapOverride(playerData.Weapon);
+        }
+        else
+        {
+            Entity.Animator.runtimeAnimatorController = origin;
         }
 
         Battle.Instance.OnPlayerLost += Die;

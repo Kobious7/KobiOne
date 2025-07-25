@@ -3,22 +3,6 @@ using UnityEngine;
 
 public class IMMonsterDropList : EntityComponent
 {
-    [SerializeField] private List<ItemSO> itemDropList;
-
-    public List<ItemSO> ItemDropList
-    {
-        get => itemDropList;
-        set => itemDropList = value;
-    }
-
-    [SerializeField] private List<EquipSO> equipDropList;
-
-    public List<EquipSO> EquipDropList
-    {
-        get => equipDropList;
-        set => equipDropList = value;
-    }
-
     [Header("1x Drop")]
     [SerializeField] private List<ItemSO> itemDropList1x;
     [SerializeField] private List<EquipSO> equipDropList1x;
@@ -86,6 +70,6 @@ public class IMMonsterDropList : EntityComponent
         >= 30  when equipDropList3x.Count > 0 => equipDropList3x,
         >= 20  when equipDropList2x.Count > 0 => equipDropList2x,
         >= 10  when equipDropList1x.Count > 0 => equipDropList1x,
-        _ => null
+        _ => new List<EquipSO>()
     };
 }

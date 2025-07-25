@@ -43,9 +43,9 @@ public class NextLevelDetailUI : GMono
         if(skill.Level <= 0)
         {
             level.text = "Locked";
-            description.text = skill.skillSO.LockDescription;
+            description.text = skill.SkillSO.LockDescription;
         }
-        else if(skill.Level >= skill.skillSO.MaxLevel)
+        else if(skill.Level >= skill.SkillSO.MaxLevel)
         {
             level.text = "Max level";
         }

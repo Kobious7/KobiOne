@@ -11,7 +11,7 @@ public class BSkillDamageCalculator : BSkillAb
     {
         int level = skill.Level;
 
-        if (skill.skillSO is TileSkillSO tileSkill)
+        if (skill.SkillSO is TileSkillSO tileSkill)
         {
             if (tileSkill.Damage.SourceDamage == EquipStatType.Attack)
                 return (int)(dealer.Attack * ((level - 1) * tileSkill.Damage.BonusPerLevel + tileSkill.Damage.Scaling) / 100);
@@ -21,7 +21,7 @@ public class BSkillDamageCalculator : BSkillAb
                 return (int)(dealer.SlashDamage * ((level - 1) * tileSkill.Damage.BonusPerLevel + tileSkill.Damage.Scaling) / 100);
         }
 
-        if (skill.skillSO is OpSkillSO opSkill)
+        if (skill.SkillSO is OpSkillSO opSkill)
         {
             if (opSkill.Damage.SourceDamage == EquipStatType.Attack)
                 return (int)(dealer.Attack * ((level - 1) * opSkill.Damage.BonusPerLevel + opSkill.Damage.Scaling) / 100);

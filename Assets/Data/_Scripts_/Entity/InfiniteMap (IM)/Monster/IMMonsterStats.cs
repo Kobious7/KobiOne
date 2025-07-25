@@ -6,6 +6,7 @@ public class IMMonsterStats : EntityComponent
     [SerializeField] private int zeroLevel;
     [SerializeField] private int level;
     [SerializeField] private AttackType attackType;
+    [SerializeField] private MonsterTier tier;
     [SerializeField] private int power;
     [SerializeField] private int magic;
     [SerializeField] private int strength;
@@ -22,130 +23,31 @@ public class IMMonsterStats : EntityComponent
     [SerializeField] private float critRate;
     [SerializeField] private float critDamage;
     [SerializeField] private int manaRegen;
-
-
-    #region Stats getter setter
-    public int ZeroLevel
-    {
-        get => zeroLevel;
-        set => zeroLevel = value;
-    }
-
-    public int Level
-    {
-        get => level;
-        set => level = value;
-    }
-
-    public AttackType AttackType
-    {
-        get => attackType;
-        set => attackType = value;
-    }
-
-    public int Power
-    {
-        get => power;
-        set => power = value;
-    }
-
-    public int Magic
-    {
-        get => magic;
-        set => magic = value;
-    }
-
-    public int Strength
-    {
-        get => strength;
-        set => strength = value;
-    }
-
-    public int Defense
-    {
-        get => defense;
-        set => defense = value;
-    }
-
-    public int Dexterity
-    {
-        get => dexterity;
-        set => dexterity = value;
-    }
-
-    public int Attack
-    {
-        get => attack;
-        set => attack = value;
-    }
-    public int MagicAttack
-    {
-        get => magicAttack;
-        set => magicAttack = value;
-    }
-
-    public int HP
-    {
-        get => hp;
-        set => hp = value;
-    }
-
-    public int SlashDamage
-    {
-        get => slashDamage;
-        set => slashDamage = value;
-    }
-
-    public int SwordrainDamage
-    {
-        get => swordrainDamage;
-        set => swordrainDamage = value;
-    }
-
-    public int DefenseS
-    {
-        get => defenseS;
-        set => defenseS = value;
-    }
-
-    public int Accuracy
-    {
-        get => accuracy;
-        set => accuracy = value;
-    }
-
-    public int DamageRange
-    {
-        get => damageRange;
-        set => damageRange = value;
-    }
-
-    public float CritRate
-    {
-        get => critRate;
-        set => critRate = value;
-    }
-
-    public float CritDamage
-    {
-        get => critDamage;
-        set => critDamage = value;
-    }
-
-    public int ManaRegen
-    {
-        get => manaRegen;
-        set => manaRegen = value;
-    }
-    #endregion
-
     [SerializeField] private bool loadFromData;
 
-    public bool LoadFromData
-    {
-        get => loadFromData;
-        set => loadFromData = value;
-    }
+    #region Properties
+    public int ZeroLevel { get => zeroLevel; set => zeroLevel = value; }
+    public int Level { get => level; set => level = value; }
+    public AttackType AttackType { get => attackType; set => attackType = value; }
+    public MonsterTier Tier { get => tier; set => tier = value; }
+    public int Power { get => power; set => power = value; }
+    public int Magic { get => magic; set => magic = value; }
+    public int Strength { get => strength; set => strength = value; }
+    public int Defense { get => defense; set => defense = value; }
+    public int Dexterity { get => dexterity; set => dexterity = value; }
+    public int Attack { get => attack; set => attack = value; }
+    public int MagicAttack { get => magicAttack; set => magicAttack = value; }
+    public int HP { get => hp; set => hp = value; }
+    public int SlashDamage { get => slashDamage; set => slashDamage = value; }
+    public int SwordrainDamage { get => swordrainDamage; set => swordrainDamage = value; }
+    public int DefenseS { get => defenseS; set => defenseS = value; }
+    public int Accuracy { get => accuracy; set => accuracy = value; }
+    public int DamageRange { get => damageRange; set => damageRange = value; }
+    public float CritRate { get => critRate; set => critRate = value; }
+    public float CritDamage { get => critDamage; set => critDamage = value; }
+    public int ManaRegen { get => manaRegen; set => manaRegen = value; }
+    public bool LoadFromData { get => loadFromData; set => loadFromData = value; }
+    #endregion
 
     protected override void OnEnable()
     {
@@ -239,7 +141,7 @@ public class IMMonsterStats : EntityComponent
         float attackBasicMultiplier = 0.2f;
         float multiplierPerPower = 0.001f;
         float multiplier = power * multiplierPerPower + attackBasicMultiplier;
-        attack = (int)(power * multiplier);
+        attack = power + (int)(power * multiplier);
     }
 
     private void CalculateMagicAttack()
@@ -247,7 +149,7 @@ public class IMMonsterStats : EntityComponent
         float magicAttackBasicMultiplier = 0.2f;
         float multiplierPerMagic = 0.001f;
         float multiplier = magic * multiplierPerMagic + magicAttackBasicMultiplier;
-        magicAttack = (int)(magic * multiplier);
+        magicAttack = magic + (int)(magic * multiplier);
     }
 
     private void CalculateHP()
@@ -255,19 +157,24 @@ public class IMMonsterStats : EntityComponent
         float strengthBasicMultiplier = 1f;
         float multiplierPerStrength = 0.01f;
         float multiplier = strength * multiplierPerStrength + strengthBasicMultiplier;
-        Debug.Log(multiplier);
-        Debug.Log(strength);
-        hp = (int)(strength * multiplier) * 5;
+        hp = strength + (int)(strength * multiplier) * 5;
+        hp = (int)(hp * GetTierHPMultiplier(tier));
     }
 
     private void CalculateSlashDamage()
     {
         slashDamage = (int)(attack * 0.3f);
+
+        if (attackType == AttackType.Attack || attackType == AttackType.AllAttack)
+            slashDamage = (int)(slashDamage * GetTierDamageMultiplier(tier));
     }
 
     private void CalculateSwordrainDamage()
     {
         swordrainDamage = (int)(magicAttack * 0.3f);
+
+        if (attackType == AttackType.MagicAttack || attackType == AttackType.AllAttack)
+            swordrainDamage = (int)(swordrainDamage * GetTierDamageMultiplier(tier));
     }
 
     private void CalculateDefenseS()
@@ -349,6 +256,28 @@ public class IMMonsterStats : EntityComponent
         {
             manaRegen = 1;
         }
+    }
+
+    private float GetTierDamageMultiplier(MonsterTier mTier)
+    {
+        return mTier switch
+        {
+            MonsterTier.Elite => 1.5f,
+            MonsterTier.Rampage => 2f,
+            MonsterTier.Boss => 10f,
+            _ => 1f
+        };
+    }
+
+    private float GetTierHPMultiplier(MonsterTier mTier)
+    {
+        return mTier switch
+        {
+            MonsterTier.Elite => 2f,
+            MonsterTier.Rampage => 5f,
+            MonsterTier.Boss => 150f,
+            _ => 1f
+        };
     }
     #endregion
 }

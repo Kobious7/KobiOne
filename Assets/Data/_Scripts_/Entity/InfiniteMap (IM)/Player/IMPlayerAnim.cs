@@ -4,12 +4,23 @@ public class IMPlayerAnim : EntityAnim
 {
     [SerializeField] private RuntimeAnimatorController origin;
     [SerializeField] private AnimatorOverrideController staffOverride;
+    private InfiniteMapManager infiniteMapManager;
+    private PlayerSO playerData;
 
     protected override void Start()
     {
         base.Start();
 
-        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += SwapOverride;
+        infiniteMapManager = InfiniteMapManager.Instance;
+        playerData = infiniteMapManager.PlayerData;
+
+        infiniteMapManager.Inventory.EquipWearing.OnEquipWearing += SwapOverride;
+
+        if (playerData.Weapon != null && playerData.Weapon.EquipSO != null)
+        {
+            SwapOverride(playerData.Weapon);
+        }
+
     }
 
     public void MeleeAttack()

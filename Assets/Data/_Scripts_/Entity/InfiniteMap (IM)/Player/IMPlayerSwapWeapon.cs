@@ -3,17 +3,29 @@ using UnityEngine;
 public class IMPlayerSwapWeapon : EntityComponent
 {
     private IMPlayer player;
+    private InfiniteMapManager infiniteMapManager;
+    private PlayerSO playerData;
 
     protected override void Start()
     {
         base.Start();
 
         player = Entity as IMPlayer;
-        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += SwapWeapon;
+        infiniteMapManager = InfiniteMapManager.Instance;
+        playerData = infiniteMapManager.PlayerData;
 
-        player.MeleeAttack.gameObject.SetActive(true);
-        player.AttackPoint.gameObject.SetActive(false);
-        player.RangedAttack.gameObject.SetActive(false);
+        infiniteMapManager.Inventory.EquipWearing.OnEquipWearing += SwapWeapon;
+
+        if (playerData.Weapon != null && playerData.Weapon.EquipSO != null)
+        {
+            SwapWeapon(playerData.Weapon);
+        }
+        else
+        {
+            player.MeleeAttack.gameObject.SetActive(true);
+            player.AttackPoint.gameObject.SetActive(false);
+            player.RangedAttack.gameObject.SetActive(false);
+        }
     }
 
     public void SwapWeapon(InventoryEquip equip)

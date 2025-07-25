@@ -23,7 +23,7 @@ public class BoardDestroyedMatches : BoardAb
 
     public IEnumerator SkillDestroyAndFill(TileSkill tileSkill)
     {
-        yield return new WaitForSeconds(1);
+        yield return null;
 
         tiles = Board.BoardGen.Tiles;
 

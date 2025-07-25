@@ -26,8 +26,6 @@ public class RewardItemUISpawner : PrefabSpawner
 
     private IEnumerator SpawnRewards(int exp, int primarionSoul, List<InventoryStuff> rewardItemList)
     {
-        yield return new WaitForSeconds(0.5f);
-
         if (exp > 0)
         {
             Transform expReward = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);

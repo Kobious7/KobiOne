@@ -33,7 +33,7 @@ public class SkillNodeUI : GMono
     {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => Click(skill, treeIndex, treeActive));
-        model.sprite = skill.skillSO.SkillIcon;
+        model.sprite = skill.SkillSO.SkillIcon;
 
         if(skill.Level > 0)
         {

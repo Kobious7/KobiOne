@@ -6,7 +6,7 @@ public class SwordS3Activator : SkillActivator
     public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
         activatorManager.IsCasting = true;
-        SelfSkillSO selfSkill = (SelfSkillSO)skill.skillSO;
+        SelfSkillSO selfSkill = (SelfSkillSO)skill.SkillSO;
 
         playerStats.ManaDes(selfSkill.ManaCost);
 

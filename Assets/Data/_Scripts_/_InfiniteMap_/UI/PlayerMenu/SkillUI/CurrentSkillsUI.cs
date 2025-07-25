@@ -36,39 +36,39 @@ public class CurrentSkillsUI : GMono
 
     private void ShowCurrentSkillsUI()
     {
-        qSkill.sprite = skill.QSkill != null && skill.QSkill.skillSO != null ? skill.QSkill.skillSO.SkillIcon : null;
-        qBan.gameObject.SetActive(skill.QSkill == null ? false : skill.QSkill != null && skill.SkillTrees[skill.QSkill.TreeIndex].IsActive ? false : true);
+        qSkill.sprite = skill.QSkill != null && skill.QSkill.SkillSO != null ? skill.QSkill.SkillSO.SkillIcon : null;
+        qBan.gameObject.SetActive(skill.QSkill == null ? false : skill.QSkill != null && skill.SkillTreeList[skill.QSkill.TreeIndex].IsActive ? false : true);
 
-        eSkill.sprite = skill.ESkill != null && skill.ESkill.skillSO != null ? skill.ESkill.skillSO.SkillIcon : null;
-        eBan.gameObject.SetActive(skill.ESkill == null ? false : skill.ESkill != null && skill.SkillTrees[skill.ESkill.TreeIndex].IsActive ? false : true);
+        eSkill.sprite = skill.ESkill != null && skill.ESkill.SkillSO != null ? skill.ESkill.SkillSO.SkillIcon : null;
+        eBan.gameObject.SetActive(skill.ESkill == null ? false : skill.ESkill != null && skill.SkillTreeList[skill.ESkill.TreeIndex].IsActive ? false : true);
 
-        spaceSkill.sprite = skill.SpaceSkill != null && skill.SpaceSkill.skillSO != null ? skill.SpaceSkill.skillSO.SkillIcon : null;
-        spaceBan.gameObject.SetActive(skill.SpaceSkill == null ? false : skill.SpaceSkill != null && skill.SkillTrees[skill.SpaceSkill.TreeIndex].IsActive ? false : true);
+        spaceSkill.sprite = skill.SpaceSkill != null && skill.SpaceSkill.SkillSO != null ? skill.SpaceSkill.SkillSO.SkillIcon : null;
+        spaceBan.gameObject.SetActive(skill.SpaceSkill == null ? false : skill.SpaceSkill != null && skill.SkillTreeList[skill.SpaceSkill.TreeIndex].IsActive ? false : true);
     }
 
     private void CheckBan(SkillTree skillTree)
     {
-        if (skill.QSkill != null && skill.SkillTrees[skill.QSkill.TreeIndex] == skillTree)
+        if (skill.QSkill != null && skill.SkillTreeList[skill.QSkill.TreeIndex] == skillTree)
         {
-            qBan.gameObject.SetActive(skill.SkillTrees[skill.QSkill.TreeIndex].IsActive ? false : true);
+            qBan.gameObject.SetActive(skill.SkillTreeList[skill.QSkill.TreeIndex].IsActive ? false : true);
         }
         else
         {
             qBan.gameObject.SetActive(false);
         }
 
-        if (skill.ESkill != null && skill.SkillTrees[skill.ESkill.TreeIndex] == skillTree)
+        if (skill.ESkill != null && skill.SkillTreeList[skill.ESkill.TreeIndex] == skillTree)
         {
-            eBan.gameObject.SetActive(skill.SkillTrees[skill.ESkill.TreeIndex].IsActive ? false : true);
+            eBan.gameObject.SetActive(skill.SkillTreeList[skill.ESkill.TreeIndex].IsActive ? false : true);
         }
         else
         {
             eBan.gameObject.SetActive(false);
         }
 
-        if (skill.SpaceSkill != null && skill.SkillTrees[skill.SpaceSkill.TreeIndex] == skillTree)
+        if (skill.SpaceSkill != null && skill.SkillTreeList[skill.SpaceSkill.TreeIndex] == skillTree)
         {
-            spaceBan.gameObject.SetActive(skill.SkillTrees[skill.SpaceSkill.TreeIndex].IsActive ? false : true);
+            spaceBan.gameObject.SetActive(skill.SkillTreeList[skill.SpaceSkill.TreeIndex].IsActive ? false : true);
         }
         else
         {

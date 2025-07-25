@@ -5,21 +5,17 @@ public class BPlayerAttackRange : BEntityAttackRange
     protected override void Start()
     {
         base.Start();
-        PlayerInfo playerInfo = BattleManager.Instance.MapData.PlayerInfo;
+        PlayerSO playerData = BattleManager.Instance.PlayerData;
 
-        if (BattleManager.Instance.MapData.MapCanLoad)
+        if (playerData.Weapon.EquipSO != null)
         {
-            if (playerInfo.Weapon.EquipSO == null)
-            {
-                current = AttackRange.Melee;
-            }
-            else
-            {
-                WeaponSO weaponSO = playerInfo.Weapon.EquipSO as WeaponSO;
+            WeaponSO weaponSO = playerData.Weapon.EquipSO as WeaponSO;
 
-                current = weaponSO.AttackRange;
-            }
-
+            current = weaponSO.AttackRange;
+        }
+        else
+        {
+            current = AttackRange.Melee;
         }
     }
 }

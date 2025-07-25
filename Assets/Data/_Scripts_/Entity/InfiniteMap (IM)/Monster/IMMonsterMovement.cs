@@ -38,6 +38,13 @@ public class IMMonsterMovement : IMEntityMovement
 
     private void Update()
     {
+        if (monster.IsBeingHit)
+        {
+            monster.Anim.Idle();
+            monster.Model.localScale = monster.Model.localScale.x != -1 ? new Vector3(-1, 1, 1) : monster.Model.localScale;
+            return;
+        }
+        
         if (Vector3.Distance(InfiniteMapManager.Instance.Player.transform.position, transform.parent.position) > distance)
         {
             monster.Animator.speed = 0;

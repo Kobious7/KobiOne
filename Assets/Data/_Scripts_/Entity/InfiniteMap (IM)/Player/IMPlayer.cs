@@ -1,15 +1,9 @@
+using System;
 using UnityEngine;
 
 public class IMPlayer : Entity
 {
-    [SerializeField] private bool isUIOpening;
-
-    public bool IsUIOpening
-    {
-        get => isUIOpening;
-        set => isUIOpening = value;
-    }
-
+    public event Action<IMMonster> OnBattlePreparing;
     [SerializeField] private Rigidbody2D rb2D;
 
     public Rigidbody2D Rb2D => rb2D;
@@ -34,6 +28,10 @@ public class IMPlayer : Entity
 
     public IMPlayerMovement Movement => movement;
 
+    [SerializeField] private bool canLockMovement = false;
+
+    public bool CanLockMovement { get => canLockMovement; set => canLockMovement = value; }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -49,6 +47,7 @@ public class IMPlayer : Entity
     protected override void Start()
     {
         base.Start();
+
         if (InfiniteMapManager.Instance.MapData.MapCanLoad)
         {
             transform.position = InfiniteMapManager.Instance.MapData.PlayerInfo.PosOffset + InfiniteMapManager.Instance.Map.Maps[0].position;
@@ -88,5 +87,10 @@ public class IMPlayer : Entity
         if (shooting != null) return;
 
         shooting = GetComponentInChildren<IMEntityShooting>();
+    }
+
+    public void CallOnBattlePreparingEvent(IMMonster monster)
+    {
+        OnBattlePreparing?.Invoke(monster);
     }
 }

@@ -7,7 +7,8 @@ public class IMPlayerStats : EntityComponent
     [Header("EXP & Level")]
     [SerializeField] private int level = 1, requiredExp, currentExp, lerpExpStack, expFromBattle;
 
-    [Header("Stat Points")]
+    [Header("Potential Points")]
+    [SerializeField] private int allPotentialPoints;
     [SerializeField] private int remainPoints;
 
     [Header("Stats")]
@@ -15,14 +16,17 @@ public class IMPlayerStats : EntityComponent
 
     private string[] potentialNames = { "Power", "Magic", "Strength", "Defense", "Dexterity" };
     private string[] statNames = { "Level", "Attack", "Magic Attack", "HP", "Slash Damage", "Swordrain Damage", "Defense", "Accuracy", "Damage Range", "Speed",
-                                "Crit Rate", "Crit Damage", "Mana Regeneration" };
+                                "Crit Rate", "Crit Damage", "Mana Regeneration", "Exp Bonus" };
 
     public event Action<int> OnPotentialChange;
     public event Action<int> OnStatChange;
+    public event Action<int> OnLevelIncreasing;
 
     private InfiniteMapManager infiniteMapManager;
     private SkillUpdateBonus skillUpdateBonus;
+    private SkillUnlock skillUnlock;
     private EquipmentCalculator equipmentCalculator;
+    private PlayerSO playerData;
 
     #region Properties
     public int Level { get => level; set => level = value; }
@@ -40,10 +44,13 @@ public class IMPlayerStats : EntityComponent
         base.Start();
 
         infiniteMapManager = InfiniteMapManager.Instance;
+        playerData = infiniteMapManager.PlayerData;
         infiniteMapManager.Skill.OnSkillPointsReset += UpdatePassiveSkillBonus;
+
 
         skillUpdateBonus = infiniteMapManager.Skill.BonusUpdating;
         skillUpdateBonus.OnSkillBonusChanged += UpdatePassiveSkillBonus;
+        skillUnlock = infiniteMapManager.Skill.SkillUnlock;
 
         equipmentCalculator = infiniteMapManager.Equipment.Calculator;
         equipmentCalculator.OnTotalBonusChanged += UpdateEquipBonus;
@@ -55,6 +62,7 @@ public class IMPlayerStats : EntityComponent
 
     public void LoadStats()
     {
+        infiniteMapManager.Skill.GetSkillData();
         LoadPotentialFromSO();
         CreateStatLists();
         CalculateExp();
@@ -68,20 +76,21 @@ public class IMPlayerStats : EntityComponent
 
     private void LoadPotentialFromSO()
     {
-        CharacterSO characterData = infiniteMapManager.CharacterData;
+        allPotentialPoints = playerData.AllPotentialPoints;
+        remainPoints = playerData.RemainPoints;
 
         potential = CreateStatListFromNames(potentialNames);
-        potential[0].TrueValue = characterData.Power.TrueValue;
-        potential[1].TrueValue = characterData.Magic.TrueValue;
-        potential[2].TrueValue = characterData.Strength.TrueValue;
-        potential[3].TrueValue = characterData.Defense.TrueValue;
-        potential[4].TrueValue = characterData.Dexterity.TrueValue;
+        potential[0].TrueValue = playerData.Power.TrueValue;
+        potential[1].TrueValue = playerData.Magic.TrueValue;
+        potential[2].TrueValue = playerData.Strength.TrueValue;
+        potential[3].TrueValue = playerData.Defense.TrueValue;
+        potential[4].TrueValue = playerData.Dexterity.TrueValue;
 
-        CalculatePower();
-        CalculateMagic();
-        CalculateStrength();
-        CalculateDefense();
-        CalculateDexterity();
+        // CalculatePower();
+        // CalculateMagic();
+        // CalculateStrength();
+        // CalculateDefense();
+        // CalculateDexterity();
     }
 
     private void CreateStatLists()
@@ -115,7 +124,7 @@ public class IMPlayerStats : EntityComponent
 
     private void Calulate(Stat stat)
     {
-        switch(stat.Index)
+        switch (stat.Index)
         {
             case 1:
                 CalculateAttackStat();
@@ -132,7 +141,7 @@ public class IMPlayerStats : EntityComponent
             case 7:
                 CalculateAccuracyStat();
                 break;
-            case 9: 
+            case 9:
                 CalculateSpeedStat();
                 break;
             case 10:
@@ -144,51 +153,50 @@ public class IMPlayerStats : EntityComponent
             case 12:
                 CalculateManaRegenStat();
                 break;
+            case 13:
+                CalculateExpBonusStat();
+                break;
         }
     }
 
     private void CalculateExp()
     {
-        if(infiniteMapManager.MapData.MapCanLoad)
-        {
-            level = infiniteMapManager.MapData.PlayerInfo.Level;
-            currentExp = infiniteMapManager.MapData.PlayerInfo.CurrentExp;
-        }
-        else
-        {
-            level = infiniteMapManager.CharacterData.Level;
-            currentExp = infiniteMapManager.CharacterData.CurrentExp;
-        }
+        level = playerData.Level;
+        currentExp = playerData.CurrentExp;
 
         requiredExp = CalculateRequiredExp(level);
         Stat levelStat = stats[0];
         levelStat.Value = level;
 
-        ExpUpdate();
+        if (infiniteMapManager.MapData.MapCanLoad)  ExpUpdate();
     }
 
     private void ExpUpdate()
     {
-        if(infiniteMapManager.MapData.MapCanLoad)
+        MonsterInfo monsterInfo = infiniteMapManager.MapData.MonsterInfo;
+        int exp = infiniteMapManager.MapData.Result == Result.WIN && (level - monsterInfo.Level) < 10 ?
+                    UnityEngine.Random.Range(monsterInfo.Level + 4, monsterInfo.Level + 9) : 0;
+        Debug.Log(monsterInfo.Level);
+
+        int totalRewardExp = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
+        expFromBattle = monsterInfo.Tier == MonsterTier.Elite ? totalRewardExp * 3 : monsterInfo.Tier == MonsterTier.Rampage ? totalRewardExp * 7 : totalRewardExp;
+        Debug.Log(expFromBattle);
+        currentExp += expFromBattle;
+
+        while (currentExp >= requiredExp)
         {
-            int exp = infiniteMapManager.MapData.Result == Result.WIN ?
-                        UnityEngine.Random.Range(infiniteMapManager.MapData.MonsterInfo.Level + 4, infiniteMapManager.MapData.MonsterInfo.Level + 9) : 0;
+            level++;
+            lerpExpStack++;
+            remainPoints += 5;
+            currentExp -= requiredExp;
 
-            expFromBattle = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
-            currentExp += expFromBattle;
+            IncreaseLevel();
 
-            while (currentExp >= requiredExp)
-            {
-                level++;
-                lerpExpStack++;
-                remainPoints += 5;
-                currentExp -= requiredExp;
-
-                IncreaseLevel();
-
-                requiredExp = CalculateRequiredExp(level);
-            }
+            requiredExp = CalculateRequiredExp(level);
         }
+
+        //Save Data
+        playerData.CurrentExp = currentExp;
     }
 
     private int CalculateRequiredExp(int level)
@@ -200,19 +208,62 @@ public class IMPlayerStats : EntityComponent
     private void IncreaseLevel()
     {
         stats[0].Value = level;
-        //infiniteMapManager.CharacterData.Level = level;
-        //infiniteMapManager.CharacterData.CurrentExp = currentExp;
-
         OnStatChange?.Invoke(0);
+        potential[0].TrueValue += 5;
+        potential[1].TrueValue += 5;
+        potential[2].TrueValue += 5;
+        potential[3].TrueValue += 5;
+        potential[4].TrueValue += 5;
+        allPotentialPoints += 25;
+        remainPoints += 5;
+
+        OnLevelIncreasing?.Invoke(level);
+        skillUnlock.CheckSkillUnlock(level);
+        ReCalculate();
+
+        //Save Data
+        playerData.Level = level;
+        playerData.Power.TrueValue += 5;
+        playerData.Magic.TrueValue += 5;
+        playerData.Strength.TrueValue += 5;
+        playerData.Defense.TrueValue += 5;
+        playerData.Dexterity.TrueValue += 5;
+        playerData.AllPotentialPoints += 25;
+        playerData.RemainPoints += 5;
+    }
+
+    public void ResetPotentialPoint()
+    {
+        potential[0].TrueValue = level * 5;
+        potential[1].TrueValue = level * 5;
+        potential[2].TrueValue = level * 5;
+        potential[3].TrueValue = level * 5;
+        potential[4].TrueValue = level * 5;
+        remainPoints = allPotentialPoints;
+
+        ReCalculate();
+
+        //Save Data
+        playerData.Power.TrueValue = level * 5;
+        playerData.Magic.TrueValue = level * 5;
+        playerData.Strength.TrueValue = level * 5;
+        playerData.Defense.TrueValue = level * 5;
+        playerData.Dexterity.TrueValue = level * 5;
+        playerData.RemainPoints = playerData.AllPotentialPoints;
     }
 
     public void IncreasePotentialPoint(int index, int points)
     {
-        if(index == 0) IncreasePowerPoint(points);
-        if(index == 1) IncreaseMagicPoint(points);
-        if(index == 2) IncreaseStrengthPoint(points);
-        if(index == 3) IncreaseDefensePoint(points);
-        if(index == 4) IncreaseDexterityPoint(points);
+        if (index == 0) IncreasePowerPoint(points);
+        if (index == 1) IncreaseMagicPoint(points);
+        if (index == 2) IncreaseStrengthPoint(points);
+        if (index == 3) IncreaseDefensePoint(points);
+        if (index == 4) IncreaseDexterityPoint(points);
+
+        ReCalculate();
+
+        //Sava Data
+        playerData.RemainPoints -= points;
     }
 
     private void IncreasePowerPoint(int points)
@@ -220,9 +271,11 @@ public class IMPlayerStats : EntityComponent
         Stat power = potential[0];
         power.TrueValue += points;
         remainPoints -= points;
-        //infiniteMapManager.CharacterData.Power.TrueValue = power.TrueValue;
 
         CalculatePowerBranch();
+
+        //Save Data
+        playerData.Power.TrueValue = power.TrueValue;
     }
 
     private void IncreaseMagicPoint(int points)
@@ -230,9 +283,11 @@ public class IMPlayerStats : EntityComponent
         Stat magic = potential[1];
         magic.TrueValue += points;
         remainPoints -= points;
-        //infiniteMapManager.CharacterData.Magic.TrueValue = magic.TrueValue;
 
         CalculateMagicBranch();
+
+        //Sace Data
+        playerData.Magic.TrueValue = magic.TrueValue;
     }
 
     private void IncreaseStrengthPoint(int points)
@@ -240,9 +295,11 @@ public class IMPlayerStats : EntityComponent
         Stat strength = potential[2];
         strength.TrueValue += points;
         remainPoints -= points;
-        //infiniteMapManager.CharacterData.Strength.TrueValue = strength.TrueValue;
 
         CalculateStrengthBranch();
+
+        //Save Data
+        playerData.Strength.TrueValue = strength.TrueValue;
     }
 
     private void IncreaseDefensePoint(int points)
@@ -250,9 +307,11 @@ public class IMPlayerStats : EntityComponent
         Stat defense = potential[3];
         defense.TrueValue += points;
         remainPoints -= points;
-        //infiniteMapManager.CharacterData.Defense.TrueValue = defense.TrueValue;
 
         CalculateDefenseBranch();
+
+        //Save Data
+        playerData.Defense.TrueValue = defense.TrueValue;
     }
 
     private void IncreaseDexterityPoint(int points)
@@ -260,9 +319,11 @@ public class IMPlayerStats : EntityComponent
         Stat dexterity = potential[4];
         dexterity.TrueValue += points;
         remainPoints -= points;
-        //infiniteMapManager.CharacterData.Dexterity.TrueValue = dexterity.TrueValue;
 
         CalculateDexterityBranch();
+
+        //Save Data
+        playerData.Dexterity.TrueValue = dexterity.TrueValue;
     }
 
     private void ReCalculate()
@@ -456,6 +517,12 @@ public class IMPlayerStats : EntityComponent
         manaRegen.PercentBonus = 1;
         manaRegen.IsPercentValue = true;
     }
+
+    private void CalculateExpBonusStat()
+    {
+        Stat expBonus = stats[13];
+        expBonus.Value = 1;
+    }
     #endregion
 
     public void UpdatePassiveSkillBonus(List<OtherSourcesBonus> passiveSkillBonus)
@@ -500,6 +567,7 @@ public class IMPlayerStats : EntityComponent
 
         foreach (var stat in stats)
         {
+            if (stat.Index == 12) continue;
             stat.FlatBonus = 0;
             stat.PercentBonus = 0;
         }

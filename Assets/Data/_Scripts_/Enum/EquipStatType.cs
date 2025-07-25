@@ -19,5 +19,6 @@ public enum EquipStatType
 
     //In battle
     CurrentHPByMaxHP,
-    ManaRegen
+    ManaRegen,
+    ExpBonus
 }

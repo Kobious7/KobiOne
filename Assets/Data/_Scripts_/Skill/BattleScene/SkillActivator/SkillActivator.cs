@@ -34,17 +34,17 @@ public abstract class SkillActivator : GMono, ISkillActivate
         int level = skill.Level;
         List<ActiveDebuff> debuffs = new();
 
-        if (skill.skillSO is TileSkillSO tileSkill)
+        if (skill.SkillSO is TileSkillSO tileSkill)
         {
             debuffs = tileSkill.Debuffs;
         }
 
-        if (skill.skillSO is SelfSkillSO selfSkill)
+        if (skill.SkillSO is SelfSkillSO selfSkill)
         {
             debuffs = selfSkill.Debuffs;
         }
 
-        if (skill.skillSO is OpSkillSO opSkill)
+        if (skill.SkillSO is OpSkillSO opSkill)
         {
             debuffs = opSkill.Debuffs;
         }
@@ -57,17 +57,17 @@ public abstract class SkillActivator : GMono, ISkillActivate
         int level = skill.Level;
         List<ActiveBuff> buffs = new();
 
-        if (skill.skillSO is TileSkillSO tileSkill)
+        if (skill.SkillSO is TileSkillSO tileSkill)
         {
             buffs = tileSkill.Buffs;
         }
 
-        if (skill.skillSO is SelfSkillSO selfSkill)
+        if (skill.SkillSO is SelfSkillSO selfSkill)
         {
             buffs = selfSkill.Buffs;
         }
 
-        if (skill.skillSO is OpSkillSO opSkill)
+        if (skill.SkillSO is OpSkillSO opSkill)
         {
             buffs = opSkill.Buffs;
         }

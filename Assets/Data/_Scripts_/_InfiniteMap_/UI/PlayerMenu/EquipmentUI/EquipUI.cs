@@ -27,6 +27,10 @@ public class EquipUI : GMono
 
     public Button Button => button;
 
+    [SerializeField] private Image newIcon, lockIcon;
+
+    public Image NewIcon { get => newIcon; set => newIcon = value; }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -34,6 +38,8 @@ public class EquipUI : GMono
         LoadQualityColor();
         LoadModel();
         LoadButton();
+        newIcon = transform.Find("New").GetComponent<Image>();
+        lockIcon = transform.Find("Lock").GetComponent<Image>();
     }
 
     private void LoadOnSelected()
@@ -69,6 +75,12 @@ public class EquipUI : GMono
         this.equip = equip;
         qualityColor.color = GetQualityColorByRarity(equip.Rarity);
         model.sprite = equip.EquipSO.Sprite;
+
+        if (equip.IsNew) newIcon.gameObject.SetActive(true);
+        else newIcon.gameObject.SetActive(false);
+
+        if (equip.IsLock) lockIcon.gameObject.SetActive(true);
+        else lockIcon.gameObject.SetActive(false);
     }
 
     public void ShowEmpty()
@@ -76,5 +88,10 @@ public class EquipUI : GMono
         equip = new InventoryEquip();
         qualityColor.color = Color.white;
         model.sprite = null;
+        if (equip.IsNew) newIcon.gameObject.SetActive(true);
+        else newIcon.gameObject.SetActive(false);
+
+        if (equip.IsLock) lockIcon.gameObject.SetActive(true);
+        else lockIcon.gameObject.SetActive(false);
     }
 }

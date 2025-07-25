@@ -51,21 +51,21 @@ public class CurrentEquipmentUI : GMono
 
     private void LoadCurrentEquipments()
     {
-        if(currentEquipments.Count > 0) return;
+        if (currentEquipments.Count > 0) return;
 
         currentEquipments = GetComponentsInChildren<EquipUI>().ToList();
     }
 
     private void LoadEquipInvSpawners()
     {
-        if(equipInvSpawners.Count > 0) return;
+        if (equipInvSpawners.Count > 0) return;
 
         equipInvSpawners = transform.parent.GetComponentsInChildren<EquipmentInvUISpawner>().ToList();
     }
 
     private void LoadClose()
     {
-        if(close != null) return;
+        if (close != null) return;
 
         close = transform.parent.Find("Close");
     }
@@ -87,33 +87,34 @@ public class CurrentEquipmentUI : GMono
         equipment.Unequip.OnEquipDisarming += UpdateUnequippedEquipment;
         inventory.EquipWearing.OnEquipWearing += UpdateEquippedEquipment;
         inventory.OnEquipAdding += UpdateEquipUIInSpawner;
+        inventory.Soulize.OnEquipSoulized += DespawnSoulizedEquip;
     }
 
     private void ShowCurrentEquipments()
     {
-        for(int i = 0; i < currentEquipments.Count; i++)
+        for (int i = 0; i < currentEquipments.Count; i++)
         {
-            if(i == 0)
+            if (i == 0)
             {
                 ShowCurrentEquip(equipment.Weapon, i);
             }
-            if(i == 1)
+            if (i == 1)
             {
                 ShowCurrentEquip(equipment.Helmet, i);
             }
-            if(i == 2)
+            if (i == 2)
             {
                 ShowCurrentEquip(equipment.Armor, i);
             }
-            if(i == 3)
+            if (i == 3)
             {
                 ShowCurrentEquip(equipment.Armwear, i);
             }
-            if(i == 4)
+            if (i == 4)
             {
                 ShowCurrentEquip(equipment.Boots, i);
             }
-            if(i == 5)
+            if (i == 5)
             {
                 ShowCurrentEquip(equipment.Special, i);
             }
@@ -125,29 +126,29 @@ public class CurrentEquipmentUI : GMono
 
     private void SpawnEquipInventory()
     {
-        for(int i = 0; i < equipInvSpawners.Count; i++)
+        for (int i = 0; i < equipInvSpawners.Count; i++)
         {
-            if(i == 0)
+            if (i == 0)
             {
                 equipInvSpawners[0].SpawnEquips(weaponList);
             }
-            if(i == 1)
+            if (i == 1)
             {
                 equipInvSpawners[1].SpawnEquips(helmetList);
             }
-            if(i == 2)
+            if (i == 2)
             {
                 equipInvSpawners[2].SpawnEquips(armorList);
             }
-            if(i == 3)
+            if (i == 3)
             {
                 equipInvSpawners[3].SpawnEquips(armwearList);
             }
-            if(i == 4)
+            if (i == 4)
             {
                 equipInvSpawners[4].SpawnEquips(bootsList);
             }
-            if(i == 5)
+            if (i == 5)
             {
                 equipInvSpawners[5].SpawnEquips(specialList);
             }
@@ -156,7 +157,7 @@ public class CurrentEquipmentUI : GMono
 
     private void ShowCurrentEquip(InventoryEquip equip, int index)
     {
-        if(equip.Level > 0)
+        if (equip.Level > 0)
         {
             currentEquipments[index].ShowEquip(equip);
         }
@@ -171,7 +172,7 @@ public class CurrentEquipmentUI : GMono
         int index = GetEquipIndex(equip.EquipSO.EquipType);
 
         ShowCurrentEquip(equip, index);
-        equipInvSpawners[index].DespawnEquippedEquip(equip);
+        equipInvSpawners[index].DespawnEquip(equip);
     }
 
     private void UpdateUnequippedEquipment(InventoryEquip equip)
@@ -186,39 +187,39 @@ public class CurrentEquipmentUI : GMono
 
     public int GetEquipIndex(EquipType equipType)
     {
-        if(equipType == EquipType.Weapon) return 0;
-        else if(equipType == EquipType.Helmet) return 1;
-        else if(equipType == EquipType.Armor) return 2;
-        else if(equipType == EquipType.Armwear) return 3;
-        else if(equipType == EquipType.Boots) return 4;
-        else if(equipType == EquipType.Special) return 5;
+        if (equipType == EquipType.Weapon) return 0;
+        else if (equipType == EquipType.Helmet) return 1;
+        else if (equipType == EquipType.Armor) return 2;
+        else if (equipType == EquipType.Armwear) return 3;
+        else if (equipType == EquipType.Boots) return 4;
+        else if (equipType == EquipType.Special) return 5;
         else return 6;
     }
 
     private void Click(EquipUI equipUI, int index)
     {
         close.gameObject.SetActive(true);
-        if(currentEquip != null) currentEquip.OnSelected.gameObject.SetActive(false);
+        if (currentEquip != null) currentEquip.OnSelected.gameObject.SetActive(false);
 
         equipUI.OnSelected.gameObject.SetActive(true);
 
         currentEquip = equipUI;
 
         EquipmentDetailsUI.Instance.gameObject.SetActive(true);
-        if(equipUI.Equip.Level > 0)
-        { 
-            EquipmentDetailsUI.Instance.ShowDetails(equipUI.Equip);
+        if (equipUI.Equip.Level > 0)
+        {
+            EquipmentDetailsUI.Instance.ShowDetails(equipUI.Equip, true);
             EquipmentDetailsUI.Instance.AddUnequipClickListener(equipUI.Equip);
         }
         else
         {
-            if(EquipmentDetailsUI.Instance.gameObject.activeSelf) EquipmentDetailsUI.Instance.gameObject.SetActive(false);
+            if (EquipmentDetailsUI.Instance.gameObject.activeSelf) EquipmentDetailsUI.Instance.gameObject.SetActive(false);
         }
 
-        if(currentSpawner != null)
+        if (currentSpawner != null)
         {
             currentSpawner.gameObject.SetActive(false);
-            if(currentSpawner.CurrentEquip != null && currentSpawner.CurrentEquip.OnSelected.gameObject.activeSelf)
+            if (currentSpawner.CurrentEquip != null && currentSpawner.CurrentEquip.OnSelected.gameObject.activeSelf)
             {
                 currentSpawner.CurrentEquip.OnSelected.gameObject.SetActive(false);
                 currentSpawner.CurrentEquip = null;
@@ -235,5 +236,12 @@ public class CurrentEquipmentUI : GMono
         int index = GetEquipIndex(equip.EquipSO.EquipType);
 
         equipInvSpawners[index].SpawnEquip(equip);
+    }
+
+    private void DespawnSoulizedEquip(InventoryEquip equip)
+    {
+        int index = GetEquipIndex(equip.EquipSO.EquipType);
+
+        equipInvSpawners[index].DespawnEquip(equip);
     }
 }

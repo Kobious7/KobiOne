@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +7,10 @@ public class LevelBarUI : GMono
 {
     [SerializeField] private Image slider;
     [SerializeField] private TextMeshProUGUI percent;
-    [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private float lerpSpeed = 2f;
     private InfiniteMapManager infiniteMapManager;
     private PlayerInfo playerInfo;
-    private CharacterSO characterData;
+    private PlayerSO playerData;
     private IMPlayerStats playerStats;
 
     protected override void LoadComponents()
@@ -21,7 +19,6 @@ public class LevelBarUI : GMono
 
         slider = transform.Find("Slider").GetComponent<Image>();
         percent = transform.Find("Percent").GetComponent<TextMeshProUGUI>();
-        level = transform.Find("Level").GetComponentInChildren<TextMeshProUGUI>();
     }
 
     protected override void Start()
@@ -30,13 +27,12 @@ public class LevelBarUI : GMono
 
         infiniteMapManager = InfiniteMapManager.Instance;
         playerInfo = infiniteMapManager.MapData.PlayerInfo;
-        characterData = infiniteMapManager.CharacterData;
+        playerData = infiniteMapManager.PlayerData;
         playerStats = infiniteMapManager.Player.StatsSystem;
         int currentExp, maxExp;
 
         if (infiniteMapManager.MapData.MapCanLoad)
         {
-            level.text = $"{playerInfo.Level}";
             currentExp = playerInfo.CurrentExp;
             maxExp = playerInfo.RequiredExp;
             percent.text = currentExp > 0 ? $"{((float)(currentExp / maxExp) * 100):F2}%" : "0%";
@@ -44,10 +40,9 @@ public class LevelBarUI : GMono
         }
         else
         {
-            level.text = $"{characterData.Level}";
-            currentExp = characterData.CurrentExp;
-            int averageMonsters = (characterData.Level / 10) * 10 + characterData.Level;
-            maxExp = ((characterData.Level / 10) * 10 + 10) * averageMonsters;
+            currentExp = playerData.CurrentExp;
+            int averageMonsters = (playerData.Level / 10) * 10 + playerData.Level;
+            maxExp = ((playerData.Level / 10) * 10 + 10) * averageMonsters;
         }
 
         percent.text = currentExp > 0 ? $"{((float)(currentExp / maxExp) * 100):F2}%" : "0%";
@@ -56,7 +51,6 @@ public class LevelBarUI : GMono
 
     private void Update()
     {
-        level.text = $"{playerStats.Level}";
         percent.text = playerStats.CurrentExp > 0 ? $"{((float)playerStats.CurrentExp / playerStats.RequiredExp * 100):F2}%" : "0%";
         if (playerStats.LerpExpStack > 0)
         {

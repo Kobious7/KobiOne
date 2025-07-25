@@ -68,4 +68,4 @@ MonoBehaviour:
   ObjectSprite: {fileID: 21300000, guid: 7fb3e7bc166bdc94da1643a417f17bfc, type: 3}
   ObjectSpeed: 6
   DObjectPrefab: {fileID: 2554047788431799075, guid: e1607053f06e7394d942a854c8ab9d1d, type: 3}
-  DObjectHitFX: {fileID: 4949317727072264376, guid: 8fb37ba285c726d4687145855b3811cb, type: 3}
+  DObjectHitFX: {fileID: 4600853022125853743, guid: ffc9f36a0554ab5419918a0f9a08cff8, type: 3}

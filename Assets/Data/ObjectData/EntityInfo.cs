@@ -17,4 +17,5 @@ public abstract class EntityInfo
     public float CritRate;
     public float CritDamage;
     public float ManaRegen;
+    public int ExpBonus;
 }

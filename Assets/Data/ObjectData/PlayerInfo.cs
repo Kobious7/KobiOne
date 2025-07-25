@@ -10,5 +10,4 @@ public class PlayerInfo : EntityInfo
     public CurrentSkillNode QSkill;
     public CurrentSkillNode ESkill;
     public CurrentSkillNode SpaceSkill;
-    public InventoryEquip Weapon;
 }

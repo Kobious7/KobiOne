@@ -40,6 +40,8 @@ public class EquipObtainer : InventoryAb
         newEquip.SubStats = new List<EquipStat>();
         newEquip.CurrentUpgradeCost = CalculateCostByRarity(newEquip.Level, newEquip.Rarity);
         newEquip.NextUpgradeCost = CalculateCostByRarity(newEquip.Level + 1, newEquip.Rarity);
+        newEquip.IsNew = true;
+        newEquip.IsLock = false;
         return newEquip;
     }
 
@@ -62,10 +64,13 @@ public class EquipObtainer : InventoryAb
         if (Inventory.PrimarionSoul >= equip.CurrentUpgradeCost)
         {
             Inventory.PrimarionSoul -= equip.CurrentUpgradeCost;
-            
+
             if (Inventory.PrimarionSoul < 0) Inventory.PrimarionSoul = 0;
-            
+
             UpgradeEquip(equip, 1);
+
+            //Sava Data
+            InfiniteMapManager.Instance.PlayerData.PrimarionSoul = Inventory.PrimarionSoul;
         }
     }
 

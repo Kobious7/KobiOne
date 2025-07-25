@@ -36,7 +36,7 @@ public class SkillDetailUIActionBtns : GMono
             eBtn.gameObject.SetActive(true);
             spaceBtn.gameObject.SetActive(true);
 
-            if (skill.Level < skill.skillSO.MaxLevel)
+            if (skill.Level < skill.SkillSO.MaxLevel)
             {
                 upgradeBtn.onClick.RemoveAllListeners();
                 upgradeBtn.onClick.AddListener(() => UpgradeClick(skill, treeIndex, treeActive));
@@ -49,7 +49,7 @@ public class SkillDetailUIActionBtns : GMono
                 upgradeBtn.gameObject.SetActive(false);
             }
 
-            if (skill.skillSO is ActiveSkillSO)
+            if (skill.SkillSO is ActiveSkillSO)
             {
                 qBtn.onClick.RemoveAllListeners();
                 qBtn.onClick.AddListener(() => QClick(skill, treeIndex));

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class skillPointsUI : GMono
 {
     [SerializeField] private TextMeshProUGUI skillPointsText;
-    [SerializeField] private Button resetBtns;
+    [SerializeField] private Button resetBtn;
     [SerializeField] private ResetPromptUI resetPromptUI;
 
     protected override void LoadComponents()
@@ -15,7 +15,7 @@ public class skillPointsUI : GMono
         base.LoadComponents();
 
         skillPointsText = transform.Find("Text").GetComponent<TextMeshProUGUI>();
-        resetBtns = transform.Find("ResetBtn").GetComponent<Button>();
+        resetBtn = transform.Find("ResetBtn").GetComponent<Button>();
         resetPromptUI = GetComponentInChildren<ResetPromptUI>();
     }
 
@@ -37,8 +37,8 @@ public class skillPointsUI : GMono
     {
         skillPointsText.text = $"{SkillSGT.Instance.Skill.SkillPoints}";
 
-        resetBtns.onClick.RemoveAllListeners();
-        resetBtns.onClick.AddListener(ClickToOpenPromptListener);
+        resetBtn.onClick.RemoveAllListeners();
+        resetBtn.onClick.AddListener(ClickToOpenPromptListener);
     }
 
     private void ClickToOpenPromptListener()

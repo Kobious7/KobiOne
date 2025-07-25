@@ -37,6 +37,8 @@ public class Map : GMono
 
     public MapReset MapReset => mapReset;
 
+    private InfiniteMapManager infiniteMapManager;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -56,10 +58,9 @@ public class Map : GMono
     protected override void Start()
     {
         base.Start();
-        if (InfiniteMapManager.Instance.MapData.MapCanLoad)
-        {
-            distance = InfiniteMapManager.Instance.MapData.MapInfo.Distance;
-        }
+        infiniteMapManager = InfiniteMapManager.Instance;
+
+        distance = infiniteMapManager.MapData.MapCanLoad ? infiniteMapManager.MapData.MapInfo.Distance : (infiniteMapManager.PlayerData.Distance / 500) * 500f;
 
         if (distance <= 500f)
         {

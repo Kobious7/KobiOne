@@ -5,6 +5,7 @@ using UnityEngine;
 public class PrimarionSoul : GMono
 {
     [SerializeField] private TextMeshProUGUI value;
+    private Inventory inventory;
 
     protected override void LoadComponents()
     {
@@ -21,7 +22,13 @@ public class PrimarionSoul : GMono
     private IEnumerator WaitNextFrame()
     {
         yield return null;
+        inventory = InfiniteMapManager.Instance.Inventory;
+        inventory.OnPrimarionSoulChanged += UpdatePrimarionSoul;
+        value.text = $"{inventory.PrimarionSoul}";
+    }
 
-        value.text = $"{InfiniteMapManager.Instance.Inventory.PrimarionSoul}";
+    private void UpdatePrimarionSoul()
+    {
+        value.text = $"{inventory.PrimarionSoul}";
     }
 }

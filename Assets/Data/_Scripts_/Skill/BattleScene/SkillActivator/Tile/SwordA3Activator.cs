@@ -6,12 +6,10 @@ public class SwordA3Activator : SkillActivator
     public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
         activatorManager.IsCasting = true;
-        TileSkillSO tileSkill = (TileSkillSO)skill.skillSO;
+        TileSkillSO tileSkill = (TileSkillSO)skill.SkillSO;
 
         int objectSpawnCount = Random.Range(tileSkill.ObjectMinSpawnCount, tileSkill.ObjectMaxSpawnCount + 1);
         int tileObjects = 0, opObjects = 0;
-
-        Debug.Log(objectSpawnCount);
 
         objectSpawnCount--;
 
@@ -26,9 +24,6 @@ public class SwordA3Activator : SkillActivator
         }
 
         tileObjects = objectSpawnCount - opObjects + 1;
-
-        Debug.Log(tileObjects);
-        Debug.Log(opObjects);
 
         destructiveObjectSpawner.TileSpawnCount = tileObjects;
         destructiveObjectSpawner.OpSpawnCount = opObjects;

@@ -49,6 +49,7 @@ public class EquipmentInvUISpawner : Spawner
 
         currentList.Add(equipUI);
         equipUI.ShowEquip(equip);
+        equipUI.Button.onClick.RemoveAllListeners();
         equipUI.Button.onClick.AddListener(() => AddClick(equipUI));
         newEquip.gameObject.SetActive(true);
     }
@@ -56,12 +57,17 @@ public class EquipmentInvUISpawner : Spawner
     public void AddClick(EquipUI equipUI)
     {
         if(currentEquip == equipUI) return;
-        
-        if(GameUI.Instance.CurrentEquipmentUI.CurrentEquip != null)
+        if (equipUI.Equip.IsNew == true)
         {
-            GameUI.Instance.CurrentEquipmentUI.CurrentEquip.OnSelected.gameObject.SetActive(false);
-            GameUI.Instance.CurrentEquipmentUI.CurrentEquip = null;
+            equipUI.Equip.IsNew = false;
+            equipUI.NewIcon.gameObject.SetActive(false);
         }
+        
+        if (GameUI.Instance.CurrentEquipmentUI.CurrentEquip != null)
+            {
+                GameUI.Instance.CurrentEquipmentUI.CurrentEquip.OnSelected.gameObject.SetActive(false);
+                GameUI.Instance.CurrentEquipmentUI.CurrentEquip = null;
+            }
 
         if(currentEquip != null) currentEquip.OnSelected.gameObject.SetActive(false);
 
@@ -74,10 +80,10 @@ public class EquipmentInvUISpawner : Spawner
         EquipmentDetailsUI.Instance.AddEquipClickListener(equipUI.Equip);
     }
 
-    public void DespawnEquippedEquip(InventoryEquip equip)
+    public void DespawnEquip(InventoryEquip equip)
     {
-        Transform equippedEquip = currentList.Where(e => e.Equip == equip).FirstOrDefault().transform;
+        Transform despawnEquip = currentList.Where(e => e.Equip == equip).FirstOrDefault().transform;
 
-        Despawn(equippedEquip);
+        Despawn(despawnEquip);
     }
 }

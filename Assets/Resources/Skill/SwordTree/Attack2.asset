@@ -26,6 +26,7 @@ MonoBehaviour:
   ManaCost: 15
   TurnCount: 1
   Activator: {fileID: 6676369280507863500, guid: 12ad3751aee42d344af4c5f50cef4c04, type: 3}
+  ExtraFX: {fileID: 0}
   SelfTarget: 0
   OpponentTarget: 1
   Damage:
@@ -36,7 +37,7 @@ MonoBehaviour:
   Buffs: []
   Debuffs: []
   ObjectMinSpawnCount: 1
-  ObjectMaxSpawnCount: 2
+  ObjectMaxSpawnCount: 3
   MinObjectToOp: 0
   MaxObjectToOp: 1
   AreaSquareRange: 3

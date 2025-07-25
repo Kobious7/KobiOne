@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PotentialUI : GMono
 {
     [SerializeField] private List<PotentialStatUI> potentialStatUIs;
     [SerializeField] private TextMeshProUGUI remainPoint;
+    [SerializeField] private Button resetBtn;
+    [SerializeField] private ResetPromptUI resetPromptUI;
     private List<Stat> potential;
     private InfiniteMapManager infiniteMapManager;
 
@@ -16,6 +19,9 @@ public class PotentialUI : GMono
         base.LoadComponents();
         LoadPotentialStatUIs();
         LoadRemainPoint();
+
+        resetBtn = transform.Find("ResetBtn").GetComponent<Button>();
+        resetPromptUI = GetComponentInChildren<ResetPromptUI>();
     }
 
     protected override void Start()
@@ -24,7 +30,7 @@ public class PotentialUI : GMono
 
         infiniteMapManager = InfiniteMapManager.Instance;
 
-        StartCoroutine(WaitNextFrame());   
+        StartCoroutine(WaitNextFrame());
     }
 
     private void LoadPotentialStatUIs()
@@ -46,6 +52,9 @@ public class PotentialUI : GMono
         yield return null;
         ShowPotentialPoint();
         infiniteMapManager.Player.StatsSystem.OnPotentialChange += UpdatePotential;
+
+        resetBtn.onClick.RemoveAllListeners();
+        resetBtn.onClick.AddListener(ClickToOpenPromptListener);
     }
 
     private void ShowPotentialPoint()
@@ -65,5 +74,10 @@ public class PotentialUI : GMono
     {
         potentialStatUIs[index].ShowPoint(potential[index]);
         remainPoint.text = $"{infiniteMapManager.Player.StatsSystem.RemainPoints}";
+    }
+    
+    private void ClickToOpenPromptListener()
+    {
+        resetPromptUI.gameObject.SetActive(true);
     }
 }

@@ -16,32 +16,32 @@ public abstract class SkillTreeTextFormatter : GMono
 
     public string GetReplacedDescription(SkillNode skill, int level)
     {
-        if(skill.skillSO is ActiveSkillSO)
+        if(skill.SkillSO is ActiveSkillSO)
         {
-            if(skill.skillSO is TileSkillSO)
+            if(skill.SkillSO is TileSkillSO)
             {
-                TileSkillSO tileSkill = (TileSkillSO)skill.skillSO;
+                TileSkillSO tileSkill = (TileSkillSO)skill.SkillSO;
 
                 CreateTileSkillReplacements(tileSkill, level);
             }
 
-            if(skill.skillSO is SelfSkillSO)
+            if(skill.SkillSO is SelfSkillSO)
             {
-                SelfSkillSO selfSkill = (SelfSkillSO)skill.skillSO;
+                SelfSkillSO selfSkill = (SelfSkillSO)skill.SkillSO;
 
                 CreateSelfSkillReplacements(selfSkill, level);
             }
 
-            if(skill.skillSO is OpSkillSO)
+            if(skill.SkillSO is OpSkillSO)
             {
-                OpSkillSO opSkill = (OpSkillSO)skill.skillSO;
+                OpSkillSO opSkill = (OpSkillSO)skill.SkillSO;
 
                 CreateOpponentSkillReplacements(opSkill, level);
             }
         }
         else
         {
-            PassiveSkillSO passiveSkill = (PassiveSkillSO)skill.skillSO;
+            PassiveSkillSO passiveSkill = (PassiveSkillSO)skill.SkillSO;
 
             CreatePassiveSkillReplacements(passiveSkill, level);
         }
@@ -56,7 +56,7 @@ public abstract class SkillTreeTextFormatter : GMono
 
     private string ReplaceSkillDescription(SkillNode skill)
     {
-        string replacedDescription = skill.skillSO.Description;
+        string replacedDescription = skill.SkillSO.Description;
 
         foreach(var replacement in replacements)
         {

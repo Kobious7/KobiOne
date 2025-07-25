@@ -3,13 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class GMono : MonoBehaviour
 {
-    protected const string BATTLE = "Battle";
-    protected const string INFINITEMAP = "InfiniteMap";
+    protected const string BATTLE = "Battle", INFINITEMAP = "InfiniteMap", MAINMENU = "MainMenu";
 
     protected virtual void Awake()
     {
         LoadComponents();
-        ResetValues();
     }
 
     protected virtual void Reset()
@@ -18,13 +16,8 @@ public class GMono : MonoBehaviour
     }
 
     protected virtual void LoadComponents() {}
-
-    protected virtual void ResetValues() {}
-
     protected virtual void Start() {}
-
     protected virtual void OnEnable() {}
-
     protected virtual void OnDisable() {}
 
     public TileBoard GetTile(Transform obj)

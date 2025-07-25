@@ -12,8 +12,7 @@ public class FlyObjectInfiniteMapCollision : FlyObjectCollision
         
         if (monsterCom != null && monsterCom is IMMonster)
         {
-            InfiniteMapManager.Instance.LoadDataToInfiniteMapSO(other.transform.parent);
-            LoadScene(BATTLE);
+            InfiniteMapManager.Instance.Player.CallOnBattlePreparingEvent(monsterCom);
         }
 
         InfiniteMapManager.Instance.FlyObjectSpawner.Despawn(transform.parent);

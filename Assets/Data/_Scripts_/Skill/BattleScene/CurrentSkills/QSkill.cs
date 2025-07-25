@@ -4,6 +4,6 @@ public class QSkill : CurrentSkill
 {
     protected override SkillSO GetSkillSO()
     {
-        return BSkill.QSkill.skillSO;
+        return BSkill.QSkill.SkillSO;
     }
 }

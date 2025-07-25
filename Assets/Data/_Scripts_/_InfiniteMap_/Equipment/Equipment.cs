@@ -18,12 +18,26 @@ public class Equipment : GMono
 
     public EquipDisarming Unequip => unequip;
 
+    private PlayerSO playerData;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
         CreateStatsBonus();
         LoadEquipmentCalculator();
         LoadUnequip();
+    }
+
+    protected override void Start()
+    {
+        playerData = InfiniteMapManager.Instance.PlayerData;
+        
+        weapon = playerData.Weapon;
+        helmet = playerData.Helmet;
+        armor = playerData.Armor;
+        armwear = playerData.Armor;
+        boots = playerData.Boots;
+        special = playerData.Special;
     }
 
     private void CreateStatsBonus()
@@ -40,7 +54,7 @@ public class Equipment : GMono
         boots.SubStats = new List<EquipStat>();
         special = new InventoryEquip();
         special.SubStats = new List<EquipStat>();
-        
+
         NewStatBonus();
     }
 

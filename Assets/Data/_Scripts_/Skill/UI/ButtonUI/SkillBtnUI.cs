@@ -68,7 +68,7 @@ public class SkillBtnUI : GMono
         }
         else
         {
-            model.sprite = skill.skillSO.SkillIcon;
+            model.sprite = skill.SkillSO.SkillIcon;
             button.onClick.AddListener(OnButtonClick);
         }
     }

@@ -269,13 +269,12 @@ public class Battle : GMono
             {
                 int flatExp = player.Stats.ExpFlatBonus * tileCounter[TileEnum.EXP];
                 int amount = (int)(flatExp + flatExp * player.Stats.ExpPercentBonus / 100);
-                amount = (int)(UnityEngine.Random.Range(0.8f, 1.2f) * amount);
                 collectedExp += amount;
                 player.Stats.EXPIns(amount);
             }
         }
 
-        if (tileCounter[TileEnum.HEART] > 0)
+        if (tileCounter[TileEnum.HEART] > 0 && !end)
         {
             if (pTurn)
             {
@@ -290,7 +289,7 @@ public class Battle : GMono
             }
         }
 
-        if (tileCounter[TileEnum.VHEART] > 0)
+        if (tileCounter[TileEnum.VHEART] > 0 && !end)
         {
             if (pTurn)
             {
@@ -304,19 +303,19 @@ public class Battle : GMono
             }
         }
 
-        if (tileCounter[TileEnum.MANA] > 0)
+        if (tileCounter[TileEnum.MANA] > 0 && !end)
         {
             if (pTurn) player.Stats.ManaIns((int)(player.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
             if (opTurn) monster.Stats.ManaIns((int)(monster.Stats.ManaRegen * tileCounter[TileEnum.MANA]));
         }
 
-        if (tileCounter[TileEnum.SHEILD] > 0)
+        if (tileCounter[TileEnum.SHEILD] > 0 && !end)
         {
             if (pTurn) player.Stats.SheildStack(tileCounter[TileEnum.SHEILD]);
             if (opTurn) monster.Stats.SheildStack(tileCounter[TileEnum.SHEILD]);
         }
 
-        if (tileCounter[TileEnum.SLASH] > 0)
+        if (tileCounter[TileEnum.SLASH] > 0 && !end)
         {
 
             if (pTurn)
@@ -354,7 +353,7 @@ public class Battle : GMono
             }
         }
 
-        if (tileCounter[TileEnum.SWORD] > 0)
+        if (tileCounter[TileEnum.SWORD] > 0 && !end)
         {
             if (pTurn)
             {

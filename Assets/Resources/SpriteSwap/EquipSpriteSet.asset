@@ -307,9 +307,9 @@ MonoBehaviour:
         Label: r_foot_d1
     - PartName: Weapon
       Parts:
-      - Sprite: {fileID: -6376434356736318482, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+      - Sprite: {fileID: 5416003628937419509, guid: 8438ab4e711dc844e965d1e959d01763, type: 3}
         Category: weapon_all
         Label: weapon_all
-      - Sprite: {fileID: -2745425373253402117, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+      - Sprite: {fileID: -3840870789583965986, guid: 8438ab4e711dc844e965d1e959d01763, type: 3}
         Category: weapon_h
         Label: weapon_h

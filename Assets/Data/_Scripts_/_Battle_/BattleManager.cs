@@ -12,9 +12,9 @@ public class BattleManager : GMono
 
     public InfiniteMapSO MapData => mapData;
 
-    [SerializeField] private CharacterSO characterData;
+    [SerializeField] private PlayerSO playerData;
 
-    public CharacterSO CharacterData => characterData;
+    public PlayerSO PlayerData => playerData;
 
     [SerializeField] private MonsterObjectCreator monsterObjectCreator;
 
@@ -76,9 +76,9 @@ public class BattleManager : GMono
     {
         base.LoadComponents();
         LoadMapData();
-        LoadCharacterData();
+        LoadPlayerData();
         LoadMonsterObjectCreator();
-        monsterObjectCreator.SpawnMonsterObject("Ellipsy");
+        monsterObjectCreator.SpawnMonsterObject(mapData.MonsterInfo.Name, mapData.MonsterInfo.Tier);
         LoadPlayer();
         LoadFlyObjectSpawner();
         LoadTileBGSpawner();
@@ -99,11 +99,11 @@ public class BattleManager : GMono
         mapData = Resources.Load<InfiniteMapSO>("InfinityMapData");
     }
 
-    private void LoadCharacterData()
+    private void LoadPlayerData()
     {
-        if (characterData != null) return;
+        if (playerData != null) return;
 
-        characterData = Resources.Load<CharacterSO>("Character/Character");
+        playerData = Resources.Load<PlayerSO>("Player/Player");
     }
 
     private void LoadMonsterObjectCreator()

@@ -12,7 +12,10 @@ public class InventoryEquip : InventoryStuff
     [SerializeField] private List<EquipStat> subStats;
     [SerializeField] private int currentUpgradeCost;
     [SerializeField] private int nextUpgradeCost;
+    [SerializeField] private bool isNew;
+    [SerializeField] private bool isLock;
 
+    #region Properties
     public int Level
     {
         get => level;
@@ -54,6 +57,10 @@ public class InventoryEquip : InventoryStuff
         get => nextUpgradeCost;
         set => nextUpgradeCost = value;
     }
+
+    public bool IsNew { get => isNew; set => isNew = value; }
+    public bool IsLock { get => isLock; set => isLock = value; }
+    #endregion
 
     public InventoryEquip()
     {

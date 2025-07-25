@@ -13,7 +13,7 @@ public class EquipmentDetailsUI : GMono
     [SerializeField] private EquipmentStatUI mainStat;
     [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private EquipmentSubStatsSpawner subStats;
-    [SerializeField] private Button closeBtn, equipBtn, unequipBtn, upgradeBtn;
+    [SerializeField] private Button closeBtn, equipBtn, unequipBtn, upgradeBtn, soulizeBtn, lockBtn, unlockBtn;
 
     private CurrentEquipmentUI currentEquipmentUI;
 
@@ -39,7 +39,10 @@ public class EquipmentDetailsUI : GMono
         LoadEquipButton();
         LoadUnequipButton();
 
-        upgradeBtn = transform.Find("Buttons").Find("ButtonLine1").Find("UpgradeBtn").GetComponent<Button>();
+        if (upgradeBtn == null) upgradeBtn = transform.Find("Buttons").Find("ButtonLine1").Find("UpgradeBtn").GetComponent<Button>();
+        if (soulizeBtn == null) soulizeBtn = transform.Find("Buttons").Find("ButtonLine2").Find("SoulizeBtn").GetComponent<Button>();
+        if (lockBtn == null) lockBtn = transform.Find("Lock").Find("LockBtn").GetComponent<Button>();
+        if (unlockBtn == null) unlockBtn = transform.Find("Lock").Find("UnlockBtn").GetComponent<Button>();
     }
 
     protected override void Start()
@@ -112,7 +115,7 @@ public class EquipmentDetailsUI : GMono
         unequipBtn = transform.Find("Buttons").Find("ButtonLine1").Find("EquipBtn").Find("UnequipBtn").GetComponent<Button>();
     }
 
-    public void ShowDetails(InventoryEquip equip)
+    public void ShowDetails(InventoryEquip equip, bool isCurrentEquip = false)
     {
         qualityColor.color = GetQualityColorByRarity(equip.Rarity);
         model.sprite = equip.EquipSO.Sprite;
@@ -124,6 +127,26 @@ public class EquipmentDetailsUI : GMono
         unequipBtn.onClick.RemoveAllListeners();
         upgradeBtn.onClick.RemoveAllListeners();
         upgradeBtn.onClick.AddListener(() => UpgradeClickListener(equip));
+
+        if (equip.IsLock)
+        {
+            soulizeBtn.transform.parent.gameObject.SetActive(false);
+            lockBtn.gameObject.SetActive(true);
+            unlockBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            soulizeBtn.transform.parent.gameObject.SetActive(true);
+            soulizeBtn.onClick.RemoveAllListeners();
+            soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equip));
+            lockBtn.gameObject.SetActive(false);
+            unlockBtn.gameObject.SetActive(true);
+        }
+
+        lockBtn.onClick.RemoveAllListeners();
+        unlockBtn.onClick.RemoveAllListeners();
+        lockBtn.onClick.AddListener(() => UnlockClickListener(equip));
+        unlockBtn.onClick.AddListener(() => LockClickListener(equip));
     }
 
     public void AddEquipClickListener(InventoryEquip equip)
@@ -169,6 +192,7 @@ public class EquipmentDetailsUI : GMono
     {
         InfiniteMapManager.Instance.Inventory.EquipWearing.Equip(equip);
         unequipBtn.transform.parent.gameObject.SetActive(false);
+        soulizeBtn.transform.parent.gameObject.SetActive(false);
     }
 
     private void UnequipClickListener(InventoryEquip equip)
@@ -181,5 +205,28 @@ public class EquipmentDetailsUI : GMono
     {
         EquipmentUpgradeUI.Instance.gameObject.SetActive(true);
         EquipmentUpgradeUI.Instance.SetEquipmentUpgradeUI(equip);
+    }
+
+    private void SoulizeClickListener(InventoryEquip equip)
+    {
+        SoulizeEquipmentUI.Instance.gameObject.SetActive(true);
+        SoulizeEquipmentUI.Instance.SetSoulizeEquipmentUI(equip);
+    }
+
+    private void LockClickListener(InventoryEquip equip)
+    {
+        equip.IsLock = true;
+        lockBtn.gameObject.SetActive(true);
+        unlockBtn.gameObject.SetActive(false);
+    }
+
+    private void UnlockClickListener(InventoryEquip equip)
+    {
+        equip.IsLock = false;
+        lockBtn.gameObject.SetActive(false);
+        unlockBtn.gameObject.SetActive(true);
+        soulizeBtn.transform.parent.gameObject.SetActive(true);
+        soulizeBtn.onClick.RemoveAllListeners();
+        soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equip));
     }
 }

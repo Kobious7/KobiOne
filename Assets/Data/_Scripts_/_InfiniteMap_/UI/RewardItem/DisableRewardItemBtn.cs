@@ -21,5 +21,6 @@ public class DisableRewardItemBtn : GMono
     private void OnClick()
     {
         transform.parent.gameObject.SetActive(false);
+        InfiniteMapManager.Instance.IsUIOpening = false;
     }
 }

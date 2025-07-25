@@ -10,14 +10,16 @@ public class MapLevel : MapAb
     [SerializeField] private int previousLevel = 0;
 
     public int PreviousLevel => previousLevel;
+
+    private InfiniteMapManager infiniteMapManager;
     
     protected override void Start()
     {
         base.Start();
-        
-        if(!InfiniteMapManager.Instance.MapData.MapCanLoad) return;
 
-        currentLevel = InfiniteMapManager.Instance.MapData.MapInfo.Level;
+        infiniteMapManager = InfiniteMapManager.Instance;
+
+        currentLevel = infiniteMapManager.MapData.MapCanLoad ? infiniteMapManager.MapData.MapInfo.Level : infiniteMapManager.PlayerData.MapLevel;
         previousLevel = currentLevel;
     }
 
@@ -26,6 +28,10 @@ public class MapLevel : MapAb
         if (!Changed()) return;
 
         previousLevel = currentLevel;
+
+        //Save Data
+        infiniteMapManager.PlayerData.Distance = previousLevel * 500;
+        infiniteMapManager.PlayerData.MapLevel = previousLevel;
     }
 
     private bool Changed()

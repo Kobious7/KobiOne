@@ -2,13 +2,9 @@ using UnityEngine;
 
 public class IMMonster : Entity
 {
-    [SerializeField] private int mapLevel;
+    [SerializeField] private bool isBeingHit = false;
 
-    public int MapLevel
-    {
-        get => mapLevel;
-        set => mapLevel = value;
-    }
+    public bool IsBeingHit { get => isBeingHit; set => isBeingHit = value; }
     
     [SerializeField] private IMMonsterStats stats;
 

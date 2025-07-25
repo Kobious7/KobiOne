@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Monster
   - Ground
-  - 
+  - MonsterBE
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: VFX
     uniqueID: 425127657
+    locked: 0
+  - name: UI
+    uniqueID: 2340163253
     locked: 0

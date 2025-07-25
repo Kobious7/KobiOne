@@ -8,7 +8,7 @@ public class SwordA1Activator : SkillActivator
     public override IEnumerator Activate(SkillNode skill, SkillButton button, BSkillActivator activatorManager)
     {
         activatorManager.IsCasting = true;
-        OpSkillSO opSkill = (OpSkillSO)skill.skillSO;
+        OpSkillSO opSkill = (OpSkillSO)skill.SkillSO;
 
         playerStats.ManaDes(opSkill.ManaCost);
 

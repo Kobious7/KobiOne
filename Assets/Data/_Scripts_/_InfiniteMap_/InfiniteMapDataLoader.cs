@@ -10,6 +10,7 @@ public class InfinitMapSODataLoader : GMono
     private Map2MonsterSpawner map2MonsterSpawner;
     private Inventory inventory;
     private Equipment equipment;
+    private Skill skill;
 
     protected override void Start()
     {
@@ -21,20 +22,25 @@ public class InfinitMapSODataLoader : GMono
         map2MonsterSpawner = infiniteMapManager.Map2MonsterSpawner;
         inventory = infiniteMapManager.Inventory;
         equipment = infiniteMapManager.Equipment;
+        skill = infiniteMapManager.Skill;
+        player.OnBattlePreparing += LoadDataToInfiniteMapSO;
     }
 
-    public void LoadAllObj(Transform monster)
+    public void LoadDataToInfiniteMapSO(IMMonster monster)
+    {
+        LoadAllObj(monster);
+    }
+
+    public void LoadAllObj(IMMonster monster)
     {
         mapData.MapCanLoad = true;
-        mapData.PrimarionSoul = inventory.PrimarionSoul;
         LoadMapObj();
         LoadPlayerObj();
-        LoadMonsterObj(monster.GetComponent<IMMonster>());
+        LoadMonsterObj(monster);
         LoadMap1MonsterSpawner(monster);
         LoadMap2MonsterSpawner(monster);
-        LoadListItems();
-        LoadEquipList();
     }
+
 
     public void LoadMapObj()
     {
@@ -63,16 +69,28 @@ public class InfinitMapSODataLoader : GMono
         mapData.PlayerInfo.CritRate = player.StatsSystem.Stats[10].PercentBonus;
         mapData.PlayerInfo.CritDamage = player.StatsSystem.Stats[11].PercentBonus;
         mapData.PlayerInfo.ManaRegen = player.StatsSystem.Stats[12].PercentBonus;
-        mapData.PlayerInfo.QSkill = SkillSGT.Instance.Skill.QSkill;
-        mapData.PlayerInfo.ESkill = SkillSGT.Instance.Skill.ESkill;
-        mapData.PlayerInfo.SpaceSkill = SkillSGT.Instance.Skill.SpaceSkill;
-        mapData.PlayerInfo.Weapon = equipment.Weapon;
+        mapData.PlayerInfo.ExpBonus = player.StatsSystem.Stats[13].Value;
+
+        if (skill.QSkill != null && skill.SkillTreeList[skill.QSkill.TreeIndex].IsActive)
+        {
+            mapData.PlayerInfo.QSkill = skill.QSkill;
+        }
+        if (skill.ESkill != null && skill.SkillTreeList[skill.ESkill.TreeIndex].IsActive)
+        {
+            mapData.PlayerInfo.ESkill = skill.ESkill;
+        }
+        if (skill.SpaceSkill != null && skill.SkillTreeList[skill.SpaceSkill.TreeIndex].IsActive)
+        {
+            mapData.PlayerInfo.SpaceSkill = skill.SpaceSkill;
+        }
     }
 
     public void LoadMonsterObj(IMMonster monster)
     {
         monster.Stats.CalculateStats();
+        mapData.MonsterInfo.Name = monster.RigModel.transform.name;
         mapData.MonsterInfo.Level = monster.Stats.Level;
+        mapData.MonsterInfo.Tier = monster.Stats.Tier;
         mapData.MonsterInfo.Attack = monster.Stats.Attack;
         mapData.MonsterInfo.MagicAttack = monster.Stats.MagicAttack;
         mapData.MonsterInfo.HP = monster.Stats.HP;
@@ -84,11 +102,11 @@ public class InfinitMapSODataLoader : GMono
         mapData.MonsterInfo.CritRate = monster.Stats.CritRate;
         mapData.MonsterInfo.CritDamage = monster.Stats.CritDamage;
         mapData.MonsterInfo.ManaRegen = monster.Stats.ManaRegen;
-        mapData.ItemDropList = monster.DropList.ItemDropList;
-        mapData.EquipDropList = monster.DropList.EquipDropList;
+        mapData.ItemDropList = monster.DropList.GetItemDropList(monster.Stats.Level);
+        mapData.EquipDropList = monster.DropList.GetEquipDropList(monster.Stats.Level);
     }
 
-    public void LoadMap1MonsterSpawner(Transform other)
+    public void LoadMap1MonsterSpawner(IMMonster other)
     {
         if (map.MapSwap.CurrentMap != MapEnum.Map0) return;
 
@@ -115,7 +133,7 @@ public class InfinitMapSODataLoader : GMono
         }
     }
 
-    public void LoadMap2MonsterSpawner(Transform other)
+    public void LoadMap2MonsterSpawner(IMMonster other)
     {
         mapData.Map2MonsterSpawnerInfo.Timer = map2MonsterSpawner.Timer;
         mapData.Map2MonsterSpawnerInfo.Counter = map2MonsterSpawner.Counter;
@@ -138,20 +156,5 @@ public class InfinitMapSODataLoader : GMono
 
             mapData.Map2MonsterSpawnerInfo.MonsterInfos.Add(monsterInfo);
         }
-    }
-
-    private void LoadListItems()
-    {
-        mapData.ItemList = inventory.ItemList;
-    }
-
-    private void LoadEquipList()
-    {
-        mapData.WeaponList = inventory.WeaponList;
-        mapData.HelmetList = inventory.HelmetList;
-        mapData.ArmorList = inventory.ArmorList;
-        mapData.ArmwearList = inventory.ArmwearList;
-        mapData.BootsList = inventory.BootsList;
-        mapData.SpecialList = inventory.SpecialList;
     }
 }

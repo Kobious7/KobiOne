@@ -21,7 +21,7 @@ public class IMPlayerMeleeAttack : EntityComponent, IEntityMeleeAttack
 
     private void Update()
     {
-        if (player.IsUIOpening) return;
+        if (InfiniteMapManager.Instance.IsUIOpening) return;
 
         CountTime();
 
@@ -56,17 +56,18 @@ public class IMPlayerMeleeAttack : EntityComponent, IEntityMeleeAttack
 
         if (monsters.Length > 0)
         {
+            IMMonster monsterCom = monsters[0].transform.parent.GetComponent<IMMonster>();
+            IMMonsterAnim monsterAnim = monsterCom.Anim as IMMonsterAnim;
             PlayerAnimationEvents.Instance.Hit = true;
-        }
-
-        foreach (Collider monster in monsters)
-        {
-            Debug.Log(monster.transform.parent.name);
+            monsterAnim.BeingHit();
             yield return new WaitForSeconds(1f);
 
-            InfiniteMapManager.Instance.LoadDataToInfiniteMapSO(monster.transform.parent);
-            LoadScene(BATTLE);
+            monsterCom.IsBeingHit = true;
+
+            player.CanLockMovement = true;
+            player.CallOnBattlePreparingEvent(monsterCom);
         }
+
     }
 
     private void OnDrawGizmosSelected()

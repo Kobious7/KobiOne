@@ -22,6 +22,7 @@ public class BPlayerStats : BEntityStats
             critRate = playerInfo.CritRate;
             critDamage = playerInfo.CritDamage;
             manaRegen = playerInfo.ManaRegen;
+            expFlatBonus = playerInfo.ExpBonus;
         }
 
         InitBuff(); 

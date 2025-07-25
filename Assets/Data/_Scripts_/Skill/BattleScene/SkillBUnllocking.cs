@@ -21,7 +21,7 @@ public class BSkillUnlocking : BSkillAb
     {
         if(BSkill.QSkill != null && BSkill.QSkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)BSkill.QSkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.QSkill.SkillSO;
 
             if(playerStats.Mana >= skill.ManaCost) BSkill.QUnlocking = true;
             else BSkill.QUnlocking = false;
@@ -32,7 +32,7 @@ public class BSkillUnlocking : BSkillAb
     {
         if(BSkill.ESkill != null && BSkill.ESkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)BSkill.ESkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.ESkill.SkillSO;
 
             if(playerStats.Mana >= skill.ManaCost) BSkill.EUnlocking = true;
             else BSkill.EUnlocking = false;
@@ -43,7 +43,7 @@ public class BSkillUnlocking : BSkillAb
     {
         if(BSkill.SpaceSkill != null && BSkill.SpaceSkill.Level > 0)
         {
-            ActiveSkillSO skill = (ActiveSkillSO)BSkill.SpaceSkill.skillSO;
+            ActiveSkillSO skill = (ActiveSkillSO)BSkill.SpaceSkill.SkillSO;
 
             if(playerStats.Mana >= skill.ManaCost) BSkill.SpaceUnlocking = true;
             else BSkill.SpaceUnlocking = false;

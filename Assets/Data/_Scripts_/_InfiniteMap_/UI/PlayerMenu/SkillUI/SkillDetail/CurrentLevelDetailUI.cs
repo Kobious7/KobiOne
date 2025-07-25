@@ -58,7 +58,7 @@ public class CurrentLevelDetailUI : GMono
     {
         ClearData();
 
-        skillName.text = skill.skillSO.SkillName;
+        skillName.text = skill.SkillSO.SkillName;
         
         if(skill.Level <= 0) return;
 
@@ -68,9 +68,9 @@ public class CurrentLevelDetailUI : GMono
         level.gameObject.SetActive(true);
         description.gameObject.SetActive(true);
 
-        if(skill.skillSO is ActiveSkillSO)
+        if(skill.SkillSO is ActiveSkillSO)
         {
-            ActiveSkillSO activeSkll = (ActiveSkillSO)skill.skillSO;
+            ActiveSkillSO activeSkll = (ActiveSkillSO)skill.SkillSO;
             mana.text = $"Mana cost: {activeSkll.ManaCost}";
 
             mana.gameObject.SetActive(true);

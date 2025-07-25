@@ -34,9 +34,9 @@ public class BSkillActivator : BSkillAb
 
     private void AddActivator(SkillNode skillNode)
     {
-        if (skillNode.Level > 0 && skillNode.skillSO != null)
+        if (skillNode.Level > 0 && skillNode.SkillSO != null)
         {
-            ActiveSkillSO activeSkillSO = skillNode.skillSO as ActiveSkillSO;
+            ActiveSkillSO activeSkillSO = skillNode.SkillSO as ActiveSkillSO;
             Transform newActivator = Instantiate(activeSkillSO.Activator, transform.position, Quaternion.identity);
 
             newActivator.SetParent(transform);

@@ -122,6 +122,6 @@ public class PlayerMenuUI : GMono
         transform.gameObject.SetActive(false);
         ResetOption();
         
-        InfiniteMapManager.Instance.Player.IsUIOpening = false;
+        InfiniteMapManager.Instance.IsUIOpening = false;
     }
 }

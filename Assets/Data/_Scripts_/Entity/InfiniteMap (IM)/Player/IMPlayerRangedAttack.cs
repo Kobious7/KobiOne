@@ -17,7 +17,7 @@ public class IMPlayerRangedAttack : EntityComponent
 
     private void Update()
     {
-        if (player.IsUIOpening) return;
+        if (InfiniteMapManager.Instance.IsUIOpening) return;
 
         CountTime();
 

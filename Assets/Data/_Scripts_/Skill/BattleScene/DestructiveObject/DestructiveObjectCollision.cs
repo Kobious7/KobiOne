@@ -22,8 +22,6 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(DObject.Target.name);
-
         if (DObject.Target.name == "Tile")
         {
             if (other.transform.parent.name == "Tile")
@@ -34,11 +32,11 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
                 if (tile.X == target.X && tile.Y == target.Y)
                 {
                     SpawnTileHitFX(other.transform);
-                    StartCoroutine(WaitHit(() =>
+                    WaitHit(() =>
                     {
                         DestructiveObjectSpawner.Instance.Despawn(transform.parent);
                         DestructiveObjectSpawner.Instance.TileSpawnCount--;
-                    }));
+                    });
                 }
             }
         }
@@ -48,13 +46,13 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
             if (other.transform.name == "Monster")
             {
                 SpawnOpHitFX(other.transform);
-                StartCoroutine(WaitHit(() =>
+                WaitHit(() =>
                 {
                     opAnim.BeingHit();
                     DealDamage();
                     DestructiveObjectSpawner.Instance.Despawn(transform.parent);
                     DestructiveObjectSpawner.Instance.OpSpawnCount--;
-                }));
+                });
             }
         }
     }
@@ -81,17 +79,21 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
         currentNomarlHitFXObject = hitFX;
     }
 
-    protected virtual IEnumerator WaitHit(Action onFXDespawn)
+    protected void WaitHit(Action onFXDespawn)
     {
         BSkillFX skillFX = normalHitFX.GetComponent<BSkillFX>();
 
         DObject.Model.gameObject.SetActive(false);
-        yield return StartCoroutine(skillFX.WaitHitFX());
-
-        DespawnFX();
+        StartCoroutine(WaitToDespawnFX(skillFX));
         onFXDespawn?.Invoke();
 
         DObject.Model.gameObject.SetActive(true);
+    }
+
+    protected IEnumerator WaitToDespawnFX(BSkillFX skillFX)
+    {
+        yield return StartCoroutine(skillFX.WaitHitFX());
+        DespawnFX();
     }
 
     protected virtual void DespawnFX()
@@ -123,7 +125,7 @@ public abstract class DestructiveObjectCollision : DestructiveObjectAb
         DamageType damageType = DamageType.None;
 
         Debug.Log("Skill Damage");
-        if (skill.skillSO is TileSkillSO tileSkillSO)
+        if (skill.SkillSO is TileSkillSO tileSkillSO)
         {
             damageType = tileSkillSO.Damage.DamageType;
         }

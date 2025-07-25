@@ -135,17 +135,17 @@ public class BSkill : GMono
         if(playerInfo.QSkill != null)
         {
             qSkill.Level = playerInfo.QSkill.Level;
-            qSkill.skillSO = playerInfo.QSkill.skillSO;
+            qSkill.SkillSO = playerInfo.QSkill.SkillSO;
         }
         if(playerInfo.ESkill != null)
         {
             eSkill.Level = playerInfo.ESkill.Level;
-            eSkill.skillSO = playerInfo.ESkill.skillSO;
+            eSkill.SkillSO = playerInfo.ESkill.SkillSO;
         }
         if(playerInfo.SpaceSkill != null)
         {
             spaceSkill.Level = playerInfo.SpaceSkill.Level;
-            spaceSkill.skillSO = playerInfo.SpaceSkill.skillSO;
+            spaceSkill.SkillSO = playerInfo.SpaceSkill.SkillSO;
         }
     }
 }
