@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class PrimarionSoul : GMono
+public class PrimarionSoulUI : GMono
 {
     [SerializeField] private TextMeshProUGUI value;
     private Inventory inventory;

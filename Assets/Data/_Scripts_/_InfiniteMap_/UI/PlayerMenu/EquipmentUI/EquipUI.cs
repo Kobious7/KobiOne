@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class EquipUI : GMono
 {
     private InventoryEquip equip;
-    
+
     public InventoryEquip Equip
     {
         get => equip;
@@ -12,7 +12,7 @@ public class EquipUI : GMono
     }
 
     [SerializeField] private Transform onSelected;
-    
+
     public Transform OnSelected => onSelected;
 
     [SerializeField] private Image qualityColor;
@@ -44,28 +44,28 @@ public class EquipUI : GMono
 
     private void LoadOnSelected()
     {
-        if(onSelected != null) return;
+        if (onSelected != null) return;
 
         onSelected = transform.Find("OnSelected");
     }
 
     private void LoadQualityColor()
     {
-        if(qualityColor != null) return;
+        if (qualityColor != null) return;
 
         qualityColor = transform.Find("BG").GetComponent<Image>();
     }
 
     private void LoadModel()
     {
-        if(model != null) return;
+        if (model != null) return;
 
         model = transform.Find("Model").GetComponent<Image>();
     }
 
     private void LoadButton()
     {
-        if(button != null) return;
+        if (button != null) return;
 
         button = GetComponent<Button>();
     }
@@ -88,6 +88,15 @@ public class EquipUI : GMono
         equip = new InventoryEquip();
         qualityColor.color = Color.white;
         model.sprite = null;
+        if (equip.IsNew) newIcon.gameObject.SetActive(true);
+        else newIcon.gameObject.SetActive(false);
+
+        if (equip.IsLock) lockIcon.gameObject.SetActive(true);
+        else lockIcon.gameObject.SetActive(false);
+    }
+
+    public void ChangeLock()
+    {
         if (equip.IsNew) newIcon.gameObject.SetActive(true);
         else newIcon.gameObject.SetActive(false);
 

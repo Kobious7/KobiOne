@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/Item")]
-public class ItemSO : ScriptableObject
+public class ItemSO : BaseItemSO
 {
-    public int ItemCode;
-    public string ItemName;
-    public Sprite Sprite;
     public ItemType ItemType;
-    public float DropRate;    
+    public float DropRate;
     public int MaxStack;
+    public Rarity Rarity;
 }

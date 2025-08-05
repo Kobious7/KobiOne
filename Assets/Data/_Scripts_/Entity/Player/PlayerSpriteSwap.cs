@@ -28,7 +28,8 @@ public class PlayerSpriteSwap : GMono
     {
         if (playerData.Helmet.Level > 0)
         {
-            OverrideSet(playerData.Helmet.EquipSO.SetId, playerData.Helmet.EquipSO.PartIndex);
+            if (playerData.Helmet.EquipSO.SetId != 12)
+                OverrideSet(playerData.Helmet.EquipSO.SetId, playerData.Helmet.EquipSO.PartIndex);
         }
         else
         {
@@ -37,7 +38,8 @@ public class PlayerSpriteSwap : GMono
             
         if (playerData.Armor.Level > 0)
         {
-            OverrideSet(playerData.Armor.EquipSO.SetId, playerData.Armor.EquipSO.PartIndex);
+            if (playerData.Armor.EquipSO.SetId != 12)
+                OverrideSet(playerData.Armor.EquipSO.SetId, playerData.Armor.EquipSO.PartIndex);
         }
         else
         {
@@ -46,7 +48,8 @@ public class PlayerSpriteSwap : GMono
 
         if (playerData.Armwear.Level > 0)
         {
-            OverrideSet(playerData.Armwear.EquipSO.SetId, playerData.Armwear.EquipSO.PartIndex);
+            if (playerData.Armwear.EquipSO.SetId != 12)
+                OverrideSet(playerData.Armwear.EquipSO.SetId, playerData.Armwear.EquipSO.PartIndex);
         }
         else
         {
@@ -55,7 +58,8 @@ public class PlayerSpriteSwap : GMono
 
         if (playerData.Boots.Level > 0)
         {
-            OverrideSet(playerData.Boots.EquipSO.SetId, playerData.Boots.EquipSO.PartIndex);
+            if (playerData.Boots.EquipSO.SetId != 12)
+                OverrideSet(playerData.Boots.EquipSO.SetId, playerData.Boots.EquipSO.PartIndex);
         }
         else
         {
@@ -64,7 +68,8 @@ public class PlayerSpriteSwap : GMono
 
         if (playerData.Weapon.Level > 0)
         {
-            OverrideSet(playerData.Weapon.EquipSO.SetId, playerData.Weapon.EquipSO.PartIndex);
+            if (playerData.Weapon.EquipSO.SetId != 12)
+                OverrideSet(playerData.Weapon.EquipSO.SetId, playerData.Weapon.EquipSO.PartIndex);
         }
         else
         {

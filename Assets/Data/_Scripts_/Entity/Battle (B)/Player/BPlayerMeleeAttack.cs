@@ -35,8 +35,6 @@ public class BPlayerMeleeAttack : BEntityComponent, IEntityMeleeAttack
     {
         Collider[] monsters = Physics.OverlapSphere(player.CenterPoint.transform.position, range, layerMask);
 
-        Debug.Log("" + monsters.Length);
-
         if (monsters.Length <= 0) yield return null;
 
         PlayerAnimationEvents.Instance.Hit = true;

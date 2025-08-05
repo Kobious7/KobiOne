@@ -35,7 +35,7 @@ public class Equipment : GMono
         weapon = playerData.Weapon;
         helmet = playerData.Helmet;
         armor = playerData.Armor;
-        armwear = playerData.Armor;
+        armwear = playerData.Armwear;
         boots = playerData.Boots;
         special = playerData.Special;
     }

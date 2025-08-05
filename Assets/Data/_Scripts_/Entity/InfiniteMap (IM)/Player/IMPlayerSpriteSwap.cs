@@ -14,6 +14,7 @@ public class IMPlayerSpriteSwap : PlayerSpriteSwap
         infiniteMapManager = InfiniteMapManager.Instance;
         playerData = infiniteMapManager.PlayerData;
         infiniteMapManager.Inventory.EquipWearing.OnEquipWearing += PartSetSwap;
+        infiniteMapManager.Equipment.Unequip.OnEquipDisarming += ResetSwap;
 
         base.InitSet();
     }
@@ -30,5 +31,10 @@ public class IMPlayerSpriteSwap : PlayerSpriteSwap
         {
             OverrideSet(equipSO.SetId, equipSO.PartIndex);
         }
+    }
+
+    private void ResetSwap(InventoryEquip equip)
+    {
+        OverrideSet(0, equip.EquipSO.PartIndex);
     }
 }

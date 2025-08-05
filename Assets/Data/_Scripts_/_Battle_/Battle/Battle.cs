@@ -122,20 +122,15 @@ public class Battle : GMono
             if (player.Stats.CurrentHP <= 0)
             {
                 OnPlayerLost?.Invoke();
-                BattleResult.Instance.Lose.gameObject.SetActive(true);
                 battleManager.MapData.Result = Result.LOST;
             }
             if (monster.Stats.CurrentHP <= 0)
             {
                 OnMonsterLost?.Invoke();
-                BattleResult.Instance.Win.gameObject.SetActive(true);
                 battleManager.MapData.Result = Result.WIN;
             }
 
             battleManager.MapData.PlayerInfo.ExpFromBattle += collectedExp;
-
-            BattleResult.Instance.OpacityBG.gameObject.SetActive(true);
-            BattleResult.Instance.LoadMap.gameObject.SetActive(true);
             show = false;
         }
     }

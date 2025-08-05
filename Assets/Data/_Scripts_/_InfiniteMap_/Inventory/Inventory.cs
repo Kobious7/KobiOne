@@ -107,8 +107,8 @@ public class Inventory : GMono
         playerData = infiniteMapManager.PlayerData;
 
         LoadInventoryResources();
-        AddEquip(equipObtainer.CreateEquip(test, Rarity.Common));
-        AddEquip(equipObtainer.CreateEquip(test1, Rarity.Common));
+        // AddEquip(equipObtainer.CreateEquip(test, Rarity.Common));
+        // AddEquip(equipObtainer.CreateEquip(test1, Rarity.Common));
     }
 
     private void LoadEquipObtainer()
@@ -286,5 +286,25 @@ public class Inventory : GMono
     public void CallPrimarionSoulChangedEvent()
     {
         OnPrimarionSoulChanged?.Invoke();
+    }
+
+    public void IncreasePrimarionSoul(int amount)
+    {
+        primarionSoul = primarionSoul + amount > int.MaxValue ? int.MaxValue : primarionSoul += amount;
+
+        OnPrimarionSoulChanged?.Invoke();
+
+        //Save Data
+        playerData.PrimarionSoul = primarionSoul;
+    }
+
+    public void DescreasePrimarionSoul(int amount)
+    {
+        primarionSoul = primarionSoul - amount < 0 ? 0 : primarionSoul -= amount;
+
+        OnPrimarionSoulChanged?.Invoke();
+
+        //Save Data
+        playerData.PrimarionSoul = primarionSoul;
     }
 }

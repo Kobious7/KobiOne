@@ -43,7 +43,9 @@ public class Spawner : GMono
 
     protected void LoadPrefabs()
     {
-        if(prefabs.Count > 0) return;
+        if(prefabs != null && prefabs.Count > 0) return;
+
+        prefabs = new();
 
         Transform prefabObjs = transform.Find("Prefabs");
 

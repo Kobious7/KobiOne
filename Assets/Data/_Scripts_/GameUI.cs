@@ -8,10 +8,6 @@ public class GameUI : GMono
 
     public static GameUI Instance => instance;
 
-    [SerializeField] private InventoryUI inventoryUI;
-
-    public InventoryUI InventoryUI => inventoryUI;
-
     [SerializeField] private PlayerMenuUI playerMenuUI;
 
     public PlayerMenuUI PlayerMenuUI => playerMenuUI;
@@ -31,15 +27,8 @@ public class GameUI : GMono
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadInventoryUI();
         LoadPlayerMenuUI();
         LoadCurrentEquipmentUI();
-    }
-
-    private void LoadInventoryUI()
-    {
-        if(inventoryUI != null) return;
-        inventoryUI = FindObjectOfType<InventoryUI>();
     }
 
     private void LoadPlayerMenuUI()

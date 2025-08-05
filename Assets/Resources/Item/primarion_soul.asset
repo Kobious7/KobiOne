@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa04210116b4c9e44a9b067ba62b717c, type: 3}
+  m_Name: primarion_soul
+  m_EditorClassIdentifier: 
+  ItemCode: 0
+  ItemName: Primarion Soul
+  Sprite: {fileID: 21300000, guid: 821941b7841a4044aa5ea65f6a869914, type: 3}
+  ItemType: 0
+  DropRate: 0
+  MaxStack: 0

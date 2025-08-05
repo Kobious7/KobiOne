@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,8 @@ public class SoulizeEquipmentUI : GMono
     private static SoulizeEquipmentUI instance;
 
     public static SoulizeEquipmentUI Instance => instance;
+
+    public event Action OnSoulizeComplete;
 
     [SerializeField] private Button transBG, closeBtn, soulizeBtn;
     [SerializeField] private Image quality, equipImage;
@@ -58,7 +61,7 @@ public class SoulizeEquipmentUI : GMono
     {
         InfiniteMapManager.Instance.Inventory.Soulize.SoulizeEquipment(equip);
         this.gameObject.SetActive(false);
-        EquipmentDetailsUI.Instance.gameObject.SetActive(false);
+        OnSoulizeComplete?.Invoke();
     }
 
     private int GetPrimarionSoulByRarity(Rarity rarity)

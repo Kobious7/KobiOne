@@ -7,6 +7,8 @@ public class IMPlayerMovement : IMEntityMovement
     [SerializeField] private float jumpForce = 10;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool isJumping, isFalling;
+    [SerializeField] private int maxJumpCount = 2;
+    [SerializeField] private int jumpCount;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float xStop;
 
@@ -52,7 +54,13 @@ public class IMPlayerMovement : IMEntityMovement
 
     private void CheckGrounded()
     {
+        bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(player.RigModel.position, 0.1f, layerMask);
+
+        if (isGrounded && !wasGrounded)
+        {
+            jumpCount = 0;
+        }
     }
 
     private void HandleJump()
@@ -104,7 +112,7 @@ public class IMPlayerMovement : IMEntityMovement
 
     public void Jump()
     {
-        if (!InputManager.Instance.Jump) return;
+        if (!InputManager.Instance.Jump || jumpCount >= maxJumpCount) return;
 
         player.Rb2D.velocity = new Vector2(player.Rb2D.velocity.x, jumpForce);
         isJumping = true;
@@ -112,6 +120,8 @@ public class IMPlayerMovement : IMEntityMovement
         isGrounded = false;
 
         anim.IdleToJump();
+
+        jumpCount++;
     }
 
     private void OnDrawGizmosSelected()

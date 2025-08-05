@@ -15,6 +15,7 @@ public class IMPlayerSwapWeapon : EntityComponent
         playerData = infiniteMapManager.PlayerData;
 
         infiniteMapManager.Inventory.EquipWearing.OnEquipWearing += SwapWeapon;
+        infiniteMapManager.Equipment.Unequip.OnEquipDisarming += ResetWeapon;
 
         if (playerData.Weapon != null && playerData.Weapon.EquipSO != null)
         {
@@ -30,9 +31,11 @@ public class IMPlayerSwapWeapon : EntityComponent
 
     public void SwapWeapon(InventoryEquip equip)
     {
+        if (equip.EquipSO is not WeaponSO) return;
+        
         WeaponSO weapon = (WeaponSO)equip.EquipSO;
 
-        switch(weapon.AttackRange)
+        switch (weapon.AttackRange)
         {
             case AttackRange.Melee:
                 player.MeleeAttack.gameObject.SetActive(true);
@@ -45,5 +48,12 @@ public class IMPlayerSwapWeapon : EntityComponent
                 player.RangedAttack.gameObject.SetActive(true);
                 break;
         }
+    }
+
+    public void ResetWeapon(InventoryEquip equip)
+    {
+        player.MeleeAttack.gameObject.SetActive(true);
+        player.AttackPoint.gameObject.SetActive(false);
+        player.RangedAttack.gameObject.SetActive(false);
     }
 }

@@ -23,10 +23,12 @@ public class IMPlayerStats : EntityComponent
     public event Action<int> OnLevelIncreasing;
 
     private InfiniteMapManager infiniteMapManager;
+    private Skill skill;
     private SkillUpdateBonus skillUpdateBonus;
     private SkillUnlock skillUnlock;
     private EquipmentCalculator equipmentCalculator;
     private PlayerSO playerData;
+
 
     #region Properties
     public int Level { get => level; set => level = value; }
@@ -45,12 +47,12 @@ public class IMPlayerStats : EntityComponent
 
         infiniteMapManager = InfiniteMapManager.Instance;
         playerData = infiniteMapManager.PlayerData;
-        infiniteMapManager.Skill.OnSkillPointsReset += UpdatePassiveSkillBonus;
+        skill = infiniteMapManager.Skill;
+        skill.OnSkillPointsReset += UpdatePassiveSkillBonus;
 
-
-        skillUpdateBonus = infiniteMapManager.Skill.BonusUpdating;
+        skillUpdateBonus = skill.BonusUpdating;
         skillUpdateBonus.OnSkillBonusChanged += UpdatePassiveSkillBonus;
-        skillUnlock = infiniteMapManager.Skill.SkillUnlock;
+        skillUnlock = skill.SkillUnlock;
 
         equipmentCalculator = infiniteMapManager.Equipment.Calculator;
         equipmentCalculator.OnTotalBonusChanged += UpdateEquipBonus;
@@ -62,7 +64,7 @@ public class IMPlayerStats : EntityComponent
 
     public void LoadStats()
     {
-        infiniteMapManager.Skill.GetSkillData();
+        skill.GetSkillData();
         LoadPotentialFromSO();
         CreateStatLists();
         CalculateExp();
@@ -85,12 +87,6 @@ public class IMPlayerStats : EntityComponent
         potential[2].TrueValue = playerData.Strength.TrueValue;
         potential[3].TrueValue = playerData.Defense.TrueValue;
         potential[4].TrueValue = playerData.Dexterity.TrueValue;
-
-        // CalculatePower();
-        // CalculateMagic();
-        // CalculateStrength();
-        // CalculateDefense();
-        // CalculateDexterity();
     }
 
     private void CreateStatLists()
@@ -176,21 +172,18 @@ public class IMPlayerStats : EntityComponent
         MonsterInfo monsterInfo = infiniteMapManager.MapData.MonsterInfo;
         int exp = infiniteMapManager.MapData.Result == Result.WIN && (level - monsterInfo.Level) < 10 ?
                     UnityEngine.Random.Range(monsterInfo.Level + 4, monsterInfo.Level + 9) : 0;
-        Debug.Log(monsterInfo.Level);
 
         int totalRewardExp = exp + infiniteMapManager.MapData.PlayerInfo.ExpFromBattle;
         expFromBattle = monsterInfo.Tier == MonsterTier.Elite ? totalRewardExp * 3 : monsterInfo.Tier == MonsterTier.Rampage ? totalRewardExp * 7 : totalRewardExp;
-        Debug.Log(expFromBattle);
         currentExp += expFromBattle;
 
         while (currentExp >= requiredExp)
         {
-            level++;
             lerpExpStack++;
             remainPoints += 5;
             currentExp -= requiredExp;
 
-            IncreaseLevel();
+            IncreaseLevel(1);
 
             requiredExp = CalculateRequiredExp(level);
         }
@@ -199,37 +192,46 @@ public class IMPlayerStats : EntityComponent
         playerData.CurrentExp = currentExp;
     }
 
+    public void UseExpShop(int lev)
+    {
+        IncreaseLevel(lev);
+
+        requiredExp = CalculateRequiredExp(level);
+    }
+
     private int CalculateRequiredExp(int level)
     {
         int avgMonster = (level / 10) * 10 + level;
         return ((level / 10) * 10 + 10) * avgMonster;
     }
 
-    private void IncreaseLevel()
+    public void IncreaseLevel(int lev)
     {
+        level += lev;
         stats[0].Value = level;
         OnStatChange?.Invoke(0);
-        potential[0].TrueValue += 5;
-        potential[1].TrueValue += 5;
-        potential[2].TrueValue += 5;
-        potential[3].TrueValue += 5;
-        potential[4].TrueValue += 5;
-        allPotentialPoints += 25;
-        remainPoints += 5;
+        potential[0].TrueValue += 5 * lev;
+        potential[1].TrueValue += 5 * lev;
+        potential[2].TrueValue += 5 * lev;
+        potential[3].TrueValue += 5 * lev;
+        potential[4].TrueValue += 5 * lev;
+        allPotentialPoints += 30 * lev;
+        remainPoints += 5 * lev;
 
+        skill.IncreaseSkillPoints(lev);
         OnLevelIncreasing?.Invoke(level);
         skillUnlock.CheckSkillUnlock(level);
         ReCalculate();
 
         //Save Data
         playerData.Level = level;
-        playerData.Power.TrueValue += 5;
-        playerData.Magic.TrueValue += 5;
-        playerData.Strength.TrueValue += 5;
-        playerData.Defense.TrueValue += 5;
-        playerData.Dexterity.TrueValue += 5;
-        playerData.AllPotentialPoints += 25;
-        playerData.RemainPoints += 5;
+        playerData.Power.TrueValue += 5 * lev;
+        playerData.Magic.TrueValue += 5 * lev;
+        playerData.Strength.TrueValue += 5 * lev;
+        playerData.Defense.TrueValue += 5 * lev;
+        playerData.Dexterity.TrueValue += 5 * lev;
+        playerData.AllPotentialPoints += 30 * lev;
+        playerData.RemainPoints += 5 * level;
     }
 
     public void ResetPotentialPoint()

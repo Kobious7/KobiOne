@@ -96,6 +96,8 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
+    isNew: 0
+    isLock: 0
   Helmet:
     level: 0
     equipSO: {fileID: 0}
@@ -112,6 +114,8 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
+    isNew: 0
+    isLock: 0
   Armor:
     level: 0
     equipSO: {fileID: 0}
@@ -128,6 +132,8 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
+    isNew: 0
+    isLock: 0
   Armwear:
     level: 0
     equipSO: {fileID: 0}
@@ -144,6 +150,8 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
+    isNew: 0
+    isLock: 0
   Boots:
     level: 0
     equipSO: {fileID: 0}
@@ -160,6 +168,8 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
+    isNew: 0
+    isLock: 0
   Special:
     level: 0
     equipSO: {fileID: 0}
@@ -176,7 +186,9 @@ MonoBehaviour:
     subStats: []
     currentUpgradeCost: 0
     nextUpgradeCost: 0
-  PrimarionSoul: 0
+    isNew: 0
+    isLock: 0
+  PrimarionSoul: 1
   ItemList: []
   WeaponList: []
   HelmetList: []

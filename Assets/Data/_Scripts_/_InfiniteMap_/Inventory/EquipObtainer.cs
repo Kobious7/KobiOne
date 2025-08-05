@@ -29,14 +29,14 @@ public class EquipObtainer : InventoryAb
                                                             EquipStatType.CritDamage };
     }
 
-    public InventoryEquip CreateEquip(EquipSO equipSO, Rarity rarity)
+    public InventoryEquip CreateEquip(EquipSO equipSO, Rarity rarity, bool max = false)
     {
         Debug.Log(rarity);
         InventoryEquip newEquip = new InventoryEquip();
         newEquip.Level = 1;
         newEquip.EquipSO = equipSO;
         newEquip.Rarity = rarity;
-        newEquip.MainStat = CreateMainStat(equipSO, rarity);
+        newEquip.MainStat = CreateMainStat(equipSO, rarity, max);
         newEquip.SubStats = new List<EquipStat>();
         newEquip.CurrentUpgradeCost = CalculateCostByRarity(newEquip.Level, newEquip.Rarity);
         newEquip.NextUpgradeCost = CalculateCostByRarity(newEquip.Level + 1, newEquip.Rarity);
@@ -45,16 +45,16 @@ public class EquipObtainer : InventoryAb
         return newEquip;
     }
 
-    private EquipStat CreateMainStat(EquipSO equipSO, Rarity rarity)
+    private EquipStat CreateMainStat(EquipSO equipSO, Rarity rarity, bool max)
     {
         EquipType equipType = equipSO.EquipType;
         EquipStat mainStat = new EquipStat();
 
-        if (equipType == EquipType.Weapon) CreateWeaponMainStat(mainStat, rarity);
-        if (equipType == EquipType.Helmet) CreateHelmetMainStat(mainStat, rarity);
-        if (equipType == EquipType.Armor) CreateArmorMainStat(mainStat, rarity);
-        if (equipType == EquipType.Armwear) CreateArmwearMainStat(mainStat, rarity);
-        if (equipType == EquipType.Boots) CreateBootsMainStat(mainStat, rarity);
+        if (equipType == EquipType.Weapon) CreateWeaponMainStat(mainStat, rarity, max);
+        if (equipType == EquipType.Helmet) CreateHelmetMainStat(mainStat, rarity, max);
+        if (equipType == EquipType.Armor) CreateArmorMainStat(mainStat, rarity, max);
+        if (equipType == EquipType.Armwear) CreateArmwearMainStat(mainStat, rarity, max);
+        if (equipType == EquipType.Boots) CreateBootsMainStat(mainStat, rarity, max);
 
         return mainStat;
     }
@@ -74,7 +74,7 @@ public class EquipObtainer : InventoryAb
         }
     }
 
-    public void UpgradeEquip(InventoryEquip equip, int level)
+    public void UpgradeEquip(InventoryEquip equip, int level, bool max = false)
     {
         equip.Level += level;
         equip.CurrentUpgradeCost = CalculateCostByRarity(equip.Level, equip.Rarity);
@@ -82,29 +82,29 @@ public class EquipObtainer : InventoryAb
 
         if (equip.Level >= 10 && equip.SubStats.Count <= 0)
         {
-            equip.SubStats.Add(CreateSubStat(equip));
+            equip.SubStats.Add(CreateSubStat(equip, max));
         }
         if (equip.Level >= 20 && equip.SubStats.Count == 1)
         {
-            equip.SubStats.Add(CreateSubStat(equip));
+            equip.SubStats.Add(CreateSubStat(equip, max));
         }
         if (equip.Level >= 30 && equip.SubStats.Count == 2)
         {
-            equip.SubStats.Add(CreateSubStat(equip));
+            equip.SubStats.Add(CreateSubStat(equip, max));
         }
         if (equip.Level >= 40 && equip.SubStats.Count == 3)
         {
-            equip.SubStats.Add(CreateSubStat(equip));
+            equip.SubStats.Add(CreateSubStat(equip, max));
         }
         if (equip.Level >= 50 && equip.SubStats.Count == 4)
         {
-            equip.SubStats.Add(CreateSubStat(equip));
+            equip.SubStats.Add(CreateSubStat(equip, max));
         }
 
         UpgradeAllStats(equip);
     }
 
-    private EquipStat CreateSubStat(InventoryEquip equip)
+    private EquipStat CreateSubStat(InventoryEquip equip, bool max)
     {
         EquipStat subStat = new EquipStat();
         EquipStatBonus defaultBonus = GetRarityBonus(equip.Rarity);
@@ -113,7 +113,7 @@ public class EquipObtainer : InventoryAb
         {
             if (equip.EquipSO.EquipType == EquipType.Weapon)
             {
-                int flatValue = Random.Range((int)defaultBonus.SubStat.FlatMinValue, (int)defaultBonus.SubStat.FlatMaxValue + 1);
+                int flatValue = max ? defaultBonus.SubStat.FlatMaxValue : Random.Range((int)defaultBonus.SubStat.FlatMinValue, (int)defaultBonus.SubStat.FlatMaxValue + 1);
                 subStat.Stat = EquipStatType.Accuracy;
                 subStat.TypeBonus = TypeBonus.FlatBonus;
                 subStat.FlatValue = flatValue;
@@ -174,7 +174,7 @@ public class EquipObtainer : InventoryAb
 
         if (bonusT == TypeBonus.FlatBonus)
         {
-            int flatValue = Random.Range((int)defaultBonus.SubStat.FlatMinValue, (int)defaultBonus.SubStat.FlatMaxValue + 1);
+            int flatValue = max ? defaultBonus.SubStat.FlatMaxValue : Random.Range((int)defaultBonus.SubStat.FlatMinValue, (int)defaultBonus.SubStat.FlatMaxValue + 1);
             subStat.TypeBonus = TypeBonus.FlatBonus;
             subStat.FlatValue = flatValue;
             subStat.FlatBaseValue = flatValue;
@@ -183,7 +183,7 @@ public class EquipObtainer : InventoryAb
 
         if (bonusT == TypeBonus.PercentBonus)
         {
-            float percentValue = Random.Range(defaultBonus.SubStat.PercentMinValue, defaultBonus.SubStat.PercentMaxValue);
+            float percentValue = max ? defaultBonus.SubStat.PercentMaxValue : Random.Range(defaultBonus.SubStat.PercentMinValue, defaultBonus.SubStat.PercentMaxValue);
             subStat.TypeBonus = TypeBonus.PercentBonus;
             subStat.PercentValue = percentValue;
             subStat.PercentBaseValue = percentValue;
@@ -254,11 +254,11 @@ public class EquipObtainer : InventoryAb
         return false;
     }
 
-    private void CreateWeaponMainStat(EquipStat mainStat, Rarity rarity)
+    private void CreateWeaponMainStat(EquipStat mainStat, Rarity rarity, bool max)
     {
         EquipStatType equipStatType = weaponMainStats[Random.Range(0, weaponMainStats.Count)];
         EquipStatBonus defaultBonus = GetRarityBonus(rarity);
-        int flatValue = Random.Range((int)defaultBonus.MainStat.FlatMinValue, (int)defaultBonus.MainStat.FlatMaxValue + 1);
+        int flatValue = max ? defaultBonus.MainStat.FlatMaxValue : Random.Range(defaultBonus.MainStat.FlatMinValue, defaultBonus.MainStat.FlatMaxValue + 1);
         mainStat.Stat = equipStatType;
         mainStat.TypeBonus = TypeBonus.FlatBonus;
         mainStat.FlatValue = flatValue;
@@ -266,10 +266,10 @@ public class EquipObtainer : InventoryAb
         mainStat.FlatBonus = defaultBonus.MainStat.FlatBonus;
     }
 
-    private void CreateHelmetMainStat(EquipStat mainStat, Rarity rarity)
+    private void CreateHelmetMainStat(EquipStat mainStat, Rarity rarity, bool max)
     {
         EquipStatBonus defaultBonus = GetRarityBonus(rarity);
-        int flatValue = Random.Range((int)defaultBonus.MainStat.FlatMinValue, (int)defaultBonus.MainStat.FlatMaxValue + 1);
+        int flatValue = max ? defaultBonus.MainStat.FlatMaxValue : Random.Range(defaultBonus.MainStat.FlatMinValue, defaultBonus.MainStat.FlatMaxValue + 1);
         mainStat.Stat = EquipStatType.Defense;
         mainStat.TypeBonus = TypeBonus.FlatBonus;
         mainStat.FlatValue = flatValue;
@@ -277,10 +277,10 @@ public class EquipObtainer : InventoryAb
         mainStat.FlatBonus = defaultBonus.MainStat.FlatBonus;
     }
 
-    private void CreateArmorMainStat(EquipStat mainStat, Rarity rarity)
+    private void CreateArmorMainStat(EquipStat mainStat, Rarity rarity, bool max)
     {
         EquipStatBonus defaultBonus = GetRarityBonus(rarity);
-        float percentValue = Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
+        float percentValue = max ? defaultBonus.MainStat.PercentMaxValue : Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
         mainStat.Stat = EquipStatType.Defense;
         mainStat.TypeBonus = TypeBonus.PercentBonus;
         mainStat.PercentValue = percentValue;
@@ -288,10 +288,10 @@ public class EquipObtainer : InventoryAb
         mainStat.PercentBonus = defaultBonus.MainStat.PercentBonus;
     }
 
-    private void CreateArmwearMainStat(EquipStat mainStat, Rarity rarity)
+    private void CreateArmwearMainStat(EquipStat mainStat, Rarity rarity, bool max)
     {
         EquipStatBonus defaultBonus = GetRarityBonus(rarity);
-        int flatValue = Random.Range((int)defaultBonus.MainStat.FlatMinValue, (int)defaultBonus.MainStat.FlatMaxValue + 1);
+        int flatValue = max ? defaultBonus.MainStat.FlatMaxValue : Random.Range(defaultBonus.MainStat.FlatMinValue, defaultBonus.MainStat.FlatMaxValue + 1);
         mainStat.Stat = EquipStatType.HP;
         mainStat.TypeBonus = TypeBonus.FlatBonus;
         mainStat.FlatValue = flatValue;
@@ -299,10 +299,10 @@ public class EquipObtainer : InventoryAb
         mainStat.FlatBonus = defaultBonus.MainStat.FlatBonus;
     }
 
-    private void CreateBootsMainStat(EquipStat mainStat, Rarity rarity)
+    private void CreateBootsMainStat(EquipStat mainStat, Rarity rarity, bool max)
     {
         EquipStatBonus defaultBonus = GetRarityBonus(rarity);
-        float percentValue = Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
+        float percentValue = max ? defaultBonus.MainStat.PercentMaxValue : Random.Range(defaultBonus.MainStat.PercentMinValue, defaultBonus.MainStat.PercentMaxValue);
         mainStat.Stat = EquipStatType.HP;
         mainStat.TypeBonus = TypeBonus.PercentBonus;
         mainStat.PercentValue = percentValue;
@@ -318,18 +318,6 @@ public class EquipObtainer : InventoryAb
         }
 
         return null;
-    }
-
-    private Rarity GetRarity()
-    {
-        float rate = 1; //Random.Range(0f, 100f);
-
-        if (rate <= (int)Rarity.Lengendary) return Rarity.Lengendary;
-        if (rate <= (int)Rarity.Epic) return Rarity.Epic;
-        if (rate <= (int)Rarity.Rare) return Rarity.Rare;
-        if (rate <= (int)Rarity.Uncommon) return Rarity.Uncommon;
-        if (rate <= (int)Rarity.Common) return Rarity.Common;
-        return Rarity.None;
     }
 
     public EquipStatBonus GetDefalutRarityBounusByRarity(Rarity rarity)

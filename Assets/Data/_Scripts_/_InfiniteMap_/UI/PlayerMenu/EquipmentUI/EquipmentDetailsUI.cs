@@ -49,6 +49,8 @@ public class EquipmentDetailsUI : GMono
     {
         base.Start();
         currentEquipmentUI = GameUI.Instance.CurrentEquipmentUI;
+        SoulizeEquipmentUI.Instance.OnSoulizeComplete += OffUI;
+        EquipmentUpgradeUI.Instance.OnUpgradeComplete += ReshowStatAndLevel;
         closeBtn.onClick.AddListener(Click);
     }
 
@@ -115,8 +117,10 @@ public class EquipmentDetailsUI : GMono
         unequipBtn = transform.Find("Buttons").Find("ButtonLine1").Find("EquipBtn").Find("UnequipBtn").GetComponent<Button>();
     }
 
-    public void ShowDetails(InventoryEquip equip, bool isCurrentEquip = false)
+    public void ShowDetails(EquipUI equipUI, bool isCurrentEquip = false)
     {
+        InventoryEquip equip = equipUI.Equip;
+
         qualityColor.color = GetQualityColorByRarity(equip.Rarity);
         model.sprite = equip.EquipSO.Sprite;
         equipName.text = equip.EquipSO.ItemName;
@@ -136,17 +140,22 @@ public class EquipmentDetailsUI : GMono
         }
         else
         {
-            soulizeBtn.transform.parent.gameObject.SetActive(true);
-            soulizeBtn.onClick.RemoveAllListeners();
-            soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equip));
+            if (isCurrentEquip) soulizeBtn.transform.parent.gameObject.SetActive(false);
+            else
+            {
+                soulizeBtn.transform.parent.gameObject.SetActive(true);
+                soulizeBtn.onClick.RemoveAllListeners();
+                soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equip));
+            }
+
             lockBtn.gameObject.SetActive(false);
             unlockBtn.gameObject.SetActive(true);
         }
 
         lockBtn.onClick.RemoveAllListeners();
         unlockBtn.onClick.RemoveAllListeners();
-        lockBtn.onClick.AddListener(() => UnlockClickListener(equip));
-        unlockBtn.onClick.AddListener(() => LockClickListener(equip));
+        lockBtn.onClick.AddListener(() => UnlockClickListener(equipUI, isCurrentEquip));
+        unlockBtn.onClick.AddListener(() => LockClickListener(equipUI));
     }
 
     public void AddEquipClickListener(InventoryEquip equip)
@@ -213,20 +222,40 @@ public class EquipmentDetailsUI : GMono
         SoulizeEquipmentUI.Instance.SetSoulizeEquipmentUI(equip);
     }
 
-    private void LockClickListener(InventoryEquip equip)
+    private void LockClickListener(EquipUI equipUI)
     {
-        equip.IsLock = true;
+        equipUI.Equip.IsLock = true;
+        equipUI.ChangeLock();
+        NewAndLockEquip.Instance.OnNewOrLockChangedEventInvoke(equipUI.Equip, true);
         lockBtn.gameObject.SetActive(true);
         unlockBtn.gameObject.SetActive(false);
+        soulizeBtn.transform.parent.gameObject.SetActive(false);
     }
 
-    private void UnlockClickListener(InventoryEquip equip)
+    private void UnlockClickListener(EquipUI equipUI, bool isCurrentEquip)
     {
-        equip.IsLock = false;
+        equipUI.Equip.IsLock = false;
+        equipUI.ChangeLock();
+        NewAndLockEquip.Instance.OnNewOrLockChangedEventInvoke(equipUI.Equip, true);
         lockBtn.gameObject.SetActive(false);
         unlockBtn.gameObject.SetActive(true);
+
+        if (isCurrentEquip) return;
+
         soulizeBtn.transform.parent.gameObject.SetActive(true);
         soulizeBtn.onClick.RemoveAllListeners();
-        soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equip));
+        soulizeBtn.onClick.AddListener(() => SoulizeClickListener(equipUI.Equip));
+    }
+
+    public void ReshowStatAndLevel(InventoryEquip equip)
+    {
+        level.text = $"{equip.Level}";
+        mainStat.Show(equip.MainStat);
+        subStats.SpawnSubStats(equip.SubStats);
+    }
+
+    private void OffUI()
+    {
+        this.gameObject.SetActive(false);
     }
 }

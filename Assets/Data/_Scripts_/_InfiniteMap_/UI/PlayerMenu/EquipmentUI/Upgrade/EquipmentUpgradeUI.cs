@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class EquipmentUpgradeUI : GMono
 {
     private static EquipmentUpgradeUI instance;
     public static EquipmentUpgradeUI Instance => instance;
+
+    public event Action<InventoryEquip> OnUpgradeComplete;
 
     [SerializeField] private Image quality;
     [SerializeField] private Image image;
@@ -80,5 +83,6 @@ public class EquipmentUpgradeUI : GMono
     {
         equipObtainer.CheckPrimarionSoulAndUpgrading(equip);
         SetEquipmentUpgradeUI(equip);
+        OnUpgradeComplete?.Invoke(equip);
     }
 }

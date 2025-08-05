@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FlyObjectInfiniteMapCollision : FlyObjectCollision
@@ -6,12 +7,21 @@ public class FlyObjectInfiniteMapCollision : FlyObjectCollision
     {
         base.Collide(other);
 
-        Debug.Log(other.transform.parent.name);
-        
+        StartCoroutine(MonsterCheckHit(other));
+    }
+
+    private IEnumerator MonsterCheckHit(Collider other)
+    {
         IMMonster monsterCom = other.transform.parent.GetComponent<IMMonster>();
-        
+
         if (monsterCom != null && monsterCom is IMMonster)
         {
+            IMMonsterAnim anim = monsterCom.Anim as IMMonsterAnim;
+            anim.BeingHit();
+
+            yield return new WaitForSeconds(1f);
+
+            InfiniteMapManager.Instance.Player.CanLockMovement = true;
             InfiniteMapManager.Instance.Player.CallOnBattlePreparingEvent(monsterCom);
         }
 

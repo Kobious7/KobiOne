@@ -24,18 +24,18 @@ public class EquipmentInvUISpawner : Spawner
 
     protected override void LoadHolder()
     {
-        if(holder != null) return;
+        if (holder != null) return;
 
         holder = GetComponent<ScrollRect>().content;
     }
 
     public void SpawnEquips(List<InventoryEquip> equipInv)
     {
-        if(equipInv.Count <= 0) return;
+        if (equipInv.Count <= 0) return;
 
         currentList = new();
 
-        foreach(var equip in equipInv)
+        foreach (var equip in equipInv)
         {
             SpawnEquip(equip);
         }
@@ -56,27 +56,28 @@ public class EquipmentInvUISpawner : Spawner
 
     public void AddClick(EquipUI equipUI)
     {
-        if(currentEquip == equipUI) return;
-        if (equipUI.Equip.IsNew == true)
+        if (currentEquip == equipUI) return;
+        if (equipUI.Equip.IsNew)
         {
             equipUI.Equip.IsNew = false;
             equipUI.NewIcon.gameObject.SetActive(false);
+            NewAndLockEquip.Instance.OnNewOrLockChangedEventInvoke(equipUI.Equip, true);
         }
-        
-        if (GameUI.Instance.CurrentEquipmentUI.CurrentEquip != null)
-            {
-                GameUI.Instance.CurrentEquipmentUI.CurrentEquip.OnSelected.gameObject.SetActive(false);
-                GameUI.Instance.CurrentEquipmentUI.CurrentEquip = null;
-            }
 
-        if(currentEquip != null) currentEquip.OnSelected.gameObject.SetActive(false);
+        if (GameUI.Instance.CurrentEquipmentUI.CurrentEquip != null)
+        {
+            GameUI.Instance.CurrentEquipmentUI.CurrentEquip.OnSelected.gameObject.SetActive(false);
+            GameUI.Instance.CurrentEquipmentUI.CurrentEquip = null;
+        }
+
+        if (currentEquip != null) currentEquip.OnSelected.gameObject.SetActive(false);
 
         equipUI.OnSelected.gameObject.SetActive(true);
 
         currentEquip = equipUI;
 
         EquipmentDetailsUI.Instance.gameObject.SetActive(true);
-        EquipmentDetailsUI.Instance.ShowDetails(equipUI.Equip);
+        EquipmentDetailsUI.Instance.ShowDetails(equipUI);
         EquipmentDetailsUI.Instance.AddEquipClickListener(equipUI.Equip);
     }
 
@@ -84,6 +85,14 @@ public class EquipmentInvUISpawner : Spawner
     {
         Transform despawnEquip = currentList.Where(e => e.Equip == equip).FirstOrDefault().transform;
 
+        currentList.Remove(despawnEquip.GetComponent<EquipUI>());
         Despawn(despawnEquip);
+    }
+    
+    public void GetEquipUIAndChangeNewLock(InventoryEquip equip)
+    {
+        EquipUI equipUI = currentList.Where(e => e.Equip == equip).FirstOrDefault();
+
+        equipUI.ChangeLock();
     }
 }

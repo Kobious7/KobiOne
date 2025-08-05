@@ -15,6 +15,7 @@ public class IMPlayerAnim : EntityAnim
         playerData = infiniteMapManager.PlayerData;
 
         infiniteMapManager.Inventory.EquipWearing.OnEquipWearing += SwapOverride;
+        infiniteMapManager.Equipment.Unequip.OnEquipDisarming += ResetOverride;
 
         if (playerData.Weapon != null && playerData.Weapon.EquipSO != null)
         {
@@ -55,14 +56,21 @@ public class IMPlayerAnim : EntityAnim
 
     public void SwapOverride(InventoryEquip weapon)
     {
+        if (weapon.EquipSO is not WeaponSO) return;
+
         WeaponSO weaponSO = (WeaponSO)weapon.EquipSO;
 
         SetWeaponOverride(weaponSO);
     }
 
+    public void ResetOverride(InventoryEquip weapon)
+    {
+        Entity.Animator.runtimeAnimatorController = origin;
+    }
+
     public void SetWeaponOverride(WeaponSO weaponSO)
     {
-        switch(weaponSO.WeaponType)
+        switch (weaponSO.WeaponType)
         {
             case WeaponType.Sword:
                 Entity.Animator.runtimeAnimatorController = origin;

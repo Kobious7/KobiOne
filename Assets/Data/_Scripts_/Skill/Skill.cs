@@ -125,6 +125,18 @@ public class Skill : GMono
         playerData.RemainPoints = skillPoints;
     }
 
+    public void IncreaseSkillPoints(int point)
+    {
+        skillPoints += point;
+        trueSkillPoints += point;
+
+        OnSkillPointChanging?.Invoke();
+
+        //Save Data
+        playerData.SkillPoints = skillPoints;
+        playerData.AllSkillPoints = trueSkillPoints;
+    }
+
     public void SetCurrentSkill(SkillNode skill, SkillButton button, int treeIndex)
     {
         if (button == SkillButton.Q)

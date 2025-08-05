@@ -88,6 +88,7 @@ public class CurrentEquipmentUI : GMono
         inventory.EquipWearing.OnEquipWearing += UpdateEquippedEquipment;
         inventory.OnEquipAdding += UpdateEquipUIInSpawner;
         inventory.Soulize.OnEquipSoulized += DespawnSoulizedEquip;
+        NewAndLockEquip.Instance.OnNewOrLockChanged += UpdateNewLock;
     }
 
     private void ShowCurrentEquipments()
@@ -208,7 +209,7 @@ public class CurrentEquipmentUI : GMono
         EquipmentDetailsUI.Instance.gameObject.SetActive(true);
         if (equipUI.Equip.Level > 0)
         {
-            EquipmentDetailsUI.Instance.ShowDetails(equipUI.Equip, true);
+            EquipmentDetailsUI.Instance.ShowDetails(equipUI, true);
             EquipmentDetailsUI.Instance.AddUnequipClickListener(equipUI.Equip);
         }
         else
@@ -243,5 +244,14 @@ public class CurrentEquipmentUI : GMono
         int index = GetEquipIndex(equip.EquipSO.EquipType);
 
         equipInvSpawners[index].DespawnEquip(equip);
+    }
+
+    private void UpdateNewLock(InventoryEquip equip, bool inv)
+    {
+        if (inv) return;
+
+        int index = GetEquipIndex(equip.EquipSO.EquipType);
+
+        equipInvSpawners[index].GetEquipUIAndChangeNewLock(equip);
     }
 }
