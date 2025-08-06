@@ -27,7 +27,7 @@ public class KeyboardMT : GMono
         battleManager = BattleManager.Instance;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         CountTime();
         EnterCountTime();
@@ -166,6 +166,8 @@ public class KeyboardMT : GMono
 
     public void Choose()
     {
+        Battle.Instance.IsHandlingTile = true;
+        
         board = battleManager.Board;
         tiles = board.BoardGen.Tiles;
         boardMatches = board.BoardMatches;
@@ -182,7 +184,6 @@ public class KeyboardMT : GMono
         battleManager.TileBorder.Arrows.gameObject.SetActive(false);
         battleManager.TileBorder.IsEnter = false;
         StartCoroutine(boardDestroyedMatches.DestroyAndFill());
-        Debug.Log("????");
     }
 
     private bool MoveTileCheck(TileBoard tile, int x, int y)

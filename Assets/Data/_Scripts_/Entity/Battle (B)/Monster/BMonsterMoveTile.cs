@@ -22,7 +22,7 @@ public class BMonsterMoveTile : BEntityComponent
         board = battleManager.Board;
         tiles = board.BoardGen.Tiles;
         boardMatches = board.BoardMatches;
-        TileCanBeMatches pickedTile = monster.Pick.WisePick();
+        TileCanBeMatches pickedTile = monster.Pick.Stupick();
         int x = pickedTile.X;
         int y = pickedTile.Y;
         TileDirection direction = pickedTile.TileDirection;

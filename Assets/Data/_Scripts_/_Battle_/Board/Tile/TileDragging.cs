@@ -54,6 +54,8 @@ public class TileDragging : TileBoardAb
 
     public void ChangePos()
     {
+        Battle.Instance.IsHandlingTile = true;
+        
         board = battleManager.Board;
         tiles = board.BoardGen.Tiles;
         boardMatches = board.BoardMatches;

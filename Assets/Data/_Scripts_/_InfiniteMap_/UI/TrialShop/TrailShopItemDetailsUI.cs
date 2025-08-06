@@ -149,7 +149,7 @@ public class TrailShopItemDetailsUI : GMono
     {
         if (inventory.PrimarionSoul < int.Parse(quantity.text)) return;
 
-        player.StatsSystem.IncreaseLevel(int.Parse(inputField.text));
+        player.StatsSystem.UseExpShop(int.Parse(inputField.text));
         inventory.DescreasePrimarionSoul(int.Parse(quantity.text));
 
         this.gameObject.SetActive(false);

@@ -19,16 +19,14 @@ public class Battle : GMono
     [SerializeField] private bool pFisrt = true;
     [SerializeField] private bool pTurn = true;
     [SerializeField] private bool opTurn = false;
-    public bool OpTurn => opTurn;
     [SerializeField] private bool endTurn = false;
     [SerializeField] private bool canDrag = true;
     [SerializeField] private float countDownTurn = 90;
     [SerializeField] private int turnCount = 1;
     [SerializeField] private bool botPlayed = false;
     [SerializeField] private DamageType playerNextDamage;
-    [SerializeField] private bool playerCrit;
+    [SerializeField] private bool playerCrit, isHandlingTile;
     private Dictionary<TileEnum, int> tileCounter;
-    public Dictionary<TileEnum, int> TileCounter => tileCounter;
     private BPlayer player;
     private BMonster monster;
     private BattleManager battleManager;
@@ -92,6 +90,10 @@ public class Battle : GMono
         get { return playerCrit; }
         set { playerCrit = value; }
     }
+
+    public bool IsHandlingTile { get => isHandlingTile; set => isHandlingTile = value; }
+    public bool OpTurn => opTurn;
+    public Dictionary<TileEnum, int> TileCounter => tileCounter;
     #endregion
 
     protected override void Awake()
@@ -254,10 +256,6 @@ public class Battle : GMono
 
     public IEnumerator TileHandling()
     {
-        //foreach(KeyValuePair<TileEnum, int> keyValuePair in tileCounter)
-        //{
-        //    Debug.Log($"{keyValuePair.Key} = {keyValuePair.Value}");
-        //}
         if (tileCounter[TileEnum.EXP] > 0)
         {
             if (pTurn)
@@ -389,6 +387,7 @@ public class Battle : GMono
             }
         }
 
+        isHandlingTile = false;
         BSkill.Instance.SkillActivator.IsCasting = false;
     }
 

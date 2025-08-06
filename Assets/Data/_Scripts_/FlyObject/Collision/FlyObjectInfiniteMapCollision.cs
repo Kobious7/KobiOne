@@ -18,8 +18,9 @@ public class FlyObjectInfiniteMapCollision : FlyObjectCollision
         {
             IMMonsterAnim anim = monsterCom.Anim as IMMonsterAnim;
             anim.BeingHit();
+            monsterCom.IsBeingHit = true;
 
-            yield return new WaitForSeconds(1f);
+            yield return null;
 
             InfiniteMapManager.Instance.Player.CanLockMovement = true;
             InfiniteMapManager.Instance.Player.CallOnBattlePreparingEvent(monsterCom);

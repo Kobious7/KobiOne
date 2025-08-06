@@ -183,6 +183,7 @@ public class BEntityStats : BEntityComponent
 
     public void HPIns(int amount)
     {
+        amount = amount <= 0 ? 1 : amount;
         currentHP += amount;
 
         if (currentHP > maxHP) currentHP = maxHP;
@@ -199,6 +200,7 @@ public class BEntityStats : BEntityComponent
 
     public void VHPIns(int amount)
     {
+        amount = amount <= 0 ? 1 : amount;
         vHP += amount;
 
         if (vHP > maxHP) vHP = maxHP;

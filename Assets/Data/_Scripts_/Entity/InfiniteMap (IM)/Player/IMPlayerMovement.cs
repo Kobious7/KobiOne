@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class IMPlayerMovement : IMEntityMovement
 {
-    [SerializeField] private float speed = 5;
     [SerializeField] private float jumpForce = 10;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool isJumping, isFalling;
@@ -31,7 +30,7 @@ public class IMPlayerMovement : IMEntityMovement
     {
         if (player.CanLockMovement)
         {
-            player.Model.localScale = player.Model.localScale.x != 1 ? Vector3.one: player.Model.localScale;
+            player.Model.localScale = player.Model.localScale.x != 1 ? Vector3.one : player.Model.localScale;
             return;
         }
 
@@ -57,7 +56,7 @@ public class IMPlayerMovement : IMEntityMovement
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(player.RigModel.position, 0.1f, layerMask);
 
-        if (isGrounded && !wasGrounded)
+        if (!isJumping && isGrounded && !wasGrounded)
         {
             jumpCount = 0;
         }
@@ -106,7 +105,7 @@ public class IMPlayerMovement : IMEntityMovement
             return;
         }
 
-        player.Rb2D.velocity = new Vector2(InputManager.Instance.Horizontal * speed, player.Rb2D.velocity.y);
+        player.Rb2D.velocity = new Vector2(InputManager.Instance.Horizontal * player.StatsSystem.Stats[9].Value, player.Rb2D.velocity.y);
         Vector3 distanceMoved = new Vector3(distanceMoved2D.x, distanceMoved2D.y, 0);
     }
 
@@ -114,6 +113,7 @@ public class IMPlayerMovement : IMEntityMovement
     {
         if (!InputManager.Instance.Jump || jumpCount >= maxJumpCount) return;
 
+        ++jumpCount;
         player.Rb2D.velocity = new Vector2(player.Rb2D.velocity.x, jumpForce);
         isJumping = true;
         isFalling = false;
@@ -121,7 +121,6 @@ public class IMPlayerMovement : IMEntityMovement
 
         anim.IdleToJump();
 
-        jumpCount++;
     }
 
     private void OnDrawGizmosSelected()

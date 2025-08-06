@@ -82,7 +82,7 @@ public class SkillBtnUI : GMono
         }
         else
         {
-            if (Battle.Instance.OpTurn || BSkill.Instance.SkillActivator.IsCasting)
+            if (Battle.Instance.OpTurn || Battle.Instance.IsHandlingTile || BSkill.Instance.SkillActivator.IsCasting)
             {
                 button.interactable = false;
             }

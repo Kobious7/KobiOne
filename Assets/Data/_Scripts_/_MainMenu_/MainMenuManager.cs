@@ -7,8 +7,10 @@ public class MainMenuManager : GMono
     public static MainMenuManager Instance => instance;
 
     [SerializeField] private NewGamePromptUI newGamePromptUI;
+    [SerializeField] private NameSetUI nameSetUI;
 
     public NewGamePromptUI NewGamePromptUI => newGamePromptUI;
+    public NameSetUI NameSetUI => nameSetUI;
 
     protected override void Awake()
     {
@@ -21,6 +23,7 @@ public class MainMenuManager : GMono
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        newGamePromptUI = FindObjectOfType<NewGamePromptUI>();
+        if (newGamePromptUI == null) newGamePromptUI = FindObjectOfType<NewGamePromptUI>();
+        if (nameSetUI == null) nameSetUI = FindObjectOfType<NameSetUI>();
     }
 }

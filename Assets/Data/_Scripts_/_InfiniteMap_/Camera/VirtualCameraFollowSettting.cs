@@ -41,7 +41,6 @@ public class VirtualCameraFollowSetting : GMono
         
         if (virtualCamera.Follow == null && player.position.x > stopFollowX + 10)
         {
-            Debug.Log("Me");
             virtualCamera.Follow = player;
         }
     }

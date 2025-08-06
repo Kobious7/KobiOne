@@ -122,7 +122,7 @@ public class Skill : GMono
         OnSkillPointChanging?.Invoke();
 
         //Save Data
-        playerData.RemainPoints = skillPoints;
+        playerData.SkillPoints = skillPoints;
     }
 
     public void IncreaseSkillPoints(int point)

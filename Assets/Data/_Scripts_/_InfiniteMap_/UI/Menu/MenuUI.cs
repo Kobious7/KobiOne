@@ -36,7 +36,7 @@ public class MenuUI : GMono
         infiniteMapManager.Player.StatsSystem.OnLevelIncreasing += UpdateLevel;
 
         level.text = $"{infiniteMapManager.Player.StatsSystem.Level}";
-        playerName.text = infiniteMapManager.PlayerData.PlayerName.Length > 1 ? infiniteMapManager.PlayerData.PlayerName : "KobiOne";
+        playerName.text = infiniteMapManager.PlayerData.PlayerName.Length >= 1 ? infiniteMapManager.PlayerData.PlayerName : "KobiOne";
 
         faceBtn.onClick.AddListener(OpenMenuClickListener);
         logOutBtn.onClick.AddListener(LogOutClickListener);

@@ -7,6 +7,7 @@ public class IMEntityShooting : EntityComponent, IEntityShooting
 
     public void Shoot()
     {
+        Transform pre = prefab;
         Transform obj = InfiniteMapManager.Instance.FlyObjectSpawner.Spawn(prefab, Entity.AttackPoint.transform.position, Entity.CenterPoint.rotation);
 
         obj.gameObject.SetActive(true);

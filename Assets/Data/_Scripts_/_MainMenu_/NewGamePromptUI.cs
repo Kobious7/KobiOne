@@ -31,6 +31,7 @@ public class NewGamePromptUI : GMono
     private void YesClickListener()
     {
         SavingManager.Instance.ResetDataToDefault();
-        LoadScene(INFINITEMAP);
+        this.gameObject.SetActive(false);
+        MainMenuManager.Instance.NameSetUI.gameObject.SetActive(true);
     }
 }

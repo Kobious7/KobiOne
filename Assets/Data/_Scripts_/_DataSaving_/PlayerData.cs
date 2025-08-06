@@ -7,6 +7,7 @@ public class PlayerData
     public string PlayerName;
     public int Level;
     public int CurrentExp;
+    public int AllPotentialPoints;
     public int RemainPoints;
     public Stat Power;
     public Stat Magic;
@@ -34,6 +35,7 @@ public class PlayerData
         PlayerName = playerSO.PlayerName;
         Level = playerSO.Level;
         CurrentExp = playerSO.CurrentExp;
+        AllPotentialPoints = playerSO.AllPotentialPoints;
         RemainPoints = playerSO.RemainPoints;
         Power = playerSO.Power;
         Magic = playerSO.Magic;

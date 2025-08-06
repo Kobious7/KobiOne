@@ -8,12 +8,13 @@ public class SavingManager : GMono
 
     public static SavingManager Instance => instance;
 
-    public PlayerSO playerSO;
-    public PlayerSO defaultSO;
+    [SerializeField] private PlayerSO playerSO;
+    [SerializeField] private PlayerSO defaultSO;
     private string filePath;
     [SerializeField] private bool isLoaded;
     [SerializeField] private bool isDataExist;
 
+    public PlayerSO PlayerSO => playerSO;
     public bool IsDataExist => isDataExist;
 
     protected override void Awake()
@@ -70,5 +71,10 @@ public class SavingManager : GMono
     {
         File.Delete(filePath);
         playerSO = defaultSO;
+    }
+
+    private void OnApplicationQuit()
+    {
+        SavePlayerData();
     }
 }

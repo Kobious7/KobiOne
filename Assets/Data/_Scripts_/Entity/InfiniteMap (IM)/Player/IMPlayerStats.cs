@@ -180,7 +180,6 @@ public class IMPlayerStats : EntityComponent
         while (currentExp >= requiredExp)
         {
             lerpExpStack++;
-            remainPoints += 5;
             currentExp -= requiredExp;
 
             IncreaseLevel(1);
@@ -231,7 +230,7 @@ public class IMPlayerStats : EntityComponent
         playerData.Defense.TrueValue += 5 * lev;
         playerData.Dexterity.TrueValue += 5 * lev;
         playerData.AllPotentialPoints += 30 * lev;
-        playerData.RemainPoints += 5 * level;
+        playerData.RemainPoints += 5 * lev;
     }
 
     public void ResetPotentialPoint()
@@ -384,6 +383,8 @@ public class IMPlayerStats : EntityComponent
 
     private void CalculateOtherSources()
     {
+        CalculateSpeedStat();
+        OnStatChange?.Invoke(9);
         OnStatChange?.Invoke(10);
         OnStatChange?.Invoke(11);
     }
@@ -498,7 +499,7 @@ public class IMPlayerStats : EntityComponent
     {
         Stat speed = stats[9];
         int flat = 4 + speed.FlatBonus;
-        speed.Value = (int) flat;
+        speed.Value = flat;
     }
 
     private void CalculateCritRateStat()

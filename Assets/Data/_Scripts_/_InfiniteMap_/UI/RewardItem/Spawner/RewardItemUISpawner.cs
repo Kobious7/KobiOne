@@ -26,19 +26,25 @@ public class RewardItemUISpawner : PrefabSpawner
 
     private IEnumerator SpawnRewards(int exp, int primarionSoul, List<InventoryStuff> rewardItemList)
     {
-        if (exp > 0)
+        if (exp <= 0 && primarionSoul <= 0 && rewardItemList.Count <= 0)
         {
-            Transform expReward = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
-            expReward.localScale = Vector3.one;
-
-            RewardItemUI rewardItemUICom = expReward.GetComponent<RewardItemUI>();
-
-            rewardItemUICom.SetExpRewardItemUI(exp);
-
-            expReward.gameObject.SetActive(true);
-
-            exp = 0;
+            transform.parent.gameObject.SetActive(false);
+            InfiniteMapManager.Instance.IsUIOpening = false;
         }
+        
+        if (exp > 0)
+            {
+                Transform expReward = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
+                expReward.localScale = Vector3.one;
+
+                RewardItemUI rewardItemUICom = expReward.GetComponent<RewardItemUI>();
+
+                rewardItemUICom.SetExpRewardItemUI(exp);
+
+                expReward.gameObject.SetActive(true);
+
+                exp = 0;
+            }
 
         yield return new WaitForSeconds(0.5f);
 

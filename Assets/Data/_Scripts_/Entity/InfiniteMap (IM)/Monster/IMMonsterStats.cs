@@ -89,17 +89,17 @@ public class IMMonsterStats : EntityComponent
     {
         if (attackType == AttackType.Attack)
         {
-            power = level * 5;
+            power = level > 9 ? level * 5 : (int)(level * 1.5f);
         }
 
         if (attackType == AttackType.MagicAttack)
         {
-            power = Random.Range(1, (int)(level * 2.5));
+            power = level > 9 ? Random.Range(1, (int)(level * 2.5)) : 0;
         }
 
         if (attackType == AttackType.AllAttack)
         {
-            power = level * 3;
+            power = level > 9 ? level * 3 : level;
         }
     }
 
@@ -107,17 +107,17 @@ public class IMMonsterStats : EntityComponent
     {
         if (attackType == AttackType.Attack)
         {
-            magic = Random.Range(1, (int)(level * 2.5));
+            magic = level > 9 ? Random.Range(1, (int)(level * 2.5)) : 0;
         }
 
         if (attackType == AttackType.MagicAttack)
         {
-            magic = level * 5;
+            magic = level > 9 ? level * 5 : (int)(level * 1.5f);
         }
 
         if (attackType == AttackType.AllAttack)
         {
-            magic = level * 3;
+            magic = level > 9 ? level * 3 : level;
         }
     }
 
@@ -157,7 +157,7 @@ public class IMMonsterStats : EntityComponent
         float strengthBasicMultiplier = 1f;
         float multiplierPerStrength = 0.01f;
         float multiplier = strength * multiplierPerStrength + strengthBasicMultiplier;
-        hp = strength + (int)(strength * multiplier) * 5;
+        hp = strength + (level > 9 ? (int)(strength * multiplier) * 5 : 20);
         hp = (int)(hp * GetTierHPMultiplier(tier));
     }
 
@@ -179,7 +179,7 @@ public class IMMonsterStats : EntityComponent
 
     private void CalculateDefenseS()
     {
-        defenseS = (int)(defense / 5);
+        defenseS = defense / 5;
     }
 
     private void CalculateAccuracy()

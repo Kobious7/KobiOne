@@ -13,7 +13,7 @@ public class NewGameButtonClick : ButtonClick
         else
         {
             SavingManager.Instance.SavePlayerData();
-            LoadScene(INFINITEMAP);
+            MainMenuManager.Instance.NameSetUI.gameObject.SetActive(true);
         }
     }
 }

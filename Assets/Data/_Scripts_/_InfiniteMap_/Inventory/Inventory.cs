@@ -140,6 +140,7 @@ public class Inventory : GMono
         {
             int monsterLevel = infiniteMapManager.MapData.MonsterInfo.Level;
             rewardPrimarionSoul = UnityEngine.Random.Range(monsterLevel / 2 + monsterLevel, (monsterLevel / 2 + monsterLevel) + monsterLevel * monsterLevel / 100);
+            Debug.Log(rewardPrimarionSoul);
             primarionSoul += playerData.PrimarionSoul + rewardPrimarionSoul;
 
             //Save data
