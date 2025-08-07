@@ -91,6 +91,7 @@ public class InfinitMapSODataLoader : GMono
         mapData.MonsterInfo.Name = monster.name;
         mapData.MonsterInfo.Level = monster.Stats.Level;
         mapData.MonsterInfo.Tier = monster.Stats.Tier;
+        mapData.MonsterInfo.AttackType = monster.Stats.AttackType;
         mapData.MonsterInfo.Attack = monster.Stats.Attack;
         mapData.MonsterInfo.MagicAttack = monster.Stats.MagicAttack;
         mapData.MonsterInfo.HP = monster.Stats.HP;

@@ -10,7 +10,10 @@ public abstract class InventoryItemUISpawner : Spawner
     [SerializeField] private List<InventoryStuff> inventoryItemList;
     [SerializeField] private List<InventoryItemUI> inventoryItemUIList;
     [SerializeField] private Transform selectedItem;
+    [SerializeField] private bool isInit;
 
+    public List<InventoryItemUI> InventoryItemList => inventoryItemUIList;
+    public bool IsInit => isInit;
     public Transform SelectedItem
     {
         get => selectedItem;
@@ -31,6 +34,7 @@ public abstract class InventoryItemUISpawner : Spawner
         inventoryItemUIList = new();
 
         SpawnInventoryItemUIs();
+        isInit = true;
     }
 
     protected abstract List<InventoryStuff> GetInventoryItemList();
@@ -65,6 +69,8 @@ public abstract class InventoryItemUISpawner : Spawner
 
     public void DespawnInventoryItemUI(InventoryStuff inventoryItem)
     {
+        if (inventoryItemUIList.Count <= 0) return;
+
         Transform inventoryItemUI = inventoryItemUIList.Where(e => e.InventoryItem == inventoryItem).FirstOrDefault().transform;
 
         inventoryItemUIList.Remove(inventoryItemUI.GetComponent<InventoryItemUI>());

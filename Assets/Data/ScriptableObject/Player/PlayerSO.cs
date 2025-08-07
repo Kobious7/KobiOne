@@ -64,6 +64,7 @@ public class PlayerSO : ScriptableObject
         Weapon = new(player.Weapon);
         Helmet = new(player.Helmet);
         Armor = new(player.Armor);
+        Armwear = new(player.Armwear);
         Boots = new(player.Boots);
         Special = new(player.Special);
         PrimarionSoul = player.PrimarionSoul;
@@ -99,6 +100,7 @@ public class PlayerSO : ScriptableObject
         Weapon = playerData.Weapon;
         Helmet = playerData.Helmet;
         Armor = playerData.Armor;
+        Armwear = playerData.Armwear;
         Boots = playerData.Boots;
         Special = playerData.Special;
         PrimarionSoul = playerData.PrimarionSoul;

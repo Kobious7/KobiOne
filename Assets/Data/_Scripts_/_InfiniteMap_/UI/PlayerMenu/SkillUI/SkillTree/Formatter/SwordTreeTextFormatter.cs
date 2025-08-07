@@ -10,7 +10,7 @@ public class SwordTreeTextFormatter : SkillTreeTextFormatter
         replacements["SlashDamage"] = $"{(int)(skill.Damage.Scaling + skill.Damage.BonusPerLevel * (level - 1))}";
         if(skill.Debuffs.Count == 1)
         {
-            replacements["DefenseDebuffPercent"] = $"{(int)(skill.Debuffs[0].DebuffPercent + skill.Debuffs[0].PercentBonus * (level - 1))}";
+            replacements["DefenseDebuffPercent"] = $"{-(int)(skill.Debuffs[0].DebuffPercent + skill.Debuffs[0].PercentBonus * (level - 1))}";
         }
     }
 

@@ -222,7 +222,7 @@ MonoBehaviour:
     Category: 3
     Cost: 1
     Quality: 5
-    MaxItem: 100
+    MaxItem: 1000
   - BaseItemSO: {fileID: 11400000, guid: 65001628e035f28448685a74a315dae6, type: 2}
     Category: 3
     Cost: 1

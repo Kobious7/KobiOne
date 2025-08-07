@@ -139,7 +139,7 @@ public class IMMonsterStats : EntityComponent
     private void CalculateAttack()
     {
         float attackBasicMultiplier = 0.2f;
-        float multiplierPerPower = 0.001f;
+        float multiplierPerPower = 0.05f;
         float multiplier = power * multiplierPerPower + attackBasicMultiplier;
         attack = power + (int)(power * multiplier);
     }
@@ -147,7 +147,7 @@ public class IMMonsterStats : EntityComponent
     private void CalculateMagicAttack()
     {
         float magicAttackBasicMultiplier = 0.2f;
-        float multiplierPerMagic = 0.001f;
+        float multiplierPerMagic = 0.05f;
         float multiplier = magic * multiplierPerMagic + magicAttackBasicMultiplier;
         magicAttack = magic + (int)(magic * multiplier);
     }
@@ -155,7 +155,7 @@ public class IMMonsterStats : EntityComponent
     private void CalculateHP()
     {
         float strengthBasicMultiplier = 1f;
-        float multiplierPerStrength = 0.01f;
+        float multiplierPerStrength = 0.1f;
         float multiplier = strength * multiplierPerStrength + strengthBasicMultiplier;
         hp = strength + (level > 9 ? (int)(strength * multiplier) * 5 : 20);
         hp = (int)(hp * GetTierHPMultiplier(tier));
@@ -179,12 +179,18 @@ public class IMMonsterStats : EntityComponent
 
     private void CalculateDefenseS()
     {
-        defenseS = defense / 5;
+        float defenseSBasicMultiplier = 1f;
+        float multiplierPerDefense = 0.01f;
+        float multiplier = defense * multiplierPerDefense + defenseSBasicMultiplier;
+        defenseS = defense / 5 + (int)(defense / 5 * multiplier);
     }
 
     private void CalculateAccuracy()
     {
-        accuracy = (int)(dexterity / 20);
+        float accuracyBasicMultiplier = 0.5f;
+        float multiplierPerDexterity = 0.5f;
+        float multiplier = strength * multiplierPerDexterity + accuracyBasicMultiplier;
+        accuracy = dexterity / 20 + (int)(dexterity / 20 * multiplier);
     }
 
     private void CalculateDamageRange()

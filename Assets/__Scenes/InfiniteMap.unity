@@ -10334,6 +10334,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!1 &340625987
 GameObject:
   m_ObjectHideFlags: 0
@@ -12852,6 +12853,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!1 &436374659
 GameObject:
   m_ObjectHideFlags: 0
@@ -14206,7 +14208,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -47746,6 +47748,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!1 &922036397
 GameObject:
   m_ObjectHideFlags: 0
@@ -56328,6 +56331,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!114 &1287445291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78285,6 +78289,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!1001 &1508935617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92679,27 +92684,27 @@ MonoBehaviour:
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: f0c5c0cc1be48cb45a93d14dc078ede3, type: 2}
-  - Index: 0
+  - Index: 1
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: bc00c1d5b2c97c04b8434f72dc37b99a, type: 2}
-  - Index: 0
+  - Index: 2
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: 3404fc8b8f8c6614faf85dd1cba70db1, type: 2}
-  - Index: 0
+  - Index: 3
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: 6441bf6d4b44fa84795b86c385d469c2, type: 2}
-  - Index: 0
+  - Index: 4
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: ac7722315671d8440bd1cd77121fc90d, type: 2}
-  - Index: 0
+  - Index: 5
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: 2178d57e9d31c4e47bcab1c036cf97c4, type: 2}
-  - Index: 0
+  - Index: 6
     Level: 0
     IsUnlocked: 0
     SkillSO: {fileID: 11400000, guid: a12aacd5c8e35474faa51b326f8f4440, type: 2}
@@ -93637,6 +93642,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!224 &1854194566 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7732200846676693270, guid: 241ca93088766b8408b237fc9f93b81a, type: 3}
@@ -99791,6 +99797,7 @@ MonoBehaviour:
   activeCount: 0
   inventoryItemUIList: []
   selectedItem: {fileID: 0}
+  isInit: 0
 --- !u!1 &2082880609
 GameObject:
   m_ObjectHideFlags: 0

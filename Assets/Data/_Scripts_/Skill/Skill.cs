@@ -175,20 +175,20 @@ public class Skill : GMono
 
     private void QDuplicateHandling(SkillNode skill)
     {
-        if (eSkill.SkillSO == skill.SkillSO) eSkill = new();
-        if (spaceSkill.SkillSO == skill.SkillSO) spaceSkill = new();
+        if (eSkill != null && eSkill.SkillSO == skill.SkillSO) eSkill = new();
+        if (spaceSkill != null && spaceSkill.SkillSO == skill.SkillSO) spaceSkill = new();
     }
 
     private void EDuplicateHandling(SkillNode skill)
     {
-        if (qSkill.SkillSO == skill.SkillSO) qSkill = new();
-        if (spaceSkill.SkillSO == skill.SkillSO) spaceSkill = new();
+        if (qSkill != null && qSkill.SkillSO == skill.SkillSO) qSkill = new();
+        if (spaceSkill != null && spaceSkill.SkillSO == skill.SkillSO) spaceSkill = new();
     }
 
     private void SpaceDuplicateHandling(SkillNode skill)
     {
-        if (qSkill.SkillSO == skill.SkillSO) qSkill = new();
-        if (eSkill.SkillSO == skill.SkillSO) eSkill = new();
+        if (qSkill != null && qSkill.SkillSO == skill.SkillSO) qSkill = new();
+        if (eSkill != null && eSkill.SkillSO == skill.SkillSO) eSkill = new();
     }
 
     public void ResetAllSkill()

@@ -45,7 +45,7 @@ public class InventoryItemOptionsUI : GMono
         InventoryStuff inventoryItem = equip;
         int index = GetSpawnerIndex(equip);
 
-        if (index != -1) spawners[index].SpawnInventoryItemUI(inventoryItem);
+        if (index != -1 && spawners[index].IsInit) spawners[index].SpawnInventoryItemUI(inventoryItem);
     }
 
     private void DespawnEquip(InventoryEquip equip)
