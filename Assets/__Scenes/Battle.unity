@@ -6467,59 +6467,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546197816}
   m_CullTransparentMesh: 1
---- !u!1 &547074734
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 547074736}
-  - component: {fileID: 547074735}
-  m_Layer: 0
-  m_Name: ___[ Keyboard Mover ]___
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &547074735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 547074734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb6d6c45a14c29f479937685a81f9911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0.4
-  counter: 0
-  enterTimer: 0.2
-  enterCounter: 0
-  canMove: 0
-  enter: 0
-  chooseTimer: 0.5
-  chooseCounter: 0
-  canChoose: 0
---- !u!4 &547074736
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 547074734}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &547100035 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8821101541619005308, guid: 8438ab4e711dc844e965d1e959d01763, type: 3}
@@ -108646,7 +108593,6 @@ SceneRoots:
   - {fileID: 777001836}
   - {fileID: 2004891052}
   - {fileID: 370844076}
-  - {fileID: 547074736}
   - {fileID: 1566823146}
   - {fileID: 1468499283}
   - {fileID: 1089526659}
