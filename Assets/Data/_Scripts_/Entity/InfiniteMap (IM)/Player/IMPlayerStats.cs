@@ -214,7 +214,7 @@ public class IMPlayerStats : EntityComponent
         potential[2].TrueValue += 5 * lev;
         potential[3].TrueValue += 5 * lev;
         potential[4].TrueValue += 5 * lev;
-        allPotentialPoints += 30 * lev;
+        allPotentialPoints += 5 * lev;
         remainPoints += 5 * lev;
 
         skill.IncreaseSkillPoints(lev);
@@ -229,7 +229,7 @@ public class IMPlayerStats : EntityComponent
         playerData.Strength.TrueValue += 5 * lev;
         playerData.Defense.TrueValue += 5 * lev;
         playerData.Dexterity.TrueValue += 5 * lev;
-        playerData.AllPotentialPoints += 30 * lev;
+        playerData.AllPotentialPoints += 5 * lev;
         playerData.RemainPoints += 5 * lev;
     }
 

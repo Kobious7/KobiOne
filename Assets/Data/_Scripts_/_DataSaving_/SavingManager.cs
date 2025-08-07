@@ -69,8 +69,14 @@ public class SavingManager : GMono
 
     public void ResetDataToDefault()
     {
+        playerSO.SetPlayerSO(defaultSO);
+        isDataExist = false;
+    }
+
+    public void DeleteData()
+    {
         File.Delete(filePath);
-        playerSO = defaultSO;
+        ResetDataToDefault();
     }
 
     private void OnApplicationQuit()

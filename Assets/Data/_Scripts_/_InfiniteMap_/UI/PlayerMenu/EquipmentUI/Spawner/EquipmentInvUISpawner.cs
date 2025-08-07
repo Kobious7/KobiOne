@@ -91,6 +91,7 @@ public class EquipmentInvUISpawner : Spawner
     
     public void GetEquipUIAndChangeNewLock(InventoryEquip equip)
     {
+        if (currentList.Count <= 0) return;
         EquipUI equipUI = currentList.Where(e => e.Equip == equip).FirstOrDefault();
 
         equipUI.ChangeLock();

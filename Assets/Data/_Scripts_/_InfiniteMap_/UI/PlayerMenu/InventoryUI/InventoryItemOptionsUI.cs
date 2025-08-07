@@ -100,7 +100,7 @@ public class InventoryItemOptionsUI : GMono
         if (!inv) return;
 
         int index = GetSpawnerIndex(equip);
-
+        
         spawners[index].GetInventoryItemUIAndChangeNewLock(equip);
     }
 }

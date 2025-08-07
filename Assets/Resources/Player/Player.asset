@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   IsLoaded: 0
-  PlayerName: 
-  Level: 1
+  PlayerName: l
+  Level: 101
   CurrentExp: 0
-  AllPotentialPoints: 0
-  RemainPoints: 0
+  AllPotentialPoints: 3000
+  RemainPoints: 500
   Power:
     Index: 0
     Name: 
-    TrueValue: 5
+    TrueValue: 505
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0
@@ -29,7 +29,7 @@ MonoBehaviour:
   Magic:
     Index: 0
     Name: 
-    TrueValue: 5
+    TrueValue: 505
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   Strength:
     Index: 0
     Name: 
-    TrueValue: 5
+    TrueValue: 505
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   Defense:
     Index: 0
     Name: 
-    TrueValue: 5
+    TrueValue: 505
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0
@@ -53,13 +53,13 @@ MonoBehaviour:
   Dexterity:
     Index: 0
     Name: 
-    TrueValue: 5
+    TrueValue: 505
     Value: 0
     IsPercentValue: 0
     FlatBonus: 0
     PercentBonus: 0
   AllSkillPoints: 0
-  SkillPoints: 0
+  SkillPoints: 100
   QSkill:
     Index: 0
     Level: 1
@@ -79,7 +79,7 @@ MonoBehaviour:
     SkillSO: {fileID: 0}
     TreeIndex: 0
   SkillTreeLevels:
-  - SkillLevel: 01000000000000000000000000000000000000000000000000000000
+  - SkillLevel: 02000000010000000100000001000000010000000100000001000000
   Weapon:
     level: 0
     equipSO: {fileID: 0}
@@ -188,7 +188,7 @@ MonoBehaviour:
     nextUpgradeCost: 0
     isNew: 0
     isLock: 0
-  PrimarionSoul: 1
+  PrimarionSoul: 0
   ItemList: []
   WeaponList: []
   HelmetList: []

@@ -73,6 +73,8 @@ public abstract class InventoryItemUISpawner : Spawner
 
     public void GetInventoryItemUIAndChangeNewLock(InventoryEquip equip)
     {
+        if (inventoryItemUIList.Count <= 0) return;
+        
         InventoryItemUI inventoryItemUI = inventoryItemUIList.Where(e => e.InventoryItem == equip).FirstOrDefault();
         InvEquipUI equipUI = (InvEquipUI)inventoryItemUI;
         

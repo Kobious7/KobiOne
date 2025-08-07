@@ -6,9 +6,11 @@ public class MainMenuManager : GMono
 
     public static MainMenuManager Instance => instance;
 
+    [SerializeField] private ButtonContainer buttonContainer;
     [SerializeField] private NewGamePromptUI newGamePromptUI;
     [SerializeField] private NameSetUI nameSetUI;
 
+    public ButtonContainer ButtonContainer => buttonContainer;
     public NewGamePromptUI NewGamePromptUI => newGamePromptUI;
     public NameSetUI NameSetUI => nameSetUI;
 
@@ -23,6 +25,7 @@ public class MainMenuManager : GMono
     protected override void LoadComponents()
     {
         base.LoadComponents();
+        if (buttonContainer == null) buttonContainer = FindObjectOfType<ButtonContainer>();
         if (newGamePromptUI == null) newGamePromptUI = FindObjectOfType<NewGamePromptUI>();
         if (nameSetUI == null) nameSetUI = FindObjectOfType<NameSetUI>();
     }

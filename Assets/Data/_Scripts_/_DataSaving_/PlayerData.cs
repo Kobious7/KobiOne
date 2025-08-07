@@ -14,6 +14,7 @@ public class PlayerData
     public Stat Strength;
     public Stat Defense;
     public Stat Dexterity;
+    public int AllSkillPoints;
     public int SkillPoints;
     public CurrentSkillNode QSkill;
     public CurrentSkillNode ESkill;

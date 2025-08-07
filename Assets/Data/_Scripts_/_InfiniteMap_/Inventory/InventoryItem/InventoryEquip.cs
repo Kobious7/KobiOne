@@ -71,4 +71,17 @@ public class InventoryEquip : InventoryStuff
     {
 
     }
+
+    public InventoryEquip(InventoryEquip equip)
+    {
+        level = equip.Level;
+        equipSO = equip.EquipSO;
+        rarity = equip.Rarity;
+        mainStat = equip.MainStat;
+        subStats = new(equip.subStats);
+        currentUpgradeCost = equip.CurrentUpgradeCost;
+        nextUpgradeCost = equip.NextUpgradeCost;
+        isNew = equip.IsNew;
+        isLock = equip.IsLock;
+    }
 }

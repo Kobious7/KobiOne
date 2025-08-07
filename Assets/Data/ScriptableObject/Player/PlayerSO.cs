@@ -43,17 +43,54 @@ public class PlayerSO : ScriptableObject
     public int Distance;
     public int MapLevel;
 
+    public void SetPlayerSO(PlayerSO player)
+    {
+        PlayerName = player.PlayerName;
+        Level = player.Level;
+        CurrentExp = player.CurrentExp;
+        AllPotentialPoints = player.AllPotentialPoints;
+        RemainPoints = player.RemainPoints;
+        Power = new(player.Power);
+        Magic = new(player.Magic);
+        Strength = new(player.Strength);
+        Defense = new(player.Defense);
+        Dexterity = new(player.Dexterity);
+        AllSkillPoints = player.AllSkillPoints;
+        SkillPoints = player.SkillPoints;
+        QSkill = new(player.QSkill);
+        ESkill = new(player.ESkill);
+        SpaceSkill = new(player.SpaceSkill);
+        SkillTreeLevels = new(player.SkillTreeLevels);
+        Weapon = new(player.Weapon);
+        Helmet = new(player.Helmet);
+        Armor = new(player.Armor);
+        Boots = new(player.Boots);
+        Special = new(player.Special);
+        PrimarionSoul = player.PrimarionSoul;
+        ItemList = new(player.ItemList);
+        WeaponList = new(player.WeaponList);
+        HelmetList = new(player.HelmetList);
+        ArmorList = new(player.ArmorList);
+        ArmwearList = new(player.ArmwearList);
+        BootsList = new(player.BootsList);
+        SpecialList = new(player.SpecialList);
+        Distance = player.Distance;
+        MapLevel = player.MapLevel;
+    }
+
     public void SetPlayerSO(PlayerData playerData)
     {
         PlayerName = playerData.PlayerName;
         Level = playerData.Level;
         CurrentExp = playerData.CurrentExp;
+        AllPotentialPoints = playerData.AllPotentialPoints;
         RemainPoints = playerData.RemainPoints;
         Power = playerData.Power;
         Magic = playerData.Magic;
         Strength = playerData.Strength;
         Defense = playerData.Defense;
         Dexterity = playerData.Dexterity;
+        AllSkillPoints = playerData.AllSkillPoints;
         SkillPoints = playerData.SkillPoints;
         QSkill = playerData.QSkill;
         ESkill = playerData.ESkill;

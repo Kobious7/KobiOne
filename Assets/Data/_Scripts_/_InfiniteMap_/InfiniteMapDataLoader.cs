@@ -88,7 +88,7 @@ public class InfinitMapSODataLoader : GMono
     public void LoadMonsterObj(IMMonster monster)
     {
         monster.Stats.CalculateStats();
-        mapData.MonsterInfo.Name = monster.RigModel.transform.name;
+        mapData.MonsterInfo.Name = monster.name;
         mapData.MonsterInfo.Level = monster.Stats.Level;
         mapData.MonsterInfo.Tier = monster.Stats.Tier;
         mapData.MonsterInfo.Attack = monster.Stats.Attack;

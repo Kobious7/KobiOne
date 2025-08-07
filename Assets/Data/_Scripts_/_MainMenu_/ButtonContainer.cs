@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ButtonContainer : GMono
 {
     [SerializeField] private List<Button> buttons;
+    [SerializeField] private List<Button> copyButtons;
     [SerializeField] private Button arrowRight;
     [SerializeField] private Button arrowLeft;
     [SerializeField] private int currentIndex;
@@ -15,24 +16,31 @@ public class ButtonContainer : GMono
     {
         base.LoadComponents();
         LoadArrowButtons();
+
+        if (buttons.Count <= 0) buttons = GetComponentsInChildren<Button>().ToList();
     }
 
     protected override void Start()
     {
         base.Start();
 
-        buttons = GetComponentsInChildren<Button>().ToList();
+        SetButtons();
+    }
+
+    public void SetButtons()
+    {
+        copyButtons = new(buttons);
 
         if (!SavingManager.Instance.IsDataExist)
         {
-            buttons[0].gameObject.SetActive(false);
-            buttons.RemoveAt(0);
+            copyButtons[0].gameObject.SetActive(false);
+            copyButtons.RemoveAt(0);
         }
 
-        for (int i = 0; i < buttons.Count; i++)
+        for (int i = 0; i < copyButtons.Count; i++)
         {
             if (i == 0) continue;
-            buttons[i].gameObject.SetActive(false);
+            copyButtons[i].gameObject.SetActive(false);
         }
 
         currentIndex = 0;
@@ -43,7 +51,7 @@ public class ButtonContainer : GMono
 
     private void LoadArrowButtons()
     {
-        if(arrowRight != null && arrowLeft != null) return;
+        if (arrowRight != null && arrowLeft != null) return;
 
         arrowRight = transform.parent.Find("ArrowRight").GetComponent<Button>();
         arrowLeft = transform.parent.Find("ArrowLeft").GetComponent<Button>();
@@ -51,22 +59,22 @@ public class ButtonContainer : GMono
 
     private void RightClick(int index)
     {
-        buttons[index].gameObject.SetActive(false);
+        copyButtons[index].gameObject.SetActive(false);
 
         int newIndex = index + 1 >= buttons.Count ? 0 : index + 1;
 
-        buttons[newIndex].gameObject.SetActive(true);
+        copyButtons[newIndex].gameObject.SetActive(true);
 
         currentIndex = newIndex;
     }
 
     private void LeftClick(int index)
     {
-        buttons[index].gameObject.SetActive(false);
+        copyButtons[index].gameObject.SetActive(false);
 
         int newIndex = index - 1 < 0 ? buttons.Count - 1 : index - 1;
 
-        buttons[newIndex].gameObject.SetActive(true);
+        copyButtons[newIndex].gameObject.SetActive(true);
 
         currentIndex = newIndex;
     }

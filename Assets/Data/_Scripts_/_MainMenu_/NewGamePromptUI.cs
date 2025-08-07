@@ -30,8 +30,9 @@ public class NewGamePromptUI : GMono
 
     private void YesClickListener()
     {
-        SavingManager.Instance.ResetDataToDefault();
+        SavingManager.Instance.DeleteData();
         this.gameObject.SetActive(false);
+        MainMenuManager.Instance.ButtonContainer.SetButtons();
         MainMenuManager.Instance.NameSetUI.gameObject.SetActive(true);
     }
 }

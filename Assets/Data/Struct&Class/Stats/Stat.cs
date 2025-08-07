@@ -16,4 +16,15 @@ public class Stat
         Index = index;
         Name = name;
     }
+
+    public Stat(Stat stat)
+    {
+        Index = stat.Index;
+        Name = stat.Name;
+        TrueValue = stat.TrueValue;
+        Value = stat.Value;
+        IsPercentValue = stat.IsPercentValue;
+        FlatBonus = stat.FlatBonus;
+        PercentBonus = stat.PercentBonus;
+    }
 }
