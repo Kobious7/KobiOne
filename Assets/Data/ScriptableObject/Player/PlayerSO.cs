@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
@@ -60,7 +61,7 @@ public class PlayerSO : ScriptableObject
         QSkill = new(player.QSkill);
         ESkill = new(player.ESkill);
         SpaceSkill = new(player.SpaceSkill);
-        SkillTreeLevels = new(player.SkillTreeLevels);
+        SkillTreeLevels = player.SkillTreeLevels.Select(s => new SkillLevelList(s)).ToList();
         Weapon = new(player.Weapon);
         Helmet = new(player.Helmet);
         Armor = new(player.Armor);

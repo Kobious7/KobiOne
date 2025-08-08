@@ -11,7 +11,7 @@ public class TrailShopBtn : GMono
         base.LoadComponents();
 
         if (button == null) button = GetComponent<Button>();
-        if (trialShop == null) trialShop = transform.Find("TrailShop");
+        if (trialShop == null) trialShop = transform.Find("CanvasGroup").Find("TrailShop");
     }
 
     protected override void Start()

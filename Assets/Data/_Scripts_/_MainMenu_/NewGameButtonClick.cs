@@ -13,7 +13,6 @@ public class NewGameButtonClick : ButtonClick
         else
         {
             SavingManager.Instance.ResetDataToDefault();
-            SavingManager.Instance.SavePlayerData();
             MainMenuManager.Instance.NameSetUI.gameObject.SetActive(true);
         }
     }

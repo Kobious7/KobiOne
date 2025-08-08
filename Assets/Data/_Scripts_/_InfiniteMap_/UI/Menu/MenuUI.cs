@@ -15,11 +15,9 @@ public class MenuUI : GMono
         base.LoadComponents();
         if (playerName == null) playerName = transform.Find("Name").GetComponent<TextMeshProUGUI>();
         if (level == null) level = transform.Find("Level").GetComponent<TextMeshProUGUI>();
-        if (menu == null) menu = transform.Find("Menu");
+        if (menu == null) menu = transform.Find("CanvasGroup").Find("Menu");
         if (logOutBtn == null) logOutBtn = menu.Find("LogOut").GetComponent<Button>();
         if (faceBtn == null) faceBtn = transform.Find("Face").GetComponent<Button>();
-
-        menu.gameObject.SetActive(false);
     }
 
     protected override void Start()
@@ -40,6 +38,8 @@ public class MenuUI : GMono
 
         faceBtn.onClick.AddListener(OpenMenuClickListener);
         logOutBtn.onClick.AddListener(LogOutClickListener);
+
+        menu.gameObject.SetActive(false);
     }
 
     private void UpdateLevel(int lev)
@@ -49,7 +49,14 @@ public class MenuUI : GMono
 
     private void OpenMenuClickListener()
     {
-        menu.gameObject.SetActive(true);
+        if (menu.gameObject.activeSelf)
+        {
+            menu.gameObject.SetActive(false);
+        }
+        else
+        {
+            menu.gameObject.SetActive(true);
+        }
     }
 
     private void LogOutClickListener()
@@ -57,6 +64,7 @@ public class MenuUI : GMono
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.SavePlayerData();
+            SavingManager.Instance.IsDataExist = true;
         }
 
         LoadScene(MAINMENU);

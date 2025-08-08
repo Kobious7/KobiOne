@@ -33,7 +33,7 @@ public class TrailShopUI : GMono
     {
         this.gameObject.SetActive(false);
 
-        this.transform.parent.GetComponent<Button>().interactable = true;
+        this.transform.parent.parent.GetComponent<Button>().interactable = true;
 
         InfiniteMapManager.Instance.IsUIOpening = false;
     }

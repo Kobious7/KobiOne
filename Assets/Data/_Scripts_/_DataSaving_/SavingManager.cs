@@ -15,7 +15,7 @@ public class SavingManager : GMono
     [SerializeField] private bool isDataExist;
 
     public PlayerSO PlayerSO => playerSO;
-    public bool IsDataExist => isDataExist;
+    public bool IsDataExist { get => isDataExist; set => isDataExist = value; }
 
     protected override void Awake()
     {

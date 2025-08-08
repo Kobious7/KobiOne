@@ -79,7 +79,7 @@ MonoBehaviour:
     SkillSO: {fileID: 0}
     TreeIndex: 0
   SkillTreeLevels:
-  - SkillLevel: 01000000010000000900000014000000010000000100000001000000
+  - SkillLevel: 01000000000000000000000000000000000000000000000000000000
   Weapon:
     level: 0
     equipSO: {fileID: 0}
