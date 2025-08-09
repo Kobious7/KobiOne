@@ -91,6 +91,12 @@ MonoBehaviour:
       - Sprite: {fileID: 224790649298246038, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
         Category: r_hand
         Label: r_hand_d1
+      - Sprite: {fileID: -7051971507244824465, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s3
+      - Sprite: {fileID: 3401630286904100645, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s4
     - PartName: Boots
       Parts:
       - Sprite: {fileID: 2003413194175302715, guid: 1528d96493c17cb4fa16bc2a0cdcbd70, type: 3}
@@ -191,6 +197,12 @@ MonoBehaviour:
       - Sprite: {fileID: -529230811319817166, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
         Category: r_hand
         Label: r_hand_d1
+      - Sprite: {fileID: -8258308843378753326, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s3
+      - Sprite: {fileID: 3569687982830168809, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s4
     - PartName: Boots
       Parts:
       - Sprite: {fileID: -8403337073745448480, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
@@ -291,6 +303,12 @@ MonoBehaviour:
       - Sprite: {fileID: -529230811319817166, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}
         Category: r_hand
         Label: r_hand_d1
+      - Sprite: {fileID: -2019606480765513667, guid: 8438ab4e711dc844e965d1e959d01763, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s3
+      - Sprite: {fileID: 3190475437877961369, guid: 8438ab4e711dc844e965d1e959d01763, type: 3}
+        Category: l_hand
+        Label: l_hand_d1_s4
     - PartName: Boots
       Parts:
       - Sprite: {fileID: -8403337073745448480, guid: 9b8f6a3e82135714c8699a58ec0c083a, type: 3}

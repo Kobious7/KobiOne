@@ -24,7 +24,8 @@ public class SkillUpdateBonus : SkillAb
     protected override void Start()
     {
         base.Start();
-        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += UpdateSkillTreesBonusWhenWeaponChanged;
+        InfiniteMapManager.Instance.Inventory.EquipWearing.OnEquipWearing += UpdateSkillTreesBonusWhenWeaponEquipped;
+        InfiniteMapManager.Instance.Equipment.Unequip.OnEquipDisarming += UpdateSkillTreeBonusWhenWeaponUnequipped;
     }
 
     public List<OtherSourcesBonus> InitActiveSkillTreesBonus()
@@ -44,7 +45,7 @@ public class SkillUpdateBonus : SkillAb
         return allTreeBonus;
     }
 
-    private void UpdateSkillTreesBonusWhenWeaponChanged(InventoryEquip weapon)
+    private void UpdateSkillTreesBonusWhenWeaponEquipped(InventoryEquip weapon)
     {
         if (weapon.EquipSO is not WeaponSO) return;
 
@@ -53,6 +54,18 @@ public class SkillUpdateBonus : SkillAb
         if (weaponSO.WeaponType == weaponType) return;
 
         weaponType = weaponSO.WeaponType;
+
+        NewAllBonusList();
+        UpdateAllSkillTree();
+
+        OnSkillBonusChanged?.Invoke(allTreeBonus);
+    }
+
+    private void UpdateSkillTreeBonusWhenWeaponUnequipped(InventoryEquip weapon)
+    {
+        if (weapon.EquipSO is not WeaponSO) return;
+
+        weaponType = WeaponType.Sword;
 
         NewAllBonusList();
         UpdateAllSkillTree();

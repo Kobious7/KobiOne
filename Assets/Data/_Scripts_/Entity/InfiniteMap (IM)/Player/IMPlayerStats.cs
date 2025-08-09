@@ -208,7 +208,6 @@ public class IMPlayerStats : EntityComponent
     {
         level += lev;
         stats[0].Value = level;
-        OnStatChange?.Invoke(0);
         potential[0].TrueValue += 5 * lev;
         potential[1].TrueValue += 5 * lev;
         potential[2].TrueValue += 5 * lev;
@@ -220,6 +219,7 @@ public class IMPlayerStats : EntityComponent
         skill.IncreaseSkillPoints(lev);
         OnLevelIncreasing?.Invoke(level);
         skillUnlock.CheckSkillUnlock(level);
+        OnStatChange?.Invoke(0);
         ReCalculate();
 
         //Save Data

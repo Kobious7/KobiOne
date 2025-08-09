@@ -34,6 +34,7 @@ public class SkillTreeManagerUI : GMono
         yield return null;
         InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += CheckSkillTree;
         InfiniteMapManager.Instance.Skill.BonusUpdating.OnSkillTreeActiveChanged += ResetButtons;
+        InfiniteMapManager.Instance.Player.StatsSystem.OnStatChange += UpdateSkillTrees;
         skillTrees = SkillSGT.Instance.Skill.SkillTreeList;
         ShowSkillTrees();
     }
@@ -44,6 +45,13 @@ public class SkillTreeManagerUI : GMono
         {
             skillTreeUIs[i].ShowSkillTree(skillTrees[i], i);
         }
+    }
+
+    private void UpdateSkillTrees(int index)
+    {
+        if (index != 0) return;
+
+        ShowSkillTrees();
     }
 
     private void CheckSkillTree(SkillTree skillTree)

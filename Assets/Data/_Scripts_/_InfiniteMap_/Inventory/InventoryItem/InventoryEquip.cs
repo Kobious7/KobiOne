@@ -69,7 +69,7 @@ public class InventoryEquip : InventoryStuff
 
     public InventoryEquip(EquipSO equipSO)
     {
-
+        this.equipSO = equipSO;
     }
 
     public InventoryEquip(InventoryEquip equip)

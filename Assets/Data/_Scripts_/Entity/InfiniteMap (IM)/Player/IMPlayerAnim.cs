@@ -65,6 +65,8 @@ public class IMPlayerAnim : EntityAnim
 
     public void ResetOverride(InventoryEquip weapon)
     {
+        if (weapon.EquipSO is not WeaponSO) return;
+        
         Entity.Animator.runtimeAnimatorController = origin;
     }
 

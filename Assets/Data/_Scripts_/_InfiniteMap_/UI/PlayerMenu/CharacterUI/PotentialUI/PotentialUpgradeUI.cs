@@ -59,6 +59,7 @@ public class PotentialUpgradeUI : GMono
 
     public void AddClickListener(int potential)
     {
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => Click(potential));
     }
 

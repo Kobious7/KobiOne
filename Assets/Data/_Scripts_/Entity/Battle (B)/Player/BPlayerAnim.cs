@@ -62,7 +62,7 @@ public class BPlayerAnim : BEntityAnim
 
     public void Die()
     {
-        Entity.Animator.Play("Die");
+        Entity.Animator.SetInteger("state", -1);
     }
 
     public void TileSkillCast()

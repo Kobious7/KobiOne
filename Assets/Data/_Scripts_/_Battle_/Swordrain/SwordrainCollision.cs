@@ -3,6 +3,8 @@ using UnityEngine;
 public class SwordrainCollision : GMono
 {
     private BattleManager battleManager;
+    private BPlayer player;
+    private BMonster monster;
     private BMonsterAnim monsterAnim;
     private BPlayerAnim playerAnim;
 
@@ -11,8 +13,10 @@ public class SwordrainCollision : GMono
         base.OnEnable();
 
         battleManager = BattleManager.Instance;
-        monsterAnim = battleManager.Monster.Anim as BMonsterAnim;
-        playerAnim = battleManager.Player.Anim as BPlayerAnim;
+        player = battleManager.Player;
+        monster = battleManager.Monster;
+        playerAnim = player.Anim as BPlayerAnim;
+        monsterAnim = monster.Anim as BMonsterAnim;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,14 +24,18 @@ public class SwordrainCollision : GMono
         Debug.Log(other.transform.name);
         if (other.transform.name == "Player")
         {
-            playerAnim.BeingHit();
+            if (player.Stats.CurrentHP > 0)
+                playerAnim.BeingHit();
+                
             Battle.Instance.DealSwordrainDamage(battleManager.Monster.Stats, battleManager.Player.Stats);
             battleManager.SwordrainSpawner.Despawn(transform.parent);
         }
 
         if (other.transform.name == "Monster")
         {
-            monsterAnim.BeingHit();
+            if (monster.Stats.CurrentHP > 0)
+                monsterAnim.BeingHit();
+
             Battle.Instance.DealSwordrainDamage(battleManager.Player.Stats, battleManager.Monster.Stats);
             battleManager.SwordrainSpawner.Despawn(transform.parent);
         }

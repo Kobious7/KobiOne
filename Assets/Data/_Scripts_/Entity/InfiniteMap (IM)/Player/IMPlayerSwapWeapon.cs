@@ -52,6 +52,8 @@ public class IMPlayerSwapWeapon : EntityComponent
 
     public void ResetWeapon(InventoryEquip equip)
     {
+        if (equip.EquipSO is not WeaponSO) return;
+
         player.MeleeAttack.gameObject.SetActive(true);
         player.AttackPoint.gameObject.SetActive(false);
         player.RangedAttack.gameObject.SetActive(false);

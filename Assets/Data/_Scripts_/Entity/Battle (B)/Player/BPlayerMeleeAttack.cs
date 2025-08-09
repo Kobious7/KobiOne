@@ -38,7 +38,8 @@ public class BPlayerMeleeAttack : BEntityComponent, IEntityMeleeAttack
         if (monsters.Length <= 0) yield return null;
 
         PlayerAnimationEvents.Instance.Hit = true;
-        mAnim.BeingHit();
+        if (monster.Stats.CurrentHP > 0)
+            mAnim.BeingHit();
 
         OnMeleeHitTarget?.Invoke(player.Stats, monster.Stats);
     }
