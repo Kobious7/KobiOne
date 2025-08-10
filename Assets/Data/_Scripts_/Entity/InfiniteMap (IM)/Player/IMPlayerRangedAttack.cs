@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class IMPlayerRangedAttack : EntityComponent
 {
@@ -18,6 +19,7 @@ public class IMPlayerRangedAttack : EntityComponent
     private void Update()
     {
         if (InfiniteMapManager.Instance.IsUIOpening) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         CountTime();
 

@@ -67,6 +67,7 @@ public class MenuUI : GMono
             SavingManager.Instance.IsDataExist = true;
         }
 
+        InfiniteMapManager.Instance.MapData.ClearAllData();
         LoadScene(MAINMENU);
     }
 }

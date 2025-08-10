@@ -33,6 +33,7 @@ public class NameSetUI : GMono
 
     private void NameConfirmClickListener()
     {
+        SavingManager.Instance.IsDataExist = true;
         SavingManager.Instance.SavePlayerData();
         SavingManager.Instance.PlayerSO.PlayerName = inputField.text;
         LoadScene(INFINITEMAP);

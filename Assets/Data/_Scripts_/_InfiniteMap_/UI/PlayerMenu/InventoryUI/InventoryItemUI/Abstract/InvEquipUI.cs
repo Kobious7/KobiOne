@@ -41,14 +41,6 @@ public abstract class InvEquipUI : InventoryItemUI
 
     protected override void OffSelected()
     {
-        newIcon.gameObject.SetActive(false);
-        InventoryEquip equip = (InventoryEquip)inventoryItem;
-        if (equip.IsNew)
-        {
-            equip.IsNew = false;
-            NewAndLockEquip.Instance.OnNewOrLockChangedEventInvoke(equip, false);
-        }
-
         OffSelectedWithSecificEquip();
     }
 

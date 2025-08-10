@@ -12,7 +12,7 @@ public class RarityCalculator
         (Rarity.Lengendary, 1)
     };
 
-    private float dropRatePerItem = 30;
+    private float dropRatePerItem = 20;
 
     public Rarity GetNormalMonsterRarity()
     {

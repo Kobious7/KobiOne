@@ -69,4 +69,17 @@ public class InfiniteMapSO : ScriptableObject
         set => map2MonsterSpawnerInfo = value;
     }
     #endregion
+
+    public void ClearAllData()
+    {
+        mapCanLoad = false;
+        result = Result.NONE;
+        mapInfo = new();
+        playerInfo = new();
+        monsterInfo = new();
+        itemDropList = new();
+        equipDropList = new();
+        map1MonsterSpawnerInfo = new();
+        map2MonsterSpawnerInfo = new();
+    }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SavingManager : GMono
 {
@@ -13,6 +14,7 @@ public class SavingManager : GMono
     private string filePath;
     [SerializeField] private bool isLoaded;
     [SerializeField] private bool isDataExist;
+    [SerializeField] private bool hasQuit;
 
     public PlayerSO PlayerSO => playerSO;
     public bool IsDataExist { get => isDataExist; set => isDataExist = value; }
@@ -20,7 +22,11 @@ public class SavingManager : GMono
     protected override void Awake()
     {
         base.Awake();
-        if (instance != null) return;
+        if (instance != null)
+        {
+            Debug.Log("Only have 1 SavingManager instance");
+            Destroy(instance.gameObject);
+        }
 
         instance = this;
 
@@ -38,6 +44,9 @@ public class SavingManager : GMono
 
     public void SavePlayerData()
     {
+        Debug.Log("===Data exist: " + !isDataExist);
+        if (!isDataExist) return;
+        
         PlayerData playerData = new PlayerData(playerSO);
 
         string json = JsonUtility.ToJson(playerData, true);
@@ -70,13 +79,13 @@ public class SavingManager : GMono
     public void ResetDataToDefault()
     {
         playerSO.SetPlayerSO(defaultSO);
-        isDataExist = false;
     }
 
     public void DeleteData()
     {
         File.Delete(filePath);
         ResetDataToDefault();
+        isDataExist = false;
     }
 
     private void OnApplicationQuit()

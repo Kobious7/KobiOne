@@ -45,8 +45,16 @@ public class ButtonContainer : GMono
 
         currentIndex = 0;
 
-        arrowRight.onClick.AddListener(() => RightClick(currentIndex));
-        arrowLeft.onClick.AddListener(() => LeftClick(currentIndex));
+        if (copyButtons.Count > 1)
+        {
+            arrowRight.onClick.AddListener(() => RightClick(currentIndex));
+            arrowLeft.onClick.AddListener(() => LeftClick(currentIndex));
+        }
+        else
+        {
+            arrowLeft.onClick.RemoveAllListeners();
+            arrowRight.onClick.RemoveAllListeners();
+        }
     }
 
     private void LoadArrowButtons()

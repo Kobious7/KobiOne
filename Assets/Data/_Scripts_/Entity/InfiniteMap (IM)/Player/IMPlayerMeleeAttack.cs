@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class IMPlayerMeleeAttack : EntityComponent, IEntityMeleeAttack
 {
@@ -22,6 +23,7 @@ public class IMPlayerMeleeAttack : EntityComponent, IEntityMeleeAttack
     private void Update()
     {
         if (InfiniteMapManager.Instance.IsUIOpening) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         CountTime();
 

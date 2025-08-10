@@ -30,6 +30,17 @@ public abstract class InventoryItemUI : GMono
 
     protected void SeeDetailsClickListener(InventoryItemUI inventoryItem)
     {
+        newIcon.gameObject.SetActive(false);
+
+        if (inventoryItem.InventoryItem is InventoryEquip equip)
+        {
+            if (equip.IsNew)
+            {
+                equip.IsNew = false;
+                NewAndLockEquip.Instance.OnNewOrLockChangedEventInvoke(equip, false);
+            }
+        }
+
         if (!onSelectObject.gameObject.activeSelf)
         {
             if (Time.time - lastTimeClick < doubleClickTheshold)

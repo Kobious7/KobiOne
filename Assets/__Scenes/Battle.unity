@@ -977,12 +977,12 @@ MonoBehaviour:
     Index: 0
     Level: 20
     IsUnlocked: 0
-    SkillSO: {fileID: 11400000, guid: bc00c1d5b2c97c04b8434f72dc37b99a, type: 2}
+    SkillSO: {fileID: 11400000, guid: a12aacd5c8e35474faa51b326f8f4440, type: 2}
   eSkill:
     Index: 0
     Level: 20
     IsUnlocked: 0
-    SkillSO: {fileID: 11400000, guid: 3404fc8b8f8c6614faf85dd1cba70db1, type: 2}
+    SkillSO: {fileID: 11400000, guid: ac7722315671d8440bd1cd77121fc90d, type: 2}
   spaceSkill:
     Index: 0
     Level: 20
@@ -2972,81 +2972,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183939544}
-  m_CullTransparentMesh: 1
---- !u!1 &184850727
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 184850728}
-  - component: {fileID: 184850730}
-  - component: {fileID: 184850729}
-  m_Layer: 5
-  m_Name: Trans
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &184850728
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184850727}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 830071682}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 450}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &184850729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184850727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.30588236}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &184850730
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184850727}
   m_CullTransparentMesh: 1
 --- !u!1 &189727276 stripped
 GameObject:
@@ -6770,7 +6695,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: daca2b7946145854e895d99099cd75cf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6883,7 +6808,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 101.65, y: -25.199999}
+  m_AnchoredPosition: {x: 101.65, y: -40.1}
   m_SizeDelta: {x: 207.90001, y: 52.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &605984810 stripped
@@ -8185,7 +8110,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 184850728}
   - {fileID: 506521575}
   - {fileID: 660244811}
   - {fileID: 1746696235}
@@ -32660,6 +32584,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 683426429894100270, guid: dc0dfcee3f017044b8a3935c02a0c7cb, type: 3}
+      propertyPath: speed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2301710859970957666, guid: dc0dfcee3f017044b8a3935c02a0c7cb, type: 3}
       propertyPath: m_SortingLayer
       value: 1
@@ -32679,6 +32607,10 @@ PrefabInstance:
     - target: {fileID: 5359624126157056712, guid: dc0dfcee3f017044b8a3935c02a0c7cb, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 320
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161100657276156722, guid: dc0dfcee3f017044b8a3935c02a0c7cb, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 7594009923454986526, guid: dc0dfcee3f017044b8a3935c02a0c7cb, type: 3}
       propertyPath: m_Name
@@ -44128,6 +44060,10 @@ PrefabInstance:
     - target: {fileID: 4642904676962467444, guid: 4bf176ed316070d45bf92774603d850f, type: 3}
       propertyPath: m_LocalPosition.y
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449923679520464072, guid: 4bf176ed316070d45bf92774603d850f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67385,14 +67321,14 @@ MonoBehaviour:
   entity: {fileID: 6913148953735038639}
   attack: 50000
   magicAttack: 0
-  currentHP: 1000000
-  maxHP: 1000000
-  defense: 0
+  currentHP: 100000000
+  maxHP: 100000000
+  defense: 2147483647
   accuracy: 0
   slashDamage: 1000000
   swordrainDamage: 1000000
   damageRange: -20
-  critRate: 90
+  critRate: 100
   critDamage: 500
   manaRegen: 50
   vHP: 0
@@ -108090,6 +108026,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1697292032874719126, guid: 404dfd42edb463a42b5d66697f751eeb, type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2876424948469456680, guid: 404dfd42edb463a42b5d66697f751eeb, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4035953232453401298, guid: 404dfd42edb463a42b5d66697f751eeb, type: 3}

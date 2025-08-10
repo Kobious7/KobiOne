@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   IsLoaded: 0
-  PlayerName: KobiOne
+  PlayerName: 
   Level: 1
   CurrentExp: 0
   AllPotentialPoints: 0
@@ -196,5 +196,5 @@ MonoBehaviour:
   ArmwearList: []
   BootsList: []
   SpecialList: []
-  Distance: 10000
-  MapLevel: 20
+  Distance: 0
+  MapLevel: 0

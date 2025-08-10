@@ -24,6 +24,5 @@ public class QuitGame : GMono
         mapData.EquipDropList = new();
         mapData.Map1MonsterSpawnerInfo = new();
         mapData.Map2MonsterSpawnerInfo = new();
-        //SavingManager.Instance.SavePlayerData();
     }
 }

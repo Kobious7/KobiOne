@@ -255,7 +255,8 @@ public class BEntityStats : BEntityComponent
 
     public IEnumerator ShieldBreak()
     {
-        shieldStack--;
+        shieldStack -= 1;
+        shieldStack = shieldStack < 0 ? 0 : shieldStack;
         yield return StartCoroutine(Entity.Shield.ShieldHit());
 
         if (shieldStack <= 0)
@@ -290,7 +291,8 @@ public class BEntityStats : BEntityComponent
 
             minDamage += (int)(minDamage * critDamage / 100);
             maxDamage += (int)(maxDamage * critDamage / 100);
-            Battle.Instance.PlayerCrit = true;
+            if (Battle.Instance.PTurn)
+                Battle.Instance.PlayerCrit = true;
             crit = true;
         }
 

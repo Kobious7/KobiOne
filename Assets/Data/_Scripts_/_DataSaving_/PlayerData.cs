@@ -43,6 +43,7 @@ public class PlayerData
         Strength = playerSO.Strength;
         Defense = playerSO.Defense;
         Dexterity = playerSO.Dexterity;
+        AllSkillPoints = playerSO.AllSkillPoints;
         SkillPoints = playerSO.SkillPoints;
         QSkill = playerSO.QSkill;
         ESkill = playerSO.ESkill;
@@ -51,6 +52,7 @@ public class PlayerData
         Weapon = playerSO.Weapon;
         Helmet = playerSO.Helmet;
         Armor = playerSO.Armor;
+        Armwear = playerSO.Armwear;
         Boots = playerSO.Boots;
         Special = playerSO.Special;
         PrimarionSoul = playerSO.PrimarionSoul;

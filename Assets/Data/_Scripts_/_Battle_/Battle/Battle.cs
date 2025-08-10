@@ -90,6 +90,7 @@ public class Battle : GMono
         get { return playerCrit; }
         set { playerCrit = value; }
     }
+    public bool PTurn => pTurn;
 
     public bool IsHandlingTile { get => isHandlingTile; set => isHandlingTile = value; }
     public bool OpTurn => opTurn;
@@ -401,7 +402,8 @@ public class Battle : GMono
         
         dealer.DealDamage(dealer.SwordrainDamage, receiver, DamageType.SwordrainDamage);
 
-        playerNextDamage = DamageType.SwordrainDamage;
+        if (pTurn)
+            playerNextDamage = DamageType.SwordrainDamage;
     }
 
     public void DealTileDamage(BEntityStats dealer, BEntityStats receiver)
@@ -419,6 +421,7 @@ public class Battle : GMono
 
         dealer.DealDamage(tileNum * dealer.SlashDamage, receiver, DamageType.SlashDamage);
 
-        playerNextDamage = DamageType.SlashDamage;
+        if (pTurn)
+            playerNextDamage = DamageType.SlashDamage;
     }
 }
